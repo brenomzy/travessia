@@ -1,0 +1,13 @@
+{
+  "meta": {
+    "siteName": "Travessia",
+    "homeTitle": "Travessia: receba de clientes no exterior",
+    "homeDescription": "Site de demonstração de uma empresa fictícia."
+  },
+  "demoBanner": "Site de demonstração. A Travessia é uma empresa fictícia, criada para testar o Source by Webflow. Nada aqui é uma oferta real.",
+  "home": {
+    "title": "Receba de clientes no exterior, em reais, sem surpresa no câmbio.",
+    "lead": "Projeto em construção. Fase 0: estrutura do site."
+  },
+  "languageSwitch": { "label": "English", "href": "/en/" }
+}

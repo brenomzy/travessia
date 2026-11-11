@@ -1,0 +1,13 @@
+{
+  "meta": {
+    "siteName": "Travessia",
+    "homeTitle": "Travessia: get paid by clients abroad",
+    "homeDescription": "Demo site for a fictional company."
+  },
+  "demoBanner": "Demo site. Travessia is a fictional company, made to test Source by Webflow. Nothing here is a real offer.",
+  "home": {
+    "title": "Get paid by clients abroad, in reais, with no exchange-rate surprises.",
+    "lead": "Work in progress. Phase 0: site scaffolding."
+  },
+  "languageSwitch": { "label": "Português", "href": "/" }
+}

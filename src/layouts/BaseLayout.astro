@@ -1,0 +1,39 @@
+---
+// Phase 0 shell. Phase 1 adds global.css, header, footer, JSON-LD and the no-js swap (SPEC §5.5.4).
+import { langTag, t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Path of this page in each language, for hreflang alternates. */
+  alternates: Record<Locale, string>;
+}
+
+const { locale, title, description, alternates } = Astro.props;
+const strings = t(locale);
+const site = Astro.site ?? new URL('https://travessia.example');
+---
+
+<html lang={langTag[locale]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="alternate" hreflang="pt-BR" href={new URL(alternates['pt-br'], site)} />
+    <link rel="alternate" hreflang="en" href={new URL(alternates.en, site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates['pt-br'], site)} />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <p role="note">{strings.demoBanner}</p>
+    <slot />
+    <footer>
+      <p>{strings.demoBanner}</p>
+    </footer>
+  </body>
+</html>

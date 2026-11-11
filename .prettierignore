@@ -1,0 +1,7 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+# Docs and content stay hand-formatted.
+*.md
+src/assets/generated/

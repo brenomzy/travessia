@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n';
+
+const s = t('en');
+---
+
+<BaseLayout
+  locale="en"
+  title={s.meta.homeTitle}
+  description={s.meta.homeDescription}
+  alternates={{ 'pt-br': '/', en: '/en/' }}
+>
+  <main>
+    <h1>{s.home.title}</h1>
+    <p>{s.home.lead}</p>
+    <p>
+      <a href={s.languageSwitch.href} hreflang="pt-BR" lang="pt-BR">
+        {s.languageSwitch.label}
+      </a>
+    </p>
+  </main>
+</BaseLayout>
