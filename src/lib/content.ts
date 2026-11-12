@@ -16,3 +16,29 @@ export async function getFeatures(locale: Locale) {
   const all = await getCollection('features', (e) => entryLocale(e.id) === locale);
   return all.sort((a, b) => a.data.order - b.data.order);
 }
+
+/** Integrations in one language, featured first, then by name. */
+export async function getIntegrations(locale: Locale) {
+  const all = await getCollection('integrations', (e) => entryLocale(e.id) === locale);
+  return all.sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.name.localeCompare(b.data.name));
+}
+
+/** Customer stories in one language, in display order. */
+export async function getStories(locale: Locale, { featuredOnly = false } = {}) {
+  const all = await getCollection(
+    'customers',
+    (e) => entryLocale(e.id) === locale && (!featuredOnly || e.data.featured),
+  );
+  return all.sort((a, b) => a.data.order - b.data.order);
+}
+
+/** FAQs in one language for a topic, in order. */
+export async function getFaqs(locale: Locale, topic: CollectionEntry<'faqs'>['data']['topics'][number]) {
+  const all = await getCollection('faqs', (e) => e.data.locale === locale && e.data.topics.includes(topic));
+  return all.sort((a, b) => a.data.order - b.data.order);
+}
+
+/** Plans, in order. Names and features carry both languages. */
+export async function getPlans() {
+  return (await getCollection('plans')).sort((a, b) => a.data.order - b.data.order);
+}

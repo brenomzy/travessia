@@ -1,5 +1,6 @@
 import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
+import { readFileSync } from 'node:fs';
 import { z } from 'astro/zod';
 
 /*
@@ -60,6 +61,95 @@ const features = defineCollection({
     faqTopic: z.enum(['general', 'pricing', 'taxes', 'product', 'security']),
     order: z.number(),
     translationKey: z.string(),
+  }),
+});
+
+// ---------- integrations ----------
+const integrations = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/integrations', generateId: pathId }),
+  schema: z.object({
+    name: z.string(),
+    slug: z.string(),
+    /** SVG path, written by the logo generator or uploaded. Until then the sphere shows initials. */
+    logo: z.string().optional(),
+    category: z.enum(['freelance-platforms', 'invoicing', 'time-tracking', 'accounting', 'payments', 'productivity']),
+    status: z.enum(['live', 'beta', 'coming-soon']),
+    shortDescription: z.string().max(140),
+    setupSteps: z.array(step),
+    docsUrl: z.url().optional(),
+    featured: z.boolean().default(false),
+    /** Logo sphere settings (tuned in V3). tone: plain (white), primary (tapajós), inverse (noite). */
+    sphere: z.object({
+      include: z.boolean().default(true),
+      weight: z.number().min(1).max(3).default(2),
+      tone: z.enum(['plain', 'primary', 'inverse']).default('plain'),
+    }),
+    translationKey: z.string(),
+  }),
+});
+
+// ---------- customers ----------
+const customers = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/customers', generateId: pathId }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      craft: z.enum(['design', 'development', 'translation', 'video', 'writing']),
+      city: z.string(),
+      teamSize: z.number().int().min(1),
+      clientCountries: z.array(z.string()),
+      person: z.object({ name: z.string(), role: z.string(), photo: image().optional() }),
+      quote: z.string(),
+      metrics: z.array(z.object({ value: z.string(), label: z.string() })).max(3),
+      cover: image(),
+      coverAlt: z.string(),
+      /** CSS object-position for the cover crop, e.g. "50% 92%". */
+      coverPosition: z.string().default('50% 50%'),
+      coverRecipe: z.string().optional(),
+      featured: z.boolean().default(false),
+      order: z.number(),
+      translationKey: z.string(),
+    }),
+});
+
+// ---------- faqs (one JSON array per locale) ----------
+const faq = z.object({
+  id: z.string(),
+  locale,
+  question: z.string(),
+  answer: z.string(),
+  topics: z.array(z.enum(['general', 'pricing', 'taxes', 'product', 'security'])).min(1),
+  order: z.number(),
+});
+const faqs = defineCollection({
+  loader: async () =>
+    (['pt-br', 'en'] as const).flatMap((l) =>
+      (JSON.parse(readFileSync(`./src/content/faqs/${l}.json`, 'utf8')) as Record<string, unknown>[]).map((item) => ({
+        ...item,
+        locale: l,
+        id: `${l}/${item.id}`,
+      })),
+    ),
+  schema: faq,
+});
+
+// ---------- plans ----------
+const localized = z.object({ 'pt-br': z.string(), en: z.string() });
+const money = z.object({ brl: z.number(), usd: z.number() });
+const plans = defineCollection({
+  loader: file('./src/content/plans.json'),
+  schema: z.object({
+    id: z.string(),
+    name: localized,
+    summary: localized,
+    /** monthly: per month; annual: per year. */
+    price: z.object({ monthly: money, annual: money }),
+    fee: z.number(),
+    seats: z.number().int(),
+    features: z.object({ 'pt-br': z.array(z.string()), en: z.array(z.string()) }),
+    highlight: z.boolean(),
+    cta: localized,
+    order: z.number(),
   }),
 });
 
@@ -128,6 +218,62 @@ const home = z.object({
     disclaimer: z.string(),
   }),
   features: z.object({ title: z.string(), link }),
+  showcase: z.object({
+    title: z.string(),
+    lead: z.string(),
+    tabsLabel: z.string(),
+    app: z.object({
+      nav: z.array(z.string()),
+      user: z.object({ initials: z.string(), name: z.string(), meta: z.string() }),
+    }),
+    tabs: z.array(
+      z.object({
+        id: z.string(),
+        label: z.string(),
+        /** Which sidebar item is current when this tab shows. */
+        nav: z.number().int(),
+        title: z.string(),
+        actions: z.tuple([z.string(), z.string()]),
+        stats: z.array(z.object({ label: z.string(), value: z.string(), note: z.string(), highlight: z.boolean() })).length(3),
+        listTitle: z.string(),
+        rows: z.array(
+          z.object({
+            title: z.string(),
+            detail: z.string(),
+            date: z.string(),
+            amount: z.string(),
+            tone: z.enum(['default', 'highlight', 'muted']),
+          }),
+        ),
+      }),
+    ),
+  }),
+  integrations: z.object({
+    title: z.string(),
+    lead: z.string(),
+    /** "{count}" is replaced with the number of integrations in the collection. */
+    count: z.string(),
+    countNote: z.string(),
+    link,
+    accountant: z.object({
+      title: z.string(),
+      rows: z.array(z.object({ name: z.string(), status: z.string(), connected: z.boolean() })),
+    }),
+    platforms: z.object({ title: z.string(), text: z.string() }),
+  }),
+  stories: z.object({ title: z.string(), link }),
+  pricing: z.object({
+    title: z.string(),
+    titleSecond: z.string(),
+    billingLabel: z.string(),
+    billing: z.object({ monthly: z.string(), annual: z.string() }),
+    perMonth: z.string(),
+    perYear: z.string(),
+    popular: z.string(),
+    /** EN shows a USD reference next to BRL prices; "{usd}" is replaced. Empty in PT-BR. */
+    usdNote: z.string(),
+  }),
+  faq: z.object({ title: z.string(), lead: z.string() }),
   finalCta: z.object({ title: z.string(), lead: z.string() }),
 });
 
@@ -136,5 +282,5 @@ const pages = defineCollection({
   schema: z.discriminatedUnion('page', [home]),
 });
 
-export const collections = { features, pages };
+export const collections = { features, integrations, customers, faqs, plans, pages };
 export { locale };

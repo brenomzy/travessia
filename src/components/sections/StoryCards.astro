@@ -1,0 +1,139 @@
+---
+/** "Quem já recebe pela Travessia" (Paper: Home → Section · Stories): featured entries from `customers`. */
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import type { Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  link: { label: string; href: string };
+  stories: CollectionEntry<'customers'>[];
+}
+const { locale, title, link, stories } = Astro.props;
+---
+
+<Section theme="tint" labelledby="stories-title">
+  <div class="l-stack" style="--gap: var(--space-2xl)">
+    <SectionHeader id="stories-title" title={title}>
+      <Button variant="link" href={link.href} arrow>{link.label}</Button>
+    </SectionHeader>
+    <ul class="cards" role="list">
+      {
+        stories.map(({ data: s }) => (
+          <li class="card">
+            <Image
+              src={s.cover}
+              alt={s.coverAlt}
+              widths={[480, 720, 960]}
+              sizes="(width >= 64rem) 26rem, (width >= 40rem) 50vw, 100vw"
+              format="webp"
+              quality={90}
+              style={`object-position: ${s.coverPosition}`}
+            />
+            <div class="body">
+              <p class="who">
+                {s.person.name === s.name ? s.name : s.person.name} · {s.person.role} · {s.city}
+              </p>
+              <blockquote lang={locale === 'en' ? 'en' : 'pt-BR'}>
+                <p>{s.quote}</p>
+              </blockquote>
+              <dl>
+                {s.metrics.map((m) => (
+                  <div>
+                    <dt>{m.label}</dt>
+                    <dd>{m.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Section>
+
+<style>
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-raised);
+  }
+
+  img {
+    inline-size: 100%;
+    block-size: 13.75rem;
+    object-fit: cover;
+    image-rendering: pixelated;
+  }
+
+  .body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: var(--space-l);
+  }
+
+  .who {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  blockquote {
+    margin: 0;
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+    quotes: '\201C' '\201D';
+  }
+
+  blockquote p::before {
+    content: open-quote;
+  }
+
+  blockquote p::after {
+    content: close-quote;
+  }
+
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l);
+    margin-block-start: auto;
+    padding-block-start: var(--space-s);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  dl div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-text-highlight);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  dt {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+</style>

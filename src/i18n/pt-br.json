@@ -150,7 +150,11 @@
       "icons": "Ícones",
       "forms": "Formulário da lista de espera",
       "product": "Peças de interface do produto",
-      "vignettes": "Ilustrações dos recursos"
+      "vignettes": "Ilustrações dos recursos",
+      "sphere": "Esfera de integrações",
+      "billing": "Alternância de cobrança",
+      "tabs": "Telas do produto (abas)",
+      "strip": "Faixa de costura"
     },
     "sample": "Você recebe em reais.",
     "buttonLabels": {

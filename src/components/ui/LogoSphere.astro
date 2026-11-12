@@ -1,0 +1,129 @@
+---
+/**
+ * The integrations logo sphere, rendered on the server from the `integrations` collection.
+ * Static for now; V3 tunes its settings and a Motion version can rotate it later.
+ * Until the logo generator exists, each integration shows its initials.
+ */
+import { initials, layoutSphere, defaultSphere, type SphereInput, type SphereSettings } from '../../lib/sphere/layout';
+
+interface Props {
+  items: { id: string; name: string; weight: number; tone: SphereInput['tone'] }[];
+  settings?: SphereSettings;
+}
+const { items, settings = defaultSphere } = Astro.props;
+const points = layoutSphere(
+  items.map((i) => ({ id: i.id, label: i.name, weight: i.weight, tone: i.tone })),
+  settings,
+);
+const ry = 42 * Math.sin(settings.tilt);
+---
+
+<div class="sphere">
+  <svg class="orbits" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <ellipse cx="50" cy="50" rx="42" ry="42"></ellipse>
+    <ellipse cx="50" cy="50" rx="42" ry={ry}></ellipse>
+  </svg>
+  <ul role="list">
+    {
+      points.map((p) => (
+        <li
+          style={`--x: ${p.x.toFixed(2)}%; --y: ${p.y.toFixed(2)}%; --depth: ${p.depth.toFixed(3)}`}
+          data-tone={p.tone}
+          data-side={p.depth >= 0 ? 'front' : 'back'}
+          data-weight={p.weight}
+        >
+          <span aria-hidden="true">{initials(p.label)}</span>
+          <span class="u-visually-hidden">{p.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .sphere {
+    position: relative;
+    inline-size: min(100%, 36rem);
+    aspect-ratio: 4 / 3;
+    margin-inline: auto;
+    container-type: inline-size;
+  }
+
+  .orbits {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    fill: none;
+    stroke: var(--color-accent-data-soft);
+    stroke-width: 1.5;
+    stroke-dasharray: 2 5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .orbits ellipse {
+    vector-effect: non-scaling-stroke;
+  }
+
+  ul {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Node sizes follow the sphere's width, so small screens don't pile the circles on top of each other. */
+  li {
+    --size: clamp(var(--space-l), 8.5cqi, var(--space-xl));
+    position: absolute;
+    inset-inline-start: var(--x);
+    inset-block-start: var(--y);
+    display: grid;
+    place-items: center;
+    inline-size: var(--size);
+    block-size: var(--size);
+    border-radius: var(--radius-pill);
+    translate: -50% -50%;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+  }
+
+  [data-side='back'] {
+    --size: clamp(var(--space-m), 6cqi, var(--space-l));
+    background-color: var(--color-chip-bg);
+    color: var(--color-chip-text);
+    border: var(--size-hairline) solid var(--color-accent-data-soft);
+    font-size: calc(var(--text-xs) * 0.77);
+  }
+
+  [data-side='front'] {
+    background-color: var(--color-bg-raised);
+    color: var(--color-text-base);
+    border: var(--size-focus-ring) solid var(--color-border-strong);
+  }
+
+  [data-side='front'][data-weight='3'] {
+    --size: clamp(var(--space-xl), 11cqi, var(--space-2xl));
+    font-size: var(--text-base);
+  }
+
+  [data-side='front'][data-weight='1'] {
+    --size: clamp(var(--space-m), 7cqi, var(--space-l));
+  }
+
+  [data-tone='primary'],
+  [data-tone='inverse'] {
+    --size: clamp(var(--space-xl), 11cqi, var(--space-2xl));
+    border: 0;
+    font-size: var(--text-base);
+  }
+
+  [data-tone='primary'] {
+    background-color: var(--color-accent-data);
+    color: var(--color-on-data);
+  }
+
+  [data-tone='inverse'] {
+    background-color: var(--color-border-strong);
+    color: var(--color-bg-raised);
+  }
+</style>

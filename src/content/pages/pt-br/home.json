@@ -160,6 +160,325 @@
       "route": "product"
     }
   },
+  "showcase": {
+    "title": "Saldo em três moedas, extrato em reais",
+    "lead": "Tudo numa conta só: faturas abertas, saldos, conversões, notas fiscais e o relatório do mês.",
+    "tabsLabel": "Telas do produto",
+    "app": {
+      "nav": [
+        "Saldo",
+        "Faturas",
+        "Converter",
+        "Notas fiscais",
+        "Relatórios",
+        "Clientes"
+      ],
+      "user": {
+        "initials": "AR",
+        "name": "Ana Ribeiro",
+        "meta": "MEI · Recife"
+      }
+    },
+    "tabs": [
+      {
+        "id": "saldo",
+        "label": "Saldo",
+        "nav": 0,
+        "title": "Saldo",
+        "actions": [
+          "Nova fatura",
+          "Converter"
+        ],
+        "stats": [
+          {
+            "label": "Dólar americano",
+            "value": "US$ 4.212,40",
+            "note": "≈ R$ 22.819,83 hoje",
+            "highlight": true
+          },
+          {
+            "label": "Euro",
+            "value": "€ 1.380,00",
+            "note": "≈ R$ 8.640,72 hoje",
+            "highlight": false
+          },
+          {
+            "label": "Libra",
+            "value": "£ 640,00",
+            "note": "≈ R$ 4.732,13 hoje",
+            "highlight": false
+          }
+        ],
+        "listTitle": "Movimentações recentes",
+        "rows": [
+          {
+            "title": "Pix enviado para você",
+            "detail": "Conversão da fatura #0042",
+            "date": "15 nov",
+            "amount": "+ R$ 10.834,60",
+            "tone": "highlight"
+          },
+          {
+            "title": "Fatura paga",
+            "detail": "Halden & Co., Londres · cartão",
+            "date": "14 nov",
+            "amount": "+ US$ 2.000,00",
+            "tone": "default"
+          },
+          {
+            "title": "Fatura paga",
+            "detail": "Studio Vik, Oslo · transferência",
+            "date": "8 nov",
+            "amount": "+ € 1.380,00",
+            "tone": "default"
+          },
+          {
+            "title": "Fatura enviada",
+            "detail": "Marlow Press, Manchester · vence 30 nov",
+            "date": "5 nov",
+            "amount": "£ 640,00",
+            "tone": "muted"
+          }
+        ]
+      },
+      {
+        "id": "faturas",
+        "label": "Faturas",
+        "nav": 1,
+        "title": "Faturas",
+        "actions": [
+          "Exportar",
+          "Nova fatura"
+        ],
+        "stats": [
+          {
+            "label": "Em aberto",
+            "value": "£ 640,00",
+            "note": "1 fatura · vence 30 nov",
+            "highlight": true
+          },
+          {
+            "label": "Pagas em novembro",
+            "value": "US$ 2.000,00",
+            "note": "e € 1.380,00",
+            "highlight": false
+          },
+          {
+            "label": "Vencidas",
+            "value": "0",
+            "note": "nenhum lembrete pendente",
+            "highlight": false
+          }
+        ],
+        "listTitle": "Faturas de novembro",
+        "rows": [
+          {
+            "title": "#0044 · Marlow Press",
+            "detail": "Manchester · enviada em inglês",
+            "date": "vence 30 nov",
+            "amount": "£ 640,00",
+            "tone": "muted"
+          },
+          {
+            "title": "#0043 · Studio Vik",
+            "detail": "Oslo · paga por transferência",
+            "date": "8 nov",
+            "amount": "€ 1.380,00",
+            "tone": "default"
+          },
+          {
+            "title": "#0042 · Halden & Co.",
+            "detail": "Londres · paga com cartão",
+            "date": "14 nov",
+            "amount": "US$ 2.000,00",
+            "tone": "default"
+          },
+          {
+            "title": "#0041 · Northfold",
+            "detail": "Toronto · paga com cartão",
+            "date": "2 nov",
+            "amount": "US$ 850,00",
+            "tone": "default"
+          }
+        ]
+      },
+      {
+        "id": "notas",
+        "label": "Notas fiscais",
+        "nav": 3,
+        "title": "Notas fiscais",
+        "actions": [
+          "Baixar XML",
+          "Enviar ao contador"
+        ],
+        "stats": [
+          {
+            "label": "Emitidas em 2026",
+            "value": "42",
+            "note": "todas de exportação",
+            "highlight": true
+          },
+          {
+            "label": "Este mês",
+            "value": "3",
+            "note": "a última em 15 nov",
+            "highlight": false
+          },
+          {
+            "label": "Enviadas ao contador",
+            "value": "Todas",
+            "note": "cópia automática",
+            "highlight": false
+          }
+        ],
+        "listTitle": "Notas recentes",
+        "rows": [
+          {
+            "title": "Nº 318 · Halden & Co.",
+            "detail": "Exportação de serviços",
+            "date": "15 nov",
+            "amount": "R$ 10.834,60",
+            "tone": "highlight"
+          },
+          {
+            "title": "Nº 317 · Studio Vik",
+            "detail": "Exportação de serviços",
+            "date": "9 nov",
+            "amount": "R$ 8.501,40",
+            "tone": "default"
+          },
+          {
+            "title": "Nº 316 · Northfold",
+            "detail": "Exportação de serviços",
+            "date": "3 nov",
+            "amount": "R$ 4.611,25",
+            "tone": "default"
+          },
+          {
+            "title": "Nº 315 · Halden & Co.",
+            "detail": "Exportação de serviços",
+            "date": "28 out",
+            "amount": "R$ 10.420,80",
+            "tone": "default"
+          }
+        ]
+      },
+      {
+        "id": "relatorio",
+        "label": "Relatório do mês",
+        "nav": 4,
+        "title": "Relatório de outubro",
+        "actions": [
+          "Baixar PDF",
+          "Enviar ao contador"
+        ],
+        "stats": [
+          {
+            "label": "Receita em reais",
+            "value": "R$ 31.540,20",
+            "note": "câmbio de cada dia",
+            "highlight": true
+          },
+          {
+            "label": "Faturas pagas",
+            "value": "5",
+            "note": "em 3 moedas",
+            "highlight": false
+          },
+          {
+            "label": "Limite do MEI",
+            "value": "62%",
+            "note": "R$ 50.180 de R$ 81 mil",
+            "highlight": false
+          }
+        ],
+        "listTitle": "Resumo para o contador",
+        "rows": [
+          {
+            "title": "Receita de exportação",
+            "detail": "Notas 311 a 315",
+            "date": "out",
+            "amount": "R$ 31.540,20",
+            "tone": "default"
+          },
+          {
+            "title": "Taxas da Travessia",
+            "detail": "0,6% sobre as conversões",
+            "date": "out",
+            "amount": "− R$ 190,38",
+            "tone": "muted"
+          },
+          {
+            "title": "DAS do MEI",
+            "detail": "Guia de novembro gerada",
+            "date": "vence 20 nov",
+            "amount": "R$ 76,90",
+            "tone": "default"
+          },
+          {
+            "title": "Relatório enviado",
+            "detail": "Para contato@livrocaixa.example",
+            "date": "1 nov",
+            "amount": "Enviado",
+            "tone": "highlight"
+          }
+        ]
+      }
+    ]
+  },
+  "integrations": {
+    "title": "Conecta com o que você já usa",
+    "lead": "Importe pagamentos das plataformas de freelance e mande o relatório direto para o sistema do seu contador.",
+    "count": "{count} integrações",
+    "countNote": "Contabilidade, faturamento e plataformas de freelance",
+    "link": {
+      "label": "Ver todas",
+      "route": "integrations"
+    },
+    "accountant": {
+      "title": "Seu contador recebe o relatório sem pedir",
+      "rows": [
+        {
+          "name": "Livro Caixa",
+          "status": "Conectado",
+          "connected": true
+        },
+        {
+          "name": "Contaí",
+          "status": "Conectar",
+          "connected": false
+        }
+      ]
+    },
+    "platforms": {
+      "title": "Pagamentos de plataformas entram sozinhos na conta",
+      "text": "Freela, Remota e Trampo já enviam os pagamentos direto para o seu saldo em dólar."
+    }
+  },
+  "stories": {
+    "title": "Quem já recebe pela Travessia",
+    "link": {
+      "label": "Todas as histórias",
+      "route": "stories"
+    }
+  },
+  "pricing": {
+    "title": "A taxa é sempre 0,6%.",
+    "titleSecond": "O plano muda o resto.",
+    "billingLabel": "Cobrança",
+    "billing": {
+      "monthly": "Mensal",
+      "annual": "Anual, 2 meses grátis"
+    },
+    "perMonth": "por mês",
+    "perYear": "por ano",
+    "popular": "Mais escolhido",
+    "usdNote": ""
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "lead": "Não achou a sua? Mande para a gente e respondemos em um dia útil."
+  },
   "finalCta": {
     "title": "O próximo pagamento já pode chegar em reais.",
     "lead": "Entre na lista de espera. Avisamos por e-mail quando a sua conta estiver pronta."

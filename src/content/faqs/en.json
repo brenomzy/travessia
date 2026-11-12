@@ -1,0 +1,52 @@
+[
+  {
+    "id": "mei",
+    "question": "How do I get paid from abroad as an MEI?",
+    "answer": "You send an invoice in dollars, euros or pounds through Travessia. Your client pays by card or bank transfer, the money lands in your balance and you convert it to reais when you choose. The export nota fiscal is issued in your MEI's name. MEI is Brazil's simplified sole-trader regime.",
+    "topics": [
+      "general",
+      "taxes"
+    ],
+    "order": 1
+  },
+  {
+    "id": "cost",
+    "question": "How much does it cost to get paid and convert?",
+    "answer": "Getting paid is free. Converting costs 0.6% of the amount converted, shown before you confirm, together with the exchange rate. The Free plan has the same fee; paid plans change limits and features.",
+    "topics": [
+      "general",
+      "pricing"
+    ],
+    "order": 2
+  },
+  {
+    "id": "client-account",
+    "question": "Does my client need a Travessia account?",
+    "answer": "No. Your client gets an English invoice with a payment link and pays by card or by bank transfer in their own country, without creating an account.",
+    "topics": [
+      "general",
+      "product"
+    ],
+    "order": 3
+  },
+  {
+    "id": "carne-leao",
+    "question": "Does it work for carnê-leão, without a company?",
+    "answer": "Yes. If you are paid as an individual, the monthly report comes out in the carnê-leão format (the monthly income tax individuals pay on money from abroad), with the exchange rate of each payment. Check with your accountant how to declare it in your case.",
+    "topics": [
+      "general",
+      "taxes"
+    ],
+    "order": 4
+  },
+  {
+    "id": "pix-time",
+    "question": "How long until the money reaches my Pix?",
+    "answer": "1 business day after you convert. The money stays in your balance in the client's currency until you decide to convert.",
+    "topics": [
+      "general",
+      "product"
+    ],
+    "order": 5
+  }
+]

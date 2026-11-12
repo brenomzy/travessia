@@ -1,0 +1,157 @@
+---
+/** "Conecta com o que você já usa" (Paper: Home → Section · Integrations): sphere card plus two side cards. */
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import LogoSphere from '../ui/LogoSphere.astro';
+
+interface Props {
+  title: string;
+  lead: string;
+  count: string;
+  countNote: string;
+  link: { label: string; href: string };
+  accountant: { title: string; rows: { name: string; status: string; connected: boolean }[] };
+  platforms: { title: string; text: string };
+  integrations: CollectionEntry<'integrations'>[];
+}
+const p = Astro.props;
+const sphereItems = p.integrations
+  .filter((e) => e.data.sphere.include)
+  .map((e) => ({ id: e.data.translationKey, name: e.data.name, weight: e.data.sphere.weight, tone: e.data.sphere.tone }));
+---
+
+<Section labelledby="integrations-title">
+  <div class="l-stack" style="--gap: var(--space-2xl)">
+    <SectionHeader id="integrations-title" title={p.title} lead={p.lead} />
+    <div class="bento">
+      <div class="sphere-card" data-theme="tint">
+        <div class="sphere-head">
+          <div>
+            <h3>{p.count.replace('{count}', String(p.integrations.length))}</h3>
+            <p>{p.countNote}</p>
+          </div>
+          <Button variant="link" size="s" href={p.link.href} arrow>{p.link.label}</Button>
+        </div>
+        <LogoSphere items={sphereItems} />
+      </div>
+      <div class="side">
+        <div class="card">
+          <h3>{p.accountant.title}</h3>
+          <ul role="list">
+            {
+              p.accountant.rows.map((r) => (
+                <li data-connected={r.connected ? '' : undefined}>
+                  <span>{r.name}</span>
+                  <span class="status">{r.status}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="card" data-theme="primary">
+          <h3>{p.platforms.title}</h3>
+          <p>{p.platforms.text}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .bento {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+  }
+
+  .sphere-card {
+    display: flex;
+    flex: 999 1 32rem;
+    flex-direction: column;
+    gap: var(--space-l);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .sphere-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  .sphere-head h3,
+  .card h3 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+  }
+
+  .sphere-head p {
+    margin-block-start: var(--space-3xs);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .side {
+    display: flex;
+    flex: 1 1 26.25rem;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .card {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    padding: var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .card[data-theme='primary'] {
+    border-color: transparent;
+  }
+
+  .card p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding: var(--space-xs) var(--space-s);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-s);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  li[data-connected] {
+    border-color: transparent;
+    background-color: var(--color-chip-bg);
+  }
+
+  .status {
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-regular);
+  }
+
+  [data-connected] .status {
+    color: var(--color-chip-text);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

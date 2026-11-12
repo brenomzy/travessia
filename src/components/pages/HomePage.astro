@@ -1,14 +1,20 @@
 ---
-/** Home, shared by / and /en/. Content comes from src/content/pages/<locale>/home.json and the collections. */
+/** Home, shared by / and /en/. Section order follows Paper: Home → "Home · Desktop". */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import HomeHero from '../sections/HomeHero.astro';
 import StatBand from '../sections/StatBand.astro';
 import CalculatorPreview from '../sections/CalculatorPreview.astro';
 import FeatureGrid from '../sections/FeatureGrid.astro';
+import SeamStrip from '../sections/SeamStrip.astro';
+import Showcase from '../sections/Showcase.astro';
+import IntegrationsBento from '../sections/IntegrationsBento.astro';
+import StoryCards from '../sections/StoryCards.astro';
+import PricingTeaser from '../sections/PricingTeaser.astro';
+import FaqList from '../sections/FaqList.astro';
 import CtaBand from '../sections/CtaBand.astro';
 import { t, type Locale } from '../../i18n';
 import { alternates, path, type RouteKey } from '../../i18n/routes';
-import { getFeatures, getPage } from '../../lib/content';
+import { getFaqs, getFeatures, getIntegrations, getPage, getPlans, getStories } from '../../lib/content';
 
 interface Props {
   locale: Locale;
@@ -16,7 +22,14 @@ interface Props {
 const { locale } = Astro.props;
 const s = t(locale);
 const page = await getPage(locale, 'home');
-const features = await getFeatures(locale);
+const [features, integrations, stories, faqs, plans] = await Promise.all([
+  getFeatures(locale),
+  getIntegrations(locale),
+  getStories(locale, { featuredOnly: true }),
+  getFaqs(locale, 'general'),
+  getPlans(),
+]);
+const to = (l: { label: string; route: string }) => ({ label: l.label, href: path(l.route as RouteKey, locale) });
 ---
 
 <BaseLayout
@@ -30,11 +43,18 @@ const features = await getFeatures(locale);
   <HomeHero locale={locale} content={page.hero} />
   <StatBand {...page.outcomes} />
   <CalculatorPreview {...page.calculator} currencyBRL={s.common.currencyBRL} />
-  <FeatureGrid
+  <FeatureGrid locale={locale} title={page.features.title} link={to(page.features.link)} features={features} />
+  <SeamStrip />
+  <Showcase {...page.showcase} />
+  <IntegrationsBento {...page.integrations} link={to(page.integrations.link)} integrations={integrations} />
+  <StoryCards locale={locale} title={page.stories.title} link={to(page.stories.link)} stories={stories} />
+  <PricingTeaser
     locale={locale}
-    title={page.features.title}
-    link={{ label: page.features.link.label, href: path(page.features.link.route as RouteKey, locale) }}
-    features={features}
+    {...page.pricing}
+    currencyBRL={s.common.currencyBRL}
+    plans={plans}
+    ctaHref={path('openAccount', locale)}
   />
+  <FaqList {...page.faq} faqs={faqs} />
   <CtaBand locale={locale} {...page.finalCta} />
 </BaseLayout>

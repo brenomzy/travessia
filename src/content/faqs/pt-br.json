@@ -1,0 +1,52 @@
+[
+  {
+    "id": "mei",
+    "question": "Como recebo pagamento do exterior sendo MEI?",
+    "answer": "Você manda uma fatura em dólar, euro ou libra pela Travessia. O cliente paga por cartão ou transferência, o valor entra no seu saldo e você converte para reais quando quiser. A nota fiscal de exportação sai em nome do seu MEI.",
+    "topics": [
+      "general",
+      "taxes"
+    ],
+    "order": 1
+  },
+  {
+    "id": "cost",
+    "question": "Quanto custa receber e converter?",
+    "answer": "Receber não custa nada. Para converter, a taxa é de 0,6% sobre o valor convertido, mostrada antes de você confirmar, junto com o câmbio. O plano Grátis tem a mesma taxa; os planos pagos mudam limites e recursos.",
+    "topics": [
+      "general",
+      "pricing"
+    ],
+    "order": 2
+  },
+  {
+    "id": "client-account",
+    "question": "Meu cliente precisa ter conta na Travessia?",
+    "answer": "Não. O cliente recebe uma fatura em inglês com um link de pagamento e paga por cartão ou transferência bancária no país dele, sem criar conta.",
+    "topics": [
+      "general",
+      "product"
+    ],
+    "order": 3
+  },
+  {
+    "id": "carne-leao",
+    "question": "Funciona para carnê-leão, sem CNPJ?",
+    "answer": "Sim. Se você recebe como pessoa física, o relatório do mês sai no formato do carnê-leão, com o câmbio de cada pagamento. Confira com o seu contador como declarar no seu caso.",
+    "topics": [
+      "general",
+      "taxes"
+    ],
+    "order": 4
+  },
+  {
+    "id": "pix-time",
+    "question": "Em quanto tempo o dinheiro chega no meu Pix?",
+    "answer": "Em 1 dia útil depois que você converte. O valor fica no seu saldo na moeda do cliente até você decidir converter.",
+    "topics": [
+      "general",
+      "product"
+    ],
+    "order": 5
+  }
+]

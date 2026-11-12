@@ -149,7 +149,11 @@
       "icons": "Icons",
       "forms": "Waitlist form",
       "product": "Product UI pieces",
-      "vignettes": "Feature vignettes"
+      "vignettes": "Feature vignettes",
+      "sphere": "Integrations sphere",
+      "billing": "Billing toggle",
+      "tabs": "Product screens (tabs)",
+      "strip": "Seam strip"
     },
     "sample": "You get paid in reais.",
     "buttonLabels": {

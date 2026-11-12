@@ -2,7 +2,8 @@
 /** Section wrapper (SPEC §5.5.4): theme, spacing and width as props mapped to data attributes. */
 interface Props {
   theme?: 'light' | 'tint' | 'primary' | 'deep' | 'dark';
-  spacing?: 'default' | 'none';
+  /** after-strip: less space on top, for a section that follows a SeamStrip. */
+  spacing?: 'default' | 'after-strip' | 'none';
   width?: 'content' | 'text' | 'wide';
   labelledby?: string;
   class?: string;
@@ -24,5 +25,9 @@ const { theme = 'light', spacing = 'default', width = 'content', labelledby, cla
 
   [data-spacing='default'] {
     padding-block: var(--space-section);
+  }
+
+  [data-spacing='after-strip'] {
+    padding-block: var(--space-2xl) var(--space-section);
   }
 </style>
