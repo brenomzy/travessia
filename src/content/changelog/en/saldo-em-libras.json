@@ -1,0 +1,27 @@
+{
+  "title": "Pound balance",
+  "slug": "pound-balance",
+  "date": "2026-10-21",
+  "type": "new",
+  "area": "account",
+  "summary": "UK bank details so British clients can pay by local transfer. Your GBP balance sits next to dollars and euros.",
+  "translationKey": "saldo-em-libras",
+  "visual": {
+    "kind": "balances",
+    "rows": [
+      {
+        "label": "Dollar",
+        "amount": "US$ 1,988.00"
+      },
+      {
+        "label": "Euro",
+        "amount": "€ 640.00"
+      },
+      {
+        "label": "Pound",
+        "amount": "£ 3,100.00",
+        "badge": "New"
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "title": "Nota fiscal de exportação, passo a passo e ao vivo",
+  "slug": "nota-fiscal-de-exportacao-ao-vivo",
+  "kind": "Webinar ao vivo",
+  "kindPast": "Gravação",
+  "lead": "Uma contadora e uma cliente emitem uma nota de verdade na tela e respondem às suas perguntas no fim.",
+  "leadPast": "Gravado em 26 nov 2026 com Marina Teles e Júlia Moita. 58 minutos, com legendas em português.",
+  "date": "2026-11-26",
+  "time": "19h às 20h (BRT)",
+  "place": "Online, gratuito",
+  "duration": "58:12",
+  "agenda": [
+    {
+      "time": "19h00",
+      "chapter": "00:00",
+      "title": "Quem precisa emitir e quando",
+      "detail": "MEI, Simples e pessoa física: o que muda em cada caso."
+    },
+    {
+      "time": "19h15",
+      "chapter": "14:30",
+      "title": "Emitindo uma nota na tela",
+      "detail": "Do pagamento recebido à nota no portal da prefeitura, com um caso real."
+    },
+    {
+      "time": "19h40",
+      "chapter": "39:10",
+      "title": "Como a Moita Filmes organiza o mês",
+      "detail": "Júlia mostra o fluxo do estúdio, de fatura a nota fiscal."
+    },
+    {
+      "time": "19h50",
+      "chapter": "49:45",
+      "title": "Perguntas",
+      "detail": "Mande a sua na inscrição ou pelo chat durante o evento."
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Marina Teles",
+      "role": "Contadora, atende freelancers que exportam serviço desde 2014"
+    },
+    {
+      "name": "Júlia Moita",
+      "role": "Sócia da Moita Filmes, estúdio de vídeo em Belo Horizonte"
+    }
+  ],
+  "register": {
+    "title": "Garanta sua vaga",
+    "text": "Mandamos o link de acesso e, depois, a gravação.",
+    "count": "312 pessoas inscritas · vagas ilimitadas",
+    "submit": "Inscrever-se"
+  },
+  "missed": {
+    "title": "Não pode no horário?",
+    "text": "Inscreva-se mesmo assim. A gravação fica nesta página e chega no seu e-mail no dia seguinte."
+  },
+  "translationKey": "nota-fiscal-ao-vivo"
+}

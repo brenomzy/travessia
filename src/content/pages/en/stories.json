@@ -1,0 +1,53 @@
+{
+  "page": "stories",
+  "translationKey": "stories",
+  "seo": {
+    "title": "Stories from people paid from abroad | Travessia",
+    "description": "Brazilian freelancers and studios on how they get paid by clients in other countries, with their numbers."
+  },
+  "title": "Stories",
+  "lead": "Brazilian freelancers and studios on how they get paid by clients in other countries, with their numbers.",
+  "stats": [
+    {
+      "value": "2,140",
+      "label": "accounts opened since March"
+    },
+    {
+      "value": "31 countries",
+      "label": "where their clients are"
+    },
+    {
+      "value": "1 business day",
+      "label": "on average until the reais land"
+    }
+  ],
+  "spotlightLink": "Read the story",
+  "moreTitle": "More stories",
+  "filterLabel": "Filter stories",
+  "all": "All",
+  "crafts": {
+    "design": "Design",
+    "development": "Development",
+    "translation": "Translation",
+    "video": "Video",
+    "writing": "Writing"
+  },
+  "studios": "Studios",
+  "read": "Read",
+  "readAbout": "Read {name}'s story",
+  "detail": {
+    "factsLabel": "About",
+    "facts": {
+      "company": "Company",
+      "city": "City",
+      "team": "Team",
+      "clients": "Clients in",
+      "since": "Using Travessia since",
+      "features": "Features used"
+    },
+    "teamOne": "1 person",
+    "teamMany": "{n} people",
+    "otherTitle": "More stories",
+    "metricsLabel": "Results"
+  }
+}

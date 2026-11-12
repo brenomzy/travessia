@@ -1,0 +1,64 @@
+{
+  "page": "blog",
+  "translationKey": "blog",
+  "seo": {
+    "title": "Blog: câmbio, impostos e faturas | Travessia",
+    "description": "Câmbio, impostos e faturas para quem recebe do exterior. Um texto novo por semana."
+  },
+  "title": "Blog",
+  "lead": "Câmbio, impostos e faturas para quem recebe do exterior. Um texto novo por semana.",
+  "categoriesLabel": "Categorias",
+  "all": "Todos",
+  "categories": {
+    "exchange": {
+      "slug": "cambio",
+      "label": "Câmbio",
+      "lead": "Quando converter, quanto custa e como ler a cotação. Sem palpite sobre o dólar."
+    },
+    "taxes": {
+      "slug": "impostos",
+      "label": "Impostos",
+      "lead": "Carnê-leão, nota fiscal de exportação e o que muda quando você abre uma empresa. Revisado por contadores."
+    },
+    "invoices": {
+      "slug": "faturas",
+      "label": "Faturas",
+      "lead": "Como cobrar clientes no exterior: modelos, prazos e o que o financeiro deles precisa."
+    },
+    "guides": {
+      "slug": "guias",
+      "label": "Guias",
+      "lead": "Passo a passo para começar a receber do exterior, do cadastro à primeira conversão."
+    },
+    "news": {
+      "slug": "novidades",
+      "label": "Novidades",
+      "lead": "O que chegou de novo na Travessia, explicado com calma."
+    }
+  },
+  "popularTitle": "Mais lidos este mês",
+  "allTitle": "Todos os textos",
+  "count": "{n} textos · mais recentes primeiro",
+  "countShort": "{n} textos",
+  "showMore": "Ver mais textos",
+  "minutes": "{n} min",
+  "readingTime": "{n} min de leitura",
+  "newsletter": {
+    "title": "Um e-mail por mês, com o que mudou",
+    "text": "Regras de câmbio e impostos para quem recebe do exterior, sem promoções.",
+    "submit": "Assinar"
+  },
+  "post": {
+    "toc": "Neste texto",
+    "calculator": {
+      "title": "Simule o seu mês",
+      "text": "Veja quanto chega em reais depois da taxa de 0,6%.",
+      "link": "Abrir a calculadora"
+    },
+    "copyLink": "Copiar link",
+    "copied": "Link copiado",
+    "linkedin": "LinkedIn",
+    "shareLabel": "Compartilhar",
+    "continueTitle": "Continue lendo"
+  }
+}

@@ -1,0 +1,16 @@
+---
+/** A horizontal seam between two sections (Paper: Home → "Transition · tapajós into noite"). Decorative. */
+import strip from '../../assets/textures/strip-tap-noite.png';
+---
+
+<div class="strip" aria-hidden="true" style={`--strip: url(${strip.src})`}></div>
+
+<style>
+  .strip {
+    block-size: clamp(7.5rem, 16.7vw, 15rem);
+    background-image: var(--strip);
+    background-size: cover;
+    background-position: center;
+    image-rendering: pixelated;
+  }
+</style>

@@ -1,0 +1,215 @@
+---
+/** About, shared by /sobre and /en/about (Paper: Pages · company and utility → /sobre). */
+import hseam from '../../assets/textures/hseam.png';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../sections/Section.astro';
+import ListPanels from '../sections/ListPanels.astro';
+import Avatar from '../ui/Avatar.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import type { Locale } from '../../i18n';
+import { alternates } from '../../i18n/routes';
+import { getPage } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const page = await getPage(locale, 'about');
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('about')}
+  headerVariant="dark"
+  current="about"
+>
+  <section class="hero" data-theme="dark" aria-labelledby="page-title" data-reveal-intro style={`--hseam: url(${hseam.src});`}>
+    <div class="l-container">
+      <div class="head" data-reveal-stagger>
+        <h1 id="page-title">{page.title}</h1>
+        <p class="lead">{page.lead}</p>
+      </div>
+    </div>
+    <div class="seam" aria-hidden="true"></div>
+  </section>
+
+  <Section labelledby="story-title">
+    <div class="story">
+      <h2 id="story-title" data-reveal>{page.story.title}</h2>
+      <div class="paragraphs" data-reveal-stagger>
+        {page.story.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </Section>
+
+  <ListPanels panels={page.panels} />
+
+  <Section spacing="none" labelledby="team-title">
+    <div class="team l-stack" style="--gap: var(--space-l)">
+      <div class="team-head">
+        <h2 id="team-title">{page.team.title}</h2>
+        <p>{page.team.note}</p>
+      </div>
+      <ul role="list" class="people" data-reveal-stagger>
+        {
+          page.team.people.map((p) => (
+            <li>
+              <Avatar name={p.name} />
+              <span>
+                <strong>{p.name}</strong>
+                <span class="role">{p.role}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Section spacing="none" labelledby="disclaimer-title">
+    <div class="disclaimer" data-theme="dark" data-reveal>
+      <h2 id="disclaimer-title">{page.disclaimer.title}</h2>
+      <div>
+        <p>{page.disclaimer.text}</p>
+        <p class="note">{page.disclaimer.note}</p>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .hero {
+    padding-block-start: var(--space-2xl);
+    background-color: var(--color-bg-base);
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-l) var(--space-2xl);
+    padding-block-end: var(--space-xl);
+  }
+
+  h1 {
+    flex: 1 1 30rem;
+    max-inline-size: 46rem;
+    font-size: var(--text-5xl);
+    line-height: var(--leading-5xl);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  .lead {
+    flex: 0 1 22rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  /* The bottom of the hero: the horizontal seam, noite into tapajós. */
+  .seam {
+    block-size: clamp(6rem, 12vw, 10rem);
+    background-image: var(--hseam);
+    background-size: cover;
+    background-position: center 55%;
+    image-rendering: pixelated;
+  }
+
+  .story {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l) var(--space-3xl);
+  }
+
+  .story h2 {
+    flex: 0 1 18rem;
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+  }
+
+  .paragraphs {
+    display: flex;
+    flex: 1 1 30rem;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-inline-size: var(--size-measure-text);
+    color: var(--color-text-muted);
+  }
+
+  .team {
+    padding-block-end: var(--space-section);
+  }
+
+  .team-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-l);
+  }
+
+  .team-head h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .team-head p,
+  .role {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .people {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .people li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding-block-start: var(--space-m);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .people li > span {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .disclaimer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m) var(--space-2xl);
+    margin-block-end: var(--space-section);
+    padding: var(--space-xl);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-base);
+  }
+
+  .disclaimer h2 {
+    flex: 0 1 15rem;
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+  }
+
+  .disclaimer div {
+    display: flex;
+    flex: 1 1 26rem;
+    flex-direction: column;
+    gap: var(--space-xs);
+    color: var(--color-text-muted);
+  }
+
+  .disclaimer .note {
+    color: var(--color-text-highlight);
+  }
+</style>

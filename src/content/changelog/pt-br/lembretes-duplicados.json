@@ -1,0 +1,9 @@
+{
+  "title": "Lembretes de pagamento duplicados",
+  "slug": "lembretes-duplicados",
+  "date": "2026-10-02",
+  "type": "fixed",
+  "area": "invoices",
+  "summary": "Editar uma fatura já enviada fazia o cliente receber o lembrete duas vezes. Agora sai um só.",
+  "translationKey": "lembretes-duplicados"
+}

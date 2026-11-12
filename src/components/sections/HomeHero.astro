@@ -1,0 +1,461 @@
+---
+/**
+ * Home hero (Paper: Home → "Hero C v3 · Animated product UI").
+ * From 1024 px: a vertical seam, noite on the left with the copy, tapajós on the right with the product UI.
+ * Below it: the seam turns horizontal. Dollar story on noite, the crossing on the seam, reais on tapajós.
+ */
+import seamDesktop from '../../assets/textures/seam-40.png';
+import seamMobile from '../../assets/textures/mobile-seam-v2.png';
+import WaitlistForm from '../ui/WaitlistForm.astro';
+import InvoiceCard from '../product/InvoiceCard.astro';
+import ConversionCard from '../product/ConversionCard.astro';
+import CrossingCard from '../product/CrossingCard.astro';
+import PhoneMock from '../product/PhoneMock.astro';
+import type { Locale } from '../../i18n';
+import { path, type RouteKey } from '../../i18n/routes';
+import type { getPage } from '../../lib/content';
+import MotionScript from '../ui/MotionScript.astro';
+
+type Home = Awaited<ReturnType<typeof getPage<'home'>>>;
+interface Props {
+  locale: Locale;
+  content: Home['hero'];
+}
+
+const { locale, content } = Astro.props;
+const { ui } = content;
+---
+
+<section
+  class="hero"
+  data-theme="dark"
+  aria-labelledby="hero-title"
+  data-reveal-intro
+  style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
+>
+  <div class="copy" data-theme="dark" data-reveal-stagger>
+    <h1 id="hero-title">
+      {content.title} <span class="highlight">{content.titleHighlight}</span>
+    </h1>
+    <p class="lead">{content.lead}</p>
+    <WaitlistForm locale={locale} layout="stacked" />
+  </div>
+
+  <!-- Desktop illustration: the product on the tapajós side. -->
+  <div class="stage" aria-hidden="true">
+    <div class="canvas" data-reveal-stagger>
+      <div class="piece invoice"><InvoiceCard {...ui.invoice} /></div>
+      <svg class="piece path" viewBox="0 0 420 320" fill="none">
+        <path d="M60 200 L 60 268" />
+        <path d="M342 300 C 380 300, 400 260, 410 210" />
+        <circle cx="60" cy="236" r="4" />
+      </svg>
+      <div class="piece phone"><PhoneMock {...ui.phone} /></div>
+      <div class="piece conversion"><ConversionCard {...ui.conversion} /></div>
+    </div>
+  </div>
+
+  <!-- Phones and tablets: the same story told top to bottom across a horizontal seam. -->
+  <div class="story" aria-hidden="true" data-reveal-stagger>
+    <div class="summary" data-theme="dark">
+      <p class="summary-title">{ui.invoice.summary}</p>
+      <p class="amount"><span class="currency">{ui.invoice.summaryCurrency}</span>{ui.invoice.summaryAmount}</p>
+      <p class="meta">{ui.invoice.summaryNote}</p>
+    </div>
+    <div class="band" data-theme="primary">
+      <CrossingCard {...ui.crossing} layout="row" />
+    </div>
+    <div class="received" data-theme="primary">
+      <p class="summary-title">{ui.received.label}</p>
+      <p class="amount"><span class="currency">{ui.received.currency}</span>{ui.received.amount}</p>
+      <p class="meta">{ui.received.note}</p>
+    </div>
+  </div>
+
+  <div class="aside" data-theme="primary" data-reveal-stagger>
+    <p class="clients" lang="en">
+      {content.clientsNote.text}
+      <a href={path(content.clientsNote.link.route as RouteKey, locale)}>{content.clientsNote.link.label}</a>
+    </p>
+    <div class="logos">
+      <p>{content.logoStrip.label}</p>
+      <ul role="list">
+        {content.logoStrip.names.map((name, i) => <li data-mark={i}>{name}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<MotionScript />
+
+<style>
+  /* ---------- Phones and tablets (horizontal seam) ---------- */
+  .hero {
+    display: grid;
+    background-color: var(--color-bg-base);
+  }
+
+  .copy,
+  .summary,
+  .received,
+  .aside {
+    padding-inline: var(--space-gutter);
+    background-color: var(--color-bg-base);
+  }
+
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding-block: calc(var(--size-header) + var(--space-l)) var(--space-xl);
+  }
+
+  .copy > :where(*) {
+    max-inline-size: 34rem;
+  }
+
+  h1 {
+    font-size: var(--text-hero);
+    line-height: var(--leading-hero);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  .highlight {
+    display: block;
+    color: var(--color-text-highlight);
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .stage {
+    display: none;
+  }
+
+  .story {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .summary {
+    padding-block: var(--space-l) var(--space-m);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .summary,
+  .received {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .summary-title {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .received .summary-title {
+    color: var(--color-text-base);
+  }
+
+  .amount {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .currency {
+    margin-inline-end: var(--space-3xs);
+    font-size: var(--text-2xl);
+    letter-spacing: var(--font-tracking-normal);
+    color: var(--color-text-highlight);
+  }
+
+  .received .currency {
+    color: var(--color-text-base);
+  }
+
+  .meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-base);
+  }
+
+  /* The seam band: the texture's mixing zone, with the crossing card riding on it. */
+  .band {
+    display: flex;
+    align-items: center;
+    padding: var(--space-xl) var(--space-gutter);
+    background-color: var(--color-bg-base);
+    background-image: var(--seam-mobile);
+    background-size: 100% auto;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+  }
+
+  .band > :global(*) {
+    inline-size: min(100%, 34rem);
+  }
+
+  .received {
+    padding-block: var(--space-l) var(--space-xl);
+  }
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    padding-block-end: var(--space-2xl);
+  }
+
+  .clients {
+    padding-block-start: var(--space-m);
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+    max-inline-size: 34rem;
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .clients a {
+    display: block;
+    margin-block-start: var(--space-2xs);
+    color: var(--color-text-base);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .logos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding-block-start: var(--space-m);
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .logos p {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .logos ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-l);
+  }
+
+  /*
+   * Made-up studio marks, set as type until the logo generator makes real ones (SPEC D12).
+   * Two families only (SPEC §5.5.5), so the marks vary weight, case and tracking instead.
+   */
+  .logos li {
+    white-space: nowrap;
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+    line-height: 1.2;
+  }
+
+  [data-mark='1'] {
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  [data-mark='2'] {
+    font-style: italic;
+    font-weight: var(--font-weight-medium);
+  }
+
+  [data-mark='3'] {
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+  }
+
+  [data-mark='4'] {
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  @media (width >= 48rem) {
+    .story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .summary {
+      grid-column: 1 / -1;
+    }
+
+    .band {
+      grid-column: 1 / -1;
+      justify-content: center;
+      padding-block: var(--space-2xl);
+    }
+
+    .received {
+      grid-column: 1 / -1;
+    }
+
+    .aside {
+      flex-direction: row-reverse;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .logos {
+      flex: 1 1 60%;
+    }
+
+    .clients {
+      flex: 0 1 22rem;
+    }
+  }
+
+  /* ---------- From 1024 px, breakpoint.laptop (vertical seam) ---------- */
+  @media (width >= 64rem) {
+    .hero {
+      grid-template-columns: var(--space-gutter) 26.875rem 1fr var(--space-gutter);
+      grid-template-rows: auto auto;
+      min-block-size: 54rem;
+      padding-block: calc(var(--size-header) + var(--space-l)) var(--space-xl);
+      background-image: var(--seam-desktop);
+      background-size: cover;
+      background-position: left center;
+      background-repeat: no-repeat;
+      image-rendering: pixelated;
+    }
+
+    .copy,
+    .aside {
+      background-color: transparent;
+      padding-inline: 0;
+    }
+
+    .copy {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: start;
+      gap: var(--space-l);
+      padding-block: var(--space-2xl) 0;
+    }
+
+    .lead {
+      max-inline-size: 23rem;
+    }
+
+    .copy :global(.waitlist) {
+      max-inline-size: 23rem;
+    }
+
+    .story,
+    .clients {
+      display: none;
+    }
+
+    .stage {
+      display: block;
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    /* The illustration is drawn at 1440 px and zoomed, so its proportions never break. */
+    .canvas {
+      position: relative;
+      inline-size: 51.75rem;
+      block-size: 40.625rem;
+      zoom: 0.86;
+    }
+
+    .piece {
+      position: absolute;
+    }
+
+    .invoice {
+      inset-block-start: 1.25rem;
+      inset-inline-start: 0;
+      inline-size: 21.875rem;
+      z-index: 2;
+    }
+
+    .phone {
+      inset-block-start: 0;
+      inset-inline-start: 31.875rem;
+    }
+
+    .conversion {
+      inset-block-start: 28.75rem;
+      inset-inline-start: 6.25rem;
+      inline-size: 21.25rem;
+      z-index: 2;
+    }
+
+    .path {
+      inset-block-start: 11.875rem;
+      inset-inline-start: 6.25rem;
+      inline-size: 26.25rem;
+      stroke: var(--color-on-accent);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-dasharray: 3 6;
+      opacity: 0.8;
+    }
+
+    .path circle {
+      fill: var(--color-on-accent);
+      stroke: none;
+    }
+
+    .aside {
+      grid-column: 3;
+      grid-row: 2;
+      justify-self: end;
+      inline-size: min(100%, 38rem);
+      padding-block: var(--space-s) 0;
+    }
+
+    .logos {
+      border-block-start-color: var(--color-border-base);
+    }
+
+  }
+
+  /* 1024–1279 px: two pieces only, so the product stays readable. */
+  @media (64rem <= width < 80rem) {
+    .canvas {
+      inline-size: 34.375rem;
+      block-size: 31.25rem;
+      zoom: 0.84;
+    }
+
+    .conversion,
+    .path {
+      display: none;
+    }
+
+    .invoice {
+      inset-block-start: 4rem;
+    }
+
+    .phone {
+      inset-inline-start: 15.625rem;
+    }
+  }
+
+  @media (width >= 80rem) {
+    .logos ul {
+      flex-wrap: nowrap;
+    }
+  }
+
+  @media (width >= 90rem) {
+    .canvas {
+      zoom: 1;
+    }
+  }
+</style>

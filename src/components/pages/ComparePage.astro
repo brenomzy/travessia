@@ -1,0 +1,309 @@
+---
+/** Comparison page, shared by /comparar/[slug] and /en/compare/[slug] (Paper: Pages · company and utility → Compare). */
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../sections/Section.astro';
+import FaqList from '../sections/FaqList.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import Breadcrumb from '../ui/Breadcrumb.astro';
+import Button from '../ui/Button.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import { t, type Locale } from '../../i18n';
+import { comparePath, path } from '../../i18n/routes';
+import { getComparisons, getPage } from '../../lib/content';
+import { shortDate } from '../../lib/format';
+
+interface Props {
+  locale: Locale;
+  comparison: CollectionEntry<'comparisons'>;
+}
+const { locale, comparison } = Astro.props;
+const c = comparison.data;
+const s = t(locale);
+const page = await getPage(locale, 'compare');
+const other: Locale = locale === 'pt-br' ? 'en' : 'pt-br';
+const translation = (await getComparisons(other)).find((e) => e.data.translationKey === c.translationKey);
+if (!translation) throw new Error(`Missing ${other} translation of comparison "${c.translationKey}"`);
+const pageAlternates = { [locale]: comparePath(c.slug, locale), [other]: comparePath(translation.data.slug, other) } as Record<Locale, string>;
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${c.title} | ${s.meta.siteName}`}
+  description={c.description}
+  alternates={pageAlternates}
+  headerVariant="dark"
+>
+  <section class="hero" data-theme="dark" aria-labelledby="page-title" data-reveal-intro>
+    <div class="l-container hero-inner">
+      <div class="copy" data-reveal-stagger>
+        <Breadcrumb label={s.a11y.breadcrumb} items={[{ label: page.root }, { label: c.label, href: pageAlternates[locale] }]} />
+        <h1 id="page-title">{c.title}</h1>
+        <p class="updated">{page.updated.replace('{date}', shortDate(locale, c.updated)).replace('{reviewer}', c.reviewer)}</p>
+      </div>
+      <aside class="short" data-reveal>
+        <h2>{c.short.title}</h2>
+        <p>{c.short.text}</p>
+        <p class="note">{c.short.note}</p>
+      </aside>
+    </div>
+  </section>
+
+  <Section labelledby="table-title">
+    <div class="l-stack" style="--gap: var(--space-l)">
+      <h2 id="table-title" class="section-title" data-reveal>{c.table.title}</h2>
+      <div class="scroller" role="region" aria-labelledby="table-title" tabindex="0" data-reveal>
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              <th scope="col" class="us">{c.table.us}</th>
+              <th scope="col">{c.table.them}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              c.table.rows.map((r) => (
+                <tr>
+                  <th scope="row">{r.label}</th>
+                  <td>{r.us}</td>
+                  <td>{r.them}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </Section>
+
+  {
+    c.breakdown && (
+      <Section spacing="none" labelledby="breakdown-title">
+        <div class="breakdown l-stack" style="--gap: var(--space-l)">
+          <div class="breakdown-head">
+            <h2 id="breakdown-title" class="section-title">
+              {c.breakdown.title}
+            </h2>
+            <p>{c.breakdown.rateNote}</p>
+          </div>
+          <ul class="cards" role="list" data-reveal-stagger>
+            {c.breakdown.cards.map((card, i) => (
+              <li class="card" data-first={i === 0 ? '' : undefined}>
+                <h3>{card.title}</h3>
+                <dl>
+                  {card.rows.map((r) => (
+                    <div>
+                      <dt>{r.label}</dt>
+                      <dd>{r.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p class="total">
+                  <span>{c.breakdown!.totalLabel}</span>
+                  <strong>{card.total}</strong>
+                </p>
+              </li>
+            ))}
+          </ul>
+          <p class="note">
+            {c.breakdown.note}{' '}
+            <Button variant="link" size="s" href={path('calculator', locale)} arrow>
+              {page.calculator}
+            </Button>
+          </p>
+        </div>
+      </Section>
+    )
+  }
+
+  <FaqList title={c.faq.title} faqs={c.faq.items.map((data) => ({ data }))} size="compact" openAll />
+  <ClosingCta locale={locale} />
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .hero {
+    padding-block: var(--space-2xl);
+    background-color: var(--color-bg-base);
+  }
+
+  .hero-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-xl) var(--space-2xl);
+  }
+
+  .copy {
+    display: flex;
+    flex: 1 1 26rem;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-inline-size: 40rem;
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .updated {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .short {
+    display: flex;
+    flex: 1 1 20rem;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-inline-size: 30rem;
+    padding: var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-raised);
+  }
+
+  .short h2 {
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .short .note {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+  }
+
+  .section-title {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .scroller {
+    overflow-x: auto;
+  }
+
+  .scroller:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+  }
+
+  table {
+    inline-size: 100%;
+    min-inline-size: 36rem;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  th,
+  td {
+    padding: var(--space-s) var(--space-m) var(--space-s) 0;
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  thead th {
+    border-block-end-color: var(--color-border-strong);
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-regular);
+  }
+
+  thead .us {
+    color: var(--color-link);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  tbody th {
+    inline-size: 28%;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  td {
+    color: var(--color-text-muted);
+  }
+
+  .breakdown {
+    padding-block-end: var(--space-section);
+  }
+
+  .breakdown-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-l);
+  }
+
+  .breakdown-head p,
+  .breakdown .note {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+  }
+
+  .card h3 {
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .card[data-first] h3 {
+    color: var(--color-link);
+  }
+
+  .card dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block: var(--space-2xs);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+    font-size: var(--text-sm);
+  }
+
+  .card dt {
+    color: var(--color-text-subtle);
+  }
+
+  .card dd {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block-start: var(--space-xs);
+  }
+
+  .total span {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .total strong {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    font-variant-numeric: tabular-nums;
+  }
+</style>

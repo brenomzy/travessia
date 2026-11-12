@@ -1,0 +1,75 @@
+---
+/**
+ * Breadcrumb trail for interior pages (Paper: feature template hero), with BreadcrumbList JSON-LD
+ * built from the same items (SPEC rule 9). The last item is the current page and isn't a link.
+ */
+interface Props {
+  label: string;
+  /** href is optional for a level with no page of its own ("Comparar", "Eventos"). */
+  items: { label: string; href?: string }[];
+}
+const { label, items } = Astro.props;
+const site = Astro.site ?? new URL('https://travessia.example');
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.label,
+    ...(item.href ? { item: new URL(item.href, site).href } : {}),
+  })),
+};
+---
+
+<nav class="breadcrumb" aria-label={label}>
+  <ol role="list">
+    {
+      items.map((item, i) =>
+        i < items.length - 1 ? (
+          <li>
+            {item.href ? <a href={item.href}>{item.label}</a> : <span class="root">{item.label}</span>}
+            <span class="sep" aria-hidden="true">
+              /
+            </span>
+          </li>
+        ) : (
+          <li aria-current="page">{item.label}</li>
+        ),
+      )
+    }
+  </ol>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</nav>
+
+<style>
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  li {
+    display: flex;
+    gap: var(--space-2xs);
+    color: var(--color-text-base);
+  }
+
+  a,
+  .root,
+  .sep {
+    color: var(--color-text-subtle);
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-text-base);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

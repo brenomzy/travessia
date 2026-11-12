@@ -1,0 +1,210 @@
+---
+/** A blog category, shared by /blog/categoria/[cat] and /en/blog/category/[cat] (Paper: /blog/categoria/impostos). */
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../sections/Section.astro';
+import Breadcrumb from '../ui/Breadcrumb.astro';
+import PostCard from '../ui/PostCard.astro';
+import ShowMore from '../ui/ShowMore.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import taxesPattern from '../../assets/textures/covers/taxes.png';
+import { t, type Locale } from '../../i18n';
+import { blogCategoryPath, path, postPath } from '../../i18n/routes';
+import { getPage, getPosts } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+  category: 'exchange' | 'taxes' | 'invoices' | 'guides' | 'news';
+}
+const { locale, category } = Astro.props;
+const s = t(locale);
+const page = await getPage(locale, 'blog');
+const other: Locale = locale === 'pt-br' ? 'en' : 'pt-br';
+const otherPage = await getPage(other, 'blog');
+const posts = (await getPosts(locale)).filter((p) => p.data.category === category);
+const c = page.categories[category];
+const categoryIds = Object.keys(page.categories) as (keyof typeof page.categories)[];
+const pageAlternates = {
+  [locale]: blogCategoryPath(c.slug, locale),
+  [other]: blogCategoryPath(otherPage.categories[category].slug, other),
+} as Record<Locale, string>;
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${c.label} | ${page.title} | ${s.meta.siteName}`}
+  description={c.lead}
+  alternates={pageAlternates}
+  headerVariant="dark"
+  current="blog"
+>
+  <section class="hero" data-theme="tint" aria-labelledby="page-title" data-reveal-intro>
+    <Image src={taxesPattern} alt="" widths={[800, 1600]} sizes="60vw" format="webp" quality={80} class="pattern" />
+    <div class="l-container">
+      <div class="copy" data-reveal-stagger>
+        <Breadcrumb
+          label={s.a11y.breadcrumb}
+          items={[
+            { label: page.title, href: path('blog', locale) },
+            { label: c.label, href: pageAlternates[locale] },
+          ]}
+        />
+        <h1 id="page-title">{c.label}</h1>
+        <p class="lead">{c.lead}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="bar">
+    <div class="l-container bar-inner">
+      <nav class="cats" aria-label={page.categoriesLabel}>
+        <ul role="list">
+          <li><a href={path('blog', locale)}>{page.all}</a></li>
+          {
+            categoryIds.map((id) => (
+              <li>
+                <a
+                  href={blogCategoryPath(page.categories[id].slug, locale)}
+                  aria-current={id === category ? 'page' : undefined}
+                >
+                  {page.categories[id].label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <p class="count">{page.countShort.replace('{n}', String(posts.length))}</p>
+    </div>
+  </div>
+
+  <Section spacing="after-strip" labelledby="page-title">
+    <div class="l-stack" style="--gap: var(--space-xl)">
+      <ul id="category-grid" class="grid" role="list" data-reveal-stagger>
+        {
+          posts.map((p) => (
+            <PostCard
+              post={p}
+              locale={locale}
+              href={postPath(p.data.slug, locale)}
+              categoryLabel={c.label}
+              minutesLabel={page.minutes}
+            />
+          ))
+        }
+      </ul>
+      <ShowMore targetId="category-grid" label={page.showMore} visible={6} total={posts.length} />
+    </div>
+  </Section>
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .hero {
+    position: relative;
+    overflow: clip;
+    padding-block: var(--space-2xl);
+    background-color: var(--color-bg-base);
+  }
+
+  .hero :global(.pattern) {
+    display: none;
+  }
+
+  .copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-inline-size: 36rem;
+  }
+
+  h1 {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-5xl);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  @media (width >= 64rem) {
+    .hero {
+      min-block-size: 26rem;
+      padding-block: var(--space-3xl);
+    }
+
+    .hero :global(.pattern) {
+      display: block;
+      position: absolute;
+      inset-block: 0;
+      inset-inline-end: 0;
+      inline-size: 60%;
+      block-size: 100%;
+      object-fit: cover;
+      object-position: right center;
+    }
+  }
+
+  .bar {
+    padding-block: var(--space-m);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .bar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  .cats {
+    max-inline-size: 100%;
+  }
+
+  .cats ul {
+    display: flex;
+    gap: var(--space-2xs);
+    overflow-x: auto;
+    padding-block: var(--size-focus-ring);
+    scrollbar-width: none;
+  }
+
+  .cats a {
+    display: inline-block;
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .cats a:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .cats a[aria-current] {
+    border-color: var(--color-text-base);
+    background-color: var(--color-text-base);
+    color: var(--color-bg-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .count {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-xl) var(--space-m);
+  }
+</style>

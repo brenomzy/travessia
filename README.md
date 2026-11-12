@@ -19,10 +19,11 @@ Plain Astro 7 with a hand-built CSS system (no CSS framework), React islands wit
 | `npm run preview` | Preview the build |
 | `npm run check` | Type-check (`astro check`) |
 | `npm run lint:css` | Stylelint: tokens only, no raw values (SPEC §5.5.5) |
+| `npm run tokens` | Rebuilds `src/styles/tokens.css` and `src/tokens/tokens.ts` from `src/tokens/tokens.json` and checks contrast |
 | `npm run format` | Prettier |
-
-Phase 1 adds `npm run tokens`, which builds `tokens.css` and `tokens.ts` from `src/tokens/tokens.json`.
 
 ## Status
 
-Phase 0, the scaffold. Next steps are in SPEC §15.
+Phase 1 in progress: tokens, CSS layers, layout primitives, the page shell (banner, header with a Base UI drawer, footer), the first Home sections and `/styleguide`. Next steps are in SPEC §15.
+
+Design source: the Paper file "Travessia". Build from the pages above the divider (Design system, Home, Pages, Blog covers); pages marked "Archive" are history. Textures in `src/assets/textures/` are the approved stills from `docs/design/texture-lab/`.

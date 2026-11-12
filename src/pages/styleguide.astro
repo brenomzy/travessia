@@ -1,0 +1,727 @@
+---
+/** /styleguide (SPEC D11): every token and component from the real CSS. PT-BR only, noindex like the rest of the site. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/sections/Section.astro';
+import Logo from '../components/ui/Logo.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import WaitlistForm from '../components/ui/WaitlistForm.astro';
+import InvoiceCard from '../components/product/InvoiceCard.astro';
+import ConversionCard from '../components/product/ConversionCard.astro';
+import CrossingCard from '../components/product/CrossingCard.astro';
+import PhoneMock from '../components/product/PhoneMock.astro';
+import FeatureVignette from '../components/product/FeatureVignette.astro';
+import LogoSphere from '../components/ui/LogoSphere.astro';
+import SeamStrip from '../components/sections/SeamStrip.astro';
+import BillingToggle from '../components/islands/BillingToggle';
+import FeeCalculator from '../components/islands/FeeCalculator';
+import FeatureTabs from '../components/islands/FeatureTabs';
+import MotionScript from '../components/ui/MotionScript.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+import IntegrationMark from '../components/ui/IntegrationMark.astro';
+import IntegrationCard from '../components/ui/IntegrationCard.astro';
+import SyncLog from '../components/product/SyncLog.astro';
+import IntegrationFilter from '../components/islands/IntegrationFilter';
+import Chip from '../components/ui/Chip.astro';
+import ProblemList from '../components/sections/ProblemList.astro';
+import StepCards from '../components/sections/StepCards.astro';
+import ClosingCta from '../components/sections/ClosingCta.astro';
+import ComparePlans from '../components/sections/ComparePlans.astro';
+import FaqTopicsSection from '../components/sections/FaqTopicsSection.astro';
+import CalculatorExamples from '../components/sections/CalculatorExamples.astro';
+import Avatar from '../components/ui/Avatar.astro';
+import PostCover from '../components/ui/PostCover.astro';
+import PostCard from '../components/ui/PostCard.astro';
+import StoryCard from '../components/ui/StoryCard.astro';
+import Prose from '../components/ui/Prose.astro';
+import ChangeVisual from '../components/product/ChangeVisual.astro';
+import SignupForm from '../components/islands/SignupForm';
+import ChipFilter from '../components/islands/ChipFilter';
+import ListPanels from '../components/sections/ListPanels.astro';
+import SimpleCta from '../components/sections/SimpleCta.astro';
+import NewsletterBand from '../components/sections/NewsletterBand.astro';
+import PageIntro from '../components/sections/PageIntro.astro';
+import NoteCards from '../components/sections/NoteCards.astro';
+import FeeCalculatorSeam from '../components/islands/FeeCalculatorSeam';
+import seamCta from '../assets/textures/seam-cta.png';
+import seamMobile from '../assets/textures/mobile-seam-v2.png';
+import { getChanges, getFaqs, getPosts, getStories } from '../lib/content';
+import { tokens } from '../tokens/tokens';
+import { langTag, t } from '../i18n';
+import { getFeatures, getIntegrations, getPage, getPlans, getRates } from '../lib/content';
+
+const locale = 'pt-br';
+const s = t(locale);
+const g = s.styleguide;
+const home = await getPage(locale, 'home');
+const features = await getFeatures(locale);
+const integrations = await getIntegrations(locale);
+const rates = await getRates();
+const plans = await getPlans();
+const calc = home.calculator;
+const intPage = await getPage(locale, 'integrations');
+const pricingPage = await getPage(locale, 'pricing');
+const calcPage = await getPage(locale, 'calculator');
+const blogPage = await getPage(locale, 'blog');
+const storiesPage = await getPage(locale, 'stories');
+const openPage = await getPage(locale, 'openAccount');
+const posts = await getPosts(locale);
+const stories = await getStories(locale);
+const changes = await getChanges(locale);
+const visuals = changes.filter((c) => c.data.visual);
+const faqTopics = await Promise.all(
+  pricingPage.faq.topics.map(async (topic) => ({ ...topic, faqs: await getFaqs(locale, topic.id) })),
+);
+const sampleIntegrations = integrations.slice(0, 3);
+const sampleCategories = [...new Set(sampleIntegrations.map((i) => i.data.category))].map((id) => ({
+  id,
+  label: intPage.categories[id].label,
+  count: sampleIntegrations.filter((i) => i.data.category === id).length,
+}));
+const sphereItems = integrations.map((e) => ({
+  id: e.data.translationKey,
+  name: e.data.name,
+  weight: e.data.sphere.weight,
+  tone: e.data.sphere.tone,
+}));
+const themes = Object.keys(tokens.themes) as (keyof typeof tokens.themes)[];
+const swatches = Object.entries(tokens.palette).flatMap(([name, v]) =>
+  typeof v === 'string' ? [[name, v]] : Object.entries(v).map(([step, hex]) => [`${name}-${step}`, hex as string]),
+);
+const textSteps = Object.keys(tokens.text);
+const spaceSteps = Object.keys(tokens.space);
+const radii = Object.keys(tokens.radius);
+const shadows = Object.keys(tokens.shadow);
+const easings = [
+  ...Object.keys(tokens.motion.ease).map((k) => `ease-${k}`),
+  ...Object.keys(tokens.motion.spring).filter((k) => k !== 'notification').map((k) => `spring-${k}`),
+];
+const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'close'] as const;
+---
+
+<BaseLayout locale={locale} title={g.title} description={g.lead} alternates={{ 'pt-br': '/styleguide', en: '/styleguide' }}>
+  <Section>
+    <div class="l-stack" style="--gap: var(--space-s)">
+      <h1>{g.title}</h1>
+      <p class="lead">{g.lead}</p>
+    </div>
+  </Section>
+
+  <Section spacing="none">
+    <h2 class="label">{g.sections.themes}</h2>
+    <div class="themes">
+      {
+        themes.map((th) => (
+          <div class="theme" data-theme={th}>
+            <code>data-theme="{th}"</code>
+            <p class="sample">{g.sample}</p>
+            <p class="muted">color-text-muted</p>
+            <p class="subtle">color-text-subtle</p>
+            <p class="highlight">color-text-highlight</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section>
+    <div class="l-stack" style="--gap: var(--space-2xl)">
+      <div class="l-stack">
+        <h2 class="label">{g.sections.palette}</h2>
+        <ul class="swatches" role="list">
+          {
+            swatches.map(([name, hex]) => (
+              <li>
+                <span class="chip" style={`--swatch: var(--${name})`} />
+                <code>--{name}</code>
+                <code class="hex">{hex}</code>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.type}</h2>
+        {
+          textSteps.map((step) => (
+            <div class="type-row">
+              <code>--text-{step}</code>
+              <p style={`font-size: var(--text-${step}); line-height: var(--leading-${step})`}>{g.sample}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.space}</h2>
+        {
+          spaceSteps.map((step) => (
+            <div class="space-row">
+              <code>--space-{step}</code>
+              <span class="bar" style={`inline-size: var(--space-${step})`} />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="l-cluster" style="--gap: var(--space-l); --align: flex-start">
+        <div class="l-stack">
+          <h2 class="label">{g.sections.radius}</h2>
+          <div class="l-cluster">
+            {
+              radii.map((r) => (
+                <div class="l-stack" style="--gap: var(--space-2xs)">
+                  <span class="radius" style={`border-radius: var(--radius-${r})`} />
+                  <code>--radius-{r}</code>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section theme="tint">
+    <h2 class="label">{g.sections.shadow}</h2>
+    <div class="shadows">
+      {
+        shadows.map((sh) => (
+          <div class="shadow" style={`box-shadow: var(--shadow-${sh})`}>
+            <code>--shadow-{sh}</code>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.motion}</h2>
+    <div class="motion">
+      <p class="count" data-count-up>{g.countSample}</p>
+      <ul class="durations" role="list" data-reveal-stagger>
+        {
+          Object.entries(tokens.motion.duration).map(([name, seconds]) => (
+            <li class="duration">
+              <code>--duration-{name}</code>
+              <span>{seconds * 1000}ms</span>
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="easings" role="list">
+        {easings.map((name) => <li><code>--{name}</code></li>)}
+      </ul>
+    </div>
+    <MotionScript />
+  </Section>
+
+  <Section>
+    <div class="l-stack" style="--gap: var(--space-2xl)">
+      <div class="l-stack">
+        <h2 class="label">{g.sections.logo}</h2>
+        <div class="l-cluster" style="--gap: 0">
+          <div class="logo-slot" data-theme="light"><Logo /></div>
+          <div class="logo-slot" data-theme="dark"><Logo tone="dark" /></div>
+        </div>
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.buttons}</h2>
+        {
+          (['light', 'dark'] as const).map((th) => (
+            <div class="button-row l-cluster" data-theme={th}>
+              <Button variant="accent">{g.buttonLabels.accent}</Button>
+              <Button variant="secondary">{g.buttonLabels.secondary}</Button>
+              <Button variant="nav" size="s">{g.buttonLabels.nav}</Button>
+              <Button variant="link" href="#" arrow>{g.buttonLabels.link}</Button>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.icons}</h2>
+        <div class="l-cluster" style="--icon-size: var(--size-icon-m)">
+          {icons.map((name) => <Icon name={name} label={name} />)}
+        </div>
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.forms}</h2>
+        <div class="forms">
+          <div class="form-slot" data-theme="dark"><WaitlistForm locale={locale} layout="stacked" /></div>
+          <div class="form-slot" data-theme="primary"><WaitlistForm locale={locale} layout="inline" showNotice /></div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section theme="primary">
+    <h2 class="label">{g.sections.product}</h2>
+    <div class="product">
+      <InvoiceCard {...home.hero.ui.invoice} shadow="raised" />
+      <ConversionCard {...home.hero.ui.conversion} shadow="raised" />
+      <CrossingCard {...home.hero.ui.crossing} />
+      <CrossingCard {...home.hero.ui.crossing} layout="row" />
+      <PhoneMock {...home.hero.ui.phone} />
+    </div>
+  </Section>
+
+  <Section theme="tint">
+    <div class="l-stack" style="--gap: var(--space-2xl)">
+      <div>
+        <h2 class="label">{g.sections.sphere}</h2>
+        <LogoSphere items={sphereItems} />
+      </div>
+      <div data-billing-scope data-billing="monthly">
+        <h2 class="label">{g.sections.billing}</h2>
+        <BillingToggle client:visible label={home.pricing.billingLabel} options={home.pricing.billing} />
+      </div>
+      <div class="calculator-slot">
+        <h2 class="label">{g.sections.calculator}</h2>
+        <FeeCalculator
+          client:visible
+          lang={langTag[locale]}
+          currencies={rates.map(({ data }) => ({ id: data.id, name: data.name[locale], symbol: data.symbol, rate: data.rate }))}
+          feePercent={Math.min(...plans.map((p) => p.data.fee))}
+          defaultAmount={calc.defaultAmount}
+          brlSymbol={s.common.currencyBRL}
+          labels={{
+            amount: calc.amountLabel,
+            currency: calc.currencyLabel,
+            fee: calc.feeLabel,
+            converted: calc.convertedLabel,
+            rate: calc.rateLabel,
+            result: calc.resultLabel,
+            arrival: calc.arrival,
+            arrivalFallback: calc.arrivalFallback,
+            disclaimer: calc.disclaimer,
+          }}
+        />
+      </div>
+    </div>
+  </Section>
+
+  <SeamStrip />
+
+  <Section theme="dark" spacing="after-strip">
+    <h2 class="label">{g.sections.tabs}</h2>
+    <FeatureTabs client:visible label={home.showcase.tabsLabel} nav={home.showcase.app.nav} user={home.showcase.app.user} tabs={home.showcase.tabs}>
+      <Logo slot="logo" label="" />
+    </FeatureTabs>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.vignettes}</h2>
+    <div class="vignettes">
+      {features.map((f) => <FeatureVignette vignette={f.data.vignette} />)}
+    </div>
+    <div class="vignettes">
+      <FeatureVignette vignette={features[0].data.vignette} frame="panel" />
+      <FeatureVignette vignette={features[3].data.vignette} frame="bare" />
+    </div>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.navigation}</h2>
+    <div class="l-stack">
+      <Breadcrumb
+        label={s.a11y.breadcrumb}
+        items={[
+          { label: s.nav.items[0].label, href: '/produto' },
+          { label: features[0].data.name, href: `/produto/${features[0].data.slug}` },
+        ]}
+      />
+      <ul class="l-cluster" role="list" style="--gap: var(--space-2xs)">
+        <li><Chip href="/integracoes">{integrations[0].data.name}</Chip></li>
+        <li><Chip>{integrations[1].data.name}</Chip></li>
+      </ul>
+    </div>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.integrations}</h2>
+    <div class="l-stack" style="--gap: var(--space-xl)">
+      <div class="l-cluster" style="--gap: var(--space-s)">
+        <IntegrationMark name="Livro Caixa" />
+        <IntegrationMark name="Freela" tone="primary" />
+        <IntegrationMark name="Trampo" tone="inverse" />
+        <IntegrationMark name="Travessia" text="t" tone="inverse" size="l" />
+      </div>
+      <div class="filter-demo" data-theme="dark">
+        <IntegrationFilter
+          client:idle
+          gridId="styleguide-grid"
+          categories={sampleCategories}
+          total={sampleIntegrations.length}
+          labels={{
+            search: intPage.index.searchLabel,
+            group: intPage.index.groupLabel,
+            all: intPage.index.all,
+            resultCount: intPage.index.resultCount,
+            resultOne: intPage.index.resultOne,
+          }}
+        />
+      </div>
+      <ul id="styleguide-grid" class="integration-grid" role="list">
+        {
+          sampleIntegrations.map(({ data }) => (
+            <IntegrationCard
+              integration={data}
+              href={`/integracoes/${data.slug}`}
+              categoryLabel={intPage.categories[data.category].label}
+              badge={data.featured ? intPage.index.popular : undefined}
+            />
+          ))
+        }
+      </ul>
+      <p id="styleguide-grid-empty" hidden>{intPage.index.empty}</p>
+      <div class="log-slot"><SyncLog {...intPage.categories.accounting.card} /></div>
+    </div>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.content}</h2>
+    <div class="l-stack" style="--gap: var(--space-2xl)">
+      <div class="l-cluster" style="--gap: var(--space-s)">
+        <Avatar name="Marina Teles" size="s" />
+        <Avatar name="Marina Teles" />
+        <Avatar name="Marina Teles" size="l" />
+      </div>
+      <div class="covers">
+        {
+          (Object.keys(blogPage.categories) as (keyof typeof blogPage.categories)[]).map((c) => (
+            <PostCover category={c} categoryLabel={blogPage.categories[c].label} title={posts.find((p) => p.data.category === c)?.data.title} />
+          ))
+        }
+      </div>
+      <ChipFilter
+        client:visible
+        targetId="sg-cards"
+        resultCount="{count}"
+        groups={[{ id: 'kind', label: storiesPage.filterLabel, all: storiesPage.all, options: [{ value: 'design', label: storiesPage.crafts.design }, { value: 'studio', label: storiesPage.studios }] }]}
+      />
+      <ul id="sg-cards" class="sg-grid" role="list">
+        <PostCard post={posts[0]} locale={locale} href="/blog" categoryLabel={blogPage.categories[posts[0].data.category].label} minutesLabel={blogPage.minutes} />
+        {stories.slice(0, 2).map(({ data }) => (
+          <StoryCard story={data} href="/historias" readLabel={storiesPage.read} readAbout={storiesPage.readAbout.replace('{name}', data.person.name)} tags={[data.craft, data.teamSize > 1 ? 'studio' : ''].join(' ').trim()} />
+        ))}
+      </ul>
+      <div class="sg-grid">
+        {visuals.map((c) => c.data.visual && <ChangeVisual visual={c.data.visual} />)}
+      </div>
+      <Prose>
+        <h2>Prose</h2>
+        <p>{posts[0].data.description}</p>
+        <blockquote><p>{stories[0].data.quote}</p><p>{stories[0].data.person.name}</p></blockquote>
+        <ol><li>{storiesPage.lead}</li><li>{blogPage.lead}</li></ol>
+      </Prose>
+      <div class="signup-slot" data-theme="primary">
+        <SignupForm client:visible lang="pt-BR" privacyHref="/privacidade" labels={{ ...openPage.form, success: openPage.success, toast: openPage.toast }} />
+      </div>
+    </div>
+  </Section>
+  <PageIntro title={storiesPage.title} lead={storiesPage.lead} stats={storiesPage.stats} level="h2" />
+  <ListPanels panels={[{ title: g.sections.content, items: [blogPage.lead, storiesPage.lead], tone: 'tint' }, { title: g.sections.content, items: [blogPage.lead], tone: 'dark' }]} />
+  <SimpleCta title={blogPage.newsletter.title} link={{ label: blogPage.newsletter.submit, href: '/blog' }} />
+  <NewsletterBand locale={locale} {...blogPage.newsletter} />
+
+  <Section spacing="none">
+    <h2 class="label">{g.sections.interior}</h2>
+  </Section>
+  <ProblemList {...features[0].data.problem} />
+  <StepCards title={s.interior.stepsTitle} steps={features[0].data.steps} />
+  <div data-billing-scope data-billing="monthly">
+    <ComparePlans
+      locale={locale}
+      content={pricingPage.compare}
+      labels={pricingPage.plans}
+      plans={plans}
+      currencyBRL={s.common.currencyBRL}
+      ctaHref="/abrir-conta"
+    />
+  </div>
+  <Section spacing="none">
+    <h2 class="label">{g.sections.calculatorSeam}</h2>
+  </Section>
+  <section class="seam-demo" data-theme="dark" style={`--seam-desktop: url(${seamCta.src}); --seam-mobile: url(${seamMobile.src});`}>
+    <FeeCalculatorSeam
+      client:visible
+      headingLevel="h2"
+      titleId="seam-demo-title"
+      lang={langTag[locale]}
+      currencies={rates.map(({ data }) => ({ id: data.id, name: data.name[locale], symbol: data.symbol, rate: data.rate }))}
+      feePercent={Math.min(...plans.map((p) => p.data.fee))}
+      defaultAmount={calcPage.tool.defaultAmount}
+      brlSymbol={s.common.currencyBRL}
+      labels={{
+        title: calcPage.tool.title,
+        currency: calcPage.tool.currencyLabel,
+        amount: calcPage.tool.amountLabel,
+        fee: calcPage.tool.feeLabel,
+        rate: calcPage.tool.rateLabel,
+        arrives: calcPage.tool.arrivesLabel,
+        arrivesFallback: calcPage.tool.arrivesFallback,
+        result: calcPage.tool.resultLabel,
+        disclaimer: calcPage.tool.disclaimer,
+      }}
+    />
+  </section>
+  <CalculatorExamples
+    locale={locale}
+    content={calcPage.examples}
+    rates={rates}
+    feePercent={Math.min(...plans.map((p) => p.data.fee))}
+    currencyBRL={s.common.currencyBRL}
+  />
+  <NoteCards notes={calcPage.notes} spacing="none" />
+  <FaqTopicsSection title={pricingPage.faq.title} tabsLabel={pricingPage.faq.tabsLabel} topics={faqTopics} />
+  <ClosingCta locale={locale} />
+</BaseLayout>
+
+<style>
+  .lead {
+    max-inline-size: var(--size-measure-text);
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+  }
+
+  .label {
+    margin-block-end: var(--space-m);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  code {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+  }
+
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-s);
+  }
+
+  .theme {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding: var(--space-m);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-base);
+  }
+
+  .sample {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .muted {
+    color: var(--color-text-muted);
+  }
+
+  .subtle {
+    color: var(--color-text-subtle);
+  }
+
+  .highlight {
+    color: var(--color-text-highlight);
+  }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: var(--space-s);
+  }
+
+  .swatches li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .chip {
+    block-size: var(--space-2xl);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-s);
+    background-color: var(--swatch);
+  }
+
+  .hex {
+    font-family: var(--font-mono);
+  }
+
+  .type-row,
+  .space-row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    align-items: baseline;
+    gap: var(--space-m);
+    padding-block: var(--space-2xs);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .type-row p {
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  .bar {
+    block-size: var(--space-s);
+    background-color: var(--color-accent-data);
+  }
+
+  .radius {
+    inline-size: var(--space-3xl);
+    block-size: var(--space-3xl);
+    border: var(--size-focus-ring) solid var(--color-border-strong);
+  }
+
+  .shadows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-l);
+  }
+
+  .shadow {
+    display: flex;
+    align-items: flex-end;
+    min-block-size: 8rem;
+    padding: var(--space-s);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+  }
+
+  .motion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+
+  .count {
+    color: var(--color-text-highlight);
+    font-size: var(--text-6xl);
+    line-height: var(--leading-6xl);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .durations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+
+  .easings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
+    flex-basis: 100%;
+  }
+
+  .duration {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-s) var(--space-m);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-1);
+  }
+
+  .filter-demo {
+    display: grid;
+    grid-template-areas: 'search' 'groups';
+    gap: var(--space-m);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .filter-demo :global(astro-island) {
+    display: contents;
+  }
+
+  .integration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .log-slot {
+    max-inline-size: 25rem;
+  }
+
+  .seam-demo {
+    background-color: var(--color-bg-base);
+  }
+
+  @media (width >= 64rem) {
+    .seam-demo {
+      background-image: var(--seam-desktop);
+      background-size: cover;
+      background-position: center;
+      image-rendering: pixelated;
+    }
+  }
+
+  .covers,
+  .sg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .signup-slot {
+    max-inline-size: 28.75rem;
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .calculator-slot {
+    max-inline-size: 37.5rem;
+  }
+
+  .logo-slot {
+    padding: var(--space-l);
+    background-color: var(--color-bg-base);
+    --logo-width: 15rem;
+  }
+
+  .button-row {
+    padding: var(--space-m);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .forms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .form-slot {
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .product,
+  .vignettes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+    align-items: start;
+    gap: var(--space-l);
+  }
+
+  .vignettes > :global(*) {
+    border-radius: var(--radius-l);
+  }
+</style>

@@ -1,0 +1,63 @@
+{
+  "title": "Travessia or an account abroad?",
+  "slug": "foreign-account",
+  "label": "Foreign account",
+  "description": "Compare getting paid through Travessia and keeping money in an account abroad: costs, tax reporting, tax invoice and the path to reais.",
+  "updated": "2026-10-20",
+  "reviewer": "Marina Teles, accountant",
+  "short": {
+    "title": "Short answer",
+    "text": "An account abroad holds dollars, but the money still has to come back to Brazil and be declared. Travessia receives in your client's currency and takes it to reais, with the tax invoice in the same flow.",
+    "note": "An account abroad makes sense if you spend in dollars, for example living abroad part of the year."
+  },
+  "table": {
+    "title": "Side by side",
+    "us": "Travessia",
+    "them": "Account abroad",
+    "rows": [
+      {
+        "label": "Opening",
+        "us": "Online, with a Brazilian CPF or CNPJ",
+        "them": "Often asks for a local address or ID"
+      },
+      {
+        "label": "Monthly cost",
+        "us": "Depends on plan, from R$ 0",
+        "them": "Maintenance fee at some banks"
+      },
+      {
+        "label": "Bringing it to reais",
+        "us": "Conversion at 0.6% and Pix in 1 business day",
+        "them": "International wire, with spread and fees"
+      },
+      {
+        "label": "Tax invoice",
+        "us": "Issued with every payment",
+        "them": "You issue it separately"
+      },
+      {
+        "label": "Tax reporting",
+        "us": "Payments already in reais in the monthly report",
+        "them": "A foreign account goes on the annual return"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Questions about switching",
+    "items": [
+      {
+        "question": "Can I keep both?",
+        "answer": "Yes. Many people use the foreign account for spending abroad and Travessia to get paid by clients."
+      },
+      {
+        "question": "Is the dollar balance in Travessia an account abroad?",
+        "answer": "No. It's a foreign-currency balance inside a Brazilian account, converted when you decide."
+      },
+      {
+        "question": "Do I need to report anything differently?",
+        "answer": "Payments count as income in Brazil. Check with your accountant how to report accounts you already hold abroad."
+      }
+    ]
+  },
+  "translationKey": "conta-no-exterior"
+}

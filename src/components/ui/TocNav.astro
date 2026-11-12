@@ -1,0 +1,87 @@
+---
+/**
+ * "On this page" links built from a rendered entry's h2s (blog posts, legal pages). The current
+ * section is marked as you scroll; without JS it's a plain list of links.
+ */
+interface Props {
+  label: string;
+  headings: { depth: number; slug: string; text: string }[];
+}
+const { label, headings } = Astro.props;
+const items = headings.filter((h) => h.depth === 2);
+---
+
+<nav class="toc" aria-label={label} data-toc>
+  <p class="label" aria-hidden="true">{label}</p>
+  <ol role="list">
+    {
+      items.map((h) => (
+        <li>
+          <a href={`#${h.slug}`}>{h.text}</a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<script>
+  for (const toc of document.querySelectorAll<HTMLElement>('[data-toc]')) {
+    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>('a'));
+    const targets = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1)))).filter(Boolean) as HTMLElement[];
+    const mark = (id: string) => {
+      for (const a of links) {
+        if (decodeURIComponent(a.hash.slice(1)) === id) a.setAttribute('aria-current', 'location');
+        else a.removeAttribute('aria-current');
+      }
+    };
+    if (targets[0]) mark(targets[0].id);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) mark(visible[0].target.id);
+      },
+      { rootMargin: '0px 0px -70% 0px' },
+    );
+    for (const t of targets) observer.observe(t);
+  }
+</script>
+
+<style>
+  .toc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .label {
+    padding-block-end: var(--space-xs);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  ol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  a {
+    display: block;
+    padding-inline-start: var(--space-s);
+    border-inline-start: var(--size-focus-ring) solid transparent;
+    color: var(--color-text-subtle);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-text-base);
+  }
+
+  a[aria-current] {
+    border-inline-start-color: var(--color-accent-data-strong);
+    color: var(--color-link);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

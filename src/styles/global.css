@@ -1,0 +1,10 @@
+/* Layer order is declared once (SPEC §5.5.1). Component styles are Astro-scoped and sit outside the layers. */
+@layer reset, tokens, base, layout, components, utilities;
+
+@import './reset.css' layer(reset);
+@import './tokens.css' layer(tokens);
+@import './base.css' layer(base);
+@import './layout.css' layer(layout);
+@import './utilities.css' layer(utilities);
+/* Unlayered on purpose: see the note in motion.css. */
+@import './motion.css';

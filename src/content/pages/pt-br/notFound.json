@@ -1,0 +1,24 @@
+{
+  "page": "notFound",
+  "translationKey": "notFound",
+  "seo": {
+    "title": "Página não encontrada | Travessia",
+    "description": "Esta página não existe."
+  },
+  "title": "Esta página não existe",
+  "lead": "Erro 404: o link pode estar errado ou a página mudou de endereço. Estes caminhos costumam resolver:",
+  "links": [
+    {
+      "label": "Página inicial",
+      "route": "home"
+    },
+    {
+      "label": "Calculadora de câmbio",
+      "route": "calculator"
+    },
+    {
+      "label": "Blog",
+      "route": "blog"
+    }
+  ]
+}

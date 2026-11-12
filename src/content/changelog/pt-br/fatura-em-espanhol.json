@@ -1,0 +1,9 @@
+{
+  "title": "Faturas em espanhol",
+  "slug": "fatura-em-espanhol",
+  "date": "2026-09-18",
+  "type": "new",
+  "area": "invoices",
+  "summary": "Além do inglês e do português, a fatura agora pode sair em espanhol, com datas e números no formato do cliente.",
+  "translationKey": "fatura-em-espanhol"
+}

@@ -1,0 +1,128 @@
+---
+/**
+ * Buttons and button-like links (Paper: Design system → Components → Buttons and links).
+ * One accent button per view. Everything is a full pill. Labels are verbs in sentence case.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+type Props = {
+  variant?: 'accent' | 'secondary' | 'nav' | 'link';
+  size?: 's' | 'm' | 'l';
+  href?: string;
+  type?: 'button' | 'submit';
+  arrow?: boolean;
+  block?: boolean;
+} & Omit<HTMLAttributes<'a'>, 'type'>;
+
+const { variant = 'accent', size = 'm', href, type = 'button', arrow = false, block = false, class: className, ...rest } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['button', className]}
+  data-variant={variant}
+  data-size={size}
+  data-block={block ? '' : undefined}
+  href={href}
+  type={href ? undefined : type}
+  {...rest}
+>
+  <slot />
+  {arrow && <Icon name="arrow-right" />}
+</Tag>
+
+<style>
+  .button {
+    --_bg: var(--color-accent-primary);
+    --_fg: var(--color-on-accent);
+    --_border: transparent;
+    --icon-size: var(--size-icon-s);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    min-block-size: var(--size-tap);
+    padding-block: var(--space-xs);
+    padding-inline: var(--space-m);
+    border: var(--size-focus-ring) solid var(--_border);
+    border-radius: var(--radius-pill);
+    background-color: var(--_bg);
+    color: var(--_fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover),
+      translate var(--duration-fast) var(--ease-hover);
+  }
+
+  .button:hover {
+    text-decoration: none;
+  }
+
+  .button:active {
+    translate: 0 1px;
+  }
+
+  [data-variant='accent']:hover {
+    --_bg: var(--color-accent-primary-hover);
+  }
+
+  [data-variant='secondary'] {
+    --_bg: transparent;
+    --_fg: var(--color-text-base);
+    --_border: var(--color-border-strong);
+  }
+
+  [data-variant='secondary']:hover {
+    --_bg: var(--color-text-base);
+    --_fg: var(--color-bg-base);
+  }
+
+  [data-variant='nav'] {
+    --_bg: var(--color-text-base);
+    --_fg: var(--color-bg-base);
+  }
+
+  [data-variant='link'] {
+    --_bg: transparent;
+    --_fg: var(--color-link);
+    padding-inline: 0;
+    min-block-size: auto;
+  }
+
+  [data-variant='link']:hover {
+    text-decoration: underline;
+    text-decoration-thickness: var(--size-hairline);
+    text-underline-offset: 0.2em;
+  }
+
+  [data-variant='link'] :global(.icon) {
+    transition: translate var(--duration-fast) var(--ease-hover);
+  }
+
+  [data-variant='link']:hover :global(.icon) {
+    translate: var(--space-3xs) 0;
+  }
+
+  [data-size='s'] {
+    min-block-size: auto;
+    padding-block: var(--space-2xs);
+    padding-inline: var(--space-s);
+    font-size: var(--text-sm);
+  }
+
+  [data-size='l'] {
+    padding-block: var(--space-s);
+    padding-inline: var(--space-l);
+  }
+
+  [data-block] {
+    inline-size: 100%;
+  }
+</style>

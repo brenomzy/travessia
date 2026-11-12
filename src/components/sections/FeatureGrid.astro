@@ -1,0 +1,110 @@
+---
+/** Four feature cards from the `features` collection (Paper: Home → Section · Features). Page cards stay flat with a border. */
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import FeatureVignette from '../product/FeatureVignette.astro';
+import type { Locale } from '../../i18n';
+import { featurePath } from '../../i18n/routes';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  link: { label: string; href: string };
+  features: CollectionEntry<'features'>[];
+}
+const { locale, title, link, features } = Astro.props;
+---
+
+<Section labelledby="features-title">
+  <div class="l-stack" style="--gap: var(--space-2xl)">
+    <SectionHeader id="features-title" title={title}>
+      <Button variant="link" href={link.href} arrow>{link.label}</Button>
+    </SectionHeader>
+    <ul class="grid" role="list" data-reveal-stagger>
+      {
+        features.map(({ data }) => (
+          <li class="card">
+            <FeatureVignette vignette={data.vignette} />
+            <div class="text">
+              <h3>
+                <a href={featurePath(data.slug, locale)}>{data.name}</a>
+              </h3>
+              <p>{data.summary}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Section>
+
+<MotionScript />
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+    transition: box-shadow var(--duration-fast) var(--ease-hover);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-1);
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-l);
+  }
+
+  h3 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+  }
+
+  /* The whole card is the link target; the heading carries the name. */
+  h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  h3 a:focus-visible {
+    outline: none;
+  }
+
+  .card:has(a:focus-visible) {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .card:hover h3 a {
+    text-decoration: underline;
+    text-decoration-thickness: var(--size-hairline);
+  }
+
+  p {
+    color: var(--color-text-muted);
+  }
+</style>

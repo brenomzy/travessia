@@ -1,0 +1,41 @@
+---
+/** A section's h2 with a lead or a link on the far side, aligned to the heading's last line. */
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  lead?: string;
+}
+const { id, title, lead } = Astro.props;
+---
+
+<div class="header" data-reveal-stagger>
+  <h2 id={id}>{title}</h2>
+  {lead && <p class="lead">{lead}</p>}
+  <slot />
+</div>
+
+<MotionScript />
+
+<style>
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m) var(--space-2xl);
+  }
+
+  h2 {
+    flex: 1 1 28rem;
+    max-inline-size: 47.5rem;
+  }
+
+  .lead {
+    flex: 0 1 26.25rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+</style>

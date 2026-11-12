@@ -1,0 +1,63 @@
+{
+  "title": "Travessia or tracking taxes in a spreadsheet?",
+  "slug": "taxes-in-a-spreadsheet",
+  "label": "Taxes in a spreadsheet",
+  "description": "Compare Travessia's monthly report with tracking payments, rates and tax invoices in a spreadsheet.",
+  "updated": "2026-10-08",
+  "reviewer": "Marina Teles, accountant",
+  "short": {
+    "title": "Short answer",
+    "text": "A spreadsheet works with one or two clients. Past that, every month means looking up rates, tax invoices and checks by hand. Travessia puts it all in one report ready for your accountant.",
+    "note": "If you get one payment a month and have time to check it, a spreadsheet still works."
+  },
+  "table": {
+    "title": "Side by side",
+    "us": "Travessia",
+    "them": "Spreadsheet",
+    "rows": [
+      {
+        "label": "Time each month",
+        "us": "Minutes to check",
+        "them": "Hours to build"
+      },
+      {
+        "label": "Rate for each payment",
+        "us": "Recorded the day the money lands",
+        "them": "You look it up and copy it"
+      },
+      {
+        "label": "Tax invoice",
+        "us": "Issued and attached automatically",
+        "them": "You issue it and note the number"
+      },
+      {
+        "label": "Carnê-leão",
+        "us": "CSV in the app's format",
+        "them": "You type each entry"
+      },
+      {
+        "label": "Accountant",
+        "us": "Read-only access to reports",
+        "them": "Gets the spreadsheet by email"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Questions about switching",
+    "items": [
+      {
+        "question": "Can I import my spreadsheet history?",
+        "answer": "Not yet. Reports start from your first payment through Travessia."
+      },
+      {
+        "question": "Does my accountant need an account?",
+        "answer": "No. They get read-only access, without your account password."
+      },
+      {
+        "question": "What if I get paid outside Travessia too?",
+        "answer": "Those payments stay out of the report. You can add them separately or bring those clients to Travessia."
+      }
+    ]
+  },
+  "translationKey": "planilha"
+}

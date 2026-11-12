@@ -1,0 +1,9 @@
+{
+  "title": "Due dates in business days",
+  "slug": "business-day-due-dates",
+  "date": "2026-11-06",
+  "type": "improved",
+  "area": "invoices",
+  "summary": "When you create an invoice, you set the due date in the client's business days. Holidays in the US, the UK and the eurozone are already counted.",
+  "translationKey": "vencimento-dias-uteis"
+}

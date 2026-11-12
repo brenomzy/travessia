@@ -1,0 +1,148 @@
+---
+/**
+ * FAQ (Paper: Home → Section · FAQ). Native <details>, so every answer is in the server HTML (SPEC §5.6.1),
+ * plus FAQPage JSON-LD built from the same entries (SPEC rule 9).
+ */
+import type { CollectionEntry } from 'astro:content';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  title: string;
+  lead?: string;
+  /** compact: the smaller heading used on feature pages (Paper: 40 px). */
+  size?: 'default' | 'compact';
+  /** Every answer starts open (Paper: /en/for-clients). Default: only the first. */
+  openAll?: boolean;
+  /** Entries from the faqs collection, or any list shaped like them (comparison pages). */
+  faqs: { data: Pick<CollectionEntry<'faqs'>['data'], 'question' | 'answer'> }[];
+}
+const { title, lead, faqs, size = 'default', openAll = false } = Astro.props;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ data }) => ({
+    '@type': 'Question',
+    name: data.question,
+    acceptedAnswer: { '@type': 'Answer', text: data.answer },
+  })),
+};
+---
+
+<section class="faq" data-size={size} aria-labelledby="faq-title" data-theme="light">
+  <div class="l-container layout">
+    <div class="intro" data-reveal-stagger>
+      <h2 id="faq-title">{title}</h2>
+      {lead && <p>{lead}</p>}
+      <slot />
+    </div>
+    <div class="list" data-reveal-stagger>
+      {
+        faqs.map(({ data }, i) => (
+          <details name={openAll ? undefined : 'faq'} open={openAll || i === 0}>
+            <summary>
+              <span>{data.question}</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 12h14" />
+                <path class="vertical" d="M12 5v14" />
+              </svg>
+            </summary>
+            <p>{data.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</section>
+
+<MotionScript />
+
+<style>
+  .faq {
+    padding-block: var(--space-section);
+    background-color: var(--color-bg-base);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xl) var(--space-3xl);
+  }
+
+  .intro {
+    display: flex;
+    flex: 0 1 26.25rem;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-inline-size: 26.25rem;
+  }
+
+  .intro p {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  [data-size='compact'] h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+  }
+
+  .list {
+    flex: 1 1 30rem;
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  details {
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-m);
+    cursor: pointer;
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary:hover span {
+    text-decoration: underline;
+    text-decoration-thickness: var(--size-hairline);
+    text-underline-offset: 0.2em;
+  }
+
+  svg {
+    inline-size: var(--size-icon-m);
+    block-size: var(--size-icon-m);
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .vertical {
+    transition: opacity var(--duration-fast) var(--ease-fade);
+  }
+
+  details[open] .vertical {
+    opacity: 0;
+  }
+
+  details p {
+    max-inline-size: var(--size-measure-text);
+    padding-block-end: var(--space-l);
+    color: var(--color-text-muted);
+  }
+</style>

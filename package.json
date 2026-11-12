@@ -13,7 +13,8 @@
     "lint:css": "stylelint \"src/**/*.{css,astro}\" --allow-empty-input",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "astro": "astro"
+    "astro": "astro",
+    "tokens": "node scripts/build-tokens.ts"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.8",

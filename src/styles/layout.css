@@ -1,0 +1,110 @@
+/*
+ * Layout primitives (SPEC §5.5.3), in the spirit of Every Layout.
+ * Each takes options through custom properties, e.g. style="--gap: var(--space-l)".
+ */
+
+.l-container {
+  --_measure: var(--measure, var(--size-measure-content));
+  width: min(100% - 2 * var(--space-gutter), var(--_measure));
+  margin-inline: auto;
+}
+
+.l-container[data-width='narrow'] {
+  --_measure: var(--size-measure-narrow);
+}
+
+.l-container[data-width='text'] {
+  --_measure: var(--size-measure-text);
+}
+
+.l-container[data-width='wide'] {
+  --_measure: 100%;
+}
+
+.l-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--gap, var(--space-s));
+}
+
+.l-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: var(--align, center);
+  justify-content: var(--justify, flex-start);
+  gap: var(--gap, var(--space-s));
+}
+
+.l-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--min, 16rem), 100%), 1fr));
+  gap: var(--gap, var(--space-m));
+}
+
+.l-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, var(--space-m));
+}
+
+.l-switcher > * {
+  flex-grow: 1;
+  flex-basis: calc((var(--threshold, 48rem) - 100%) * 999);
+}
+
+.l-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, var(--space-l));
+  align-items: var(--align, stretch);
+}
+
+.l-sidebar > :first-child {
+  flex-basis: var(--side-width, 20rem);
+  flex-grow: 1;
+}
+
+.l-sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--content-min, 50%);
+}
+
+.l-sidebar[data-side='end'] > :first-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--content-min, 50%);
+}
+
+.l-sidebar[data-side='end'] > :last-child {
+  flex-basis: var(--side-width, 20rem);
+  flex-grow: 1;
+  min-inline-size: auto;
+}
+
+.l-cover {
+  display: flex;
+  flex-direction: column;
+  min-block-size: var(--min-height, 100svh);
+  padding: var(--pad, var(--space-l));
+}
+
+.l-cover > [data-principal] {
+  margin-block: auto;
+}
+
+.l-frame {
+  aspect-ratio: var(--ratio, 16 / 9);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.l-frame > img,
+.l-frame > video {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}

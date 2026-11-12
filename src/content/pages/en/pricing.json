@@ -1,0 +1,107 @@
+{
+  "page": "pricing",
+  "translationKey": "pricing",
+  "seo": {
+    "title": "Pricing: the fee is always 0.6% | Travessia",
+    "description": "No fee to receive. You pay 0.6% only when you convert, on any plan. Compare Free, Pro and Studio."
+  },
+  "hero": {
+    "title": "The fee is always 0.6%. The plan changes the rest.",
+    "lead": "No fee to receive. You pay 0.6% only when you convert, on any plan."
+  },
+  "plans": {
+    "heading": "Plans",
+    "billingLabel": "Billing",
+    "billing": {
+      "monthly": "Monthly",
+      "annual": "Yearly, 2 months free"
+    },
+    "perMonth": "per month",
+    "perYear": "per year",
+    "popular": "Most chosen",
+    "usdNote": "≈ US$ {usd}"
+  },
+  "compare": {
+    "title": "Compare the plans side by side",
+    "note": "The conversion fee is 0.6% on all of them.",
+    "featureLabel": "Feature",
+    "included": "Included",
+    "notIncluded": "No",
+    "helpLabel": "What this means: {label}",
+    "rows": [
+      {
+        "label": "Invoices a month",
+        "values": {
+          "gratis": "3",
+          "pro": "Unlimited",
+          "estudio": "Unlimited"
+        }
+      },
+      {
+        "label": "Balance currencies",
+        "values": {
+          "gratis": "Dollar",
+          "pro": "Dollar, euro and pound",
+          "estudio": "Dollar, euro and pound"
+        }
+      },
+      {
+        "label": "Automatic nota fiscal",
+        "values": {
+          "gratis": true,
+          "pro": true,
+          "estudio": true
+        }
+      },
+      {
+        "label": "Monthly report for your accountant",
+        "values": {
+          "gratis": false,
+          "pro": true,
+          "estudio": true
+        },
+        "help": "A summary of the month's payments, conversions and tax invoices, as a PDF and a spreadsheet."
+      },
+      {
+        "label": "People on the account",
+        "values": {
+          "gratis": "1",
+          "pro": "1",
+          "estudio": "Up to 10"
+        },
+        "help": "Who can sign in to the account with their own login, such as partners or whoever handles finance."
+      },
+      {
+        "label": "Direct access for your accountant",
+        "values": {
+          "gratis": false,
+          "pro": false,
+          "estudio": true
+        },
+        "help": "Your accountant gets read-only access to reports and tax invoices, without seeing your balance."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "tabsLabel": "Topics",
+    "topics": [
+      {
+        "id": "general",
+        "label": "Getting started"
+      },
+      {
+        "id": "pricing",
+        "label": "Fees"
+      },
+      {
+        "id": "taxes",
+        "label": "Taxes"
+      },
+      {
+        "id": "product",
+        "label": "For clients"
+      }
+    ]
+  }
+}

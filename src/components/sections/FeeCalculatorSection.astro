@@ -1,0 +1,111 @@
+---
+/**
+ * "Quanto vou receber?" (Paper: Home → Section · Calculator): copy on the left, the FeeCalculator
+ * island on the right. Reused on Pricing and /calculadora.
+ */
+import Section from './Section.astro';
+import Icon from '../ui/Icon.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import FeeCalculator from '../islands/FeeCalculator';
+import { langTag, type Locale } from '../../i18n';
+import type { getPage, getRates } from '../../lib/content';
+
+type Home = Awaited<ReturnType<typeof getPage<'home'>>>;
+interface Props {
+  locale: Locale;
+  content: Home['calculator'];
+  rates: Awaited<ReturnType<typeof getRates>>;
+  /** Percent, from the plans. */
+  feePercent: number;
+  currencyBRL: string;
+  theme?: 'light' | 'tint';
+}
+const { locale, content: p, rates, feePercent, currencyBRL, theme = 'tint' } = Astro.props;
+const currencies = rates.map(({ data }) => ({ id: data.id, name: data.name[locale], symbol: data.symbol, rate: data.rate }));
+---
+
+<Section theme={theme} labelledby="calculator-title">
+  <div class="layout">
+    <div class="copy" data-reveal-stagger>
+      <h2 id="calculator-title">{p.title}</h2>
+      <p class="lead">{p.lead}</p>
+      <ul role="list">
+        {
+          p.points.map((point) => (
+            <li>
+              <Icon name="check-circle" />
+              {point}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="calculator" data-reveal>
+      <FeeCalculator
+        client:visible
+        lang={langTag[locale]}
+        currencies={currencies}
+        feePercent={feePercent}
+        defaultAmount={p.defaultAmount}
+        brlSymbol={currencyBRL}
+        labels={{
+          amount: p.amountLabel,
+          currency: p.currencyLabel,
+          fee: p.feeLabel,
+          converted: p.convertedLabel,
+          rate: p.rateLabel,
+          result: p.resultLabel,
+          arrival: p.arrival,
+          arrivalFallback: p.arrivalFallback,
+          disclaimer: p.disclaimer,
+        }}
+      />
+    </div>
+  </div>
+</Section>
+
+<MotionScript />
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xl) var(--space-3xl);
+  }
+
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    flex: 1 1 22rem;
+    max-inline-size: 31.25rem;
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-block-start: var(--space-xs);
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    --icon-size: var(--size-icon-m);
+  }
+
+  .calculator {
+    flex: 1 1 24rem;
+    min-inline-size: 0;
+    max-inline-size: 37.5rem;
+  }
+</style>

@@ -1,0 +1,125 @@
+[
+  {
+    "id": "gratis",
+    "name": {
+      "pt-br": "Grátis",
+      "en": "Free"
+    },
+    "summary": {
+      "pt-br": "Para quem tem um cliente só.",
+      "en": "For one client."
+    },
+    "price": {
+      "monthly": {
+        "brl": 0,
+        "usd": 0
+      },
+      "annual": {
+        "brl": 0,
+        "usd": 0
+      }
+    },
+    "fee": 0.6,
+    "seats": 1,
+    "features": {
+      "pt-br": [
+        "Até 3 faturas por mês",
+        "Saldo em dólar",
+        "Nota fiscal automática"
+      ],
+      "en": [
+        "Up to 3 invoices a month",
+        "Dollar balance",
+        "Automatic nota fiscal"
+      ]
+    },
+    "highlight": false,
+    "cta": {
+      "pt-br": "Começar grátis",
+      "en": "Start for free"
+    },
+    "order": 1
+  },
+  {
+    "id": "pro",
+    "name": {
+      "pt-br": "Pro",
+      "en": "Pro"
+    },
+    "summary": {
+      "pt-br": "Para quem tem vários clientes.",
+      "en": "For several clients."
+    },
+    "price": {
+      "monthly": {
+        "brl": 39,
+        "usd": 7
+      },
+      "annual": {
+        "brl": 390,
+        "usd": 72
+      }
+    },
+    "fee": 0.6,
+    "seats": 1,
+    "features": {
+      "pt-br": [
+        "Faturas sem limite",
+        "Saldo em dólar, euro e libra",
+        "Relatório mensal para o contador"
+      ],
+      "en": [
+        "Unlimited invoices",
+        "Dollar, euro and pound balances",
+        "Monthly report for your accountant"
+      ]
+    },
+    "highlight": true,
+    "cta": {
+      "pt-br": "Entrar na lista",
+      "en": "Join the list"
+    },
+    "order": 2
+  },
+  {
+    "id": "estudio",
+    "name": {
+      "pt-br": "Estúdio",
+      "en": "Studio"
+    },
+    "summary": {
+      "pt-br": "Para estúdios de 2 a 10 pessoas.",
+      "en": "For studios of 2 to 10 people."
+    },
+    "price": {
+      "monthly": {
+        "brl": 119,
+        "usd": 22
+      },
+      "annual": {
+        "brl": 1190,
+        "usd": 218
+      }
+    },
+    "fee": 0.6,
+    "seats": 10,
+    "features": {
+      "pt-br": [
+        "Tudo do Pro",
+        "Até 10 pessoas na conta",
+        "Acesso direto para o contador"
+      ],
+      "en": [
+        "Everything in Pro",
+        "Up to 10 people on the account",
+        "Direct access for your accountant"
+      ]
+    },
+    "highlight": false,
+    "cta": {
+      "pt-br": "Falar com a gente",
+      "en": "Talk to us"
+    },
+    "order": 3
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "title": "Export tax invoices, step by step and live",
+  "slug": "export-tax-invoices-live",
+  "kind": "Live webinar",
+  "kindPast": "Recording",
+  "lead": "An accountant and a customer issue a real tax invoice on screen and answer your questions at the end.",
+  "leadPast": "Recorded on Nov 26, 2026 with Marina Teles and Júlia Moita. 58 minutes, in Portuguese with English captions.",
+  "date": "2026-11-26",
+  "time": "7 to 8 pm (BRT)",
+  "place": "Online, free",
+  "duration": "58:12",
+  "agenda": [
+    {
+      "time": "7:00",
+      "chapter": "00:00",
+      "title": "Who needs to issue one, and when",
+      "detail": "MEI, Simples and individuals: what changes in each case."
+    },
+    {
+      "time": "7:15",
+      "chapter": "14:30",
+      "title": "Issuing one on screen",
+      "detail": "From a payment received to the tax invoice on the city portal, with a real case."
+    },
+    {
+      "time": "7:40",
+      "chapter": "39:10",
+      "title": "How Moita Filmes runs its month",
+      "detail": "Júlia shows the studio's flow, from invoice to tax invoice."
+    },
+    {
+      "time": "7:50",
+      "chapter": "49:45",
+      "title": "Questions",
+      "detail": "Send yours when you sign up or in the chat during the event."
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Marina Teles",
+      "role": "Accountant, working with freelancers who export services since 2014"
+    },
+    {
+      "name": "Júlia Moita",
+      "role": "Partner at Moita Filmes, a video studio in Belo Horizonte"
+    }
+  ],
+  "register": {
+    "title": "Save your spot",
+    "text": "We send the access link and, afterwards, the recording.",
+    "count": "312 people signed up · unlimited spots",
+    "submit": "Sign up"
+  },
+  "missed": {
+    "title": "Can't make it?",
+    "text": "Sign up anyway. The recording stays on this page and reaches your inbox the next day."
+  },
+  "translationKey": "nota-fiscal-ao-vivo"
+}

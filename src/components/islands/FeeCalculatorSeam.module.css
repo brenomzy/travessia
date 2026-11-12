@@ -1,0 +1,246 @@
+@layer components {
+  /*
+   * Phones and tablets: three stacked bands (noite, the seam with the card, tapajós).
+   * From 1024 px: three columns over the seam texture the page section paints.
+   */
+  .calculator {
+    display: grid;
+  }
+
+  .pay,
+  .receive {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-xl) var(--space-gutter);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-base);
+  }
+
+  .pay {
+    gap: var(--space-xl);
+    padding-block-start: var(--space-2xl);
+  }
+
+  .title {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .currencies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .currency {
+    padding: var(--space-2xs) var(--space-m);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--color-text-muted);
+    font: inherit;
+    font-size: var(--text-sm);
+    transition:
+      background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover);
+  }
+
+  .currency[data-pressed] {
+    border-color: var(--color-text-base);
+    background-color: var(--color-text-base);
+    color: var(--color-bg-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .currency:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .label {
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .receive .label {
+    color: var(--color-text-base);
+  }
+
+  .group,
+  .sumRow {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+    padding-block-end: var(--space-xs);
+    border-block-end: var(--size-focus-ring) solid var(--color-text-base);
+  }
+
+  .group:focus-within {
+    border-block-end-color: var(--color-focus);
+  }
+
+  .symbol {
+    flex-shrink: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .receive .symbol {
+    color: var(--color-text-base);
+  }
+
+  /* A text input's default width would set the column's minimum width. */
+  .input,
+  .sumRow > :last-child {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-5xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-display);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .input {
+    flex: 1 1 0;
+    inline-size: 100%;
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-family: inherit;
+  }
+
+  .input:focus-visible {
+    outline: none;
+  }
+
+  .sum {
+    margin: 0;
+  }
+
+  .sumRow {
+    flex-wrap: wrap;
+  }
+
+  .disclaimer {
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .receive {
+    gap: var(--space-s);
+    padding-block-end: var(--space-2xl);
+  }
+
+  /* The seam band: the card rides on the texture. */
+  .band {
+    display: grid;
+    place-items: center;
+    padding: var(--space-xl) var(--space-gutter);
+    background-color: var(--color-bg-base);
+    background-image: var(--seam-mobile);
+    background-size: 100% auto;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+  }
+
+  .card {
+    inline-size: min(100%, 15rem);
+    margin: 0;
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-3-on-dark);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .card div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding: var(--space-2xs) var(--space-s);
+  }
+
+  .card div:first-child {
+    padding-block-start: var(--space-s);
+  }
+
+  .card div:last-child {
+    padding-block-end: var(--space-s);
+  }
+
+  .card div + div {
+    border-block-start: var(--size-hairline) solid var(--color-chip-bg);
+  }
+
+  .card dt {
+    color: var(--color-text-muted);
+  }
+
+  .card dd {
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+  }
+
+  .when {
+    color: var(--color-link);
+  }
+
+  @media (width >= 64rem) {
+    .calculator {
+      grid-template-columns: minmax(0, 1fr) 15rem minmax(0, 1fr);
+      column-gap: var(--space-xl);
+      min-block-size: 37.5rem;
+      padding: var(--space-2xl) var(--space-gutter);
+    }
+
+    .pay,
+    .receive,
+    .band {
+      padding: 0;
+      background: none;
+    }
+
+    .pay {
+      grid-column: 1;
+      align-self: start;
+      gap: var(--space-2xl);
+      max-inline-size: 33.75rem;
+    }
+
+    .group {
+      max-inline-size: 27.5rem;
+    }
+
+    /* Card and result sit a little below the middle, level with the amount (Paper: top 300 of 600). */
+    .band {
+      grid-column: 2;
+      align-self: center;
+      margin-block-start: var(--space-3xl);
+    }
+
+    .receive {
+      grid-column: 3;
+      align-self: center;
+      margin-block-start: var(--space-3xl);
+    }
+  }
+}

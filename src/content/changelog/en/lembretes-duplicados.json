@@ -1,0 +1,9 @@
+{
+  "title": "Duplicate payment reminders",
+  "slug": "duplicate-reminders",
+  "date": "2026-10-02",
+  "type": "fixed",
+  "area": "invoices",
+  "summary": "Editing an invoice that had already been sent made the client get the reminder twice. Now they get one.",
+  "translationKey": "lembretes-duplicados"
+}

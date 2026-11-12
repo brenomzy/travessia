@@ -1,0 +1,91 @@
+{
+  "page": "forClients",
+  "translationKey": "forClients",
+  "seo": {
+    "title": "For clients: paying a freelancer in Brazil | Travessia",
+    "description": "Your freelancer sends an invoice in English, in your currency. You pay by card or local bank transfer, like any other supplier. No account needed."
+  },
+  "hero": {
+    "title": "Paying a freelancer in Brazil, the simple way",
+    "lead": "Your freelancer sends an invoice in English, in your currency. You pay by card or local bank transfer, like any other supplier.",
+    "primary": {
+      "label": "See a sample invoice",
+      "feature": "international-invoices"
+    },
+    "secondary": {
+      "label": "Questions from finance teams",
+      "href": "#faq-title"
+    }
+  },
+  "invoice": {
+    "number": "Invoice #0042",
+    "from": "Ana Ribeiro · Product design",
+    "status": "Paid · Nov 14",
+    "billToLabel": "Bill to",
+    "billTo": "Halden & Co., London",
+    "lines": [
+      {
+        "label": "Interface design, October",
+        "amount": "1,600.00"
+      },
+      {
+        "label": "Two revision rounds",
+        "amount": "400.00"
+      }
+    ],
+    "totalLabel": "Total",
+    "total": "US$ 2,000.00",
+    "methods": [
+      "Card",
+      "Bank transfer"
+    ]
+  },
+  "steps": {
+    "title": "What happens on your side",
+    "items": [
+      {
+        "title": "You get an email",
+        "detail": "With the invoice as a PDF and a secure link. No account, no app."
+      },
+      {
+        "title": "You pay the way you already do",
+        "detail": "Card, or a local transfer in USD, EUR or GBP to an account in your region."
+      },
+      {
+        "title": "You get a receipt",
+        "detail": "A paid receipt for your books, in English, the moment the payment clears."
+      }
+    ]
+  },
+  "panels": [
+    {
+      "title": "Ways to pay",
+      "tone": "tint",
+      "items": [
+        "Credit or debit card, in your currency",
+        "Local bank transfer in the US, UK and eurozone",
+        "The freelancer covers the fees; you pay the invoice total"
+      ]
+    },
+    {
+      "title": "What your finance team gets",
+      "tone": "dark",
+      "items": [
+        "An invoice with the freelancer's legal name and tax ID in Brazil",
+        "A paid receipt matching the invoice number",
+        "Payments processed by licensed partners, never through the freelancer's personal account"
+      ]
+    }
+  ],
+  "faq": {
+    "title": "Questions from finance teams",
+    "lead": "Something missing? Your freelancer can forward your question to us."
+  },
+  "cta": {
+    "title": "Ask your freelancer for a Travessia invoice",
+    "link": {
+      "label": "See a sample invoice",
+      "feature": "international-invoices"
+    }
+  }
+}

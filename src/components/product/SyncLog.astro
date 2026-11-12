@@ -1,0 +1,110 @@
+---
+/** Product UI: an integration's recent activity (Paper: integration detail → "Sync log"). */
+interface Props {
+  title: string;
+  status: string;
+  rows: { title: string; meta: string; time: string }[];
+  action: string;
+}
+const { title, status, rows, action } = Astro.props;
+---
+
+<div class="log" data-theme="light">
+  <div class="head">
+    <strong>{title}</strong>
+    <span class="status">{status}</span>
+  </div>
+  <ul role="list">
+    {
+      rows.map((r) => (
+        <li>
+          <span class="what">
+            <span class="title">{r.title}</span>
+            <span class="meta">{r.meta}</span>
+          </span>
+          <span class="time">{r.time}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <span class="action">{action}</span>
+</div>
+
+<style>
+  .log {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-3-on-color);
+    color: var(--color-text-base);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block-end: var(--space-xs);
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    color: var(--color-link);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+    white-space: nowrap;
+  }
+
+  .status::before {
+    content: '';
+    inline-size: var(--size-dot);
+    block-size: var(--size-dot);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent-data);
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block: var(--space-xs);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .what {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .meta,
+  .time {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+  }
+
+  .time {
+    white-space: nowrap;
+  }
+
+  .action {
+    margin-block-start: var(--space-2xs);
+    padding: var(--space-xs);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+  }
+</style>

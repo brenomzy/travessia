@@ -1,0 +1,16 @@
+{
+  "title": "Alerta de cotação",
+  "slug": "alerta-de-cotacao",
+  "date": "2026-11-10",
+  "type": "new",
+  "area": "exchange",
+  "summary": "Escolha um valor para o dólar, o euro ou a libra e receba um aviso quando a cotação chegar nele. A conversão continua sendo decisão sua.",
+  "translationKey": "alerta-de-cotacao",
+  "visual": {
+    "kind": "rateAlert",
+    "title": "Avisar quando",
+    "from": "US$ 1 =",
+    "rate": "R$ 5,60",
+    "note": "Hoje: R$ 5,45 · faltam R$ 0,15"
+  }
+}

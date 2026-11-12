@@ -1,0 +1,36 @@
+{
+  "page": "changelog",
+  "translationKey": "changelog",
+  "seo": {
+    "title": "Novidades | Travessia",
+    "description": "Tudo o que mudou na Travessia, do mais recente para o mais antigo."
+  },
+  "title": "Novidades",
+  "lead": "Tudo o que mudou na Travessia, do mais recente para o mais antigo. Atualizado a cada entrega.",
+  "email": {
+    "label": "Receber por e-mail"
+  },
+  "rss": {
+    "label": "Assinar por RSS"
+  },
+  "filters": {
+    "type": "Tipo",
+    "area": "Área",
+    "allType": "Todos",
+    "allArea": "Todas"
+  },
+  "types": {
+    "new": "Novo",
+    "improved": "Melhoria",
+    "fixed": "Correção"
+  },
+  "areas": {
+    "invoices": "Faturas",
+    "exchange": "Câmbio",
+    "taxInvoice": "Nota fiscal",
+    "account": "Conta"
+  },
+  "resultCount": "{count} novidades",
+  "showMore": "Ver meses anteriores",
+  "feedTitle": "Travessia: novidades"
+}

@@ -1,0 +1,470 @@
+{
+  "page": "home",
+  "translationKey": "home",
+  "seo": {
+    "title": "Travessia: get paid by clients abroad, in reais",
+    "description": "Invoice clients abroad, see the fee before you convert and receive reais by Pix. Demo site for a fictional company."
+  },
+  "hero": {
+    "title": "Your client pays in dollars.",
+    "titleHighlight": "You get paid in reais.",
+    "lead": "The invoice goes out in English for your client. The Pix arrives in Portuguese for you, with the fee and the rate already worked out.",
+    "clientsNote": {
+      "text": "Paying a freelancer in Brazil? Your invoice comes in English, and you pay by card or bank transfer.",
+      "link": {
+        "label": "How it works for clients",
+        "route": "forClients"
+      }
+    },
+    "logoStrip": {
+      "label": "Studios already paid through Travessia",
+      "names": [
+        "Ateliê Norte",
+        "KILN/STUDIO",
+        "Moita Filmes",
+        "três_rios",
+        "pão&pixel"
+      ]
+    },
+    "ui": {
+      "invoice": {
+        "number": "Invoice #0042",
+        "from": "Ana Ribeiro · Product design",
+        "status": "Paid · Nov 14",
+        "billToLabel": "Bill to",
+        "billTo": "Halden & Co., London",
+        "lines": [
+          {
+            "label": "Interface design, October",
+            "amount": "1,600.00"
+          },
+          {
+            "label": "Two revision rounds",
+            "amount": "400.00"
+          }
+        ],
+        "totalLabel": "Total",
+        "total": "US$ 2,000.00",
+        "methods": [
+          "Card",
+          "Bank transfer"
+        ],
+        "summary": "Invoice #0042 · Halden & Co., London",
+        "summaryCurrency": "US$",
+        "summaryAmount": "2,000.00",
+        "summaryNote": "Paid by card through the invoice link · Nov 14"
+      },
+      "crossing": {
+        "title": "The crossing",
+        "rows": [
+          {
+            "label": "0.6% fee",
+            "value": "− US$ 12.00"
+          },
+          {
+            "label": "Rate",
+            "value": "R$ 5.45"
+          },
+          {
+            "label": "Nota fiscal",
+            "value": "Issued",
+            "highlight": true
+          }
+        ]
+      },
+      "conversion": {
+        "status": "Converting",
+        "time": "Nov 15, 9:11",
+        "from": "US$ 1,988.00",
+        "to": "R$ 10,834.60",
+        "note": "0.6% fee already taken · rate R$ 5.45"
+      },
+      "phone": {
+        "date": "Friday, November 15",
+        "time": "9:12",
+        "appTime": "now",
+        "notificationTitle": "Pix received",
+        "notificationBody": "R$ 10,834.60 from invoice #0042, Halden & Co.",
+        "taxInvoice": "Nota fiscal no. 318 issued and sent to your accountant",
+        "balanceLabel": "Balance in reais",
+        "balance": "R$ 10,834.60"
+      },
+      "received": {
+        "label": "Pix received · your account",
+        "amount": "10,834.60",
+        "note": "In your account in 1 business day · Nov 15",
+        "currency": "R$"
+      }
+    }
+  },
+  "outcomes": {
+    "title": "What changes when you get paid through Travessia",
+    "lead": "Compared with a regular international wire received at a Brazilian bank.",
+    "stats": [
+      {
+        "before": "At a bank, up to 6% between fees and the exchange rate.",
+        "value": "0.6%",
+        "after": "One fee, shown before you convert."
+      },
+      {
+        "before": "At a bank, 3 to 5 business days until the money shows up.",
+        "value": "1 day",
+        "after": "From your client's payment to reais in your Pix."
+      },
+      {
+        "before": "At a bank, the tax invoice is up to you, later.",
+        "value": "2 min",
+        "after": "For the export nota fiscal to be issued, by itself."
+      }
+    ]
+  },
+  "calculator": {
+    "title": "How much will I receive?",
+    "lead": "Type the invoice amount and see, before anything else, how much arrives in reais and on what day. The rate you see here is the rate you get.",
+    "points": [
+      "Dollars, euros and pounds, all at 0.6%",
+      "You choose when to convert, or keep the balance in that currency",
+      "No fee to receive, only to convert"
+    ],
+    "amountLabel": "Invoice amount",
+    "currencyLabel": "Invoice currency",
+    "defaultAmount": 2000,
+    "feeLabel": "Travessia fee, {fee}",
+    "convertedLabel": "Amount converted",
+    "rateLabel": "Example rate",
+    "resultLabel": "You receive by Pix",
+    "arrival": "Arrives {when}, {date}",
+    "arrivalFallback": "Arrives in 1 business day",
+    "disclaimer": "Made-up rate, for demonstration only. This site moves no money."
+  },
+  "features": {
+    "title": "Everything between the invoice and the Pix",
+    "link": {
+      "label": "See the product",
+      "route": "product"
+    }
+  },
+  "showcase": {
+    "title": "Balances in three currencies, statements in reais",
+    "lead": "All in one account: open invoices, balances, conversions, tax invoices and the monthly report.",
+    "tabsLabel": "Product screens",
+    "app": {
+      "nav": [
+        "Balance",
+        "Invoices",
+        "Convert",
+        "Notas fiscais",
+        "Reports",
+        "Clients"
+      ],
+      "user": {
+        "initials": "AR",
+        "name": "Ana Ribeiro",
+        "meta": "MEI · Recife"
+      }
+    },
+    "tabs": [
+      {
+        "id": "saldo",
+        "label": "Balance",
+        "nav": 0,
+        "title": "Balance",
+        "actions": [
+          "New invoice",
+          "Convert"
+        ],
+        "stats": [
+          {
+            "label": "US dollar",
+            "value": "US$ 4,212.40",
+            "note": "≈ R$ 22,819.83 today",
+            "highlight": true
+          },
+          {
+            "label": "Euro",
+            "value": "€ 1,380.00",
+            "note": "≈ R$ 8,640.72 today",
+            "highlight": false
+          },
+          {
+            "label": "Pound",
+            "value": "£ 640.00",
+            "note": "≈ R$ 4,732.13 today",
+            "highlight": false
+          }
+        ],
+        "listTitle": "Recent activity",
+        "rows": [
+          {
+            "title": "Pix sent to you",
+            "detail": "Conversion of invoice #0042",
+            "date": "Nov 15",
+            "amount": "+ R$ 10,834.60",
+            "tone": "highlight"
+          },
+          {
+            "title": "Invoice paid",
+            "detail": "Halden & Co., London · card",
+            "date": "Nov 14",
+            "amount": "+ US$ 2,000.00",
+            "tone": "default"
+          },
+          {
+            "title": "Invoice paid",
+            "detail": "Studio Vik, Oslo · transfer",
+            "date": "Nov 8",
+            "amount": "+ € 1,380.00",
+            "tone": "default"
+          },
+          {
+            "title": "Invoice sent",
+            "detail": "Marlow Press, Manchester · due Nov 30",
+            "date": "Nov 5",
+            "amount": "£ 640.00",
+            "tone": "muted"
+          }
+        ]
+      },
+      {
+        "id": "faturas",
+        "label": "Invoices",
+        "nav": 1,
+        "title": "Invoices",
+        "actions": [
+          "Export",
+          "New invoice"
+        ],
+        "stats": [
+          {
+            "label": "Open",
+            "value": "£ 640.00",
+            "note": "1 invoice · due Nov 30",
+            "highlight": true
+          },
+          {
+            "label": "Paid in November",
+            "value": "US$ 2,000.00",
+            "note": "and € 1,380.00",
+            "highlight": false
+          },
+          {
+            "label": "Overdue",
+            "value": "0",
+            "note": "no reminders pending",
+            "highlight": false
+          }
+        ],
+        "listTitle": "November invoices",
+        "rows": [
+          {
+            "title": "#0044 · Marlow Press",
+            "detail": "Manchester · sent in English",
+            "date": "due Nov 30",
+            "amount": "£ 640.00",
+            "tone": "muted"
+          },
+          {
+            "title": "#0043 · Studio Vik",
+            "detail": "Oslo · paid by transfer",
+            "date": "Nov 8",
+            "amount": "€ 1,380.00",
+            "tone": "default"
+          },
+          {
+            "title": "#0042 · Halden & Co.",
+            "detail": "London · paid by card",
+            "date": "Nov 14",
+            "amount": "US$ 2,000.00",
+            "tone": "default"
+          },
+          {
+            "title": "#0041 · Northfold",
+            "detail": "Toronto · paid by card",
+            "date": "Nov 2",
+            "amount": "US$ 850.00",
+            "tone": "default"
+          }
+        ]
+      },
+      {
+        "id": "notas",
+        "label": "Notas fiscais",
+        "nav": 3,
+        "title": "Notas fiscais",
+        "actions": [
+          "Download XML",
+          "Send to accountant"
+        ],
+        "stats": [
+          {
+            "label": "Issued in 2026",
+            "value": "42",
+            "note": "all for exported services",
+            "highlight": true
+          },
+          {
+            "label": "This month",
+            "value": "3",
+            "note": "the latest on Nov 15",
+            "highlight": false
+          },
+          {
+            "label": "Sent to accountant",
+            "value": "All",
+            "note": "automatic copy",
+            "highlight": false
+          }
+        ],
+        "listTitle": "Recent notas fiscais",
+        "rows": [
+          {
+            "title": "No. 318 · Halden & Co.",
+            "detail": "Export of services",
+            "date": "Nov 15",
+            "amount": "R$ 10,834.60",
+            "tone": "highlight"
+          },
+          {
+            "title": "No. 317 · Studio Vik",
+            "detail": "Export of services",
+            "date": "Nov 9",
+            "amount": "R$ 8,501.40",
+            "tone": "default"
+          },
+          {
+            "title": "No. 316 · Northfold",
+            "detail": "Export of services",
+            "date": "Nov 3",
+            "amount": "R$ 4,611.25",
+            "tone": "default"
+          },
+          {
+            "title": "No. 315 · Halden & Co.",
+            "detail": "Export of services",
+            "date": "Oct 28",
+            "amount": "R$ 10,420.80",
+            "tone": "default"
+          }
+        ]
+      },
+      {
+        "id": "relatorio",
+        "label": "Monthly report",
+        "nav": 4,
+        "title": "October report",
+        "actions": [
+          "Download PDF",
+          "Send to accountant"
+        ],
+        "stats": [
+          {
+            "label": "Revenue in reais",
+            "value": "R$ 31,540.20",
+            "note": "at each day's rate",
+            "highlight": true
+          },
+          {
+            "label": "Invoices paid",
+            "value": "5",
+            "note": "in 3 currencies",
+            "highlight": false
+          },
+          {
+            "label": "MEI limit",
+            "value": "62%",
+            "note": "R$ 50,180 of R$ 81k",
+            "highlight": false
+          }
+        ],
+        "listTitle": "Summary for your accountant",
+        "rows": [
+          {
+            "title": "Export revenue",
+            "detail": "Notas fiscais 311 to 315",
+            "date": "Oct",
+            "amount": "R$ 31,540.20",
+            "tone": "default"
+          },
+          {
+            "title": "Travessia fees",
+            "detail": "0.6% of conversions",
+            "date": "Oct",
+            "amount": "− R$ 190.38",
+            "tone": "muted"
+          },
+          {
+            "title": "MEI tax (DAS)",
+            "detail": "November slip generated",
+            "date": "due Nov 20",
+            "amount": "R$ 76.90",
+            "tone": "default"
+          },
+          {
+            "title": "Report sent",
+            "detail": "To contato@livrocaixa.example",
+            "date": "Nov 1",
+            "amount": "Sent",
+            "tone": "highlight"
+          }
+        ]
+      }
+    ]
+  },
+  "integrations": {
+    "title": "Works with what you already use",
+    "lead": "Import payments from freelance platforms and send the report straight to your accountant's system.",
+    "count": "{count} integrations",
+    "countNote": "Accounting, invoicing and freelance platforms",
+    "link": {
+      "label": "See all",
+      "route": "integrations"
+    },
+    "accountant": {
+      "title": "Your accountant gets the report without asking",
+      "rows": [
+        {
+          "name": "Livro Caixa",
+          "status": "Connected",
+          "connected": true
+        },
+        {
+          "name": "Contaí",
+          "status": "Connect",
+          "connected": false
+        }
+      ]
+    },
+    "platforms": {
+      "title": "Platform payouts land in your account by themselves",
+      "text": "Freela, Remota and Trampo already send payouts straight to your dollar balance."
+    }
+  },
+  "stories": {
+    "title": "Who already gets paid through Travessia",
+    "link": {
+      "label": "All stories",
+      "route": "stories"
+    }
+  },
+  "pricing": {
+    "title": "The fee is always 0.6%.",
+    "titleSecond": "The plan changes the rest.",
+    "billingLabel": "Billing",
+    "billing": {
+      "monthly": "Monthly",
+      "annual": "Yearly, 2 months free"
+    },
+    "perMonth": "per month",
+    "perYear": "per year",
+    "popular": "Most chosen",
+    "usdNote": "≈ US$ {usd}"
+  },
+  "faq": {
+    "title": "Questions",
+    "lead": "Can't find yours? Send it to us and we'll answer within one business day."
+  },
+  "finalCta": {
+    "title": "Your next payment can arrive in reais.",
+    "lead": "Join the waitlist. We'll email you when your account is ready."
+  }
+}

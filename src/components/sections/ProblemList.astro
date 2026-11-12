@@ -1,0 +1,67 @@
+---
+/** "Why this matters" on a feature page (Paper: feature template → Problem): a heading beside three labelled points. */
+import Section from './Section.astro';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  title: string;
+  points: { label: string; detail: string }[];
+}
+const { title, points } = Astro.props;
+---
+
+<Section labelledby="problem-title">
+  <div class="layout">
+    <h2 id="problem-title" data-reveal>{title}</h2>
+    <dl class="points" data-reveal-stagger>
+      {
+        points.map((p) => (
+          <div>
+            <dt>{p.label}</dt>
+            <dd>{p.detail}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</Section>
+
+<MotionScript />
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xl) var(--space-3xl);
+  }
+
+  h2 {
+    flex: 0 1 32.5rem;
+  }
+
+  .points {
+    flex: 1 1 30rem;
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .points div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-l);
+    padding-block: var(--space-m);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  dt {
+    flex: 0 0 13.75rem;
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  dd {
+    flex: 1 1 18rem;
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+</style>

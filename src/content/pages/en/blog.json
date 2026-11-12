@@ -1,0 +1,64 @@
+{
+  "page": "blog",
+  "translationKey": "blog",
+  "seo": {
+    "title": "Blog: exchange, taxes and invoices | Travessia",
+    "description": "Exchange, taxes and invoices for people paid from abroad. A new piece every week."
+  },
+  "title": "Blog",
+  "lead": "Exchange, taxes and invoices for people paid from abroad. A new piece every week.",
+  "categoriesLabel": "Categories",
+  "all": "All",
+  "categories": {
+    "exchange": {
+      "slug": "exchange",
+      "label": "Exchange",
+      "lead": "When to convert, what it costs and how to read the rate. No guesses about the dollar."
+    },
+    "taxes": {
+      "slug": "taxes",
+      "label": "Taxes",
+      "lead": "Carnê-leão, export tax invoices and what changes when you open a company. Reviewed by accountants."
+    },
+    "invoices": {
+      "slug": "invoices",
+      "label": "Invoices",
+      "lead": "How to bill clients abroad: templates, due dates and what their finance team needs."
+    },
+    "guides": {
+      "slug": "guides",
+      "label": "Guides",
+      "lead": "Step by step to start getting paid from abroad, from sign-up to your first conversion."
+    },
+    "news": {
+      "slug": "news",
+      "label": "News",
+      "lead": "What's new in Travessia, explained calmly."
+    }
+  },
+  "popularTitle": "Most read this month",
+  "allTitle": "All posts",
+  "count": "{n} posts · newest first",
+  "countShort": "{n} posts",
+  "showMore": "See more posts",
+  "minutes": "{n} min",
+  "readingTime": "{n} min read",
+  "newsletter": {
+    "title": "One email a month, with what changed",
+    "text": "Exchange and tax rules for people paid from abroad, no promotions.",
+    "submit": "Subscribe"
+  },
+  "post": {
+    "toc": "In this post",
+    "calculator": {
+      "title": "Try your month",
+      "text": "See how much arrives in reais after the 0.6% fee.",
+      "link": "Open the calculator"
+    },
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "linkedin": "LinkedIn",
+    "shareLabel": "Share",
+    "continueTitle": "Keep reading"
+  }
+}

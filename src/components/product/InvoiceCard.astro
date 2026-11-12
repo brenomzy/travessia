@@ -1,0 +1,158 @@
+---
+/** Product UI: the client's invoice, in English. Shadow only because it is product UI. */
+interface Props {
+  number: string;
+  from: string;
+  status: string;
+  billToLabel: string;
+  billTo: string;
+  lines: { label: string; amount: string }[];
+  totalLabel: string;
+  total: string;
+  methods: string[];
+  shadow?: 'raised' | 'floating-dark';
+}
+const { number, from, status, billToLabel, billTo, lines, totalLabel, total, methods, shadow = 'floating-dark' } =
+  Astro.props;
+---
+
+<div class="invoice" data-theme="light" data-shadow={shadow} lang="en">
+  <div class="head">
+    <div>
+      <p class="number">{number}</p>
+      <p class="from">{from}</p>
+    </div>
+    <span class="chip">{status}</span>
+  </div>
+  <div class="bill">
+    <p class="label">{billToLabel}</p>
+    <p class="client">{billTo}</p>
+  </div>
+  <ul class="lines" role="list">
+    {
+      lines.map((l) => (
+        <li>
+          <span>{l.label}</span>
+          <span class="amount">{l.amount}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="total">
+    <span>{totalLabel}</span>
+    <span class="sum">{total}</span>
+  </div>
+  <div class="methods">{methods.map((m) => <span>{m}</span>)}</div>
+</div>
+
+<style>
+  .invoice {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  [data-shadow='floating-dark'] {
+    box-shadow: var(--shadow-3-on-dark);
+  }
+
+  [data-shadow='raised'] {
+    box-shadow: var(--shadow-2);
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  .number {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  .from,
+  .label {
+    color: var(--color-text-subtle);
+  }
+
+  .label {
+    font-size: var(--text-xs);
+  }
+
+  .chip {
+    padding: var(--space-3xs) var(--space-2xs);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-chip-bg);
+    color: var(--color-chip-text);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+  }
+
+  .bill {
+    padding-block: var(--space-xs);
+    border-block: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .client {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .lines {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    color: var(--color-text-muted);
+  }
+
+  .lines li,
+  .total {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  .amount {
+    color: var(--color-text-base);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .total {
+    align-items: baseline;
+    padding-block-start: var(--space-xs);
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .sum {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  .methods {
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  .methods span {
+    flex: 1 1 0;
+    padding: var(--space-xs);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-s);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+  }
+</style>

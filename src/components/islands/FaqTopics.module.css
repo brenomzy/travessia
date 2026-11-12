@@ -1,0 +1,104 @@
+@layer components {
+  /* The section heading and the tab list share a row; the panels sit below, across the full width. */
+  .root {
+    display: grid;
+    grid-template-areas: 'title' 'tabs' 'panel';
+    gap: var(--space-l);
+  }
+
+  .title {
+    grid-area: title;
+  }
+
+  .list {
+    grid-area: tabs;
+    display: flex;
+    justify-self: start;
+    gap: var(--space-3xs);
+    max-inline-size: 100%;
+    padding: var(--space-3xs);
+    overflow-x: auto;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-chip-bg);
+    scrollbar-width: none;
+  }
+
+  .tab {
+    flex-shrink: 0;
+    padding: var(--space-2xs) var(--space-m);
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--color-text-base);
+    font: inherit;
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover);
+  }
+
+  .tab[data-active] {
+    background-color: var(--color-text-base);
+    color: var(--color-bg-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .tab:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .panel {
+    grid-area: panel;
+    padding-block-start: var(--space-l);
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .panel[hidden] {
+    display: none;
+  }
+
+  .panel:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: var(--space-xl) var(--space-2xl);
+    margin: 0;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .question {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  .answer {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  @media (width >= 64rem) {
+    .root {
+      grid-template-columns: 1fr auto;
+      grid-template-areas: 'title tabs' 'panel panel';
+      align-items: end;
+      row-gap: var(--space-xl);
+    }
+
+    .list {
+      justify-self: end;
+    }
+  }
+}

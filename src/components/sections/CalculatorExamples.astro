@@ -1,0 +1,156 @@
+---
+/**
+ * "Três exemplos, linha a linha" (Paper: /calculadora → Examples). Every number is computed here
+ * from rates.json and the plan fee, so the table can't drift from the calculator above it.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import { langTag, type Locale } from '../../i18n';
+import type { getPage } from '../../lib/content';
+
+type Calc = Awaited<ReturnType<typeof getPage<'calculator'>>>;
+interface Props {
+  locale: Locale;
+  content: Calc['examples'];
+  rates: CollectionEntry<'rates'>[];
+  feePercent: number;
+  currencyBRL: string;
+}
+const { locale, content: c, rates, feePercent, currencyBRL } = Astro.props;
+const lang = langTag[locale];
+const money = new Intl.NumberFormat(lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const feeText = new Intl.NumberFormat(lang, { style: 'percent', maximumFractionDigits: 2 }).format(feePercent / 100);
+
+const rateList = rates
+  // Non-breaking spaces keep "R$ 6,30" on one line.
+  .map(({ data }) => `${data.name[locale].toLocaleLowerCase(lang)} ${currencyBRL}\u00A0${money.format(data.rate)}`)
+  .join(', ');
+
+const rows = c.rows.map((row) => {
+  const rate = rates.find((r) => r.data.id === row.currency);
+  if (!rate) throw new Error(`Calculator example uses unknown currency "${row.currency}"`);
+  const fee = row.amount * (feePercent / 100);
+  const converted = row.amount - fee;
+  const sym = rate.data.symbol;
+  return {
+    invoice: `${sym} ${money.format(row.amount)}`,
+    fee: `− ${sym} ${money.format(fee)}`,
+    converted: `${sym} ${money.format(converted)}`,
+    receive: `${currencyBRL} ${money.format(converted * rate.data.rate)}`,
+  };
+});
+---
+
+<Section labelledby="examples-title">
+  <div class="layout">
+    <div class="intro" data-reveal-stagger>
+      <h2 id="examples-title">{c.title}</h2>
+      <p>{c.lead.replace('{rates}', rateList).replace('{fee}', feeText)}</p>
+    </div>
+    <div class="scroller" role="region" aria-labelledby="examples-title" tabindex="0" data-reveal>
+      <table>
+        <caption class="u-visually-hidden">{c.caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{c.columns.invoice}</th>
+            <th scope="col">{c.columns.fee.replace('{fee}', feeText)}</th>
+            <th scope="col">{c.columns.converted}</th>
+            <th scope="col" class="end">{c.columns.receive}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            rows.map((r) => (
+              <tr>
+                <th scope="row">{r.invoice}</th>
+                <td>{r.fee}</td>
+                <td>{r.converted}</td>
+                <td class="end receive">{r.receive}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</Section>
+
+<MotionScript />
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xl) var(--space-3xl);
+  }
+
+  .intro {
+    display: flex;
+    flex: 0 1 26.25rem;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .intro p {
+    color: var(--color-text-muted);
+  }
+
+  .scroller {
+    flex: 1 1 30rem;
+    min-inline-size: 0;
+    overflow-x: auto;
+  }
+
+  .scroller:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  table {
+    inline-size: 100%;
+    min-inline-size: 30rem;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  th,
+  td {
+    padding-block: var(--space-s);
+    padding-inline-end: var(--space-s);
+    text-align: start;
+    white-space: nowrap;
+  }
+
+  thead th {
+    padding-block-start: 0;
+    border-block-end: var(--size-hairline) solid var(--color-border-strong);
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-regular);
+  }
+
+  tbody tr {
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  tbody th {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .end {
+    padding-inline-end: 0;
+    text-align: end;
+  }
+
+  .receive {
+    color: var(--color-link);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

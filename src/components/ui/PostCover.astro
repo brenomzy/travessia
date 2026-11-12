@@ -1,0 +1,137 @@
+---
+/**
+ * A blog cover (Paper: Blog covers → Covers by category): the category's pattern, the title on the
+ * calm left side, the wordmark and the category at the bottom. HTML for now, so titles stay real
+ * text; the Cover Studio (V1) will replace the pattern with a generated image per post.
+ */
+import { Image } from 'astro:assets';
+import Logo from './Logo.astro';
+import exchange from '../../assets/textures/covers/exchange.png';
+import taxes from '../../assets/textures/covers/taxes.png';
+import invoices from '../../assets/textures/covers/invoices.png';
+import guides from '../../assets/textures/covers/guides.png';
+import news from '../../assets/textures/covers/news.png';
+
+const patterns = { exchange, taxes, invoices, guides, news };
+/** Dark covers take white text; light ones take noite. */
+const tones = { exchange: 'dark', taxes: 'tint', invoices: 'light', guides: 'light', news: 'dark' } as const;
+
+interface Props {
+  category: keyof typeof patterns;
+  categoryLabel: string;
+  title?: string;
+  /** card: grid cards. feature: the big one on the blog index. banner: a post's header image, no text. */
+  size?: 'card' | 'feature' | 'banner';
+}
+const { category, categoryLabel, title, size = 'card' } = Astro.props;
+const tone = tones[category];
+---
+
+<div class="cover" data-size={size} data-theme={tone}>
+  <Image
+    src={patterns[category]}
+    alt=""
+    widths={size === 'card' ? [480, 800] : [800, 1200, 1600]}
+    sizes={size === 'card' ? '(width >= 64rem) 26rem, 100vw' : '(width >= 64rem) 60vw, 100vw'}
+    format="webp"
+    quality={85}
+    class="pattern"
+  />
+  {
+    size !== 'banner' && (
+      <>
+        {title && <span class="title">{title}</span>}
+        <span class="brand">
+          <Logo tone={tone === 'dark' ? 'dark' : 'light'} label="" class="logo" />
+          <span class="sep" aria-hidden="true" />
+          <span class="category">{categoryLabel}</span>
+        </span>
+      </>
+    )
+  }
+</div>
+
+<style>
+  .cover {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    aspect-ratio: 1.9;
+    overflow: hidden;
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-base);
+  }
+
+  [data-theme='light'] {
+    border: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .pattern {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: right center;
+  }
+
+  .title {
+    position: relative;
+    max-inline-size: 45%;
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  .brand {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .brand :global(.logo) {
+    inline-size: calc(var(--size-logo-nav) * 0.5);
+    block-size: auto;
+  }
+
+  .sep {
+    inline-size: var(--size-hairline);
+    block-size: var(--space-s);
+    background-color: var(--color-border-base);
+  }
+
+  .category {
+    color: var(--color-text-highlight);
+  }
+
+  [data-theme='light'] .category,
+  [data-theme='tint'] .category {
+    color: var(--color-link);
+  }
+
+  [data-size='feature'] {
+    aspect-ratio: 1.9;
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+  }
+
+  [data-size='feature'] .title {
+    max-inline-size: 42%;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  [data-size='banner'] {
+    aspect-ratio: 2.7;
+    border-radius: var(--radius-l);
+  }
+</style>

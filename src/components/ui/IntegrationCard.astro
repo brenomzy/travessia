@@ -1,0 +1,129 @@
+---
+/**
+ * One integration on the index grid (Paper: /integracoes → card). The whole card is a link to the
+ * detail page. data-* attributes let the IntegrationFilter island show or hide it.
+ */
+import type { CollectionEntry } from 'astro:content';
+import IntegrationMark from './IntegrationMark.astro';
+
+interface Props {
+  integration: CollectionEntry<'integrations'>['data'];
+  href: string;
+  categoryLabel: string;
+  /** Status or "Popular"; nothing for a plain live integration. */
+  badge?: string;
+}
+const { integration: i, href, categoryLabel, badge } = Astro.props;
+/** Lower-case, accent-free text the filter searches in. */
+const search = `${i.name} ${i.shortDescription} ${categoryLabel}`
+  .normalize('NFD')
+  .replace(/\p{Diacritic}/gu, '')
+  .toLowerCase();
+---
+
+<li class="card" data-integration data-category={i.category} data-search={search}>
+  <div class="top">
+    <IntegrationMark name={i.name} tone={i.sphere.tone} />
+    {badge && <span class="badge" data-status={i.status}>{badge}</span>}
+  </div>
+  <div class="body">
+    <h3><a href={href}>{i.name}</a></h3>
+    <p>{i.shortDescription}</p>
+  </div>
+  <p class="meta">
+    <span>{categoryLabel}</span>
+    <span>{i.frequency}</span>
+  </p>
+</li>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+    transition: border-color var(--duration-fast) var(--ease-hover);
+  }
+
+  /* Set by the IntegrationFilter island. */
+  .card[hidden] {
+    display: none;
+  }
+
+  .card:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .card:focus-within {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .badge {
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-chip-bg);
+    color: var(--color-chip-text);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  /* The link covers the card, so the whole card is clickable with one tab stop. */
+  h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  h3 a:focus-visible {
+    outline: none;
+  }
+
+  .body p {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3xs) var(--space-s);
+    padding-block-start: var(--space-s);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+</style>

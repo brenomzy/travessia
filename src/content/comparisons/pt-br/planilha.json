@@ -1,0 +1,63 @@
+{
+  "title": "Travessia ou controlar os impostos numa planilha?",
+  "slug": "impostos-na-planilha",
+  "label": "Impostos na planilha",
+  "description": "Compare o relatório mensal da Travessia com controlar recebimentos, cotações e notas numa planilha.",
+  "updated": "2026-10-08",
+  "reviewer": "Marina Teles, contadora",
+  "short": {
+    "title": "Resposta curta",
+    "text": "Uma planilha funciona com um ou dois clientes. A partir daí, cada mês pede cotações, notas e conferências à mão. A Travessia junta tudo num relatório pronto para o contador.",
+    "note": "Se você recebe um pagamento por mês e tem tempo para conferir, a planilha ainda dá conta."
+  },
+  "table": {
+    "title": "Lado a lado",
+    "us": "Travessia",
+    "them": "Planilha",
+    "rows": [
+      {
+        "label": "Tempo por mês",
+        "us": "Minutos para conferir",
+        "them": "Horas para montar"
+      },
+      {
+        "label": "Cotação de cada recebimento",
+        "us": "Registrada no dia em que o dinheiro entra",
+        "them": "Você busca e copia"
+      },
+      {
+        "label": "Nota fiscal",
+        "us": "Emitida e anexada automaticamente",
+        "them": "Você emite e anota o número"
+      },
+      {
+        "label": "Carnê-leão",
+        "us": "CSV no formato do aplicativo",
+        "them": "Você digita lançamento por lançamento"
+      },
+      {
+        "label": "Contador",
+        "us": "Acesso só de leitura aos relatórios",
+        "them": "Recebe a planilha por e-mail"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Perguntas sobre a troca",
+    "items": [
+      {
+        "question": "Posso importar o histórico da planilha?",
+        "answer": "Por enquanto não. Os relatórios começam a partir do primeiro recebimento pela Travessia."
+      },
+      {
+        "question": "O contador precisa de conta?",
+        "answer": "Não. Ele recebe um acesso só de leitura, sem senha da sua conta."
+      },
+      {
+        "question": "E se eu tiver recebimentos fora da Travessia?",
+        "answer": "Eles continuam fora do relatório. Você pode somá-los à parte ou trazer esses clientes para a Travessia."
+      }
+    ]
+  },
+  "translationKey": "planilha"
+}

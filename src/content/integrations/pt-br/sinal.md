@@ -1,0 +1,25 @@
+---
+name: Sinal
+slug: sinal
+category: payments
+status: live
+shortDescription: Receba sinais de projeto pelo link da fatura, por cartão.
+frequency: A cada pagamento
+direction: from
+maintainedBy: Sinal
+setupSteps:
+  - title: Conecte a conta
+    detail: Em Integrações, escolha Sinal e entre com a sua conta de lá.
+  - title: Escolha o que sincronizar
+    detail: "Marque o que deve vir para a Travessia: pagamentos, horas ou clientes."
+  - title: Confira o primeiro envio
+    detail: O próximo item aparece no seu extrato marcado com Sinal.
+featured: false
+sphere:
+  include: true
+  weight: 2
+  tone: plain
+translationKey: sinal
+---
+
+Sinal é uma integração fictícia, criada para este site de demonstração.

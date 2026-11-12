@@ -1,0 +1,92 @@
+@layer components {
+  .trigger {
+    position: relative;
+    flex-shrink: 0;
+    display: inline-grid;
+    place-items: center;
+    inline-size: var(--size-icon-m);
+    block-size: var(--size-icon-m);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--color-text-subtle);
+    vertical-align: middle;
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+
+  /* A 44 px tap area around the small icon. */
+  .trigger::after {
+    content: '';
+    position: absolute;
+    inset: calc((var(--size-tap) - var(--size-icon-m)) / -2);
+  }
+
+  .trigger:hover,
+  .trigger[data-popup-open] {
+    color: var(--color-text-base);
+  }
+
+  .trigger:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .trigger svg {
+    inline-size: var(--size-icon-s);
+    block-size: var(--size-icon-s);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+  }
+
+  .dot {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .positioner {
+    z-index: 50;
+  }
+
+  .popup {
+    max-inline-size: min(18rem, calc(100vw - var(--space-gutter) * 2));
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--radius-s);
+    background-color: var(--color-bg-base);
+    box-shadow: var(--shadow-3-on-dark);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+    transition:
+      opacity var(--duration-fast) var(--ease-fade),
+      translate var(--duration-fast) var(--ease-base);
+  }
+
+  .popup[data-starting-style],
+  .popup[data-ending-style] {
+    opacity: 0;
+    translate: 0 var(--space-3xs);
+  }
+
+  .arrow {
+    inline-size: var(--space-s);
+    block-size: var(--space-2xs);
+    background-color: var(--color-bg-base);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+
+  .arrow[data-side='top'] {
+    inset-block-end: calc(var(--space-2xs) * -1);
+  }
+
+  .arrow[data-side='bottom'] {
+    inset-block-start: calc(var(--space-2xs) * -1);
+    rotate: 180deg;
+  }
+
+  .text {
+    margin: 0;
+  }
+}

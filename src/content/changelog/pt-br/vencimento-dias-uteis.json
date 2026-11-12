@@ -1,0 +1,9 @@
+{
+  "title": "Vencimento em dias úteis",
+  "slug": "vencimento-dias-uteis",
+  "date": "2026-11-06",
+  "type": "improved",
+  "area": "invoices",
+  "summary": "Ao criar uma fatura, você escolhe o prazo em dias úteis do país do cliente. Feriados nos EUA, no Reino Unido e na zona do euro já entram na conta.",
+  "translationKey": "vencimento-dias-uteis"
+}

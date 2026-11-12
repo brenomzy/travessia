@@ -1,0 +1,91 @@
+{
+  "page": "forClients",
+  "translationKey": "forClients",
+  "seo": {
+    "title": "Para clientes: como pagar um freelancer no Brasil | Travessia",
+    "description": "O freelancer manda uma fatura em inglês, na sua moeda. Você paga por cartão ou transferência local, como qualquer fornecedor. Sem criar conta."
+  },
+  "hero": {
+    "title": "Pagar um freelancer no Brasil, do jeito simples",
+    "lead": "O freelancer manda uma fatura em inglês, na sua moeda. Você paga por cartão ou transferência local, como qualquer outro fornecedor.",
+    "primary": {
+      "label": "Ver um exemplo de fatura",
+      "feature": "international-invoices"
+    },
+    "secondary": {
+      "label": "Perguntas do financeiro",
+      "href": "#faq-title"
+    }
+  },
+  "invoice": {
+    "number": "Invoice #0042",
+    "from": "Ana Ribeiro · Product design",
+    "status": "Paid · Nov 14",
+    "billToLabel": "Bill to",
+    "billTo": "Halden & Co., London",
+    "lines": [
+      {
+        "label": "Interface design, October",
+        "amount": "1,600.00"
+      },
+      {
+        "label": "Two revision rounds",
+        "amount": "400.00"
+      }
+    ],
+    "totalLabel": "Total",
+    "total": "US$ 2,000.00",
+    "methods": [
+      "Card",
+      "Bank transfer"
+    ]
+  },
+  "steps": {
+    "title": "O que acontece do seu lado",
+    "items": [
+      {
+        "title": "Você recebe um e-mail",
+        "detail": "Com a fatura em PDF e um link seguro. Sem conta, sem app."
+      },
+      {
+        "title": "Você paga como já paga hoje",
+        "detail": "Cartão ou transferência local em USD, EUR ou GBP para uma conta na sua região."
+      },
+      {
+        "title": "Você recebe um recibo",
+        "detail": "Um recibo de pagamento para a contabilidade, em inglês, assim que o pagamento é confirmado."
+      }
+    ]
+  },
+  "panels": [
+    {
+      "title": "Formas de pagamento",
+      "tone": "tint",
+      "items": [
+        "Cartão de crédito ou débito, na sua moeda",
+        "Transferência local nos EUA, no Reino Unido e na zona do euro",
+        "O freelancer arca com as taxas; você paga o total da fatura"
+      ]
+    },
+    {
+      "title": "O que o seu financeiro recebe",
+      "tone": "dark",
+      "items": [
+        "Uma fatura com o nome empresarial e o CNPJ do freelancer",
+        "Um recibo de pagamento com o mesmo número da fatura",
+        "Pagamentos processados por parceiros autorizados, nunca pela conta pessoal do freelancer"
+      ]
+    }
+  ],
+  "faq": {
+    "title": "Perguntas do financeiro",
+    "lead": "Faltou alguma? O freelancer pode encaminhar a sua pergunta para a gente."
+  },
+  "cta": {
+    "title": "Peça ao seu freelancer uma fatura da Travessia",
+    "link": {
+      "label": "Ver um exemplo de fatura",
+      "feature": "international-invoices"
+    }
+  }
+}

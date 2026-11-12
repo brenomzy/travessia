@@ -1,0 +1,119 @@
+{
+  "page": "openAccount",
+  "translationKey": "openAccount",
+  "seo": {
+    "title": "Entre na lista de espera | Travessia",
+    "description": "Estamos abrindo contas aos poucos. Entre na lista com nome e e-mail; este site é uma demonstração e não guarda nada."
+  },
+  "title": "Entre na lista de espera",
+  "lead": "Estamos abrindo contas aos poucos, por ordem de chegada. Você recebe um e-mail quando a sua estiver pronta.",
+  "steps": [
+    "Você entra com nome e e-mail. Só isso.",
+    "Quando chegar a sua vez, mandamos o convite.",
+    "A conta abre em cerca de 10 minutos, pelo celular."
+  ],
+  "form": {
+    "title": "Seus dados",
+    "note": "Nada é enviado: este site é uma demonstração.",
+    "name": {
+      "label": "Nome",
+      "placeholder": "Como podemos te chamar",
+      "missing": "Escreva o seu nome."
+    },
+    "email": {
+      "label": "E-mail",
+      "placeholder": "voce@email.com",
+      "missing": "Escreva o seu e-mail.",
+      "invalid": "Esse e-mail parece incompleto."
+    },
+    "work": {
+      "label": "Como você trabalha (opcional)",
+      "placeholder": "Escolha uma opção",
+      "options": [
+        {
+          "value": "mei",
+          "label": "MEI"
+        },
+        {
+          "value": "company",
+          "label": "Empresa (Simples ou outro regime)"
+        },
+        {
+          "value": "individual",
+          "label": "Pessoa física"
+        }
+      ]
+    },
+    "country": {
+      "label": "País do seu principal cliente (opcional)",
+      "placeholder": "Comece a digitar",
+      "empty": "Nenhum país encontrado.",
+      "clear": "Limpar país",
+      "open": "Mostrar países",
+      "options": [
+        {
+          "value": "us",
+          "label": "Estados Unidos"
+        },
+        {
+          "value": "gb",
+          "label": "Reino Unido"
+        },
+        {
+          "value": "de",
+          "label": "Alemanha"
+        },
+        {
+          "value": "pt",
+          "label": "Portugal"
+        },
+        {
+          "value": "ca",
+          "label": "Canadá"
+        },
+        {
+          "value": "fr",
+          "label": "França"
+        },
+        {
+          "value": "nl",
+          "label": "Países Baixos"
+        },
+        {
+          "value": "ie",
+          "label": "Irlanda"
+        },
+        {
+          "value": "es",
+          "label": "Espanha"
+        },
+        {
+          "value": "au",
+          "label": "Austrália"
+        },
+        {
+          "value": "ch",
+          "label": "Suíça"
+        },
+        {
+          "value": "other",
+          "label": "Outro país"
+        }
+      ]
+    },
+    "newsletter": "Quero receber o guia de recebimentos do exterior (um e-mail por mês, no máximo).",
+    "submit": "Entrar na lista",
+    "privacy": "Nunca pedimos senha, CPF ou dados bancários por aqui. Veja a {link}.",
+    "privacyLink": "política de privacidade"
+  },
+  "success": {
+    "title": "Pronto, {name}. Sua posição na fila: {position}.",
+    "text": "Nada foi enviado nem guardado: este site é uma demonstração.",
+    "again": "Preencher de novo"
+  },
+  "toast": {
+    "title": "Você está na lista",
+    "description": "Demonstração: nenhum dado saiu do seu navegador.",
+    "close": "Fechar aviso"
+  }
+}

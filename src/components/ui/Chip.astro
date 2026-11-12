@@ -1,0 +1,30 @@
+---
+/** A small outlined pill, as a link or plain text (Paper: feature template, related integrations). */
+interface Props {
+  href?: string;
+}
+const { href } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag class="chip" href={href}><slot /></Tag>
+
+<style>
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-sm);
+    text-decoration: none;
+    transition: border-color var(--duration-fast) var(--ease-hover);
+  }
+
+  a.chip:hover {
+    border-color: var(--color-border-strong);
+  }
+</style>

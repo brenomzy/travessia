@@ -1,0 +1,82 @@
+---
+/** Fee calculator page, shared by /calculadora and /en/calculator (Paper: Pages · product and sales → /calculadora). */
+import seamCta from '../../assets/textures/seam-cta.png';
+import seamMobile from '../../assets/textures/mobile-seam-v2.png';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CalculatorExamples from '../sections/CalculatorExamples.astro';
+import NoteCards from '../sections/NoteCards.astro';
+import FeeCalculatorSeam from '../islands/FeeCalculatorSeam';
+import { langTag, t, type Locale } from '../../i18n';
+import { alternates } from '../../i18n/routes';
+import { getPage, getPlans, getRates } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const s = t(locale);
+const page = await getPage(locale, 'calculator');
+const [plans, rates] = await Promise.all([getPlans(), getRates()]);
+const feePercent = Math.min(...plans.map((p) => p.data.fee));
+const tool = page.tool;
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('calculator')}
+  headerVariant="dark"
+  current="calculator"
+>
+  <section
+    class="tool"
+    data-theme="dark"
+    aria-labelledby="page-title"
+    style={`--seam-desktop: url(${seamCta.src}); --seam-mobile: url(${seamMobile.src});`}
+  >
+    <FeeCalculatorSeam
+      client:load
+      lang={langTag[locale]}
+      currencies={rates.map(({ data }) => ({ id: data.id, name: data.name[locale], symbol: data.symbol, rate: data.rate }))}
+      feePercent={feePercent}
+      defaultAmount={tool.defaultAmount}
+      brlSymbol={s.common.currencyBRL}
+      labels={{
+        title: tool.title,
+        currency: tool.currencyLabel,
+        amount: tool.amountLabel,
+        fee: tool.feeLabel,
+        rate: tool.rateLabel,
+        arrives: tool.arrivesLabel,
+        arrivesFallback: tool.arrivesFallback,
+        result: tool.resultLabel,
+        disclaimer: tool.disclaimer,
+      }}
+    />
+  </section>
+  <CalculatorExamples
+    locale={locale}
+    content={page.examples}
+    rates={rates}
+    feePercent={feePercent}
+    currencyBRL={s.common.currencyBRL}
+  />
+  <NoteCards notes={page.notes} spacing="none" />
+</BaseLayout>
+
+<style>
+  .tool {
+    background-color: var(--color-bg-base);
+  }
+
+  /* From 1024 px the seam runs down the middle, behind the card (Paper: seam-cta, 1440 × 600). */
+  @media (width >= 64rem) {
+    .tool {
+      background-image: var(--seam-desktop);
+      background-size: cover;
+      background-position: center;
+      image-rendering: pixelated;
+    }
+  }
+</style>

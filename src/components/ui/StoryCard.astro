@@ -1,0 +1,143 @@
+---
+/**
+ * A customer story on the stories index (Paper: /historias → Mais histórias): who, the quote, one
+ * number and a link. data-filter-* attributes let ChipFilter show or hide it.
+ */
+import Avatar from './Avatar.astro';
+import Icon from './Icon.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  story: CollectionEntry<'customers'>['data'];
+  href: string;
+  readLabel: string;
+  /** Accessible name for the link, e.g. "Ler a história de Ana Ribeiro". */
+  readAbout: string;
+  /** Space-separated filter tags, e.g. "design studio". */
+  tags: string;
+  /** Element to render: li inside a filtered list, div elsewhere. */
+  as?: 'li' | 'div';
+}
+const { story: s, href, readLabel, readAbout, tags, as: Tag = 'li' } = Astro.props;
+---
+
+<Tag class="card" data-filter-item data-filter-kind={tags}>
+  <div class="who">
+    <Avatar name={s.person.name} />
+    <span>
+      <strong>{s.person.name}</strong>
+      <span class="role">{s.role} · {s.city.split(',')[0]}</span>
+    </span>
+  </div>
+  <blockquote><p>“{s.quote}”</p></blockquote>
+  <div class="foot">
+    <p class="metric">
+      <strong>{s.highlight.value}</strong>
+      <span>{s.highlight.label}</span>
+    </p>
+    <a href={href} aria-label={readAbout}>{readLabel} <Icon name="arrow-right" /></a>
+  </div>
+</Tag>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding: var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+    transition: border-color var(--duration-fast) var(--ease-hover);
+  }
+
+  .card[hidden] {
+    display: none;
+  }
+
+  .card:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .card:focus-within {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .who {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .who > span {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .role {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  blockquote {
+    flex: 1;
+    margin: 0;
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block-start: var(--space-s);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .metric {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .metric strong {
+    color: var(--color-link);
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .metric span {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  a {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-3xs);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    --icon-size: var(--size-icon-s);
+  }
+
+  /* The link covers the card. */
+  a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  a:focus-visible {
+    outline: none;
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+/** PT / EN as plain links (no JS). The current language is marked, not linked. */
+import { langCode, langTag, locales, t, type Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  alternates: Record<Locale, string>;
+}
+const { locale, alternates } = Astro.props;
+const s = t(locale);
+---
+
+<nav class="switcher" aria-label={s.a11y.languageNav}>
+  {
+    locales.map((l, i) => (
+      <>
+        {i > 0 && <span aria-hidden="true">/</span>}
+        {l === locale ? (
+          <span aria-current="true" lang={langTag[l]}>{langCode[l]}</span>
+        ) : (
+          <a href={alternates[l]} hreflang={langTag[l]} lang={langTag[l]} title={s.language.switchTo}>
+            {langCode[l]}
+          </a>
+        )}
+      </>
+    ))
+  }
+</nav>
+
+<style>
+  .switcher {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: 1;
+    color: var(--color-text-subtle);
+  }
+
+  [aria-current] {
+    color: var(--color-text-base);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    padding: var(--space-2xs) var(--space-3xs);
+    margin: calc(var(--space-2xs) * -1) calc(var(--space-3xs) * -1);
+  }
+
+  a:hover {
+    color: var(--color-text-base);
+    text-decoration: underline;
+  }
+</style>

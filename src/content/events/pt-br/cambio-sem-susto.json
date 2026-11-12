@@ -1,0 +1,59 @@
+{
+  "title": "Câmbio sem susto",
+  "slug": "cambio-sem-susto",
+  "kind": "Webinar ao vivo",
+  "kindPast": "Gravação",
+  "lead": "Quando converter, como ler a cotação e o que é spread, com exemplos de quem recebe do exterior.",
+  "leadPast": "Gravado em 15 out 2026 com Tiago Alves e Ana Ribeiro. 46 minutos, com legendas em português.",
+  "date": "2026-10-15",
+  "time": "19h às 20h (BRT)",
+  "place": "Online, gratuito",
+  "duration": "46:30",
+  "agenda": [
+    {
+      "time": "19h00",
+      "chapter": "00:00",
+      "title": "O que é a cotação comercial",
+      "detail": "E por que o número do banco é diferente."
+    },
+    {
+      "time": "19h15",
+      "chapter": "12:20",
+      "title": "Spread, tarifa e IOF",
+      "detail": "Um exemplo com US$ 2.000, custo a custo."
+    },
+    {
+      "time": "19h35",
+      "chapter": "28:40",
+      "title": "Quando converter",
+      "detail": "As três regras da Ana para não converter no pior dia."
+    },
+    {
+      "time": "19h50",
+      "chapter": "38:05",
+      "title": "Perguntas",
+      "detail": "As dúvidas que chegaram pelo chat."
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Tiago Alves",
+      "role": "Engenheiro da Travessia, cuida de câmbio e pagamentos"
+    },
+    {
+      "name": "Ana Ribeiro",
+      "role": "Designer de produto em Recife, cliente desde 2025"
+    }
+  ],
+  "register": {
+    "title": "Garanta sua vaga",
+    "text": "Mandamos o link de acesso e, depois, a gravação.",
+    "count": "420 pessoas inscritas",
+    "submit": "Inscrever-se"
+  },
+  "missed": {
+    "title": "Perdeu a transmissão?",
+    "text": "A gravação completa está nesta página."
+  },
+  "translationKey": "cambio-sem-susto"
+}

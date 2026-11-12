@@ -1,0 +1,158 @@
+---
+/** Privacy and terms, shared by /privacidade, /termos and their EN routes (Paper: Pages · company and utility → Legal). */
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../ui/Prose.astro';
+import TocNav from '../ui/TocNav.astro';
+import { type Locale } from '../../i18n';
+import { alternates, path } from '../../i18n/routes';
+import { getLegal, getPage } from '../../lib/content';
+import { shortDate } from '../../lib/format';
+
+interface Props {
+  locale: Locale;
+  doc: CollectionEntry<'legal'>;
+}
+const { locale, doc } = Astro.props;
+const d = doc.data;
+const page = await getPage(locale, 'legal');
+const docs = (await getLegal(locale)).sort((a, b) => a.data.route.localeCompare(b.data.route));
+const { Content, headings } = await render(doc);
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${d.title} | Travessia`}
+  description={d.summary[0]}
+  alternates={alternates(d.route)}
+  headerVariant="dark"
+  current={d.route}
+>
+  <section class="head" data-theme="dark" aria-labelledby="page-title">
+    <div class="l-container" data-width="text">
+      <nav class="tabs" aria-label={page.tabsLabel}>
+        <ul role="list">
+          {
+            docs.map(({ data: x }) => (
+              <li>
+                <a href={path(x.route, locale)} aria-current={x.route === d.route ? 'page' : undefined}>
+                  {x.tab}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <h1 id="page-title">{d.title}</h1>
+      <p class="version">{page.version.replace('{version}', d.version).replace('{date}', shortDate(locale, d.effective))}</p>
+    </div>
+  </section>
+
+  <div class="l-container body">
+    <aside class="side">
+      <TocNav label={page.toc} headings={headings} />
+    </aside>
+    <div class="main">
+      <div class="summary" data-theme="tint">
+        <h2>{d.summaryTitle}</h2>
+        <ul role="list">
+          {d.summary.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <Prose><Content /></Prose>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .head {
+    padding-block: var(--space-2xl);
+    background-color: var(--color-bg-base);
+  }
+
+  .head .l-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .tabs ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l);
+    font-size: var(--text-sm);
+  }
+
+  .tabs a {
+    padding-block-end: var(--space-3xs);
+    border-block-end: var(--size-focus-ring) solid transparent;
+    color: var(--color-text-highlight);
+    text-decoration: none;
+  }
+
+  .tabs a[aria-current] {
+    border-block-end-color: var(--color-text-highlight);
+    color: var(--color-text-base);
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .version {
+    color: var(--color-text-highlight);
+    font-size: var(--text-sm);
+  }
+
+  .body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-2xl) var(--space-3xl);
+    padding-block: var(--space-2xl) var(--space-section);
+  }
+
+  .side {
+    flex: 1 1 14rem;
+    max-inline-size: 16rem;
+  }
+
+  @media (width >= 64rem) {
+    .side {
+      position: sticky;
+      inset-block-start: calc(var(--size-header) + var(--space-l));
+    }
+  }
+
+  .main {
+    display: flex;
+    flex: 999 1 30rem;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    min-inline-size: 0;
+  }
+
+  .summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-inline-size: var(--size-measure-text);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .summary h2 {
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .summary ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    color: var(--color-text-muted);
+  }
+</style>

@@ -1,0 +1,41 @@
+/*
+ * Blur-in scroll reveals (src/lib/motion/reveal.ts), after brenodaroz.com.
+ *
+ * The rules apply only after the script has marked <html data-motion="ready">, only on screens and
+ * only when motion is allowed, so content is never hidden without JS, in print or with reduced motion.
+ * Once an element's reveal finishes, the script marks it data-reveal-done and these rules let go,
+ * so the component's own transitions (hover shadows and so on) work again.
+ *
+ * Inside [data-reveal-intro] (the hero) the reveal is softer and slower, as on page load.
+ *
+ * Imported without a layer so it beats the components' scoped `transition` while a reveal runs.
+ */
+@media screen and (prefers-reduced-motion: no-preference) {
+  :root[data-motion='ready'] [data-reveal-intro] {
+    --reveal-blur: var(--reveal-intro-blur);
+    --reveal-distance: var(--reveal-intro-distance);
+    --reveal-move: var(--reveal-intro-move);
+  }
+
+  /* Waiting below the fold: transparent, blurred, a little low. */
+  :root[data-motion='ready'] :is([data-reveal]:not([data-revealed]), [data-reveal-stagger]:not([data-revealed]) > *) {
+    opacity: 0;
+    filter: blur(var(--reveal-blur));
+    translate: 0 var(--reveal-distance);
+  }
+
+  /*
+   * In view: the start state stops matching, so each element transitions back to its own values
+   * (an element styled at 0.8 opacity lands at 0.8). Fade fast, clear the blur slower, settle on a
+   * critically damped spring.
+   */
+  :root[data-motion='ready']
+    :is([data-reveal][data-revealed], [data-reveal-stagger][data-revealed] > *):not([data-reveal-done]) {
+    --reveal-delay: calc(var(--reveal-index, 0) * var(--duration-stagger));
+
+    transition:
+      opacity var(--reveal-fade) var(--ease-fade) var(--reveal-delay),
+      filter var(--reveal-focus) var(--ease-fade) var(--reveal-delay),
+      translate var(--reveal-move) var(--spring-crit) var(--reveal-delay);
+  }
+}

@@ -1,0 +1,294 @@
+---
+/** Blog post, shared by /blog/[slug] and /en/blog/[slug] (Paper: Pages · content → blog post). */
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../sections/Section.astro';
+import Breadcrumb from '../ui/Breadcrumb.astro';
+import PostCover from '../ui/PostCover.astro';
+import PostCard from '../ui/PostCard.astro';
+import Prose from '../ui/Prose.astro';
+import TocNav from '../ui/TocNav.astro';
+import Avatar from '../ui/Avatar.astro';
+import Button from '../ui/Button.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import { langTag, t, type Locale } from '../../i18n';
+import { blogCategoryPath, path, postPath } from '../../i18n/routes';
+import { getAuthor, getPage, getPosts, type Post } from '../../lib/content';
+import { shortDate } from '../../lib/format';
+
+interface Props {
+  locale: Locale;
+  post: Post;
+}
+const { locale, post } = Astro.props;
+const p = post.data;
+const s = t(locale);
+const page = await getPage(locale, 'blog');
+const author = await getAuthor(p.author);
+const { Content, headings } = await render(post);
+const other: Locale = locale === 'pt-br' ? 'en' : 'pt-br';
+const translation = (await getPosts(other)).find((e) => e.data.translationKey === p.translationKey);
+if (!translation) throw new Error(`Missing ${other} translation of post "${p.translationKey}"`);
+const pageAlternates = { [locale]: postPath(p.slug, locale), [other]: postPath(translation.data.slug, other) } as Record<Locale, string>;
+const all = await getPosts(locale);
+const related = [
+  ...all.filter((e) => e.data.category === p.category && e.data.slug !== p.slug),
+  ...all.filter((e) => e.data.category !== p.category),
+].slice(0, 3);
+const cat = page.categories[p.category];
+const date = shortDate(locale, p.date);
+const site = Astro.site ?? new URL('https://travessia.example');
+const url = new URL(pageAlternates[locale], site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: p.title,
+  description: p.description,
+  datePublished: p.date.toISOString().slice(0, 10),
+  inLanguage: langTag[locale],
+  author: { '@type': 'Person', name: author.name, jobTitle: author.role[locale] },
+  mainEntityOfPage: url,
+};
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${p.title} | ${s.meta.siteName}`}
+  description={p.description}
+  alternates={pageAlternates}
+  headerVariant="dark"
+  current="blog"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <article aria-labelledby="page-title">
+    <header class="head l-container" data-width="text">
+      <div class="head-inner" data-reveal-stagger>
+        <Breadcrumb
+          label={s.a11y.breadcrumb}
+          items={[
+            { label: page.title, href: path('blog', locale) },
+            { label: cat.label, href: blogCategoryPath(cat.slug, locale) },
+          ]}
+        />
+        <h1 id="page-title">{p.title}</h1>
+        <p class="dek">{p.description}</p>
+        <p class="byline">
+          <Avatar name={author.name} />
+          <span>
+            <strong>{author.name}</strong>
+            <span class="meta">
+              {author.role[locale]} · <time datetime={p.date.toISOString().slice(0, 10)}>{date}</time> ·
+              {page.readingTime.replace('{n}', String(post.minutes))}
+            </span>
+          </span>
+        </p>
+      </div>
+    </header>
+
+    <div class="l-container banner" data-reveal>
+      <PostCover size="banner" category={p.category} categoryLabel={cat.label} />
+    </div>
+
+    <div class="l-container body">
+      <aside class="side">
+        <TocNav label={page.post.toc} headings={headings} />
+        <div class="calc" data-theme="tint">
+          <p class="calc-title">{page.post.calculator.title}</p>
+          <p>{page.post.calculator.text}</p>
+          <a href={path('calculator', locale)}>{page.post.calculator.link}</a>
+        </div>
+      </aside>
+      <div class="main">
+        <Prose><Content /></Prose>
+        <footer class="author">
+          <p class="byline">
+            <Avatar name={author.name} />
+            <span>
+              <strong>{author.name}</strong>
+              <span class="meta">{author.bio[locale]}</span>
+            </span>
+          </p>
+          <div class="share" role="group" aria-label={page.post.shareLabel}>
+            <Button variant="secondary" size="s" type="button" data-copy-link={url} data-copied={page.post.copied}>
+              {page.post.copyLink}
+            </Button>
+            <Button
+              variant="secondary"
+              size="s"
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
+              target="_blank"
+              rel="noopener"
+            >
+              {page.post.linkedin}
+            </Button>
+          </div>
+          <p class="u-visually-hidden" role="status" data-copy-status></p>
+        </footer>
+      </div>
+    </div>
+  </article>
+
+  <Section labelledby="continue-title">
+    <div class="l-stack" style="--gap: var(--space-l)">
+      <h2 id="continue-title" class="continue-title">{page.post.continueTitle}</h2>
+      <ul class="grid" role="list" data-reveal-stagger>
+        {
+          related.map((r) => (
+            <PostCard
+              post={r}
+              locale={locale}
+              href={postPath(r.data.slug, locale)}
+              categoryLabel={page.categories[r.data.category].label}
+              minutesLabel={page.minutes}
+              compact
+            />
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+</BaseLayout>
+
+<MotionScript />
+
+<script>
+  // "Copy link": copies the post URL and says so for screen readers. Nothing else is shared.
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy-link]')) {
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copyLink ?? location.href);
+        const status = document.querySelector('[data-copy-status]');
+        if (status) status.textContent = button.dataset.copied ?? '';
+      } catch {
+        // Clipboard can be blocked; the URL is still in the address bar.
+      }
+    });
+  }
+</script>
+
+<style>
+  .head {
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+
+  .head-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .dek {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+  }
+
+  .byline > span {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .banner {
+    padding-block-end: var(--space-2xl);
+  }
+
+  .body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-2xl) var(--space-3xl);
+    padding-block-end: var(--space-xl);
+  }
+
+  .side {
+    display: flex;
+    flex: 1 1 14rem;
+    flex-direction: column;
+    gap: var(--space-l);
+    max-inline-size: 16rem;
+  }
+
+  @media (width >= 64rem) {
+    .side {
+      position: sticky;
+      inset-block-start: calc(var(--size-header) + var(--space-l));
+    }
+  }
+
+  .calc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-base);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .calc-title {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .calc p:not(.calc-title) {
+    color: var(--color-text-muted);
+  }
+
+  .calc a {
+    color: var(--color-link);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .main {
+    display: flex;
+    flex: 999 1 30rem;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    min-inline-size: 0;
+  }
+
+  .author {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    max-inline-size: var(--size-measure-text);
+    padding-block: var(--space-l);
+    border-block: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .share {
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  .continue-title {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-xl) var(--space-m);
+  }
+</style>

@@ -1,0 +1,65 @@
+{
+  "page": "about",
+  "translationKey": "about",
+  "seo": {
+    "title": "Sobre a Travessia",
+    "description": "Começamos porque um pagamento de Londres chegou com R$ 600 a menos. A Travessia é a conta que os fundadores queriam ter."
+  },
+  "title": "Começamos porque um pagamento de Londres chegou com R$ 600 a menos",
+  "lead": "Em 2025, nossos fundadores ainda eram freelancers. A Travessia é a conta que eles queriam ter.",
+  "story": {
+    "title": "Como chegamos aqui",
+    "paragraphs": [
+      "Rafael Sato e Bia Nunes trabalhavam como designers para estúdios na Europa. Cada fatura passava por uma transferência internacional, um spread que ninguém explicava e uma nota fiscal emitida à mão no fim do mês.",
+      "Num mês de 2025, fizeram a conta: um pagamento de US$ 4.000 chegou com R$ 600 a menos do que o câmbio comercial do dia. Foi o ponto de partida.",
+      "Hoje a Travessia tem 14 pessoas, em São Paulo e Recife, e atende 2.140 contas de freelancers e estúdios brasileiros com clientes em 31 países."
+    ]
+  },
+  "panels": [
+    {
+      "title": "O que fazemos",
+      "tone": "tint",
+      "items": [
+        "Emitimos faturas em inglês e recebemos em dólar, euro e libra.",
+        "Convertemos para reais com uma taxa de 0,6%, mostrada antes de você confirmar.",
+        "Emitimos a nota fiscal de exportação a cada pagamento."
+      ]
+    },
+    {
+      "title": "O que não fazemos",
+      "tone": "outline",
+      "items": [
+        "Não oferecemos crédito, investimentos nem cartão.",
+        "Não cobramos tarifa de recebimento ou saque.",
+        "Não guardamos o seu dinheiro além do tempo de converter."
+      ]
+    }
+  ],
+  "team": {
+    "title": "Quem faz",
+    "note": "14 pessoas · São Paulo e Recife",
+    "people": [
+      {
+        "name": "Rafael Sato",
+        "role": "Cofundador, produto"
+      },
+      {
+        "name": "Bia Nunes",
+        "role": "Cofundadora, design"
+      },
+      {
+        "name": "Tiago Alves",
+        "role": "Engenharia, câmbio"
+      },
+      {
+        "name": "Marina Teles",
+        "role": "Contabilidade e conteúdo"
+      }
+    ]
+  },
+  "disclaimer": {
+    "title": "Esta empresa não existe",
+    "text": "A Travessia é um projeto de demonstração, criado para testar o Source by Webflow com um site completo. As pessoas, histórias, números e integrações desta página são inventados.",
+    "note": "Nenhum formulário guarda dados e nenhum dinheiro é movimentado."
+  }
+}

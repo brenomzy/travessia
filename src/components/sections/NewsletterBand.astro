@@ -1,0 +1,76 @@
+---
+/** The tinted newsletter panel (Paper: /blog → "Um e-mail por mês"). Email only; it posts nowhere (SPEC D18). */
+import Section from './Section.astro';
+import WaitlistForm from '../ui/WaitlistForm.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import type { Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  text: string;
+  submit: string;
+}
+const { locale, title, text, submit } = Astro.props;
+---
+
+<Section spacing="none" labelledby="newsletter-title">
+  <div class="panel" id="newsletter" data-theme="tint" data-reveal>
+    <div class="copy">
+      <h2 id="newsletter-title">{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="form"><WaitlistForm locale={locale} layout="inline" withName={false} submitLabel={submit} /></div>
+  </div>
+</Section>
+
+<MotionScript />
+
+<style>
+  .panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-l) var(--space-2xl);
+    margin-block-end: var(--space-section);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .copy {
+    display: flex;
+    flex: 1 1 22rem;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    max-inline-size: 30rem;
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  p {
+    color: var(--color-text-muted);
+  }
+
+  /* min-inline-size: 0 so the inline field (email + button) can shrink on phones. */
+  .form {
+    flex: 1 1 20rem;
+    min-inline-size: 0;
+    max-inline-size: 26rem;
+  }
+
+  .form :global(input) {
+    min-inline-size: 0;
+  }
+
+  @media (width >= 48rem) {
+    .panel {
+      padding: var(--space-xl);
+    }
+  }
+</style>

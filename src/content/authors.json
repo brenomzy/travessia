@@ -1,0 +1,38 @@
+[
+  {
+    "id": "marina-teles",
+    "name": "Marina Teles",
+    "role": {
+      "pt-br": "Contadora",
+      "en": "Accountant"
+    },
+    "bio": {
+      "pt-br": "Contadora, atende freelancers desde 2014",
+      "en": "Accountant, working with freelancers since 2014"
+    }
+  },
+  {
+    "id": "rafael-sato",
+    "name": "Rafael Sato",
+    "role": {
+      "pt-br": "Cofundador, produto",
+      "en": "Co-founder, product"
+    },
+    "bio": {
+      "pt-br": "Cofundador da Travessia, cuida do produto",
+      "en": "Travessia co-founder, runs product"
+    }
+  },
+  {
+    "id": "tiago-alves",
+    "name": "Tiago Alves",
+    "role": {
+      "pt-br": "Engenharia, câmbio",
+      "en": "Engineering, exchange"
+    },
+    "bio": {
+      "pt-br": "Engenheiro, cuida de câmbio e pagamentos",
+      "en": "Engineer, works on exchange and payments"
+    }
+  }
+]

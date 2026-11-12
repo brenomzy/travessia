@@ -1,0 +1,194 @@
+---
+/** "A taxa é sempre 0,6%" (Paper: Home → Section · Pricing): plan cards from plans.json, monthly/annual toggle. */
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import Button from '../ui/Button.astro';
+import BillingToggle from '../islands/BillingToggle';
+import { langTag, type Locale } from '../../i18n';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  titleSecond?: string;
+  /** Keep the heading for screen readers only (the pricing page, where the hero says it). */
+  hideTitle?: boolean;
+  /**
+   * Whether this section holds its own billing scope. The pricing page puts the scope on a wrapper
+   * so the same toggle also switches the comparison table.
+   */
+  ownScope?: boolean;
+  spacing?: 'default' | 'after-strip';
+  billingLabel: string;
+  billing: { monthly: string; annual: string };
+  perMonth: string;
+  perYear: string;
+  popular: string;
+  usdNote: string;
+  currencyBRL: string;
+  plans: CollectionEntry<'plans'>[];
+  ctaHref: string;
+}
+const p = Astro.props;
+const num = (n: number) => n.toLocaleString(langTag[p.locale]);
+const periods = [
+  { key: 'monthly', unit: p.perMonth },
+  { key: 'annual', unit: p.perYear },
+] as const;
+---
+
+<Section labelledby="pricing-title" spacing={p.spacing}>
+  <div
+    class="pricing l-stack"
+    style="--gap: var(--space-2xl)"
+    data-billing-scope={p.ownScope === false ? undefined : ''}
+    data-billing={p.ownScope === false ? undefined : 'monthly'}
+  >
+    <div class="head" data-reveal-stagger data-hidden-title={p.hideTitle ? '' : undefined}>
+      <h2 id="pricing-title" class:list={[{ 'u-visually-hidden': p.hideTitle }]}>
+        {p.title}{p.titleSecond && <><br />{p.titleSecond}</>}
+      </h2>
+      <BillingToggle client:visible label={p.billingLabel} options={p.billing} />
+    </div>
+    <ul class="plans" role="list" data-reveal-stagger>
+      {
+        p.plans.map(({ data: plan }) => (
+          <li class="plan" data-theme={plan.highlight ? 'dark' : undefined} data-highlight={plan.highlight ? '' : undefined}>
+            <div class="top">
+              <div>
+                <h3>{plan.name[p.locale]}</h3>
+                <p class="summary">{plan.summary[p.locale]}</p>
+              </div>
+              {plan.highlight && <span class="badge">{p.popular}</span>}
+            </div>
+            {periods.map(({ key, unit }) => (
+              <p class="price" data-period={key}>
+                <span class="amount">
+                  {p.currencyBRL} {num(plan.price[key].brl)}
+                </span>
+                <span class="unit">{unit}</span>
+                {p.usdNote && plan.price[key].usd > 0 && (
+                  <span class="usd">{p.usdNote.replace('{usd}', num(plan.price[key].usd))}</span>
+                )}
+              </p>
+            ))}
+            <ul class="features" role="list">
+              {plan.features[p.locale].map((f) => (
+                <li>{f}</li>
+              ))}
+            </ul>
+            <Button variant={plan.highlight ? 'accent' : 'secondary'} href={p.ctaHref} block>
+              {plan.cta[p.locale]}
+            </Button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Section>
+
+<MotionScript />
+
+<style>
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m) var(--space-2xl);
+  }
+
+  .head[data-hidden-title] {
+    justify-content: flex-end;
+  }
+
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    padding: var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .plan[data-highlight] {
+    border-color: transparent;
+  }
+
+  .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    letter-spacing: var(--font-tracking-normal);
+  }
+
+  .summary {
+    margin-block-start: var(--space-2xs);
+    color: var(--color-text-muted);
+  }
+
+  .badge {
+    flex-shrink: 0;
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent-data);
+    color: var(--color-on-data);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs);
+  }
+
+  .amount {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .unit,
+  .usd {
+    color: var(--color-text-muted);
+  }
+
+  .usd {
+    flex-basis: 100%;
+    font-size: var(--text-sm);
+  }
+
+  /* Both periods are in the HTML; the toggle picks one. */
+  :global([data-billing='monthly']) [data-period='annual'],
+  :global([data-billing='annual']) [data-period='monthly'] {
+    display: none;
+  }
+
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-block-start: var(--space-m);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .plan :global(.button) {
+    margin-block-start: auto;
+  }
+</style>

@@ -1,0 +1,68 @@
+@layer components {
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-xl);
+  }
+
+  /* min-inline-size: 0 all the way down, so a long row of chips scrolls instead of widening the page. */
+  .filter {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  .group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  .groupLabel {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .chips {
+    min-inline-size: 0;
+    display: flex;
+    gap: var(--space-2xs);
+    max-inline-size: 100%;
+    padding-block: var(--size-focus-ring);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .chip {
+    flex-shrink: 0;
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--color-text-base);
+    font: inherit;
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover);
+  }
+
+  .chip:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .chip[data-pressed] {
+    border-color: var(--color-text-base);
+    background-color: var(--color-text-base);
+    color: var(--color-bg-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .chip:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+}
