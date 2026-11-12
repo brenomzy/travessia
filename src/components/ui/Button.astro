@@ -56,9 +56,9 @@ const Tag = href ? 'a' : 'button';
     text-decoration: none;
     white-space: nowrap;
     transition:
-      background-color var(--duration-fast) var(--ease-out),
-      color var(--duration-fast) var(--ease-out),
-      translate var(--duration-fast) var(--ease-out);
+      background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover),
+      translate var(--duration-fast) var(--ease-hover);
   }
 
   .button:hover {
@@ -103,7 +103,7 @@ const Tag = href ? 'a' : 'button';
   }
 
   [data-variant='link'] :global(.icon) {
-    transition: translate var(--duration-fast) var(--ease-out);
+    transition: translate var(--duration-fast) var(--ease-hover);
   }
 
   [data-variant='link']:hover :global(.icon) {

@@ -154,7 +154,8 @@
       "sphere": "Esfera de integrações",
       "billing": "Alternância de cobrança",
       "tabs": "Telas do produto (abas)",
-      "strip": "Faixa de costura"
+      "strip": "Faixa de costura",
+      "motion": "Movimento"
     },
     "sample": "Você recebe em reais.",
     "buttonLabels": {
@@ -162,6 +163,7 @@
       "secondary": "Ver taxas",
       "nav": "Abrir conta",
       "link": "Ver o produto"
-    }
+    },
+    "countSample": "0,6%"
   }
 }

@@ -1,5 +1,7 @@
 ---
 /** A section's h2 with a lead or a link on the far side, aligned to the heading's last line. */
+import MotionScript from '../ui/MotionScript.astro';
+
 interface Props {
   id: string;
   title: string;
@@ -8,11 +10,13 @@ interface Props {
 const { id, title, lead } = Astro.props;
 ---
 
-<div class="header">
+<div class="header" data-reveal>
   <h2 id={id}>{title}</h2>
   {lead && <p class="lead">{lead}</p>}
   <slot />
 </div>
+
+<MotionScript />
 
 <style>
   .header {

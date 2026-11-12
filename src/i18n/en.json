@@ -153,7 +153,8 @@
       "sphere": "Integrations sphere",
       "billing": "Billing toggle",
       "tabs": "Product screens (tabs)",
-      "strip": "Seam strip"
+      "strip": "Seam strip",
+      "motion": "Motion"
     },
     "sample": "You get paid in reais.",
     "buttonLabels": {
@@ -161,6 +162,7 @@
       "secondary": "See fees",
       "nav": "Open an account",
       "link": "See the product"
-    }
+    },
+    "countSample": "0.6%"
   }
 }

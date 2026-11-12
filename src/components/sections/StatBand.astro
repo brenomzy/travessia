@@ -2,6 +2,7 @@
 /** The three proof points, each with the bank's number above it (Paper: Home → Section · Outcomes). */
 import Section from './Section.astro';
 import SectionHeader from './SectionHeader.astro';
+import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   title: string;
@@ -14,7 +15,7 @@ const { title, lead, stats } = Astro.props;
 <Section labelledby="outcomes-title">
   <div class="l-stack" style="--gap: var(--space-2xl)">
     <SectionHeader id="outcomes-title" title={title} lead={lead} />
-    <ul class="stats" role="list">
+    <ul class="stats" role="list" data-reveal-stagger>
       {
         stats.map((s) => (
           <li>
@@ -27,6 +28,8 @@ const { title, lead, stats } = Astro.props;
     </ul>
   </div>
 </Section>
+
+<MotionScript />
 
 <style>
   .stats {

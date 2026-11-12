@@ -17,8 +17,8 @@
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
     transition:
-      background-color var(--duration-fast) var(--ease-out),
-      color var(--duration-fast) var(--ease-out);
+      background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover);
   }
 
   .toggle[data-pressed] {

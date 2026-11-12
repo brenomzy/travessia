@@ -5,6 +5,7 @@ import Section from './Section.astro';
 import Button from '../ui/Button.astro';
 import BillingToggle from '../islands/BillingToggle';
 import { langTag, type Locale } from '../../i18n';
+import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   locale: Locale;
@@ -34,7 +35,7 @@ const periods = [
       <h2 id="pricing-title">{p.title}<br />{p.titleSecond}</h2>
       <BillingToggle client:visible label={p.billingLabel} options={p.billing} />
     </div>
-    <ul class="plans" role="list">
+    <ul class="plans" role="list" data-reveal-stagger>
       {
         p.plans.map(({ data: plan }) => (
           <li class="plan" data-theme={plan.highlight ? 'dark' : undefined} data-highlight={plan.highlight ? '' : undefined}>
@@ -70,6 +71,8 @@ const periods = [
     </ul>
   </div>
 </Section>
+
+<MotionScript />
 
 <style>
   .head {

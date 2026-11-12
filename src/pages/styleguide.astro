@@ -15,6 +15,7 @@ import LogoSphere from '../components/ui/LogoSphere.astro';
 import SeamStrip from '../components/sections/SeamStrip.astro';
 import BillingToggle from '../components/islands/BillingToggle';
 import FeatureTabs from '../components/islands/FeatureTabs';
+import MotionScript from '../components/ui/MotionScript.astro';
 import { tokens } from '../tokens/tokens';
 import { t } from '../i18n';
 import { getFeatures, getIntegrations, getPage } from '../lib/content';
@@ -39,6 +40,10 @@ const textSteps = Object.keys(tokens.text);
 const spaceSteps = Object.keys(tokens.space);
 const radii = Object.keys(tokens.radius);
 const shadows = Object.keys(tokens.shadow);
+const easings = [
+  ...Object.keys(tokens.motion.ease).map((k) => `ease-${k}`),
+  ...Object.keys(tokens.motion.spring).filter((k) => k !== 'notification').map((k) => `spring-${k}`),
+];
 const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'close'] as const;
 ---
 
@@ -137,6 +142,27 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
         ))
       }
     </div>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.motion}</h2>
+    <div class="motion">
+      <p class="count" data-count-up>{g.countSample}</p>
+      <ul class="durations" role="list" data-reveal-stagger>
+        {
+          Object.entries(tokens.motion.duration).map(([name, seconds]) => (
+            <li class="duration">
+              <code>--duration-{name}</code>
+              <span>{seconds * 1000}ms</span>
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="easings" role="list">
+        {easings.map((name) => <li><code>--{name}</code></li>)}
+      </ul>
+    </div>
+    <MotionScript />
   </Section>
 
   <Section>
@@ -335,6 +361,44 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     padding: var(--space-s);
     border-radius: var(--radius-m);
     background-color: var(--color-bg-raised);
+  }
+
+  .motion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+
+  .count {
+    color: var(--color-text-highlight);
+    font-size: var(--text-6xl);
+    line-height: var(--leading-6xl);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .durations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+
+  .easings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
+    flex-basis: 100%;
+  }
+
+  .duration {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-s) var(--space-m);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-1);
   }
 
   .logo-slot {

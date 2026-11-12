@@ -31,7 +31,7 @@
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
-    transition: color var(--duration-fast) var(--ease-out);
+    transition: color var(--duration-fast) var(--ease-hover);
   }
 
   .tab:hover {
@@ -58,8 +58,8 @@
     border-radius: var(--radius-pill);
     background-color: var(--color-accent-data);
     transition:
-      inset-inline-start var(--duration-base) var(--ease-out),
-      inline-size var(--duration-base) var(--ease-out);
+      inset-inline-start var(--duration-slow) var(--spring-crit),
+      inline-size var(--duration-slow) var(--spring-crit);
   }
 
   /* ---------- The app window ---------- */
