@@ -11,6 +11,7 @@ import seamMobile from '../../assets/textures/mobile-seam-v2.png';
 import Button from '../ui/Button.astro';
 import Breadcrumb from '../ui/Breadcrumb.astro';
 import MotionScript from '../ui/MotionScript.astro';
+import SeamCanvas from '../ui/SeamCanvas.astro';
 
 interface Props {
   title: string;
@@ -35,6 +36,7 @@ const hasVisual = Astro.slots.has('visual');
   data-size={size}
   style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
 >
+  <div class="seam" aria-hidden="true"><SeamCanvas at={0.4} amp={0.16} align="top" /></div>
   <div class="copy" data-reveal-stagger>
     {breadcrumb && <Breadcrumb label={breadcrumb.label} items={breadcrumb.items} />}
     <slot name="intro" />
@@ -119,6 +121,10 @@ const hasVisual = Astro.slots.has('visual');
     image-rendering: pixelated;
   }
 
+  .seam {
+    display: none;
+  }
+
   .visual > :global(*) {
     inline-size: min(100%, 23.75rem);
   }
@@ -130,8 +136,8 @@ const hasVisual = Astro.slots.has('visual');
 
   /*
    * From 1024 px: the seam runs in from the right, as in Paper (its centre line at 896 of 1440, 11 rem right of the
-   * page centre). The texture is drawn on ::before at 16:10, never narrower than the hero (up to 1440 px), anchored
-   * to its top edge as in Paper. Past its edges the gradient continues the two flat colours.
+   * page centre). The texture is drawn on .seam at 16:10, never narrower than the hero (up to 1440 px), anchored
+   * to its top edge as in Paper. Past its edges the gradient continues the two flat colours. SeamCanvas animates it.
    */
   @media (width >= 64rem) {
     .hero {
@@ -145,8 +151,8 @@ const hasVisual = Astro.slots.has('visual');
       background-image: linear-gradient(to right, var(--color-seam-dark) var(--seam-x), var(--color-seam-light) var(--seam-x));
     }
 
-    .hero::before {
-      content: '';
+    .seam {
+      display: block;
       position: absolute;
       inset-block-start: 0;
       inset-inline-start: var(--seam-x);

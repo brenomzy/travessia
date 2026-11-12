@@ -1,0 +1,67 @@
+---
+/**
+ * The moving version of a seam texture: a WebGL canvas drawn over the seam's PNG (src/lib/motion/seam.ts).
+ * Put it inside the element that paints the PNG with `background-size: cover`; the canvas sizes itself the same
+ * way (full width at the PNG's aspect ratio) and lines up with it. It stays transparent until its first frame,
+ * which matches the PNG, and never shows with reduced motion or without WebGL2. Decorative.
+ *
+ * at, amp and the size come from the PNG's row in docs/design/texture-lab/README.md.
+ */
+interface Props {
+  /** Seam centre line, 0–1 across the texture. */
+  at: number;
+  /** Warp amplitude. */
+  amp: number;
+  /** The PNG's size in pixels. */
+  width?: number;
+  height?: number;
+  /** How the PNG is positioned vertically in its box: background-position center or top. */
+  align?: 'center' | 'top';
+  /** A preset from MOTION_PRESETS in src/lib/generators/seam. */
+  motion?: 'river' | 'flow' | 'drift' | 'breathe' | 'shimmer' | 'still';
+}
+
+const { at, amp, width = 2880, height = 1800, align = 'center', motion = 'river' } = Astro.props;
+---
+
+<canvas
+  class="seam-canvas"
+  data-seam={motion}
+  data-at={at}
+  data-amp={amp}
+  data-width={width}
+  data-height={height}
+  data-align={align}
+  style={`--seam-ratio: ${width} / ${height};`}
+  aria-hidden="true"></canvas>
+
+<script>
+  import { initSeams } from '../../lib/motion/seam';
+
+  initSeams();
+</script>
+
+<style>
+  .seam-canvas {
+    position: absolute;
+    inset-inline: 0;
+    inline-size: 100%;
+    aspect-ratio: var(--seam-ratio);
+    opacity: 0;
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+
+  [data-align='center'] {
+    inset-block-start: 50%;
+    translate: 0 -50%;
+  }
+
+  [data-align='top'] {
+    inset-block-start: 0;
+  }
+
+  [data-ready] {
+    opacity: 1;
+  }
+</style>

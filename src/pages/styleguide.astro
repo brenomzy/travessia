@@ -44,6 +44,8 @@ import PageIntro from '../components/sections/PageIntro.astro';
 import NoteCards from '../components/sections/NoteCards.astro';
 import FeeCalculatorSeam from '../components/islands/FeeCalculatorSeam';
 import seamCta from '../assets/textures/seam-cta.png';
+import seam40 from '../assets/textures/seam-40.png';
+import SeamCanvas from '../components/ui/SeamCanvas.astro';
 import seamMobile from '../assets/textures/mobile-seam-v2.png';
 import { getChanges, getFaqs, getPosts, getStories } from '../lib/content';
 import { tokens } from '../tokens/tokens';
@@ -302,6 +304,29 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
         />
       </div>
     </div>
+  </Section>
+
+  <Section>
+    <div class="l-stack" style="--gap: var(--space-s)">
+      <h2 class="label">{g.seamMotion.title}</h2>
+      <p class="seam-lead">{g.seamMotion.lead}</p>
+    </div>
+    <ul class="seam-tiles" role="list" style={`--seam-png: url(${seam40.src});`}>
+      {
+        (Object.keys(g.seamMotion.presets) as (keyof typeof g.seamMotion.presets)[]).map((name) => (
+          <li>
+            <div class="seam-tile">
+              <div class="seam-plate">
+                <SeamCanvas at={0.4} amp={0.16} align="top" motion={name} />
+              </div>
+            </div>
+            <p>
+              <code>{name}</code> {g.seamMotion.presets[name]}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
   </Section>
 
   <SeamStrip />
@@ -660,6 +685,47 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
 
   .seam-demo {
     background-color: var(--color-bg-base);
+  }
+
+  .seam-lead {
+    max-inline-size: var(--size-measure-text);
+    color: var(--color-text-muted);
+  }
+
+  .seam-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-l);
+    margin-block-start: var(--space-l);
+  }
+
+  .seam-tiles li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* A window onto the seam at its real dot size (1440 px wide), centred on the seam line. */
+  .seam-tile {
+    position: relative;
+    block-size: 20rem;
+    overflow: clip;
+    border-radius: var(--radius-m);
+  }
+
+  .seam-plate {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
+    inline-size: 90rem;
+    aspect-ratio: 16 / 10;
+    translate: -40% 0;
+    background-image: var(--seam-png);
+    background-size: cover;
+    background-position: center top;
+    image-rendering: pixelated;
   }
 
   @media (width >= 64rem) {

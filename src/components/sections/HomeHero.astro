@@ -17,6 +17,7 @@ import type { Locale } from '../../i18n';
 import { path, type RouteKey } from '../../i18n/routes';
 import type { getPage } from '../../lib/content';
 import MotionScript from '../ui/MotionScript.astro';
+import SeamCanvas from '../ui/SeamCanvas.astro';
 
 type Home = Awaited<ReturnType<typeof getPage<'home'>>>;
 interface Props {
@@ -35,6 +36,8 @@ const { ui } = content;
   data-reveal-intro
   style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
 >
+  <div class="seam" aria-hidden="true"><SeamCanvas at={0.4} amp={0.16} align="center" /></div>
+
   <div class="copy" data-theme="dark" data-reveal-stagger>
     <h1 id="hero-title">
       {content.title} <span class="highlight">{content.titleHighlight}</span>
@@ -133,7 +136,8 @@ const { ui } = content;
     line-height: var(--leading-lg);
   }
 
-  .stage {
+  .stage,
+  .seam {
     display: none;
   }
 
@@ -322,8 +326,9 @@ const { ui } = content;
   @media (width >= 64rem) {
     /*
      * --seam-x is where the seam's centre line (40% across seam-40.png) falls: 31.5 rem into the content column,
-     * as in Paper at 1440. The texture is drawn on ::before at 16:10, never narrower than the hero (up to 1440 px),
+     * as in Paper at 1440. The texture is drawn on .seam at 16:10, never narrower than the hero (up to 1440 px),
      * so its dots keep Paper's size on wide screens. Past its edges the gradient continues the two flat colours.
+     * SeamCanvas animates it over the PNG.
      */
     .hero {
       --seam-x: calc(var(--page-inset) + 31.5rem);
@@ -337,8 +342,8 @@ const { ui } = content;
       background-image: linear-gradient(to right, var(--color-seam-dark) var(--seam-x), var(--color-seam-light) var(--seam-x));
     }
 
-    .hero::before {
-      content: '';
+    .seam {
+      display: block;
       position: absolute;
       inset-block-start: 0;
       inset-inline-start: var(--seam-x);

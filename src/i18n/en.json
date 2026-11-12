@@ -171,7 +171,19 @@
       "nav": "Open an account",
       "link": "See the product"
     },
-    "countSample": "0.6%"
+    "countSample": "0.6%",
+    "seamMotion": {
+      "title": "Seam motion (shader)",
+      "lead": "The same seam as the PNG, drawn with WebGL and moving. The first frame matches the PNG. With reduced motion, or without WebGL2, the PNG stays.",
+      "presets": {
+        "still": "Still: the shader with no motion, to compare against the PNG.",
+        "flow": "Flow: the shoreline’s shape travels down the seam.",
+        "drift": "Drift: the shoreline changes shape without moving along.",
+        "breathe": "Breathe: the mixing zone slowly widens and narrows.",
+        "shimmer": "Shimmer: dots in the mixing zone twinkle, one dither step at a time.",
+        "river": "River: flow, drift and breathe together, all faint. This is the one on the heroes."
+      }
+    }
   },
   "interior": {
     "primaryCta": {
