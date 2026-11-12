@@ -126,6 +126,10 @@ export const tokens = {
       "above-inverse": "#FFFFFF",
       "below": "#13A7B5"
     },
+    "seam": {
+      "dark": "#0F1C24",
+      "light": "#13A7B5"
+    },
     "banner": {
       "bg": "#0F1C24",
       "text": "#9FE0E3",

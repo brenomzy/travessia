@@ -88,14 +88,17 @@ for (const theme of themeNames) {
   lines.push('  color: var(--color-text-base);', '}', '');
 }
 // The seam turns horizontal below the laptop breakpoint, so a block can take a different theme there.
-// data-theme-laptop="…" applies a theme from the laptop breakpoint up.
-lines.push(`@media (width >= ${src.breakpoint.laptop.$value / 16}rem) {`);
-for (const theme of themeNames) {
-  lines.push(`  [data-theme-laptop="${theme}"] {`);
-  for (const [name, ref] of Object.entries<string>(src.themes[theme])) lines.push(`    --${name.replaceAll('.', '-')}: ${refVar(ref)};`);
-  lines.push('    color: var(--color-text-base);', '  }');
+// data-theme-laptop="…" applies a theme from the laptop breakpoint up, data-theme-desktop="…" from the desktop
+// breakpoint up (later in the file, so it wins where both match).
+for (const bp of ['laptop', 'desktop'] as const) {
+  lines.push(`@media (width >= ${src.breakpoint[bp].$value / 16}rem) {`);
+  for (const theme of themeNames) {
+    lines.push(`  [data-theme-${bp}="${theme}"] {`);
+    for (const [name, ref] of Object.entries<string>(src.themes[theme])) lines.push(`    --${name.replaceAll('.', '-')}: ${refVar(ref)};`);
+    lines.push('    color: var(--color-text-base);', '  }');
+  }
+  lines.push('}', '');
 }
-lines.push('}', '');
 writeFileSync(new URL('src/styles/tokens.css', root), lines.join('\n'));
 
 // ---------- TS ----------

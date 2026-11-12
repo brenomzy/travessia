@@ -131,10 +131,17 @@ const page = await getPage(locale, 'openAccount');
   }
 
   @media (width >= 64rem) {
-    /* Paper: the seam texture is shifted 120 px of 1440 to the right; the copy is 500 px wide. */
+    /*
+     * Paper: the seam's centre line is 120 px right of the page centre; the copy is 500 px wide. The content sits in
+     * the page's content column (--page-inset) and the seam is pinned to the page centre. The texture is drawn on
+     * ::before at 16:10, never narrower than the page (up to 1440 px); the gradient continues it past its edges.
+     */
     .waitlist {
+      --seam-x: calc(50% + 7.5rem);
+
       position: relative;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: var(--page-inset) minmax(0, 1fr) minmax(0, 1fr) var(--page-inset);
+      background-image: linear-gradient(to right, var(--color-seam-dark) var(--seam-x), var(--color-seam-light) var(--seam-x));
       align-items: center;
       min-block-size: 56.25rem;
       overflow: clip;
@@ -143,9 +150,12 @@ const page = await getPage(locale, 'openAccount');
     .waitlist::before {
       content: '';
       position: absolute;
-      inset-block: 0;
-      inset-inline-start: 8.33%;
-      inline-size: 100%;
+      inset-block-start: 0;
+      inset-inline-start: var(--seam-x);
+      block-size: 100%;
+      aspect-ratio: 16 / 10;
+      min-inline-size: min(100%, 90rem);
+      translate: -50% 0;
       background-image: var(--seam-desktop);
       background-size: cover;
       background-position: center;
@@ -162,7 +172,9 @@ const page = await getPage(locale, 'openAccount');
     }
 
     .copy {
+      grid-column: 2;
       padding-block: calc(var(--size-header) + var(--space-2xl)) var(--space-2xl);
+      padding-inline: 0 var(--space-gutter);
     }
 
     .band {
@@ -170,7 +182,8 @@ const page = await getPage(locale, 'openAccount');
     }
 
     .form {
-      padding: calc(var(--size-header) + var(--space-xl)) var(--space-gutter) var(--space-2xl);
+      grid-column: 3;
+      padding: calc(var(--size-header) + var(--space-xl)) 0 var(--space-2xl) var(--space-gutter);
       background: none;
     }
   }

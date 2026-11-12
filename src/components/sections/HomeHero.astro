@@ -2,6 +2,8 @@
 /**
  * Home hero (Paper: Home → "Hero C v3 · Animated product UI").
  * From 1024 px: a vertical seam, noite on the left with the copy, tapajós on the right with the product UI.
+ * The content sits in the page's content column (--page-inset), and the seam is pinned to that column, not to the
+ * viewport, so the copy and the logo strip always land on the side whose colour they're written for.
  * Below it: the seam turns horizontal. Dollar story on noite, the crossing on the seam, reais on tapajós.
  */
 import seamDesktop from '../../assets/textures/seam-40.png';
@@ -72,7 +74,7 @@ const { ui } = content;
     </div>
   </div>
 
-  <div class="aside" data-theme="primary" data-reveal-stagger>
+  <div class="aside" data-theme="primary" data-theme-laptop="dark" data-theme-desktop="primary" data-reveal-stagger>
     <p class="clients" lang="en">
       {content.clientsNote.text}
       <a href={path(content.clientsNote.link.route as RouteKey, locale)}>{content.clientsNote.link.label}</a>
@@ -318,16 +320,43 @@ const { ui } = content;
 
   /* ---------- From 1024 px, breakpoint.laptop (vertical seam) ---------- */
   @media (width >= 64rem) {
+    /*
+     * --seam-x is where the seam's centre line (40% across seam-40.png) falls: 31.5 rem into the content column,
+     * as in Paper at 1440. The texture is drawn on ::before at 16:10, never narrower than the hero (up to 1440 px),
+     * so its dots keep Paper's size on wide screens. Past its edges the gradient continues the two flat colours.
+     */
     .hero {
-      grid-template-columns: var(--space-gutter) 26.875rem 1fr var(--space-gutter);
+      --seam-x: calc(var(--page-inset) + 31.5rem);
+
+      position: relative;
+      overflow: clip;
+      grid-template-columns: var(--page-inset) 26.875rem 1fr var(--page-inset);
       grid-template-rows: auto auto;
       min-block-size: 54rem;
       padding-block: calc(var(--size-header) + var(--space-l)) var(--space-xl);
+      background-image: linear-gradient(to right, var(--color-seam-dark) var(--seam-x), var(--color-seam-light) var(--seam-x));
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: var(--seam-x);
+      block-size: 100%;
+      aspect-ratio: 16 / 10;
+      min-inline-size: min(100%, 90rem);
+      translate: -40% 0;
       background-image: var(--seam-desktop);
       background-size: cover;
-      background-position: left center;
+      background-position: center;
       background-repeat: no-repeat;
       image-rendering: pixelated;
+    }
+
+    .copy,
+    .stage,
+    .aside {
+      position: relative;
     }
 
     .copy,
@@ -411,9 +440,23 @@ const { ui } = content;
       stroke: none;
     }
 
+    /* 1024–1439 px: the logo strip sits under the form, on noite. There's no room for it right of the dither. */
+    .aside {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: end;
+      padding-block: var(--space-xl) 0;
+    }
+
+    .logos ul {
+      justify-content: flex-start;
+    }
+  }
+
+  /* From 1440 px: under the product, on tapajós, as in Paper. It starts 11.5 rem past the seam line. */
+  @media (width >= 90rem) {
     .aside {
       grid-column: 3;
-      grid-row: 2;
       justify-self: end;
       inline-size: min(100%, 38rem);
       padding-block: var(--space-s) 0;
@@ -423,6 +466,9 @@ const { ui } = content;
       border-block-start-color: var(--color-border-base);
     }
 
+    .logos ul {
+      justify-content: space-between;
+    }
   }
 
   /* 1024–1279 px: two pieces only, so the product stays readable. */
@@ -447,7 +493,7 @@ const { ui } = content;
     }
   }
 
-  @media (width >= 80rem) {
+  @media (width >= 90rem) {
     .logos ul {
       flex-wrap: nowrap;
     }

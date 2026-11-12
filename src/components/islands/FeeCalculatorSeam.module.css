@@ -209,7 +209,7 @@
       grid-template-columns: minmax(0, 1fr) 15rem minmax(0, 1fr);
       column-gap: var(--space-xl);
       min-block-size: 37.5rem;
-      padding: var(--space-2xl) var(--space-gutter);
+      padding: var(--space-2xl) var(--page-inset);
     }
 
     .pay,
