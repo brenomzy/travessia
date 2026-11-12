@@ -21,7 +21,7 @@ const search = `${i.name} ${i.shortDescription} ${categoryLabel}`
   .toLowerCase();
 ---
 
-<li class="card" data-integration data-category={i.category} data-search={search}>
+<li class="card" data-press="card" data-integration data-category={i.category} data-search={search}>
   <div class="top">
     <IntegrationMark name={i.name} tone={i.sphere.tone} />
     {badge && <span class="badge" data-status={i.status}>{badge}</span>}
@@ -46,7 +46,7 @@ const search = `${i.name} ${i.shortDescription} ${categoryLabel}`
     border: var(--size-hairline) solid var(--color-border-base);
     border-radius: var(--radius-l);
     background-color: var(--color-bg-base);
-    transition: border-color var(--duration-fast) var(--ease-hover);
+    transition: border-color var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   /* Set by the IntegrationFilter island. */
@@ -71,7 +71,7 @@ const search = `${i.name} ${i.shortDescription} ${categoryLabel}`
 
   .badge {
     padding: var(--space-3xs) var(--space-xs);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-tag);
     background-color: var(--color-chip-bg);
     color: var(--color-chip-text);
     font-size: var(--text-xs);

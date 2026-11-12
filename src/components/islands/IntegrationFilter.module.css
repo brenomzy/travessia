@@ -30,7 +30,7 @@
     padding-block: var(--space-xs);
     padding-inline: calc(var(--space-m) + var(--size-icon-s) + var(--space-xs)) var(--space-m);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--color-bg-raised);
     color: var(--color-text-base);
     font: inherit;
@@ -69,7 +69,7 @@
     flex-shrink: 0;
     padding: var(--space-2xs) var(--space-m);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background: none;
     color: var(--color-text-base);
     font: inherit;
@@ -79,7 +79,8 @@
     transition:
       background-color var(--duration-fast) var(--ease-hover),
       color var(--duration-fast) var(--ease-hover),
-      border-color var(--duration-fast) var(--ease-hover);
+      border-color var(--duration-fast) var(--ease-hover),
+      var(--transition-press);
   }
 
   .group:hover {

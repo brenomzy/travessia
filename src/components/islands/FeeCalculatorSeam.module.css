@@ -42,14 +42,15 @@
   .currency {
     padding: var(--space-2xs) var(--space-m);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background: none;
     color: var(--color-text-muted);
     font: inherit;
     font-size: var(--text-sm);
     transition:
       background-color var(--duration-fast) var(--ease-hover),
-      color var(--duration-fast) var(--ease-hover);
+      color var(--duration-fast) var(--ease-hover),
+      var(--transition-press);
   }
 
   .currency[data-pressed] {

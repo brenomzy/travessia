@@ -73,6 +73,8 @@ walk(src.space, ['space'], (p, t) => decl(kebab(p), cssValue(t)));
 walk(src.size, ['size'], (p, t) => decl(kebab(p), cssValue(t)));
 walk(src.radius, ['radius'], (p, t) => decl(kebab(p), cssValue(t)));
 walk(src.shadow, ['shadow'], (p, t) => decl(kebab(p), cssValue(t)));
+walk(src.opacity, ['opacity'], (p, t) => decl(kebab(p), cssValue(t)));
+walk(src.scale, ['scale'], (p, t) => decl(kebab(p), cssValue(t)));
 // Motion tokens drop the "motion" prefix: --duration-fast, --ease-base, --spring-crit, --reveal-blur.
 // Motion-style spring configs ($type "spring") are TS only.
 walk(src.motion, [], (p, t) => {
@@ -129,6 +131,8 @@ const ts = {
   breakpoint: toObject(src.breakpoint, raw),
   radius: toObject(src.radius, raw),
   shadow: toObject(src.shadow, raw),
+  opacity: toObject(src.opacity, raw),
+  scale: toObject(src.scale, raw),
 };
 const motion = toObject(src.motion, raw);
 // Motion is its own export so client scripts can import it without bundling every other token.

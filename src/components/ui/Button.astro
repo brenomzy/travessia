@@ -1,7 +1,8 @@
 ---
 /**
  * Buttons and button-like links (Paper: Design system → Components → Buttons and links).
- * One accent button per view. Everything is a full pill. Labels are verbs in sentence case.
+ * One accent button per view. Corners use radius.control (not pills). Labels are verbs in sentence case.
+ * Pressing scales the button down a little and springs back (data-press, styles/base.css).
  */
 import type { HTMLAttributes } from 'astro/types';
 import Icon from './Icon.astro';
@@ -24,6 +25,7 @@ const Tag = href ? 'a' : 'button';
   data-variant={variant}
   data-size={size}
   data-block={block ? '' : undefined}
+  data-press
   href={href}
   type={href ? undefined : type}
   {...rest}
@@ -46,7 +48,7 @@ const Tag = href ? 'a' : 'button';
     padding-block: var(--space-xs);
     padding-inline: var(--space-m);
     border: var(--size-focus-ring) solid var(--_border);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--_bg);
     color: var(--_fg);
     font-family: var(--font-sans);
@@ -58,15 +60,11 @@ const Tag = href ? 'a' : 'button';
     transition:
       background-color var(--duration-fast) var(--ease-hover),
       color var(--duration-fast) var(--ease-hover),
-      translate var(--duration-fast) var(--ease-hover);
+      var(--transition-press);
   }
 
   .button:hover {
     text-decoration: none;
-  }
-
-  .button:active {
-    translate: 0 1px;
   }
 
   [data-variant='accent']:hover {
@@ -97,9 +95,7 @@ const Tag = href ? 'a' : 'button';
   }
 
   [data-variant='link']:hover {
-    text-decoration: underline;
-    text-decoration-thickness: var(--size-hairline);
-    text-underline-offset: 0.2em;
+    --_fg: var(--color-text-base);
   }
 
   [data-variant='link'] :global(.icon) {

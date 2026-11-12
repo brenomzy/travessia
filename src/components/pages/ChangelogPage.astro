@@ -201,7 +201,7 @@ const feed = `${path('changelog', locale)}/rss.xml`;
   .type {
     padding: var(--space-3xs) var(--space-xs);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-tag);
     color: var(--color-text-base);
     font-weight: var(--font-weight-semibold);
   }
@@ -227,9 +227,12 @@ const feed = `${path('changelog', locale)}/rss.xml`;
     text-decoration: none;
   }
 
+  h3 a {
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+
   h3 a:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+    color: var(--color-link);
   }
 
   .summary {

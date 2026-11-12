@@ -39,7 +39,7 @@
     flex-shrink: 0;
     padding: var(--space-2xs) var(--space-s);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background: none;
     color: var(--color-text-base);
     font: inherit;
@@ -47,7 +47,8 @@
     white-space: nowrap;
     transition:
       background-color var(--duration-fast) var(--ease-hover),
-      color var(--duration-fast) var(--ease-hover);
+      color var(--duration-fast) var(--ease-hover),
+      var(--transition-press);
   }
 
   .chip:hover {

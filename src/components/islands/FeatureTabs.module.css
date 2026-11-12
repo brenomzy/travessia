@@ -16,7 +16,7 @@
     padding: var(--space-3xs);
     overflow-x: auto;
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--color-bg-raised);
     scrollbar-width: none;
   }
@@ -25,13 +25,13 @@
     flex-shrink: 0;
     padding: var(--space-2xs) var(--space-m);
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: calc(var(--radius-control) - var(--space-3xs));
     background: none;
     color: var(--color-text-muted);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
-    transition: color var(--duration-fast) var(--ease-hover);
+    transition: color var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   .tab:hover {
@@ -55,7 +55,7 @@
     z-index: -1;
     inline-size: var(--active-tab-width);
     block-size: var(--active-tab-height);
-    border-radius: var(--radius-pill);
+    border-radius: calc(var(--radius-control) - var(--space-3xs));
     background-color: var(--color-accent-data);
     transition:
       inset-inline-start var(--duration-slow) var(--spring-crit),
@@ -115,7 +115,7 @@
   .actions span {
     padding: var(--space-2xs) var(--space-s);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
   }
 
   .actions [data-variant='primary'] {

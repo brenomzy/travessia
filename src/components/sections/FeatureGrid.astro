@@ -26,7 +26,7 @@ const { locale, title, link, features } = Astro.props;
     <ul class="grid" role="list" data-reveal-stagger>
       {
         features.map(({ data }) => (
-          <li class="card">
+          <li class="card" data-press="card">
             <FeatureVignette vignette={data.vignette} />
             <div class="text">
               <h3>
@@ -58,7 +58,7 @@ const { locale, title, link, features } = Astro.props;
     border: var(--size-hairline) solid var(--color-border-base);
     border-radius: var(--radius-l);
     background-color: var(--color-bg-base);
-    transition: box-shadow var(--duration-fast) var(--ease-hover);
+    transition: box-shadow var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   .card:hover {
@@ -97,11 +97,6 @@ const { locale, title, link, features } = Astro.props;
   .card:has(a:focus-visible) {
     outline: var(--size-focus-ring) solid var(--color-focus);
     outline-offset: var(--size-focus-ring);
-  }
-
-  .card:hover h3 a {
-    text-decoration: underline;
-    text-decoration-thickness: var(--size-hairline);
   }
 
   p {

@@ -95,9 +95,12 @@ const navTheme = variant === 'seam' ? 'primary' : brandTheme;
     text-decoration: none;
   }
 
+  .back {
+    transition: opacity var(--duration-fast) var(--ease-hover);
+  }
+
   .back:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+    opacity: var(--opacity-dim);
   }
 
   .header {
@@ -162,8 +165,16 @@ const navTheme = variant === 'seam' ? 'primary' : brandTheme;
     text-decoration: none;
   }
 
-  .nav a:hover,
-  .nav a[aria-current='page'] {
+  /* Hovering one link dims the others. The underline marks the current page only. */
+  .nav a {
+    transition: opacity var(--duration-fast) var(--ease-hover);
+  }
+
+  .nav ul:hover a:not(:hover) {
+    opacity: var(--opacity-dim);
+  }
+
+  .nav a[aria-current] {
     text-decoration: underline;
     text-decoration-thickness: var(--size-focus-ring);
     text-underline-offset: 0.4em;

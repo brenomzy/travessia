@@ -139,7 +139,7 @@
     block-size: var(--size-icon-m);
     padding: 0;
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-tag);
     background: none;
     color: var(--color-text-subtle);
   }
@@ -249,12 +249,12 @@
     min-block-size: var(--size-tap);
     padding: var(--space-s) var(--space-l);
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--color-accent-primary);
     color: var(--color-on-accent);
     font: inherit;
     font-weight: var(--font-weight-semibold);
-    transition: background-color var(--duration-fast) var(--ease-hover);
+    transition: background-color var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   .submit:hover {
@@ -357,7 +357,7 @@
     block-size: var(--size-icon-m);
     padding: 0;
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-tag);
     background: none;
     color: var(--color-text-subtle);
   }

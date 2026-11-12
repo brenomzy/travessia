@@ -3,14 +3,14 @@
     display: inline-flex;
     gap: var(--space-3xs);
     padding: var(--space-3xs);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--color-chip-bg);
   }
 
   .toggle {
     padding: var(--space-2xs) var(--space-s);
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: calc(var(--radius-control) - var(--space-3xs));
     background: none;
     color: var(--color-text-base);
     font-size: var(--text-sm);
@@ -18,7 +18,8 @@
     white-space: nowrap;
     transition:
       background-color var(--duration-fast) var(--ease-hover),
-      color var(--duration-fast) var(--ease-hover);
+      color var(--duration-fast) var(--ease-hover),
+      var(--transition-press);
   }
 
   .toggle[data-pressed] {

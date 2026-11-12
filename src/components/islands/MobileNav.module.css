@@ -7,7 +7,7 @@
     block-size: var(--size-tap);
     padding: 0;
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: transparent;
     color: var(--color-text-base);
   }
@@ -122,7 +122,7 @@
     justify-content: center;
     min-block-size: var(--size-tap);
     padding: var(--space-xs) var(--space-m);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--color-accent-primary);
     color: var(--color-on-accent);
     font-weight: var(--font-weight-semibold);

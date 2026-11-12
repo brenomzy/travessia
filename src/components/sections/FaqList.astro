@@ -116,10 +116,12 @@ const jsonLd = {
     display: none;
   }
 
-  summary:hover span {
-    text-decoration: underline;
-    text-decoration-thickness: var(--size-hairline);
-    text-underline-offset: 0.2em;
+  summary {
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+
+  summary:hover {
+    color: var(--color-link);
   }
 
   svg {
