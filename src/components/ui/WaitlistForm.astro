@@ -1,0 +1,137 @@
+---
+/**
+ * The waitlist form used in heroes and CTA bands. Name and email only, and it posts nowhere (SPEC D18):
+ * submitting shows a notice instead. The full SignupForm island lives on /abrir-conta.
+ */
+import { t, type Locale } from '../../i18n';
+import { uid } from '../../lib/ids';
+
+interface Props {
+  locale: Locale;
+  /** "stacked": email, then a full-width button. "inline": name, then email with the button inside the pill. */
+  layout?: 'stacked' | 'inline';
+  withName?: boolean;
+  showNotice?: boolean;
+}
+const { locale, layout = 'stacked', withName = layout === 'inline', showNotice = false } = Astro.props;
+const s = t(locale);
+const id = uid('waitlist');
+---
+
+<form class="waitlist" data-layout={layout} data-demo-form novalidate>
+  {
+    withName && (
+      <div class="field">
+        <label class="u-visually-hidden" for={`${id}-name`}>
+          {s.form.nameLabel}
+        </label>
+        <input id={`${id}-name`} name="name" type="text" autocomplete="name" placeholder={s.form.nameLabel} />
+      </div>
+    )
+  }
+  <div class="field" data-with-button={layout === 'inline' ? '' : undefined}>
+    <label class="u-visually-hidden" for={`${id}-email`}>{s.form.emailLabel}</label>
+    <input id={`${id}-email`} name="email" type="email" autocomplete="email" placeholder={s.form.emailLabel} required />
+    {layout === 'inline' && <button type="submit">{s.form.submit}</button>}
+  </div>
+  {layout === 'stacked' && <button type="submit">{s.form.submitLong}</button>}
+  {showNotice && <p class="notice">{s.form.demoNotice}</p>}
+  <p class="done" role="status" data-done-message={s.form.demoDone}></p>
+</form>
+
+<script>
+  // Demo only: never send anything anywhere (SPEC D18).
+  document.querySelectorAll<HTMLFormElement>('form[data-demo-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>('[role="status"]');
+      if (status) status.textContent = status.dataset.doneMessage ?? '';
+      form.reset();
+    });
+  });
+</script>
+
+<style>
+  .waitlist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    inline-size: 100%;
+  }
+
+  .field {
+    display: flex;
+    align-items: center;
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-field-bg);
+  }
+
+  .field:focus-within {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  input {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    min-block-size: var(--size-tap);
+    padding: var(--space-s) var(--space-m);
+    border: 0;
+    border-radius: var(--radius-pill);
+    background-color: transparent;
+    color: var(--color-text-base);
+    font-size: var(--text-base);
+  }
+
+  /* The field paints white on coloured grounds, so its text uses the light roles. */
+  [data-layout='inline'] .field {
+    border-color: transparent;
+  }
+
+  [data-layout='inline'] input {
+    color: var(--color-field-text, var(--color-text-base));
+  }
+
+  input::placeholder {
+    color: var(--color-field-placeholder);
+    opacity: 1;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  button {
+    flex-shrink: 0;
+    min-block-size: var(--size-tap);
+    padding: var(--space-s) var(--space-m);
+    border: 0;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent-primary);
+    color: var(--color-on-accent);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+
+  button:hover {
+    background-color: var(--color-accent-primary-hover);
+  }
+
+  [data-with-button] {
+    padding: var(--space-3xs);
+    padding-inline-start: 0;
+  }
+
+  .notice,
+  .done {
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .done:empty {
+    display: none;
+  }
+</style>

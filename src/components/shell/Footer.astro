@@ -1,0 +1,174 @@
+---
+/** Site footer, on noite. Repeats the fictional-company notice (SPEC D18). */
+import Logo from '../ui/Logo.astro';
+import LanguageSwitcher from '../ui/LanguageSwitcher.astro';
+import { t, langTag, type Locale } from '../../i18n';
+import { featurePath, path, type RouteKey } from '../../i18n/routes';
+import { getFeatures } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+  alternates: Record<Locale, string>;
+}
+
+const { locale, alternates } = Astro.props;
+const s = t(locale);
+const features = await getFeatures(locale);
+const slugFor = (key: string) => {
+  const f = features.find((e) => e.data.translationKey === key);
+  if (!f) throw new Error(`Footer links to a missing ${locale} feature: ${key}`);
+  return f.data.slug;
+};
+type FooterLink = { label: string; route?: string; feature?: string; lang?: string };
+const href = (l: FooterLink) => (l.feature ? featurePath(slugFor(l.feature), locale) : path(l.route as RouteKey, locale));
+---
+
+<footer class="footer" data-theme="dark">
+  <div class="top">
+    <div class="about">
+      <Logo tone="dark" />
+      <p>{s.footer.tagline}</p>
+    </div>
+    <nav class="columns" aria-label={s.a11y.footerNav}>
+      {
+        s.footer.columns.map((col) => (
+          <div class="column">
+            <h2>{col.title}</h2>
+            <ul role="list">
+              {(col.links as FooterLink[]).map((l) => (
+                <li>
+                  <a href={href(l)} lang={l.lang ? langTag[l.lang as Locale] : undefined}>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </nav>
+  </div>
+  <div class="notice">
+    <p role="note">{s.banner.footer}</p>
+    <LanguageSwitcher locale={locale} alternates={alternates} />
+  </div>
+  <div class="bottom">
+    <p>{s.footer.copyright}</p>
+    <ul role="list">
+      {
+        s.footer.legal.map((l) => (
+          <li>
+            <a href={path(l.route as RouteKey, locale)}>{l.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    padding: var(--space-3xl) var(--space-gutter) var(--space-xl);
+    background-color: var(--color-bg-base);
+    container-type: inline-size;
+  }
+
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2xl);
+  }
+
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    max-inline-size: 22.5rem;
+    --logo-width: 6.8125rem;
+  }
+
+  .about p {
+    color: var(--color-text-muted);
+  }
+
+  .columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xl) var(--space-2xl);
+  }
+
+  .column {
+    min-inline-size: 9rem;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  h2 {
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+    letter-spacing: var(--font-tracking-normal);
+    color: var(--color-text-base);
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .column a {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    text-decoration: none;
+  }
+
+  .column a:hover {
+    color: var(--color-text-base);
+    text-decoration: underline;
+  }
+
+  .notice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding: var(--space-m) var(--space-m);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+  }
+
+  .notice p {
+    flex: 1 1 30ch;
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-s);
+    color: var(--color-text-quiet);
+    font-size: var(--text-sm);
+  }
+
+  .bottom ul {
+    flex-direction: row;
+    gap: var(--space-l);
+  }
+
+  .bottom a {
+    color: inherit;
+  }
+</style>

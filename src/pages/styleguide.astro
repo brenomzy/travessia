@@ -1,0 +1,342 @@
+---
+/** /styleguide (SPEC D11): every token and component from the real CSS. PT-BR only, noindex like the rest of the site. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/sections/Section.astro';
+import Logo from '../components/ui/Logo.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import WaitlistForm from '../components/ui/WaitlistForm.astro';
+import InvoiceCard from '../components/product/InvoiceCard.astro';
+import ConversionCard from '../components/product/ConversionCard.astro';
+import CrossingCard from '../components/product/CrossingCard.astro';
+import PhoneMock from '../components/product/PhoneMock.astro';
+import FeatureVignette from '../components/product/FeatureVignette.astro';
+import { tokens } from '../tokens/tokens';
+import { t } from '../i18n';
+import { getFeatures, getPage } from '../lib/content';
+
+const locale = 'pt-br';
+const s = t(locale);
+const g = s.styleguide;
+const home = await getPage(locale, 'home');
+const features = await getFeatures(locale);
+const themes = Object.keys(tokens.themes) as (keyof typeof tokens.themes)[];
+const swatches = Object.entries(tokens.palette).flatMap(([name, v]) =>
+  typeof v === 'string' ? [[name, v]] : Object.entries(v).map(([step, hex]) => [`${name}-${step}`, hex as string]),
+);
+const textSteps = Object.keys(tokens.text);
+const spaceSteps = Object.keys(tokens.space);
+const radii = Object.keys(tokens.radius);
+const shadows = Object.keys(tokens.shadow);
+const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'close'] as const;
+---
+
+<BaseLayout locale={locale} title={g.title} description={g.lead} alternates={{ 'pt-br': '/styleguide', en: '/styleguide' }}>
+  <Section>
+    <div class="l-stack" style="--gap: var(--space-s)">
+      <h1>{g.title}</h1>
+      <p class="lead">{g.lead}</p>
+    </div>
+  </Section>
+
+  <Section spacing="none">
+    <h2 class="label">{g.sections.themes}</h2>
+    <div class="themes">
+      {
+        themes.map((th) => (
+          <div class="theme" data-theme={th}>
+            <code>data-theme="{th}"</code>
+            <p class="sample">{g.sample}</p>
+            <p class="muted">color-text-muted</p>
+            <p class="subtle">color-text-subtle</p>
+            <p class="highlight">color-text-highlight</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section>
+    <div class="l-stack" style="--gap: var(--space-2xl)">
+      <div class="l-stack">
+        <h2 class="label">{g.sections.palette}</h2>
+        <ul class="swatches" role="list">
+          {
+            swatches.map(([name, hex]) => (
+              <li>
+                <span class="chip" style={`--swatch: var(--${name})`} />
+                <code>--{name}</code>
+                <code class="hex">{hex}</code>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.type}</h2>
+        {
+          textSteps.map((step) => (
+            <div class="type-row">
+              <code>--text-{step}</code>
+              <p style={`font-size: var(--text-${step}); line-height: var(--leading-${step})`}>{g.sample}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.space}</h2>
+        {
+          spaceSteps.map((step) => (
+            <div class="space-row">
+              <code>--space-{step}</code>
+              <span class="bar" style={`inline-size: var(--space-${step})`} />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="l-cluster" style="--gap: var(--space-l); --align: flex-start">
+        <div class="l-stack">
+          <h2 class="label">{g.sections.radius}</h2>
+          <div class="l-cluster">
+            {
+              radii.map((r) => (
+                <div class="l-stack" style="--gap: var(--space-2xs)">
+                  <span class="radius" style={`border-radius: var(--radius-${r})`} />
+                  <code>--radius-{r}</code>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section theme="tint">
+    <h2 class="label">{g.sections.shadow}</h2>
+    <div class="shadows">
+      {
+        shadows.map((sh) => (
+          <div class="shadow" style={`box-shadow: var(--shadow-${sh})`}>
+            <code>--shadow-{sh}</code>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section>
+    <div class="l-stack" style="--gap: var(--space-2xl)">
+      <div class="l-stack">
+        <h2 class="label">{g.sections.logo}</h2>
+        <div class="l-cluster" style="--gap: 0">
+          <div class="logo-slot" data-theme="light"><Logo /></div>
+          <div class="logo-slot" data-theme="dark"><Logo tone="dark" /></div>
+        </div>
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.buttons}</h2>
+        {
+          (['light', 'dark'] as const).map((th) => (
+            <div class="button-row l-cluster" data-theme={th}>
+              <Button variant="accent">{g.buttonLabels.accent}</Button>
+              <Button variant="secondary">{g.buttonLabels.secondary}</Button>
+              <Button variant="nav" size="s">{g.buttonLabels.nav}</Button>
+              <Button variant="link" href="#" arrow>{g.buttonLabels.link}</Button>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.icons}</h2>
+        <div class="l-cluster" style="--icon-size: var(--size-icon-m)">
+          {icons.map((name) => <Icon name={name} label={name} />)}
+        </div>
+      </div>
+
+      <div class="l-stack">
+        <h2 class="label">{g.sections.forms}</h2>
+        <div class="forms">
+          <div class="form-slot" data-theme="dark"><WaitlistForm locale={locale} layout="stacked" /></div>
+          <div class="form-slot" data-theme="primary"><WaitlistForm locale={locale} layout="inline" showNotice /></div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section theme="primary">
+    <h2 class="label">{g.sections.product}</h2>
+    <div class="product">
+      <InvoiceCard {...home.hero.ui.invoice} shadow="raised" />
+      <ConversionCard {...home.hero.ui.conversion} shadow="raised" />
+      <CrossingCard {...home.hero.ui.crossing} />
+      <CrossingCard {...home.hero.ui.crossing} layout="row" />
+      <PhoneMock {...home.hero.ui.phone} />
+    </div>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.vignettes}</h2>
+    <div class="vignettes">
+      {features.map((f) => <FeatureVignette vignette={f.data.vignette} />)}
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .lead {
+    max-inline-size: var(--size-measure-text);
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+  }
+
+  .label {
+    margin-block-end: var(--space-m);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  code {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+  }
+
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-s);
+  }
+
+  .theme {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding: var(--space-m);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-base);
+  }
+
+  .sample {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .muted {
+    color: var(--color-text-muted);
+  }
+
+  .subtle {
+    color: var(--color-text-subtle);
+  }
+
+  .highlight {
+    color: var(--color-text-highlight);
+  }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: var(--space-s);
+  }
+
+  .swatches li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .chip {
+    block-size: var(--space-2xl);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-s);
+    background-color: var(--swatch);
+  }
+
+  .hex {
+    font-family: var(--font-mono);
+  }
+
+  .type-row,
+  .space-row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    align-items: baseline;
+    gap: var(--space-m);
+    padding-block: var(--space-2xs);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .type-row p {
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  .bar {
+    block-size: var(--space-s);
+    background-color: var(--color-accent-data);
+  }
+
+  .radius {
+    inline-size: var(--space-3xl);
+    block-size: var(--space-3xl);
+    border: var(--size-focus-ring) solid var(--color-border-strong);
+  }
+
+  .shadows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-l);
+  }
+
+  .shadow {
+    display: flex;
+    align-items: flex-end;
+    min-block-size: 8rem;
+    padding: var(--space-s);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+  }
+
+  .logo-slot {
+    padding: var(--space-l);
+    background-color: var(--color-bg-base);
+    --logo-width: 15rem;
+  }
+
+  .button-row {
+    padding: var(--space-m);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .forms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .form-slot {
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .product,
+  .vignettes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+    align-items: start;
+    gap: var(--space-l);
+  }
+
+  .vignettes > :global(*) {
+    border-radius: var(--radius-l);
+  }
+</style>

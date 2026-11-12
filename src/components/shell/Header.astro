@@ -1,0 +1,176 @@
+---
+/**
+ * Site header (SPEC §5.5.4). variant="seam" sits over a seam hero: the brand side is on noite,
+ * the nav side on tapajós (from the laptop breakpoint up). Below it the whole header is on noite.
+ * The full link list shows from 1280 px; below that the links live in the MobileNav drawer.
+ */
+import Logo from '../ui/Logo.astro';
+import Button from '../ui/Button.astro';
+import LanguageSwitcher from '../ui/LanguageSwitcher.astro';
+import MobileNav from '../islands/MobileNav';
+import { langCode, langTag, locales, t, type Locale } from '../../i18n';
+import { path, type RouteKey } from '../../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  alternates: Record<Locale, string>;
+  variant?: 'seam' | 'light' | 'dark';
+  current?: RouteKey;
+}
+
+const { locale, alternates, variant = 'light', current } = Astro.props;
+const s = t(locale);
+const items = s.nav.items.map((item) => ({
+  label: item.label,
+  href: path(item.route as RouteKey, locale),
+  current: item.route === current,
+}));
+const cta = { label: s.nav.cta.label, href: path(s.nav.cta.route as RouteKey, locale) };
+const brandTheme = variant === 'light' ? 'light' : 'dark';
+const navTheme = variant === 'seam' ? 'primary' : brandTheme;
+---
+
+<header class="header" data-variant={variant} data-theme={variant === 'seam' ? undefined : variant}>
+  <div class="bar">
+    <div class="brand" data-theme={brandTheme}>
+      <a class="home" href={path('home', locale)} aria-label={s.a11y.homeLink}>
+        <Logo tone={brandTheme === 'dark' ? 'dark' : 'light'} label="" />
+      </a>
+      <LanguageSwitcher locale={locale} alternates={alternates} />
+    </div>
+    <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
+      <nav class="nav" aria-label={s.a11y.mainNav}>
+        <ul role="list">
+          {
+            items.map((item) => (
+              <li>
+                <a href={item.href} aria-current={item.current ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <Button variant="nav" size="s" href={cta.href}>{cta.label}</Button>
+      <div class="menu">
+        <MobileNav
+          client:media="(width < 80rem)"
+          items={items}
+          cta={cta}
+          languages={locales.map((l) => ({
+            code: langCode[l],
+            href: alternates[l],
+            hreflang: langTag[l],
+            current: l === locale,
+          }))}
+          labels={{
+            open: s.a11y.menuOpen,
+            close: s.a11y.menuClose,
+            title: s.a11y.menuTitle,
+            languageNav: s.a11y.languageNav,
+          }}
+          bannerNote={s.banner.long}
+        />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: relative;
+    z-index: 10;
+  }
+
+  .header[data-variant='light'],
+  .header[data-variant='dark'] {
+    background-color: var(--color-bg-base);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    min-block-size: var(--size-header);
+    padding-block: var(--space-s);
+    padding-inline: var(--space-gutter);
+  }
+
+  /* The themed groups only swap colour roles; the header itself paints no background over the seam. */
+  .brand,
+  .end {
+    background-color: transparent;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-l);
+  }
+
+  .home {
+    display: block;
+    padding-block: var(--space-2xs);
+  }
+
+  .end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .nav ul {
+    display: flex;
+    gap: var(--space-l);
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav a {
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .nav a:hover,
+  .nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-thickness: var(--size-focus-ring);
+    text-underline-offset: 0.4em;
+  }
+
+  .menu {
+    display: flex;
+    margin-inline-end: calc(var(--space-xs) * -1);
+  }
+
+  /* Phones: the language switch moves into the drawer. */
+  @media (width < 30rem) {
+    .brand :global(.switcher) {
+      display: none;
+    }
+  }
+
+  /* The full nav needs 1280 px: below that its first links would land on the seam's dither. */
+  @media (width >= 80rem) {
+    .end {
+      gap: var(--space-l);
+    }
+
+    .nav {
+      display: block;
+    }
+
+    .menu {
+      display: none;
+    }
+  }
+</style>

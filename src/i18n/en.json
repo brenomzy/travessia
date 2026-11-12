@@ -1,13 +1,162 @@
 {
   "meta": {
-    "siteName": "Travessia",
-    "homeTitle": "Travessia: get paid by clients abroad",
-    "homeDescription": "Demo site for a fictional company."
+    "siteName": "Travessia"
   },
-  "demoBanner": "Demo site. Travessia is a fictional company, made to test Source by Webflow. Nothing here is a real offer.",
-  "home": {
-    "title": "Get paid by clients abroad, in reais, with no exchange-rate surprises.",
-    "lead": "Work in progress. Phase 0: site scaffolding."
+  "banner": {
+    "short": "Demo of a fictional company",
+    "long": "Demo site for a fictional company. No data is stored.",
+    "footer": "Travessia is a fictional company made to test Source by Webflow. This site is not a bank, moves no money and stores no data."
   },
-  "languageSwitch": { "label": "Português", "href": "/" }
+  "a11y": {
+    "skipLink": "Skip to content",
+    "homeLink": "Travessia, home page",
+    "mainNav": "Main",
+    "footerNav": "Footer",
+    "languageNav": "Language",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "menuTitle": "Menu"
+  },
+  "nav": {
+    "items": [
+      {
+        "label": "Product",
+        "route": "product"
+      },
+      {
+        "label": "Pricing",
+        "route": "pricing"
+      },
+      {
+        "label": "For clients",
+        "route": "forClients"
+      },
+      {
+        "label": "Stories",
+        "route": "stories"
+      }
+    ],
+    "cta": {
+      "label": "Open an account",
+      "route": "openAccount"
+    }
+  },
+  "language": {
+    "switchTo": "Ler em português"
+  },
+  "footer": {
+    "tagline": "An international account for Brazilian freelancers and studios who work for clients abroad.",
+    "columns": [
+      {
+        "title": "Product",
+        "links": [
+          {
+            "label": "International invoices",
+            "feature": "international-invoices"
+          },
+          {
+            "label": "Get paid and convert",
+            "feature": "get-paid-and-convert"
+          },
+          {
+            "label": "Automatic nota fiscal",
+            "feature": "automatic-tax-invoices"
+          },
+          {
+            "label": "Taxes up to date",
+            "feature": "taxes-up-to-date"
+          },
+          {
+            "label": "Calculator",
+            "route": "calculator"
+          }
+        ]
+      },
+      {
+        "title": "Company",
+        "links": [
+          {
+            "label": "About",
+            "route": "about"
+          },
+          {
+            "label": "Stories",
+            "route": "stories"
+          },
+          {
+            "label": "Changelog",
+            "route": "changelog"
+          },
+          {
+            "label": "Blog",
+            "route": "blog"
+          }
+        ]
+      },
+      {
+        "title": "For clients",
+        "links": [
+          {
+            "label": "How paying works",
+            "route": "forClients"
+          },
+          {
+            "label": "Integrations",
+            "route": "integrations"
+          },
+          {
+            "label": "Pricing",
+            "route": "pricing"
+          }
+        ]
+      }
+    ],
+    "copyright": "© 2026 Travessia (fictional)",
+    "legal": [
+      {
+        "label": "Privacy",
+        "route": "privacy"
+      },
+      {
+        "label": "Terms",
+        "route": "terms"
+      }
+    ]
+  },
+  "form": {
+    "nameLabel": "Your name",
+    "emailLabel": "Your email",
+    "submit": "Join the list",
+    "submitLong": "Join the waitlist",
+    "demoNotice": "Name and email only. This is a demo site and nothing is stored.",
+    "demoDone": "Done. This site is a demo, so nothing was sent or stored."
+  },
+  "common": {
+    "currencyBRL": "R$"
+  },
+  "styleguide": {
+    "title": "Style guide",
+    "lead": "Every token and component, rendered from the real CSS. Internal page, not indexed.",
+    "sections": {
+      "themes": "Section themes",
+      "palette": "Palette",
+      "type": "Type scale",
+      "space": "Space",
+      "radius": "Radii",
+      "shadow": "Shadows",
+      "logo": "Logo",
+      "buttons": "Buttons",
+      "icons": "Icons",
+      "forms": "Waitlist form",
+      "product": "Product UI pieces",
+      "vignettes": "Feature vignettes"
+    },
+    "sample": "You get paid in reais.",
+    "buttonLabels": {
+      "accent": "Join the list",
+      "secondary": "See fees",
+      "nav": "Open an account",
+      "link": "See the product"
+    }
+  }
 }

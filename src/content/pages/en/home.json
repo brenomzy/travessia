@@ -1,0 +1,167 @@
+{
+  "page": "home",
+  "translationKey": "home",
+  "seo": {
+    "title": "Travessia: get paid by clients abroad, in reais",
+    "description": "Invoice clients abroad, see the fee before you convert and receive reais by Pix. Demo site for a fictional company."
+  },
+  "hero": {
+    "title": "Your client pays in dollars.",
+    "titleHighlight": "You get paid in reais.",
+    "lead": "The invoice goes out in English for your client. The Pix arrives in Portuguese for you, with the fee and the rate already worked out.",
+    "clientsNote": {
+      "text": "Paying a freelancer in Brazil? Your invoice comes in English, and you pay by card or bank transfer.",
+      "link": {
+        "label": "How it works for clients",
+        "route": "forClients"
+      }
+    },
+    "logoStrip": {
+      "label": "Studios already paid through Travessia",
+      "names": [
+        "Ateliê Norte",
+        "KILN/STUDIO",
+        "Moita Filmes",
+        "três_rios",
+        "pão&pixel"
+      ]
+    },
+    "ui": {
+      "invoice": {
+        "number": "Invoice #0042",
+        "from": "Ana Ribeiro · Product design",
+        "status": "Paid · Nov 14",
+        "billToLabel": "Bill to",
+        "billTo": "Halden & Co., London",
+        "lines": [
+          {
+            "label": "Interface design, October",
+            "amount": "1,600.00"
+          },
+          {
+            "label": "Two revision rounds",
+            "amount": "400.00"
+          }
+        ],
+        "totalLabel": "Total",
+        "total": "US$ 2,000.00",
+        "methods": [
+          "Card",
+          "Bank transfer"
+        ],
+        "summary": "Invoice #0042 · Halden & Co., London",
+        "summaryCurrency": "US$",
+        "summaryAmount": "2,000.00",
+        "summaryNote": "Paid by card through the invoice link · Nov 14"
+      },
+      "crossing": {
+        "title": "The crossing",
+        "rows": [
+          {
+            "label": "0.6% fee",
+            "value": "− US$ 12.00"
+          },
+          {
+            "label": "Rate",
+            "value": "R$ 5.45"
+          },
+          {
+            "label": "Nota fiscal",
+            "value": "Issued",
+            "highlight": true
+          }
+        ]
+      },
+      "conversion": {
+        "status": "Converting",
+        "time": "Nov 15, 9:11",
+        "from": "US$ 1,988.00",
+        "to": "R$ 10,834.60",
+        "note": "0.6% fee already taken · rate R$ 5.45"
+      },
+      "phone": {
+        "date": "Friday, November 15",
+        "time": "9:12",
+        "appTime": "now",
+        "notificationTitle": "Pix received",
+        "notificationBody": "R$ 10,834.60 from invoice #0042, Halden & Co.",
+        "taxInvoice": "Nota fiscal no. 318 issued and sent to your accountant",
+        "balanceLabel": "Balance in reais",
+        "balance": "R$ 10,834.60"
+      },
+      "received": {
+        "label": "Pix received · your account",
+        "amount": "10,834.60",
+        "note": "In your account in 1 business day · Nov 15",
+        "currency": "R$"
+      }
+    }
+  },
+  "outcomes": {
+    "title": "What changes when you get paid through Travessia",
+    "lead": "Compared with a regular international wire received at a Brazilian bank.",
+    "stats": [
+      {
+        "before": "At a bank, up to 6% between fees and the exchange rate.",
+        "value": "0.6%",
+        "after": "One fee, shown before you convert."
+      },
+      {
+        "before": "At a bank, 3 to 5 business days until the money shows up.",
+        "value": "1 day",
+        "after": "From your client's payment to reais in your Pix."
+      },
+      {
+        "before": "At a bank, the tax invoice is up to you, later.",
+        "value": "2 min",
+        "after": "For the export nota fiscal to be issued, by itself."
+      }
+    ]
+  },
+  "calculator": {
+    "title": "How much will I receive?",
+    "lead": "Type the invoice amount and see, before anything else, how much arrives in reais and on what day. The rate you see here is the rate you get.",
+    "points": [
+      "Dollars, euros and pounds, all at 0.6%",
+      "You choose when to convert, or keep the balance in that currency",
+      "No fee to receive, only to convert"
+    ],
+    "currencies": [
+      "Dollar",
+      "Euro",
+      "Pound"
+    ],
+    "amountLabel": "Invoice amount",
+    "amount": "2,000.00",
+    "currency": "US$",
+    "rows": [
+      {
+        "label": "Travessia fee, 0.6%",
+        "value": "− US$ 12.00"
+      },
+      {
+        "label": "Amount converted",
+        "value": "US$ 1,988.00"
+      },
+      {
+        "label": "Example rate",
+        "value": "1 US$ = R$ 5.45"
+      }
+    ],
+    "resultLabel": "You receive by Pix",
+    "result": "10,834.60",
+    "arrival": "Arrives tomorrow, Nov 15",
+    "disclaimer": "Made-up rate, for demonstration only. This site moves no money."
+  },
+  "features": {
+    "title": "Everything between the invoice and the Pix",
+    "link": {
+      "label": "See the product",
+      "route": "product"
+    }
+  },
+  "finalCta": {
+    "title": "Your next payment can arrive in reais.",
+    "lead": "Join the waitlist. We'll email you when your account is ready."
+  }
+}

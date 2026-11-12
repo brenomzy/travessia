@@ -1,13 +1,163 @@
 {
   "meta": {
-    "siteName": "Travessia",
-    "homeTitle": "Travessia: receba de clientes no exterior",
-    "homeDescription": "Site de demonstração de uma empresa fictícia."
+    "siteName": "Travessia"
   },
-  "demoBanner": "Site de demonstração. A Travessia é uma empresa fictícia, criada para testar o Source by Webflow. Nada aqui é uma oferta real.",
-  "home": {
-    "title": "Receba de clientes no exterior, em reais, sem surpresa no câmbio.",
-    "lead": "Projeto em construção. Fase 0: estrutura do site."
+  "banner": {
+    "short": "Demonstração de uma empresa fictícia",
+    "long": "Site de demonstração de uma empresa fictícia. Nenhum dado é guardado.",
+    "footer": "A Travessia é uma empresa fictícia criada para testar o Source by Webflow. Este site não é um banco, não move dinheiro e não guarda dados."
   },
-  "languageSwitch": { "label": "English", "href": "/en/" }
+  "a11y": {
+    "skipLink": "Pular para o conteúdo",
+    "homeLink": "Travessia, página inicial",
+    "mainNav": "Principal",
+    "footerNav": "Rodapé",
+    "languageNav": "Idioma",
+    "menuOpen": "Abrir menu",
+    "menuClose": "Fechar menu",
+    "menuTitle": "Menu"
+  },
+  "nav": {
+    "items": [
+      {
+        "label": "Produto",
+        "route": "product"
+      },
+      {
+        "label": "Preços",
+        "route": "pricing"
+      },
+      {
+        "label": "Para clientes",
+        "route": "forClients"
+      },
+      {
+        "label": "Histórias",
+        "route": "stories"
+      }
+    ],
+    "cta": {
+      "label": "Abrir conta",
+      "route": "openAccount"
+    }
+  },
+  "language": {
+    "switchTo": "Read in English"
+  },
+  "footer": {
+    "tagline": "Conta internacional para freelancers e estúdios brasileiros que trabalham para clientes no exterior.",
+    "columns": [
+      {
+        "title": "Produto",
+        "links": [
+          {
+            "label": "Faturas internacionais",
+            "feature": "international-invoices"
+          },
+          {
+            "label": "Receber e converter",
+            "feature": "get-paid-and-convert"
+          },
+          {
+            "label": "Nota fiscal automática",
+            "feature": "automatic-tax-invoices"
+          },
+          {
+            "label": "Impostos em dia",
+            "feature": "taxes-up-to-date"
+          },
+          {
+            "label": "Calculadora",
+            "route": "calculator"
+          }
+        ]
+      },
+      {
+        "title": "Empresa",
+        "links": [
+          {
+            "label": "Sobre",
+            "route": "about"
+          },
+          {
+            "label": "Histórias",
+            "route": "stories"
+          },
+          {
+            "label": "Novidades",
+            "route": "changelog"
+          },
+          {
+            "label": "Blog",
+            "route": "blog"
+          }
+        ]
+      },
+      {
+        "title": "Para clientes",
+        "links": [
+          {
+            "label": "How paying works",
+            "route": "forClients",
+            "lang": "en"
+          },
+          {
+            "label": "Integrações",
+            "route": "integrations"
+          },
+          {
+            "label": "Preços",
+            "route": "pricing"
+          }
+        ]
+      }
+    ],
+    "copyright": "© 2026 Travessia (fictícia)",
+    "legal": [
+      {
+        "label": "Privacidade",
+        "route": "privacy"
+      },
+      {
+        "label": "Termos",
+        "route": "terms"
+      }
+    ]
+  },
+  "form": {
+    "nameLabel": "Seu nome",
+    "emailLabel": "Seu e-mail",
+    "submit": "Entrar na lista",
+    "submitLong": "Entrar na lista de espera",
+    "demoNotice": "Só nome e e-mail. Este é um site de demonstração e nada é guardado.",
+    "demoDone": "Pronto. Como este site é uma demonstração, nada foi enviado nem guardado."
+  },
+  "common": {
+    "currencyBRL": "R$"
+  },
+  "styleguide": {
+    "title": "Guia de estilo",
+    "lead": "Todos os tokens e componentes, renderizados a partir do CSS real. Página interna, sem indexação.",
+    "sections": {
+      "themes": "Temas de seção",
+      "palette": "Paleta",
+      "type": "Escala de texto",
+      "space": "Espaços",
+      "radius": "Raios",
+      "shadow": "Sombras",
+      "logo": "Logo",
+      "buttons": "Botões",
+      "icons": "Ícones",
+      "forms": "Formulário da lista de espera",
+      "product": "Peças de interface do produto",
+      "vignettes": "Ilustrações dos recursos"
+    },
+    "sample": "Você recebe em reais.",
+    "buttonLabels": {
+      "accent": "Entrar na lista",
+      "secondary": "Ver taxas",
+      "nav": "Abrir conta",
+      "link": "Ver o produto"
+    }
+  }
 }

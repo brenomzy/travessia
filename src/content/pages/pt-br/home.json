@@ -1,0 +1,167 @@
+{
+  "page": "home",
+  "translationKey": "home",
+  "seo": {
+    "title": "Travessia: receba de clientes no exterior, em reais",
+    "description": "Fature clientes no exterior, veja a taxa antes de converter e receba por Pix. Site de demonstração de uma empresa fictícia."
+  },
+  "hero": {
+    "title": "Seu cliente paga em dólar.",
+    "titleHighlight": "Você recebe em reais.",
+    "lead": "A fatura sai em inglês para o cliente. O Pix chega em português para você, com a taxa e o câmbio na conta.",
+    "clientsNote": {
+      "text": "Paying a freelancer in Brazil? Your invoice comes in English, and you pay by card or bank transfer.",
+      "link": {
+        "label": "How it works for clients",
+        "route": "forClients"
+      }
+    },
+    "logoStrip": {
+      "label": "Estúdios que já recebem pela Travessia",
+      "names": [
+        "Ateliê Norte",
+        "KILN/STUDIO",
+        "Moita Filmes",
+        "três_rios",
+        "pão&pixel"
+      ]
+    },
+    "ui": {
+      "invoice": {
+        "number": "Invoice #0042",
+        "from": "Ana Ribeiro · Product design",
+        "status": "Paid · Nov 14",
+        "billToLabel": "Bill to",
+        "billTo": "Halden & Co., London",
+        "lines": [
+          {
+            "label": "Interface design, October",
+            "amount": "1,600.00"
+          },
+          {
+            "label": "Two revision rounds",
+            "amount": "400.00"
+          }
+        ],
+        "totalLabel": "Total",
+        "total": "US$ 2,000.00",
+        "methods": [
+          "Card",
+          "Bank transfer"
+        ],
+        "summary": "Fatura #0042 · Halden & Co., Londres",
+        "summaryCurrency": "US$",
+        "summaryAmount": "2.000,00",
+        "summaryNote": "Paga com cartão pelo link da fatura · 14 nov"
+      },
+      "crossing": {
+        "title": "A travessia",
+        "rows": [
+          {
+            "label": "Taxa 0,6%",
+            "value": "− US$ 12,00"
+          },
+          {
+            "label": "Câmbio",
+            "value": "R$ 5,45"
+          },
+          {
+            "label": "Nota fiscal",
+            "value": "Emitida",
+            "highlight": true
+          }
+        ]
+      },
+      "conversion": {
+        "status": "Convertendo",
+        "time": "15 nov, 9h11",
+        "from": "US$ 1.988,00",
+        "to": "R$ 10.834,60",
+        "note": "Taxa de 0,6% já descontada · câmbio R$ 5,45"
+      },
+      "phone": {
+        "date": "sexta, 15 de novembro",
+        "time": "9:12",
+        "appTime": "agora",
+        "notificationTitle": "Pix recebido",
+        "notificationBody": "R$ 10.834,60 da fatura #0042, Halden & Co.",
+        "taxInvoice": "Nota fiscal nº 318 emitida e enviada ao contador",
+        "balanceLabel": "Saldo em reais",
+        "balance": "R$ 10.834,60"
+      },
+      "received": {
+        "label": "Pix recebido · sua conta",
+        "amount": "10.834,60",
+        "note": "Na conta em 1 dia útil · 15 nov",
+        "currency": "R$"
+      }
+    }
+  },
+  "outcomes": {
+    "title": "O que muda quando você recebe pela Travessia",
+    "lead": "Comparado com uma transferência internacional comum, recebida num banco brasileiro.",
+    "stats": [
+      {
+        "before": "No banco, até 6% entre tarifa e câmbio.",
+        "value": "0,6%",
+        "after": "Uma taxa só, mostrada antes de você converter."
+      },
+      {
+        "before": "No banco, de 3 a 5 dias úteis até o dinheiro aparecer.",
+        "value": "1 dia",
+        "after": "Do pagamento do cliente até os reais no seu Pix."
+      },
+      {
+        "before": "No banco, a nota fiscal é com você, depois.",
+        "value": "2 min",
+        "after": "Para a nota fiscal de exportação sair, sozinha."
+      }
+    ]
+  },
+  "calculator": {
+    "title": "Quanto vou receber?",
+    "lead": "Digite o valor da fatura e veja, antes de tudo, quanto chega em reais e em que dia. O câmbio que aparece aqui é o câmbio que você recebe.",
+    "points": [
+      "Dólar, euro e libra, com o mesmo 0,6%",
+      "Você escolhe quando converter, ou guarda o saldo na moeda",
+      "Nenhuma taxa para receber, só para converter"
+    ],
+    "currencies": [
+      "Dólar",
+      "Euro",
+      "Libra"
+    ],
+    "amountLabel": "Valor da fatura",
+    "amount": "2.000,00",
+    "currency": "US$",
+    "rows": [
+      {
+        "label": "Taxa Travessia, 0,6%",
+        "value": "− US$ 12,00"
+      },
+      {
+        "label": "Valor convertido",
+        "value": "US$ 1.988,00"
+      },
+      {
+        "label": "Câmbio de exemplo",
+        "value": "1 US$ = R$ 5,45"
+      }
+    ],
+    "resultLabel": "Você recebe por Pix",
+    "result": "10.834,60",
+    "arrival": "Chega amanhã, 15 nov",
+    "disclaimer": "Câmbio fictício, só para demonstração. Este site não move dinheiro."
+  },
+  "features": {
+    "title": "Tudo o que acontece entre a fatura e o Pix",
+    "link": {
+      "label": "Ver o produto",
+      "route": "product"
+    }
+  },
+  "finalCta": {
+    "title": "O próximo pagamento já pode chegar em reais.",
+    "lead": "Entre na lista de espera. Avisamos por e-mail quando a sua conta estiver pronta."
+  }
+}

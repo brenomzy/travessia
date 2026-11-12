@@ -1,0 +1,107 @@
+---
+/**
+ * Final CTA (Paper: Home → Section · Final CTA). From 1024 px the seam is vertical: the promise on noite,
+ * the waitlist on tapajós. Below it the halves stack with a horizontal seam strip between them.
+ */
+import seamCta from '../../assets/textures/seam-cta.png';
+import strip from '../../assets/textures/strip-tap-noite.png';
+import WaitlistForm from '../ui/WaitlistForm.astro';
+import type { Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  lead: string;
+}
+const { locale, title, lead } = Astro.props;
+---
+
+<section class="cta" data-theme="dark" aria-labelledby="cta-title" style={`--seam: url(${seamCta.src}); --strip: url(${strip.src});`}>
+  <div class="promise">
+    <h2 id="cta-title">{title}</h2>
+  </div>
+  <div class="strip" aria-hidden="true"></div>
+  <div class="join" data-theme="primary">
+    <p class="lead">{lead}</p>
+    <WaitlistForm locale={locale} layout="inline" showNotice />
+  </div>
+</section>
+
+<style>
+  .cta {
+    display: grid;
+    background-color: var(--color-bg-base);
+  }
+
+  .promise,
+  .join {
+    padding-inline: var(--space-gutter);
+    background-color: var(--color-bg-base);
+  }
+
+  .promise {
+    padding-block: var(--space-section) var(--space-xl);
+  }
+
+  h2 {
+    max-inline-size: 32.5rem;
+    font-size: var(--text-hero);
+    line-height: var(--leading-hero);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  /* strip-tap-noite runs tapajós → noite, so it is flipped to read noite → tapajós. */
+  .strip {
+    block-size: clamp(7.5rem, 20vw, 15rem);
+    background-image: var(--strip);
+    background-size: cover;
+    background-position: center;
+    image-rendering: pixelated;
+    scale: 1 -1;
+  }
+
+  .join {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding-block: var(--space-l) var(--space-section);
+  }
+
+  .join > * {
+    max-inline-size: 30.5rem;
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  /* breakpoint.laptop (1024px) */
+  @media (width >= 64rem) {
+    .cta {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      min-block-size: 37.5rem;
+      padding-inline: var(--space-gutter);
+      background-image: var(--seam);
+      background-size: cover;
+      background-position: center;
+      image-rendering: pixelated;
+    }
+
+    .promise,
+    .join {
+      padding: 0;
+      background-color: transparent;
+    }
+
+    .strip {
+      display: none;
+    }
+
+    .join {
+      justify-self: end;
+      inline-size: min(100%, 30.5rem);
+    }
+  }
+</style>

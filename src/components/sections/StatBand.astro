@@ -1,0 +1,83 @@
+---
+/** The three proof points, each with the bank's number above it (Paper: Home → Section · Outcomes). */
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+
+interface Props {
+  title: string;
+  lead: string;
+  stats: { before: string; value: string; after: string }[];
+}
+const { title, lead, stats } = Astro.props;
+---
+
+<Section labelledby="outcomes-title">
+  <div class="l-stack" style="--gap: var(--space-2xl)">
+    <SectionHeader id="outcomes-title" title={title} lead={lead} />
+    <ul class="stats" role="list">
+      {
+        stats.map((s) => (
+          <li>
+            <p class="before">{s.before}</p>
+            <p class="value" data-count-up>{s.value}</p>
+            <p class="after">{s.after}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Section>
+
+<style>
+  .stats {
+    display: grid;
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding-block: var(--space-l);
+  }
+
+  .before {
+    color: var(--color-text-subtle);
+  }
+
+  .value {
+    color: var(--color-text-highlight);
+    font-size: var(--text-6xl);
+    line-height: var(--leading-6xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-display);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .after {
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  /* Three columns: hairlines between them. One column: hairlines between rows. */
+  @container (width >= 54rem) {
+    .stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    li + li {
+      padding-inline-start: var(--space-xl);
+      border-inline-start: var(--size-hairline) solid var(--color-border-base);
+    }
+
+    li:not(:last-child) {
+      padding-inline-end: var(--space-xl);
+    }
+  }
+
+  @container (width < 54rem) {
+    li + li {
+      border-block-start: var(--size-hairline) solid var(--color-border-base);
+    }
+  }
+</style>

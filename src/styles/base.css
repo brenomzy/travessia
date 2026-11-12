@@ -1,0 +1,80 @@
+/* Element defaults. Headings are Figtree semibold; size, not weight, sets hierarchy. */
+html {
+  color-scheme: light;
+  scroll-padding-top: var(--space-xl);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-base);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-base);
+  background-color: var(--color-bg-base);
+  font-synthesis: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: var(--font-weight-semibold);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-5xl);
+  line-height: var(--leading-5xl);
+  letter-spacing: var(--font-tracking-display);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+  line-height: var(--leading-4xl);
+  letter-spacing: var(--font-tracking-heading);
+}
+
+h3 {
+  font-size: var(--text-xl);
+  line-height: var(--leading-xl);
+  letter-spacing: var(--font-tracking-title);
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-link);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: var(--size-hairline);
+}
+
+a:hover {
+  text-decoration-thickness: var(--size-focus-ring);
+}
+
+:focus-visible {
+  outline: var(--size-focus-ring) solid var(--color-focus);
+  outline-offset: var(--size-focus-ring);
+}
+
+::selection {
+  background-color: var(--agua-200);
+  color: var(--noite-900);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+strong,
+b {
+  font-weight: var(--font-weight-semibold);
+}
+
+code,
+kbd {
+  font-family: var(--font-mono);
+}

@@ -1,39 +1,88 @@
 ---
-// Phase 0 shell. Phase 1 adds global.css, header, footer, JSON-LD and the no-js swap (SPEC §5.5.4).
+/**
+ * Page shell (SPEC §5.5.4): head, meta, hreflang, noindex, the no-js → js swap, fonts,
+ * the fictional-company banner, header, main and footer.
+ */
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import SkipLink from '../components/shell/SkipLink.astro';
+import DemoBanner from '../components/shell/DemoBanner.astro';
+import Header from '../components/shell/Header.astro';
+import Footer from '../components/shell/Footer.astro';
 import { langTag, t, type Locale } from '../i18n';
+import type { RouteKey } from '../i18n/routes';
 
 interface Props {
   locale: Locale;
   title: string;
   description: string;
-  /** Path of this page in each language, for hreflang alternates. */
+  /** Path of this page in each language, for hreflang alternates and the language switch. */
   alternates: Record<Locale, string>;
+  /** "seam" when the page opens with a seam hero that the header sits on. */
+  headerVariant?: 'seam' | 'light' | 'dark';
+  current?: RouteKey;
 }
 
-const { locale, title, description, alternates } = Astro.props;
-const strings = t(locale);
+const { locale, title, description, alternates, headerVariant = 'light', current } = Astro.props;
+const s = t(locale);
 const site = Astro.site ?? new URL('https://travessia.example');
 ---
 
-<html lang={langTag[locale]}>
+<!doctype html>
+<html lang={langTag[locale]} class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
     <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href={new URL(alternates[locale], site)} />
     <link rel="alternate" hreflang="pt-BR" href={new URL(alternates['pt-br'], site)} />
     <link rel="alternate" hreflang="en" href={new URL(alternates.en, site)} />
     <link rel="alternate" hreflang="x-default" href={new URL(alternates['pt-br'], site)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={langTag[locale].replace('-', '_')} />
+    <meta property="og:site_name" content={s.meta.siteName} />
     <meta name="generator" content={Astro.generator} />
+    <Font cssVariable="--font-figtree" preload />
+    <Font cssVariable="--font-geist-mono" />
+    <slot name="head" />
   </head>
   <body>
-    <p role="note">{strings.demoBanner}</p>
-    <slot />
-    <footer>
-      <p>{strings.demoBanner}</p>
-    </footer>
+    <SkipLink label={s.a11y.skipLink} />
+    <DemoBanner short={s.banner.short} long={s.banner.long} />
+    <div class="page" data-header={headerVariant}>
+      <Header locale={locale} alternates={alternates} variant={headerVariant} current={current} />
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+    </div>
+    <Footer locale={locale} alternates={alternates} />
   </body>
 </html>
+
+<style>
+  /* On a seam page the header floats over the hero, which runs up underneath it. */
+  .page[data-header='seam'] {
+    display: grid;
+    grid-template-areas: 'stack';
+  }
+
+  .page[data-header='seam'] > :global(*) {
+    grid-area: stack;
+  }
+
+  .page[data-header='seam'] > :global(header) {
+    align-self: start;
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>
