@@ -74,7 +74,10 @@ export const motion = {
     "distance": 12,
     "fade": 0.3,
     "focus": 0.7,
-    "move": 0.8
+    "move": 0.8,
+    "intro-blur": 8,
+    "intro-distance": 16,
+    "intro-move": 1.4
   }
 } as const;
 
@@ -360,6 +363,10 @@ export const tokens = {
       "width": 300,
       "height": 470,
       "bezel": 10
+    },
+    "mark": {
+      "m": 48,
+      "l": 56
     }
   },
   "breakpoint": {

@@ -1,0 +1,53 @@
+{
+  "page": "stories",
+  "translationKey": "stories",
+  "seo": {
+    "title": "Histórias de quem recebe do exterior | Travessia",
+    "description": "Freelancers e estúdios brasileiros contando como recebem de clientes em outros países, com os números deles."
+  },
+  "title": "Histórias",
+  "lead": "Freelancers e estúdios brasileiros contando como recebem de clientes em outros países, com os números deles.",
+  "stats": [
+    {
+      "value": "2.140",
+      "label": "contas abertas desde março"
+    },
+    {
+      "value": "31 países",
+      "label": "onde estão os clientes delas"
+    },
+    {
+      "value": "1 dia útil",
+      "label": "prazo médio até o real cair na conta"
+    }
+  ],
+  "spotlightLink": "Ler a história",
+  "moreTitle": "Mais histórias",
+  "filterLabel": "Filtrar histórias",
+  "all": "Todas",
+  "crafts": {
+    "design": "Design",
+    "development": "Desenvolvimento",
+    "translation": "Tradução",
+    "video": "Vídeo",
+    "writing": "Escrita"
+  },
+  "studios": "Estúdios",
+  "read": "Ler",
+  "readAbout": "Ler a história de {name}",
+  "detail": {
+    "factsLabel": "Sobre",
+    "facts": {
+      "company": "Empresa",
+      "city": "Cidade",
+      "team": "Equipe",
+      "clients": "Clientes em",
+      "since": "Usa a Travessia desde",
+      "features": "Recursos que usa"
+    },
+    "teamOne": "1 pessoa",
+    "teamMany": "{n} pessoas",
+    "otherTitle": "Outras histórias",
+    "metricsLabel": "Resultados"
+  }
+}

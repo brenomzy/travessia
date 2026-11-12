@@ -1,0 +1,111 @@
+---
+/**
+ * Feature page template, shared by /produto/[slug] and /en/product/[slug]
+ * (Paper: Pages · product and sales → feature template). SPEC §6.2: hero, problem, how it works,
+ * related integrations, FAQ, CTA.
+ */
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import ProblemList from '../sections/ProblemList.astro';
+import StepCards from '../sections/StepCards.astro';
+import FaqList from '../sections/FaqList.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import InvoiceCard from '../product/InvoiceCard.astro';
+import ConversionCard from '../product/ConversionCard.astro';
+import FeatureVignette from '../product/FeatureVignette.astro';
+import Chip from '../ui/Chip.astro';
+import { t, type Locale } from '../../i18n';
+import { featurePath, integrationPath, path, type RouteKey } from '../../i18n/routes';
+import { getFeatureFaqs, getFeatureTranslations, getIntegrations } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+  feature: CollectionEntry<'features'>;
+}
+const { locale, feature } = Astro.props;
+const f = feature.data;
+const s = t(locale);
+
+// Both language versions of this page, found through the shared translationKey (SPEC rule 4).
+const translations = await getFeatureTranslations(f.translationKey);
+const slugIn = (l: Locale) => {
+  const entry = translations.find((e) => e.id.startsWith(`${l}/`));
+  if (!entry) throw new Error(`Missing ${l} translation of feature "${f.translationKey}"`);
+  return entry.data.slug;
+};
+const pageAlternates = { 'pt-br': featurePath(slugIn('pt-br'), 'pt-br'), en: featurePath(slugIn('en'), 'en') };
+
+const faqs = await getFeatureFaqs(locale, f.translationKey);
+const related = (await getIntegrations(locale)).filter((i) => f.integrations.includes(i.data.translationKey));
+const productLabel = s.nav.items.find((i) => i.route === 'product')?.label ?? '';
+const card = f.heroCard;
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${f.name} | ${s.meta.siteName}`}
+  description={f.summary}
+  alternates={pageAlternates}
+  headerVariant="dark"
+  current="product"
+>
+  <InteriorHero
+    title={f.hero.title}
+    lead={f.hero.lead}
+    primary={{ label: s.interior.primaryCta.label, href: path(s.interior.primaryCta.route as RouteKey, locale) }}
+    secondary={{ label: f.hero.secondary.label, href: path(f.hero.secondary.route as RouteKey, locale) }}
+    breadcrumb={{
+      label: s.a11y.breadcrumb,
+      items: [
+        { label: productLabel, href: path('product', locale) },
+        { label: f.name, href: pageAlternates[locale] },
+      ],
+    }}
+  >
+    <div slot="visual">
+      {card.kind === 'invoice' && <InvoiceCard {...card} shadow="floating-dark" />}
+      {card.kind === 'conversion' && <ConversionCard {...card} shadow="floating-dark" />}
+      {card.kind === 'vignette' && <FeatureVignette vignette={f.vignette} frame="bare" />}
+    </div>
+  </InteriorHero>
+  <ProblemList {...f.problem} />
+  <StepCards title={s.interior.stepsTitle} steps={f.steps} />
+  {
+    faqs.length > 0 && (
+      <FaqList title={f.faqTitle} faqs={faqs} size="compact">
+        {related.length > 0 && (
+          <div class="related">
+            <p>{f.integrationsLabel}</p>
+            <ul class="chips" role="list">
+              {related.map((i) => (
+                <li>
+                  <Chip href={integrationPath(i.data.slug, locale)}>{i.data.name}</Chip>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </FaqList>
+    )
+  }
+  <ClosingCta locale={locale} />
+</BaseLayout>
+
+<style>
+  .related {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .related p {
+    color: var(--color-text-muted);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+</style>

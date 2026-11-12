@@ -1,0 +1,253 @@
+---
+/** Blog index, shared by /blog and /en/blog (Paper: Pages · content → /blog). */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../sections/PageIntro.astro';
+import Section from '../sections/Section.astro';
+import NewsletterBand from '../sections/NewsletterBand.astro';
+import PostCover from '../ui/PostCover.astro';
+import PostCard from '../ui/PostCard.astro';
+import ShowMore from '../ui/ShowMore.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import type { Locale } from '../../i18n';
+import { shortDate } from '../../lib/format';
+import { alternates, blogCategoryPath, postPath } from '../../i18n/routes';
+import { getAuthor, getPage, getPosts } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const page = await getPage(locale, 'blog');
+const posts = await getPosts(locale);
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p !== featured);
+const popular = posts.filter((p) => p.data.popular).sort((a, b) => (a.data.popular ?? 0) - (b.data.popular ?? 0)).slice(0, 4);
+const author = await getAuthor(featured.data.author);
+const cat = (c: keyof typeof page.categories) => page.categories[c];
+const fmt = (d: Date) => shortDate(locale, d);
+const categoryIds = Object.keys(page.categories) as (keyof typeof page.categories)[];
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('blog')}
+  headerVariant="dark"
+  current="blog"
+>
+  <PageIntro title={page.title} lead={page.lead}>
+    <nav class="cats" aria-label={page.categoriesLabel}>
+      <ul role="list">
+        <li><a href={alternates('blog')[locale]} aria-current="page">{page.all}</a></li>
+        {
+          categoryIds.map((c) => (
+            <li>
+              <a href={blogCategoryPath(cat(c).slug, locale)}>{cat(c).label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </PageIntro>
+
+  <Section>
+    <div class="top">
+      <article class="feature" data-reveal>
+        <a href={postPath(featured.data.slug, locale)} class="feature-link">
+          <PostCover size="feature" category={featured.data.category} categoryLabel={cat(featured.data.category).label} title={featured.data.title} />
+        </a>
+        <p class="dek">{featured.data.description}</p>
+        <p class="meta">
+          {author.name} · <time datetime={featured.data.date.toISOString().slice(0, 10)}>{fmt(featured.data.date)}</time> ·
+          {page.readingTime.replace('{n}', String(featured.minutes))}
+        </p>
+      </article>
+      <aside class="popular" aria-labelledby="popular-title" data-reveal>
+        <h2 id="popular-title">{page.popularTitle}</h2>
+        <ol role="list">
+          {
+            popular.map((p, i) => (
+              <li>
+                <span class="n" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <span>
+                  <a href={postPath(p.data.slug, locale)}>{p.data.title}</a>
+                  <span class="meta">
+                    {cat(p.data.category).label} · {page.minutes.replace('{n}', String(p.minutes))}
+                  </span>
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+      </aside>
+    </div>
+  </Section>
+
+  <Section spacing="none" labelledby="all-title">
+    <div class="all l-stack" style="--gap: var(--space-xl)">
+      <div class="all-head">
+        <h2 id="all-title">{page.allTitle}</h2>
+        <p>{page.count.replace('{n}', String(posts.length))}</p>
+      </div>
+      <ul id="post-grid" class="grid" role="list" data-reveal-stagger>
+        {
+          rest.map((p) => (
+            <PostCard
+              post={p}
+              locale={locale}
+              href={postPath(p.data.slug, locale)}
+              categoryLabel={cat(p.data.category).label}
+              minutesLabel={page.minutes}
+            />
+          ))
+        }
+      </ul>
+      <ShowMore targetId="post-grid" label={page.showMore} visible={6} total={rest.length} />
+    </div>
+  </Section>
+
+  <NewsletterBand locale={locale} {...page.newsletter} />
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .cats ul {
+    display: flex;
+    gap: var(--space-2xs);
+    overflow-x: auto;
+    padding-block: var(--size-focus-ring);
+    scrollbar-width: none;
+  }
+
+  .cats a {
+    display: inline-block;
+    padding: var(--space-2xs) var(--space-s);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .cats a:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .cats a[aria-current] {
+    border-color: var(--color-text-base);
+    background-color: var(--color-text-base);
+    color: var(--color-bg-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xl);
+  }
+
+  .feature {
+    display: flex;
+    flex: 999 1 34rem;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .feature-link {
+    display: block;
+    border-radius: var(--radius-l);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .feature-link:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .dek {
+    margin-block-start: var(--space-xs);
+    max-inline-size: var(--size-measure-text);
+    color: var(--color-text-muted);
+  }
+
+  .meta {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .popular {
+    flex: 1 1 18rem;
+  }
+
+  .popular h2 {
+    padding-block-end: var(--space-s);
+    border-block-end: var(--size-hairline) solid var(--color-border-strong);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .popular li {
+    display: flex;
+    gap: var(--space-s);
+    padding-block: var(--space-s);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .popular li > span:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .n {
+    flex: 0 0 var(--space-s);
+    color: var(--color-link);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .popular a {
+    color: var(--color-text-base);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .popular a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .all {
+    padding-block-end: var(--space-section);
+  }
+
+  .all-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-l);
+  }
+
+  .all-head h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .all-head p {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-xl) var(--space-m);
+  }
+</style>

@@ -1,0 +1,119 @@
+{
+  "page": "openAccount",
+  "translationKey": "openAccount",
+  "seo": {
+    "title": "Join the waitlist | Travessia",
+    "description": "We're opening accounts a few at a time. Join the list with your name and email; this site is a demo and stores nothing."
+  },
+  "title": "Join the waitlist",
+  "lead": "We're opening accounts a few at a time, first come, first served. You'll get an email when yours is ready.",
+  "steps": [
+    "You join with your name and email. That's all.",
+    "When it's your turn, we send the invite.",
+    "Your account opens in about 10 minutes, on your phone."
+  ],
+  "form": {
+    "title": "Your details",
+    "note": "Nothing is sent: this site is a demo.",
+    "name": {
+      "label": "Name",
+      "placeholder": "What should we call you",
+      "missing": "Enter your name."
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "you@email.com",
+      "missing": "Enter your email.",
+      "invalid": "That email looks incomplete."
+    },
+    "work": {
+      "label": "How you work (optional)",
+      "placeholder": "Pick one",
+      "options": [
+        {
+          "value": "mei",
+          "label": "MEI (sole trader)"
+        },
+        {
+          "value": "company",
+          "label": "Company (Simples or another regime)"
+        },
+        {
+          "value": "individual",
+          "label": "Individual"
+        }
+      ]
+    },
+    "country": {
+      "label": "Your main client's country (optional)",
+      "placeholder": "Start typing",
+      "empty": "No country found.",
+      "clear": "Clear country",
+      "open": "Show countries",
+      "options": [
+        {
+          "value": "us",
+          "label": "United States"
+        },
+        {
+          "value": "gb",
+          "label": "United Kingdom"
+        },
+        {
+          "value": "de",
+          "label": "Germany"
+        },
+        {
+          "value": "pt",
+          "label": "Portugal"
+        },
+        {
+          "value": "ca",
+          "label": "Canada"
+        },
+        {
+          "value": "fr",
+          "label": "France"
+        },
+        {
+          "value": "nl",
+          "label": "Netherlands"
+        },
+        {
+          "value": "ie",
+          "label": "Ireland"
+        },
+        {
+          "value": "es",
+          "label": "Spain"
+        },
+        {
+          "value": "au",
+          "label": "Australia"
+        },
+        {
+          "value": "ch",
+          "label": "Switzerland"
+        },
+        {
+          "value": "other",
+          "label": "Another country"
+        }
+      ]
+    },
+    "newsletter": "Send me the guide to getting paid from abroad (one email a month, at most).",
+    "submit": "Join the list",
+    "privacy": "We never ask for passwords, CPF or bank details here. See the {link}.",
+    "privacyLink": "privacy policy"
+  },
+  "success": {
+    "title": "Done, {name}. You're number {position} in the queue.",
+    "text": "Nothing was sent or stored: this site is a demo.",
+    "again": "Fill it in again"
+  },
+  "toast": {
+    "title": "You're on the list",
+    "description": "Demo: no data left your browser.",
+    "close": "Close notice"
+  }
+}

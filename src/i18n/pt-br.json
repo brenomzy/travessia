@@ -15,7 +15,9 @@
     "languageNav": "Idioma",
     "menuOpen": "Abrir menu",
     "menuClose": "Fechar menu",
-    "menuTitle": "Menu"
+    "menuTitle": "Menu",
+    "breadcrumb": "Trilha de navegação",
+    "backToSite": "Voltar para o site"
   },
   "nav": {
     "items": [
@@ -155,7 +157,13 @@
       "billing": "Alternância de cobrança",
       "tabs": "Telas do produto (abas)",
       "strip": "Faixa de costura",
-      "motion": "Movimento"
+      "motion": "Movimento",
+      "calculator": "Calculadora de taxas",
+      "navigation": "Trilha e chips",
+      "interior": "Seções das páginas internas",
+      "integrations": "Integrações: marca, cartão, filtro e registro",
+      "calculatorSeam": "Calculadora na costura e exemplos",
+      "content": "Peças das páginas de conteúdo"
     },
     "sample": "Você recebe em reais.",
     "buttonLabels": {
@@ -165,5 +173,22 @@
       "link": "Ver o produto"
     },
     "countSample": "0,6%"
+  },
+  "interior": {
+    "primaryCta": {
+      "label": "Entrar na lista",
+      "route": "openAccount"
+    },
+    "stepsTitle": "Como funciona, em três passos"
+  },
+  "closingCta": {
+    "title": "O próximo pagamento já pode chegar em reais.",
+    "card": {
+      "status": "Convertendo",
+      "time": "15 nov, 9h11",
+      "from": "US$ 1.988,00",
+      "to": "R$ 10.834,60",
+      "note": "Taxa de 0,6% já descontada · câmbio R$ 5,45"
+    }
   }
 }

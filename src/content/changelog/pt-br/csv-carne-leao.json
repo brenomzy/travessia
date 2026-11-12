@@ -1,0 +1,9 @@
+{
+  "title": "CSV do mês para o carnê-leão",
+  "slug": "csv-carne-leao",
+  "date": "2026-10-14",
+  "type": "improved",
+  "area": "exchange",
+  "summary": "O extrato mensal sai com data, valor recebido, cotação e valor em reais em colunas separadas, no formato que o aplicativo da Receita aceita.",
+  "translationKey": "csv-carne-leao"
+}

@@ -1,0 +1,336 @@
+---
+/**
+ * Integration detail template, shared by /integracoes/[slug] and /en/integrations/[slug]
+ * (Paper: Pages · content → integration detail). The integration supplies its name, steps and
+ * facts; its category supplies the hero lead, the sync card and the "what gets sent" table.
+ */
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import Section from '../sections/Section.astro';
+import SyncLog from '../product/SyncLog.astro';
+import IntegrationMark from '../ui/IntegrationMark.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import Icon from '../ui/Icon.astro';
+import { t, type Locale } from '../../i18n';
+import { integrationPath, path, type RouteKey } from '../../i18n/routes';
+import { getIntegrations, getPage } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+  integration: CollectionEntry<'integrations'>;
+}
+const { locale, integration } = Astro.props;
+const i = integration.data;
+const s = t(locale);
+const page = await getPage(locale, 'integrations');
+const d = page.detail;
+const cat = page.categories[i.category];
+const fill = (text: string) => text.replaceAll('{name}', i.name);
+
+// The other language's slug, through the shared translationKey (SPEC rule 4).
+const other: Locale = locale === 'pt-br' ? 'en' : 'pt-br';
+const translation = (await getIntegrations(other)).find((e) => e.data.translationKey === i.translationKey);
+if (!translation) throw new Error(`Missing ${other} translation of integration "${i.translationKey}"`);
+const pageAlternates = {
+  [locale]: integrationPath(i.slug, locale),
+  [other]: integrationPath(translation.data.slug, other),
+} as Record<Locale, string>;
+
+const related = (await getIntegrations(locale))
+  .filter((e) => e.data.category === i.category && e.data.translationKey !== i.translationKey)
+  .slice(0, 2);
+
+const facts = [
+  { label: d.facts.category, value: cat.label },
+  { label: d.facts.frequency, value: i.frequency },
+  { label: d.facts.direction, value: fill(d.direction[i.direction]) },
+  { label: d.facts.cost, value: d.cost },
+  { label: d.facts.maintainedBy, value: i.maintainedBy },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${fill(d.title)} | ${s.meta.siteName}`}
+  description={i.shortDescription}
+  alternates={pageAlternates}
+  headerVariant="dark"
+  current="integrations"
+>
+  <InteriorHero
+    title={fill(d.title)}
+    lead={fill(cat.lead)}
+    primary={{ label: d.primary.label, href: path(d.primary.route as RouteKey, locale) }}
+    secondary={{ label: d.secondary, href: '#how-to-connect' }}
+    breadcrumb={{
+      label: s.a11y.breadcrumb,
+      items: [
+        { label: page.index.title, href: path('integrations', locale) },
+        { label: i.name, href: pageAlternates[locale] },
+      ],
+    }}
+  >
+    <div slot="intro" class="pair" aria-hidden="true">
+      <IntegrationMark name={s.meta.siteName} text="t" tone="inverse" size="l" />
+      <span class="link"></span>
+      <IntegrationMark name={i.name} size="l" />
+    </div>
+    <SyncLog slot="visual" {...cat.card} title={cat.card.title} />
+  </InteriorHero>
+
+  <Section labelledby="sends-title">
+    <div class="body">
+      <div class="prose">
+        <div class="l-stack" style="--gap: var(--space-m)" data-reveal-stagger>
+          <h2 id="sends-title">{cat.sends.title}</h2>
+          <p class="lead">{cat.sends.lead}</p>
+          <dl class="fields">
+            {
+              cat.sends.fields.map((f) => (
+                <div data-highlight={f.highlight ? '' : undefined}>
+                  <dt>{f.label}</dt>
+                  <dd>{f.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+        <div class="l-stack" style="--gap: var(--space-m)" data-reveal-stagger>
+          <h2 id="how-to-connect">{d.connectTitle}</h2>
+          <ol class="steps" role="list">
+            {
+              i.setupSteps.map((step, n) => (
+                <li>
+                  <span class="n" aria-hidden="true">
+                    {n + 1}
+                  </span>
+                  <span>
+                    <strong>{step.title}.</strong> {step.detail}
+                  </span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+      <dl class="facts" aria-label={d.factsLabel} data-reveal-stagger>
+        {
+          facts.map((f) => (
+            <div>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </Section>
+
+  {
+    related.length > 0 && (
+      <Section spacing="none" labelledby="related-title">
+        <div class="related l-stack" style="--gap: var(--space-l)">
+          <h2 id="related-title" data-reveal>
+            {cat.relatedTitle}
+          </h2>
+          <ul class="related-list" role="list" data-reveal-stagger>
+            {related.map(({ data: r }) => (
+              <li class="related-card">
+                <IntegrationMark name={r.name} tone={r.sphere.tone} />
+                <span class="related-text">
+                  <a href={integrationPath(r.slug, locale)}>{r.name}</a>
+                  <span>{r.shortDescription}</span>
+                </span>
+                <span class="view" aria-hidden="true">
+                  {d.view} <Icon name="arrow-right" />
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Section>
+    )
+  }
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .pair {
+    display: flex;
+    align-items: center;
+  }
+
+  .link {
+    inline-size: var(--space-xl);
+    block-size: var(--size-focus-ring);
+    background-color: var(--color-text-highlight);
+  }
+
+  .body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-2xl) var(--space-3xl);
+  }
+
+  .prose {
+    display: flex;
+    flex: 1 1 32rem;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    max-inline-size: 42.5rem;
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .fields div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3xs) var(--space-m);
+    padding-block: var(--space-xs);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .fields div:first-child {
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .fields dd {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fields [data-highlight] dd {
+    color: var(--color-text-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .steps li {
+    display: flex;
+    gap: var(--space-m);
+  }
+
+  .n {
+    flex: 0 0 var(--space-m);
+    color: var(--color-accent-data-strong);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .facts {
+    flex: 1 1 18rem;
+    max-inline-size: 31rem;
+  }
+
+  .facts div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding-block: var(--space-s);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .facts div:first-child {
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .facts dt {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .facts dd {
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .related {
+    padding-block-end: var(--space-section);
+  }
+
+  .related-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .related-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+    transition: border-color var(--duration-fast) var(--ease-hover);
+  }
+
+  .related-card:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .related-card:focus-within {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .related-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    min-inline-size: 0;
+  }
+
+  .related-text a {
+    color: var(--color-text-base);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+  }
+
+  .related-text a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .related-text a:focus-visible {
+    outline: none;
+  }
+
+  .related-text span {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .view {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    --icon-size: var(--size-icon-s);
+  }
+</style>

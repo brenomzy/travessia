@@ -1,0 +1,59 @@
+{
+  "title": "Exchange rates without surprises",
+  "slug": "exchange-without-surprises",
+  "kind": "Live webinar",
+  "kindPast": "Recording",
+  "lead": "When to convert, how to read the rate and what spread means, with examples from people paid from abroad.",
+  "leadPast": "Recorded on Oct 15, 2026 with Tiago Alves and Ana Ribeiro. 46 minutes, in Portuguese with English captions.",
+  "date": "2026-10-15",
+  "time": "7 to 8 pm (BRT)",
+  "place": "Online, free",
+  "duration": "46:30",
+  "agenda": [
+    {
+      "time": "7:00",
+      "chapter": "00:00",
+      "title": "What the commercial rate is",
+      "detail": "And why your bank's number is different."
+    },
+    {
+      "time": "7:15",
+      "chapter": "12:20",
+      "title": "Spread, fees and IOF",
+      "detail": "A US$ 2,000 example, cost by cost."
+    },
+    {
+      "time": "7:35",
+      "chapter": "28:40",
+      "title": "When to convert",
+      "detail": "Ana's three rules for not converting on the worst day."
+    },
+    {
+      "time": "7:50",
+      "chapter": "38:05",
+      "title": "Questions",
+      "detail": "The questions that came in through the chat."
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Tiago Alves",
+      "role": "Travessia engineer, works on exchange and payments"
+    },
+    {
+      "name": "Ana Ribeiro",
+      "role": "Product designer in Recife, a customer since 2025"
+    }
+  ],
+  "register": {
+    "title": "Save your spot",
+    "text": "We send the access link and, afterwards, the recording.",
+    "count": "420 people signed up",
+    "submit": "Sign up"
+  },
+  "missed": {
+    "title": "Missed it?",
+    "text": "The full recording is on this page."
+  },
+  "translationKey": "cambio-sem-susto"
+}

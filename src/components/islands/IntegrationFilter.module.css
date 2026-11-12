@@ -1,0 +1,99 @@
+@layer components {
+  /* The island's parts sit in the page header's grid (areas "search" and "groups"). */
+  .filter {
+    display: contents;
+  }
+
+  .search {
+    grid-area: search;
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: end;
+  }
+
+  .icon {
+    position: absolute;
+    inset-inline-start: var(--space-m);
+    inline-size: var(--size-icon-s);
+    block-size: var(--size-icon-s);
+    fill: none;
+    stroke: var(--color-text-subtle);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    pointer-events: none;
+  }
+
+  .input {
+    inline-size: 100%;
+    min-block-size: var(--size-tap);
+    padding-block: var(--space-xs);
+    padding-inline: calc(var(--space-m) + var(--size-icon-s) + var(--space-xs)) var(--space-m);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-bg-raised);
+    color: var(--color-text-base);
+    font: inherit;
+  }
+
+  .input::placeholder {
+    color: var(--color-text-subtle);
+    opacity: 1;
+  }
+
+  .input:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .groups {
+    grid-area: groups;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  /* Phones: one row that scrolls sideways, running to the screen edges, instead of five wrapped rows. */
+  @media (width < 48rem) {
+    .groups {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-inline: calc(var(--space-gutter) * -1);
+      padding-inline: var(--space-gutter);
+      padding-block: var(--size-focus-ring);
+      scrollbar-width: none;
+    }
+  }
+
+  .group {
+    flex-shrink: 0;
+    padding: var(--space-2xs) var(--space-m);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--color-text-base);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover),
+      border-color var(--duration-fast) var(--ease-hover);
+  }
+
+  .group:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .group[data-pressed] {
+    border-color: var(--color-text-base);
+    background-color: var(--color-text-base);
+    color: var(--color-bg-base);
+  }
+
+  .group:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+}

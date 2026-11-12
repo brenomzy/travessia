@@ -1,0 +1,338 @@
+---
+/**
+ * Webinar page, shared by /eventos/[slug] and /en/events/[slug] (Paper: Pages · company and utility
+ * → Event, upcoming and recording states). It switches to the recording state once the event date
+ * has passed, checked at build time (SPEC §6.2), so the site needs a rebuild after an event.
+ */
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import Section from '../sections/Section.astro';
+import WaitlistForm from '../ui/WaitlistForm.astro';
+import Avatar from '../ui/Avatar.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import { t, type Locale } from '../../i18n';
+import { eventPath } from '../../i18n/routes';
+import { getEvents, getPage } from '../../lib/content';
+import { longDate } from '../../lib/format';
+
+interface Props {
+  locale: Locale;
+  event: CollectionEntry<'events'>;
+}
+const { locale, event } = Astro.props;
+const e = event.data;
+const s = t(locale);
+const page = await getPage(locale, 'events');
+const other: Locale = locale === 'pt-br' ? 'en' : 'pt-br';
+const translation = (await getEvents(other)).find((x) => x.data.translationKey === e.translationKey);
+if (!translation) throw new Error(`Missing ${other} translation of event "${e.translationKey}"`);
+const pageAlternates = { [locale]: eventPath(e.slug, locale), [other]: eventPath(translation.data.slug, other) } as Record<Locale, string>;
+/** The day after the event, so the live page stays up on the day itself. */
+const past = Date.now() > e.date.getTime() + 86_400_000;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: e.title,
+  description: e.lead,
+  startDate: e.date.toISOString().slice(0, 10),
+  eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: { '@type': 'VirtualLocation', url: new URL(pageAlternates[locale], Astro.site ?? 'https://travessia.example').href },
+  performer: e.speakers.map((p) => ({ '@type': 'Person', name: p.name })),
+  isAccessibleForFree: true,
+};
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${e.title} | ${s.meta.siteName}`}
+  description={past ? e.leadPast : e.lead}
+  alternates={pageAlternates}
+  headerVariant="dark"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <InteriorHero
+    title={e.title}
+    lead={past ? e.leadPast : e.lead}
+    breadcrumb={{ label: s.a11y.breadcrumb, items: [{ label: page.root }, { label: past ? e.kindPast : e.kind, href: pageAlternates[locale] }] }}
+    visualDecorative={past}
+  >
+    {
+      past ? (
+        <ol slot="after-lead" class="chapters" aria-label={page.chaptersLabel}>
+          {e.agenda.map((a) => (
+            <li>
+              <span class="time">{a.chapter}</span>
+              {a.title}
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <dl slot="after-lead" class="facts">
+          <div>
+            <dt>{page.date}</dt>
+            <dd>{longDate(locale, e.date)}</dd>
+          </div>
+          <div>
+            <dt>{page.time}</dt>
+            <dd>{e.time}</dd>
+          </div>
+          <div>
+            <dt>{page.place}</dt>
+            <dd>{e.place}</dd>
+          </div>
+        </dl>
+      )
+    }
+    {
+      past ? (
+        <figure slot="visual" class="video">
+          <span class="play" />
+          <span class="bar">
+            <span>0:00</span>
+            <span class="track" />
+            <span>{e.duration}</span>
+          </span>
+          <figcaption class="u-visually-hidden">{page.videoNote}</figcaption>
+        </figure>
+      ) : (
+        <div slot="visual" class="register" data-theme="light">
+          <h2>{e.register.title}</h2>
+          <p class="sub">{e.register.text}</p>
+          <WaitlistForm locale={locale} layout="stacked" withName submitLabel={e.register.submit} />
+          <p class="count">{e.register.count}</p>
+        </div>
+      )
+    }
+  </InteriorHero>
+
+  <Section>
+    <div class="layout">
+      <div class="agenda" data-reveal-stagger>
+        <h2 id="agenda-title">{page.agendaTitle}</h2>
+        <ol role="list" aria-labelledby="agenda-title">
+          {
+            e.agenda.map((a) => (
+              <li>
+                <span class="time">{past ? a.chapter : a.time}</span>
+                <span>
+                  <strong>{a.title}</strong>
+                  <span class="detail">{a.detail}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div class="people" data-reveal-stagger>
+        <h2>{page.speakersTitle}</h2>
+        <ul role="list">
+          {
+            e.speakers.map((p) => (
+              <li>
+                <Avatar name={p.name} size="l" />
+                <span>
+                  <strong>{p.name}</strong>
+                  <span class="detail">{p.role}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="missed" data-theme="tint">
+          <p class="missed-title">{e.missed.title}</p>
+          <p>{e.missed.text}</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-xl);
+    padding-block-start: var(--space-m);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .facts div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .facts dt {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .facts dd {
+    margin: 0;
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .chapters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding-block-start: var(--space-m);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .chapters li {
+    display: flex;
+    gap: var(--space-m);
+  }
+
+  .time {
+    flex: 0 0 4rem;
+    color: var(--color-text-highlight);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .register {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding: var(--space-xl) var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-3-on-color);
+    color: var(--color-text-base);
+  }
+
+  .register h2 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+  }
+
+  .sub,
+  .count {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .video {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1.75;
+    margin: 0;
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-3-on-dark);
+  }
+
+  .play {
+    inline-size: var(--space-2xl);
+    block-size: var(--space-2xl);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-text-base);
+    clip-path: circle(50%);
+  }
+
+  .bar {
+    position: absolute;
+    inset-inline: var(--space-m);
+    inset-block-end: var(--space-m);
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    color: var(--color-text-base);
+    font-size: var(--text-xs);
+  }
+
+  .track {
+    flex: 1;
+    block-size: var(--size-hairline);
+    background-color: var(--color-border-strong);
+  }
+
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xl) var(--space-3xl);
+  }
+
+  .layout h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .agenda {
+    display: flex;
+    flex: 999 1 30rem;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  .agenda ol {
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .agenda li {
+    display: flex;
+    gap: var(--space-l);
+    padding-block: var(--space-m);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .agenda .time {
+    color: var(--color-link);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .agenda li > span:last-child,
+  .people li > span {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .detail {
+    color: var(--color-text-muted);
+  }
+
+  .people {
+    display: flex;
+    flex: 1 1 22rem;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  .people ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .people li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    padding: var(--space-m) var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+  }
+
+  .missed {
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .missed-title {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .missed p:not(.missed-title) {
+    color: var(--color-text-muted);
+  }
+</style>

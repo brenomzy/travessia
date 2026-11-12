@@ -1,0 +1,51 @@
+---
+/** A row of tinted cards, each a short title and a sentence (Paper: /calculadora → "How we calculate"). */
+import Section from './Section.astro';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  notes: { title: string; text: string }[];
+  /** Space above: none when it follows a section directly (Paper: 0 top, 136 bottom). */
+  spacing?: 'default' | 'none';
+}
+const { notes, spacing = 'default' } = Astro.props;
+---
+
+<Section spacing={spacing}>
+  <ul class="notes l-grid" role="list" style="--min: 16rem; --gap: var(--space-l)" data-reveal-stagger data-spacing={spacing}>
+    {
+      notes.map((n) => (
+        <li class="note" data-theme="tint">
+          <h3>{n.title}</h3>
+          <p>{n.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<MotionScript />
+
+<style>
+  .notes[data-spacing='none'] {
+    padding-block-end: var(--space-section);
+  }
+
+  .note {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+  }
+
+  p {
+    color: var(--color-text-muted);
+  }
+</style>

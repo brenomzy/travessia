@@ -1,16 +1,19 @@
 ---
-name: "Cronos"
+name: Cronos
 slug: cronos
 category: time-tracking
 status: live
-shortDescription: "Transforme as horas registradas no Cronos em itens de fatura."
+shortDescription: Transforme as horas registradas no Cronos em itens de fatura.
+frequency: Toda semana
+direction: from
+maintainedBy: Cronos
 setupSteps:
-  - title: "Conecte a conta"
-    detail: "Em Integrações, escolha Cronos e entre com a sua conta de lá."
-  - title: "Escolha o que sincronizar"
+  - title: Conecte a conta
+    detail: Em Integrações, escolha Cronos e entre com a sua conta de lá.
+  - title: Escolha o que sincronizar
     detail: "Marque o que deve vir para a Travessia: pagamentos, horas ou clientes."
-  - title: "Confira o primeiro envio"
-    detail: "O próximo item aparece no seu extrato marcado com Cronos."
+  - title: Confira o primeiro envio
+    detail: O próximo item aparece no seu extrato marcado com Cronos.
 featured: false
 sphere:
   include: true

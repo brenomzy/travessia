@@ -95,6 +95,8 @@
   --size-phone-width: 18.75rem;
   --size-phone-height: 29.375rem;
   --size-phone-bezel: 0.625rem;
+  --size-mark-m: 3rem;
+  --size-mark-l: 3.5rem;
   --radius-s: 0.625rem;
   --radius-m: 1rem;
   --radius-l: 1.5rem;
@@ -128,6 +130,9 @@
   --reveal-fade: 300ms;
   --reveal-focus: 700ms;
   --reveal-move: 800ms;
+  --reveal-intro-blur: 0.5rem;
+  --reveal-intro-distance: 1rem;
+  --reveal-intro-move: 1400ms;
 }
 
 :root,

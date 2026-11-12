@@ -1,0 +1,9 @@
+{
+  "title": "The month's CSV for carnê-leão",
+  "slug": "carne-leao-csv",
+  "date": "2026-10-14",
+  "type": "improved",
+  "area": "exchange",
+  "summary": "The monthly statement comes with date, amount received, rate and value in reais in separate columns, in the format the tax app accepts.",
+  "translationKey": "csv-carne-leao"
+}

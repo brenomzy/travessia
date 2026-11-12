@@ -1,0 +1,27 @@
+{
+  "title": "Saldo em libras",
+  "slug": "saldo-em-libras",
+  "date": "2026-10-21",
+  "type": "new",
+  "area": "account",
+  "summary": "Dados bancários no Reino Unido para clientes britânicos pagarem por transferência local. O saldo em GBP fica ao lado do dólar e do euro.",
+  "translationKey": "saldo-em-libras",
+  "visual": {
+    "kind": "balances",
+    "rows": [
+      {
+        "label": "Dólar",
+        "amount": "US$ 1.988,00"
+      },
+      {
+        "label": "Euro",
+        "amount": "€ 640,00"
+      },
+      {
+        "label": "Libra",
+        "amount": "£ 3.100,00",
+        "badge": "Novo"
+      }
+    ]
+  }
+}

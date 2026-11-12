@@ -12,8 +12,10 @@ interface Props {
   layout?: 'stacked' | 'inline';
   withName?: boolean;
   showNotice?: boolean;
+  /** Replaces the button label, e.g. "Assinar" for the newsletter or "Inscrever-se" for an event. */
+  submitLabel?: string;
 }
-const { locale, layout = 'stacked', withName = layout === 'inline', showNotice = false } = Astro.props;
+const { locale, layout = 'stacked', withName = layout === 'inline', showNotice = false, submitLabel } = Astro.props;
 const s = t(locale);
 const id = uid('waitlist');
 ---
@@ -32,9 +34,9 @@ const id = uid('waitlist');
   <div class="field" data-with-button={layout === 'inline' ? '' : undefined}>
     <label class="u-visually-hidden" for={`${id}-email`}>{s.form.emailLabel}</label>
     <input id={`${id}-email`} name="email" type="email" autocomplete="email" placeholder={s.form.emailLabel} required />
-    {layout === 'inline' && <button type="submit">{s.form.submit}</button>}
+    {layout === 'inline' && <button type="submit">{submitLabel ?? s.form.submit}</button>}
   </div>
-  {layout === 'stacked' && <button type="submit">{s.form.submitLong}</button>}
+  {layout === 'stacked' && <button type="submit">{submitLabel ?? s.form.submitLong}</button>}
   {showNotice && <p class="notice">{s.form.demoNotice}</p>}
   <p class="done" role="status" data-done-message={s.form.demoDone}></p>
 </form>

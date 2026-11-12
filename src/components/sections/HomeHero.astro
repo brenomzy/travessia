@@ -14,6 +14,7 @@ import PhoneMock from '../product/PhoneMock.astro';
 import type { Locale } from '../../i18n';
 import { path, type RouteKey } from '../../i18n/routes';
 import type { getPage } from '../../lib/content';
+import MotionScript from '../ui/MotionScript.astro';
 
 type Home = Awaited<ReturnType<typeof getPage<'home'>>>;
 interface Props {
@@ -29,9 +30,10 @@ const { ui } = content;
   class="hero"
   data-theme="dark"
   aria-labelledby="hero-title"
+  data-reveal-intro
   style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
 >
-  <div class="copy" data-theme="dark">
+  <div class="copy" data-theme="dark" data-reveal-stagger>
     <h1 id="hero-title">
       {content.title} <span class="highlight">{content.titleHighlight}</span>
     </h1>
@@ -41,7 +43,7 @@ const { ui } = content;
 
   <!-- Desktop illustration: the product on the tapajós side. -->
   <div class="stage" aria-hidden="true">
-    <div class="canvas">
+    <div class="canvas" data-reveal-stagger>
       <div class="piece invoice"><InvoiceCard {...ui.invoice} /></div>
       <svg class="piece path" viewBox="0 0 420 320" fill="none">
         <path d="M60 200 L 60 268" />
@@ -54,7 +56,7 @@ const { ui } = content;
   </div>
 
   <!-- Phones and tablets: the same story told top to bottom across a horizontal seam. -->
-  <div class="story" aria-hidden="true">
+  <div class="story" aria-hidden="true" data-reveal-stagger>
     <div class="summary" data-theme="dark">
       <p class="summary-title">{ui.invoice.summary}</p>
       <p class="amount"><span class="currency">{ui.invoice.summaryCurrency}</span>{ui.invoice.summaryAmount}</p>
@@ -70,7 +72,7 @@ const { ui } = content;
     </div>
   </div>
 
-  <div class="aside" data-theme="primary">
+  <div class="aside" data-theme="primary" data-reveal-stagger>
     <p class="clients" lang="en">
       {content.clientsNote.text}
       <a href={path(content.clientsNote.link.route as RouteKey, locale)}>{content.clientsNote.link.label}</a>
@@ -83,6 +85,8 @@ const { ui } = content;
     </div>
   </div>
 </section>
+
+<MotionScript />
 
 <style>
   /* ---------- Phones and tablets (horizontal seam) ---------- */

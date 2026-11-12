@@ -48,5 +48,215 @@
       "product"
     ],
     "order": 5
+  },
+  {
+    "id": "fatura-documento-fiscal",
+    "question": "A fatura vale como documento fiscal lá fora?",
+    "answer": "Ela serve como invoice comercial para o cliente. No Brasil, o documento fiscal é a nota fiscal de exportação, que a Travessia emite quando o pagamento entra.",
+    "topics": [
+      "product"
+    ],
+    "feature": "international-invoices",
+    "order": 101
+  },
+  {
+    "id": "fatura-parcelas",
+    "question": "Posso cobrar em parcelas ou por hora?",
+    "answer": "Pode. Divida o valor em parcelas com datas diferentes ou importe as horas de um app de controle de tempo, como o Cronos. Cada parcela vira uma fatura com link próprio.",
+    "topics": [
+      "product"
+    ],
+    "feature": "international-invoices",
+    "order": 102
+  },
+  {
+    "id": "fatura-taxa-cartao",
+    "question": "Quem paga a taxa do cartão?",
+    "answer": "Você escolhe ao criar a fatura: absorver a taxa ou repassar ao cliente. Se repassar, ela aparece numa linha separada, para ele ver antes de pagar.",
+    "topics": [
+      "product"
+    ],
+    "feature": "international-invoices",
+    "order": 103
+  },
+  {
+    "id": "cambio-origem",
+    "question": "De onde vem o câmbio?",
+    "answer": "É o câmbio comercial do momento da conversão, sem spread escondido. A taxa de 0,6% aparece separada, e você vê o valor final em reais antes de confirmar.",
+    "topics": [
+      "pricing"
+    ],
+    "feature": "get-paid-and-convert",
+    "order": 101
+  },
+  {
+    "id": "saldo-prazo",
+    "question": "Quanto tempo o dinheiro pode ficar no saldo?",
+    "answer": "O tempo que você quiser. Não há prazo nem taxa para manter o saldo em dólar, euro ou libra.",
+    "topics": [
+      "pricing"
+    ],
+    "feature": "get-paid-and-convert",
+    "order": 102
+  },
+  {
+    "id": "pix-conta",
+    "question": "Posso mandar os reais para qualquer conta?",
+    "answer": "Para qualquer chave Pix no seu CPF ou CNPJ. Os reais chegam em até 1 dia útil depois da conversão.",
+    "topics": [
+      "pricing"
+    ],
+    "feature": "get-paid-and-convert",
+    "order": 103
+  },
+  {
+    "id": "nota-precisa",
+    "question": "Preciso de nota fiscal para receber do exterior?",
+    "answer": "Sim. A nota fiscal de exportação registra a receita do serviço prestado para fora. Confira com o seu contador as regras da sua cidade.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "automatic-tax-invoices",
+    "order": 101
+  },
+  {
+    "id": "nota-mei",
+    "question": "Funciona para MEI?",
+    "answer": "Funciona. A nota sai em nome do seu MEI, com o código de serviço que você escolheu no cadastro.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "automatic-tax-invoices",
+    "order": 102
+  },
+  {
+    "id": "nota-quem-recebe",
+    "question": "Quem recebe a nota?",
+    "answer": "Você, o seu contador e, se quiser, o cliente, junto com o recibo do pagamento.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "automatic-tax-invoices",
+    "order": 103
+  },
+  {
+    "id": "relatorio-contador",
+    "question": "O relatório substitui o meu contador?",
+    "answer": "Não. Ele junta os números do mês num formato que o seu contador consegue usar direto, e o contador continua responsável pela declaração.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "taxes-up-to-date",
+    "order": 101
+  },
+  {
+    "id": "limite-mei",
+    "question": "O que acontece quando chego perto do limite do MEI?",
+    "answer": "Você recebe um aviso quando passa de 80% do limite anual, com quanto falta, para conversar com o seu contador a tempo.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "taxes-up-to-date",
+    "order": 102
+  },
+  {
+    "id": "acesso-contador",
+    "question": "O contador consegue acessar sozinho?",
+    "answer": "Consegue. Você dá a ele acesso só de leitura aos relatórios e às notas, sem acesso ao seu saldo.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "taxes-up-to-date",
+    "order": 103
+  },
+  {
+    "id": "receive-fee",
+    "question": "Existe taxa para receber?",
+    "answer": "Não. Receber em dólar, euro ou libra não custa nada, em nenhum plano. A taxa de 0,6% só aparece quando você converte para reais.",
+    "topics": [
+      "pricing"
+    ],
+    "order": 20
+  },
+  {
+    "id": "change-plan",
+    "question": "Posso trocar de plano depois?",
+    "answer": "Pode, a qualquer momento. Ao subir de plano, você paga só a diferença do período. Ao descer, a mudança vale no próximo ciclo.",
+    "topics": [
+      "pricing"
+    ],
+    "order": 21
+  },
+  {
+    "id": "annual",
+    "question": "Como funciona o plano anual?",
+    "answer": "Você paga 10 meses e usa 12. O valor é cobrado uma vez por ano, e a taxa de conversão continua 0,6%.",
+    "topics": [
+      "pricing"
+    ],
+    "order": 22
+  },
+  {
+    "id": "accountant-needed",
+    "question": "Ainda preciso de contador?",
+    "answer": "Para MEI, o relatório mensal costuma bastar. Para Simples Nacional ou carnê-leão, recomendamos manter um contador; a Travessia entrega os números prontos para ele.",
+    "topics": [
+      "taxes"
+    ],
+    "order": 23
+  },
+  {
+    "id": "client-sees",
+    "question": "O cliente vê a Travessia na fatura?",
+    "answer": "Vê o seu nome e os seus dados, com um rodapé pequeno dizendo que o pagamento passa pela Travessia.",
+    "topics": [
+      "product"
+    ],
+    "order": 24
+  },
+  {
+    "id": "client-currencies",
+    "question": "Em que moedas o cliente pode pagar?",
+    "answer": "Em dólar, euro ou libra, por cartão ou transferência local no país dele.",
+    "topics": [
+      "product"
+    ],
+    "order": 25
+  },
+  {
+    "id": "fc-register",
+    "question": "Precisamos nos cadastrar na Travessia?",
+    "answer": "Não. Vocês pagam pelo link da fatura. Não há cadastro nem contrato com a gente.",
+    "topics": [
+      "clients"
+    ],
+    "order": 31
+  },
+  {
+    "id": "fc-supplier",
+    "question": "Quem é o fornecedor na fatura?",
+    "answer": "O freelancer, com o nome empresarial dele no Brasil. A Travessia só processa o pagamento.",
+    "topics": [
+      "clients"
+    ],
+    "order": 32
+  },
+  {
+    "id": "fc-timing",
+    "question": "Quanto tempo leva um pagamento?",
+    "answer": "Pagamentos com cartão são confirmados no mesmo dia. Transferências locais levam de um a dois dias úteis.",
+    "topics": [
+      "clients"
+    ],
+    "order": 33
+  },
+  {
+    "id": "fc-currencies",
+    "question": "Em que moedas podemos pagar?",
+    "answer": "A fatura sai na moeda combinada com o freelancer: USD, EUR ou GBP.",
+    "topics": [
+      "clients"
+    ],
+    "order": 34
   }
 ]

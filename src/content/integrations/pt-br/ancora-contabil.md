@@ -1,16 +1,19 @@
 ---
-name: "Âncora Contábil"
+name: Âncora Contábil
 slug: ancora-contabil
 category: accounting
 status: beta
-shortDescription: "Exporte o relatório do mês no formato que o escritório já usa."
+shortDescription: Exporte o relatório do mês no formato que o escritório já usa.
+frequency: Uma vez por mês
+direction: to
+maintainedBy: Travessia
 setupSteps:
-  - title: "Conecte a conta"
-    detail: "Em Integrações, escolha Âncora Contábil e entre com a sua conta de lá."
-  - title: "Escolha o que sincronizar"
+  - title: Conecte a conta
+    detail: Em Integrações, escolha Âncora Contábil e entre com a sua conta de lá.
+  - title: Escolha o que sincronizar
     detail: "Marque o que deve vir para a Travessia: pagamentos, horas ou clientes."
-  - title: "Confira o primeiro envio"
-    detail: "O próximo item aparece no seu extrato marcado com Âncora Contábil."
+  - title: Confira o primeiro envio
+    detail: O próximo item aparece no seu extrato marcado com Âncora Contábil.
 featured: false
 sphere:
   include: true

@@ -1,0 +1,59 @@
+{
+  "page": "calculator",
+  "translationKey": "calculator",
+  "seo": {
+    "title": "Calculator: how much will I receive in reais? | Travessia",
+    "description": "Type the invoice amount in dollars, euros or pounds and see how much arrives in reais, with the 0.6% fee and the example rate."
+  },
+  "tool": {
+    "title": "How much will I receive?",
+    "currencyLabel": "Invoice currency",
+    "amountLabel": "Your client pays",
+    "feeLabel": "Fee {fee}",
+    "rateLabel": "Rate",
+    "arrivesLabel": "Arrives",
+    "arrivesFallback": "in 1 business day",
+    "resultLabel": "You receive by Pix",
+    "disclaimer": "Example rate, for demonstration only.",
+    "defaultAmount": 2000
+  },
+  "examples": {
+    "title": "Three examples, line by line",
+    "lead": "Example rates: {rates}. The fee is always {fee} of the amount converted.",
+    "caption": "Conversion examples",
+    "columns": {
+      "invoice": "Invoice",
+      "fee": "Fee {fee}",
+      "converted": "Converted",
+      "receive": "You receive"
+    },
+    "rows": [
+      {
+        "currency": "usd",
+        "amount": 1000
+      },
+      {
+        "currency": "eur",
+        "amount": 2500
+      },
+      {
+        "currency": "gbp",
+        "amount": 800
+      }
+    ]
+  },
+  "notes": [
+    {
+      "title": "The fee",
+      "text": "0.6% of the amount you convert. Receiving and holding a balance cost nothing."
+    },
+    {
+      "title": "The rate",
+      "text": "The commercial rate at that moment, with no hidden margin. You see the amount before you confirm."
+    },
+    {
+      "title": "The timing",
+      "text": "Conversions confirmed by 4 pm reach your Pix on the next business day."
+    }
+  ]
+}

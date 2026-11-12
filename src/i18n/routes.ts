@@ -27,5 +27,20 @@ export const path = (key: RouteKey, locale: Locale) => routes[key][locale];
 /** Feature pages live under the product route; their slugs come from the `features` collection. */
 export const featurePath = (slug: string, locale: Locale) => `${routes.product[locale]}/${slug}`;
 
+/** Integration detail pages live under the integrations route. */
+export const integrationPath = (slug: string, locale: Locale) => `${routes.integrations[locale]}/${slug}`;
+
+/** Story pages live under the stories route; the slug is shared by both languages. */
+export const storyPath = (slug: string, locale: Locale) => `${routes.stories[locale]}/${slug}`;
+
+/** Blog posts and category pages. Category slugs are localized ("impostos" / "taxes"). */
+export const postPath = (slug: string, locale: Locale) => `${routes.blog[locale]}/${slug}`;
+export const blogCategoryPath = (slug: string, locale: Locale) =>
+  `${routes.blog[locale]}/${locale === 'pt-br' ? 'categoria' : 'category'}/${slug}`;
+
+/** Comparison and event pages (no index pages; SPEC §6.1). */
+export const comparePath = (slug: string, locale: Locale) => `${locale === 'pt-br' ? '/comparar' : '/en/compare'}/${slug}`;
+export const eventPath = (slug: string, locale: Locale) => `${locale === 'pt-br' ? '/eventos' : '/en/events'}/${slug}`;
+
 /** Both language versions of a route, for hreflang alternates and the language switcher. */
 export const alternates = (key: RouteKey) => routes[key];

@@ -1,0 +1,215 @@
+---
+/**
+ * Integrations index, shared by /integracoes and /en/integrations (Paper: Pages · content →
+ * /integracoes). Every card is in the server HTML; the IntegrationFilter island hides the ones
+ * that don't match. The first nine show until "See all" is pressed (only with JS).
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../sections/Section.astro';
+import IntegrationCard from '../ui/IntegrationCard.astro';
+import Button from '../ui/Button.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import IntegrationFilter from '../islands/IntegrationFilter';
+import type { Locale } from '../../i18n';
+import { alternates, integrationPath, path, type RouteKey } from '../../i18n/routes';
+import { getIntegrations, getPage } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const page = await getPage(locale, 'integrations');
+const integrations = await getIntegrations(locale);
+const p = page.index;
+const gridId = 'integration-grid';
+const VISIBLE = 9;
+
+const categories = (Object.keys(page.categories) as (keyof typeof page.categories)[])
+  .map((id) => ({ id, label: page.categories[id].label, count: integrations.filter((i) => i.data.category === id).length }))
+  .filter((c) => c.count > 0)
+  .sort((a, b) => b.count - a.count);
+
+const badgeFor = (i: (typeof integrations)[number]['data']) =>
+  i.status !== 'live' ? p.status[i.status] : i.featured ? p.popular : undefined;
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('integrations')}
+  headerVariant="dark"
+  current="integrations"
+>
+  <section class="intro" data-theme="dark" aria-labelledby="page-title">
+    <div class="l-container">
+      <div class="head">
+        <div class="copy" data-reveal-stagger>
+          <h1 id="page-title">{p.title}</h1>
+          <p class="lead">{p.lead}</p>
+        </div>
+        {/* client:idle, not :visible: the island's box is display: contents, which IntersectionObserver can't see. */}
+        <IntegrationFilter
+          client:idle
+          gridId={gridId}
+          categories={categories}
+          total={integrations.length}
+          labels={{ search: p.searchLabel, group: p.groupLabel, all: p.all, resultCount: p.resultCount, resultOne: p.resultOne }}
+        />
+      </div>
+    </div>
+  </section>
+
+  <Section spacing="after-strip">
+    <div class="l-stack" style="--gap: var(--space-xl)">
+      <ul id={gridId} class="grid" role="list" data-collapsed data-reveal-stagger>
+        {
+          integrations.map(({ data }) => (
+            <IntegrationCard
+              integration={data}
+              href={integrationPath(data.slug, locale)}
+              categoryLabel={page.categories[data.category].label}
+              badge={badgeFor(data)}
+            />
+          ))
+        }
+      </ul>
+      <p id={`${gridId}-empty`} class="empty" hidden>{p.empty}</p>
+      {
+        integrations.length > VISIBLE && (
+          <div class="more">
+            <Button variant="secondary" type="button" data-show-all={gridId}>
+              {p.showAll.replace('{count}', String(integrations.length))}
+            </Button>
+          </div>
+        )
+      }
+
+      <div class="suggest" data-theme="tint" data-reveal>
+        <div class="suggest-copy">
+          <h2>{p.suggest.title}</h2>
+          <p>{p.suggest.text}</p>
+        </div>
+        <Button variant="secondary" href={path(p.suggest.link.route as RouteKey, locale)}>{p.suggest.link.label}</Button>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<MotionScript />
+
+<script>
+  // "See all": reveals the cards after the first nine and moves focus to the first one shown.
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-show-all]')) {
+    button.addEventListener('click', () => {
+      const grid = document.getElementById(button.dataset.showAll ?? '');
+      if (!grid) return;
+      grid.removeAttribute('data-collapsed');
+      button.closest<HTMLElement>('.more')?.setAttribute('hidden', '');
+      grid.querySelector<HTMLAnchorElement>(':scope > :nth-child(10) a')?.focus();
+    });
+  }
+</script>
+
+<style>
+  .intro {
+    padding-block: var(--space-2xl) var(--space-xl);
+    background-color: var(--color-bg-base);
+  }
+
+  .head {
+    display: grid;
+    grid-template-areas: 'copy' 'search' 'groups';
+    gap: var(--space-l);
+  }
+
+  .copy {
+    grid-area: copy;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-inline-size: 40rem;
+  }
+
+  h1 {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-5xl);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .head :global(astro-island) {
+    display: contents;
+  }
+
+  @media (width >= 64rem) {
+    .head {
+      grid-template-columns: minmax(0, 40rem) minmax(0, 26.25rem);
+      grid-template-areas: 'copy search' 'groups groups';
+      justify-content: space-between;
+      row-gap: var(--space-xl);
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  /* With JS, only the first nine show until "See all" (or a filter) is used. */
+  :global(.js) .grid[data-collapsed]:not([data-filtered]) > :global(:nth-child(n + 10)) {
+    display: none;
+  }
+
+  .more {
+    display: flex;
+    justify-content: center;
+  }
+
+  .more[hidden],
+  :global(.no-js) .more,
+  .grid[data-filtered] ~ .more,
+  .grid:not([data-collapsed]) ~ .more {
+    display: none;
+  }
+
+  .empty {
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  .suggest {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-l);
+    margin-block-start: var(--space-2xl);
+    padding: var(--space-xl);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .suggest-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    max-inline-size: 40rem;
+  }
+
+  .suggest h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .suggest p {
+    color: var(--color-text-muted);
+  }
+</style>

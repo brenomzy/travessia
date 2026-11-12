@@ -1,0 +1,84 @@
+---
+/**
+ * Three numbered steps. cards: white cards on tint (Paper: feature template → How it works).
+ * columns: open columns split by rules, on white (Paper: /en/for-clients → What happens on your side).
+ */
+import Section from './Section.astro';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  title: string;
+  steps: { title: string; detail: string }[];
+  variant?: 'cards' | 'columns';
+}
+const { title, steps, variant = 'cards' } = Astro.props;
+---
+
+<Section theme={variant === 'cards' ? 'tint' : 'light'} labelledby="steps-title">
+  <div class="l-stack" style="--gap: var(--space-xl)">
+    <h2 id="steps-title" data-reveal>{title}</h2>
+    <ol class="steps l-grid" role="list" style="--min: 16rem; --gap: var(--space-l)" data-reveal-stagger data-variant={variant}>
+      {
+        steps.map((step, i) => (
+          <li class="step">
+            <span class="number" aria-hidden="true">
+              {i + 1}
+            </span>
+            <h3>{step.title}</h3>
+            <p>{step.detail}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</Section>
+
+<MotionScript />
+
+<style>
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-1);
+  }
+
+  [data-variant='columns'] {
+    padding-block-start: var(--space-l);
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  [data-variant='columns'] .step {
+    padding: 0 var(--space-l) 0 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  @container (width >= 50rem) {
+    [data-variant='columns'] .step + .step {
+      padding-inline-start: var(--space-l);
+      border-inline-start: var(--size-hairline) solid var(--color-border-base);
+    }
+  }
+
+  .number {
+    color: var(--color-accent-data);
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+  }
+
+  p {
+    color: var(--color-text-muted);
+  }
+</style>

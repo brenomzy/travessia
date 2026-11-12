@@ -15,7 +15,9 @@
     "languageNav": "Language",
     "menuOpen": "Open menu",
     "menuClose": "Close menu",
-    "menuTitle": "Menu"
+    "menuTitle": "Menu",
+    "breadcrumb": "Breadcrumb",
+    "backToSite": "Back to the site"
   },
   "nav": {
     "items": [
@@ -154,7 +156,13 @@
       "billing": "Billing toggle",
       "tabs": "Product screens (tabs)",
       "strip": "Seam strip",
-      "motion": "Motion"
+      "motion": "Motion",
+      "calculator": "Fee calculator",
+      "navigation": "Breadcrumb and chips",
+      "interior": "Interior page sections",
+      "integrations": "Integrations: mark, card, filter and log",
+      "calculatorSeam": "Calculator on the seam and examples",
+      "content": "Content page pieces"
     },
     "sample": "You get paid in reais.",
     "buttonLabels": {
@@ -164,5 +172,22 @@
       "link": "See the product"
     },
     "countSample": "0.6%"
+  },
+  "interior": {
+    "primaryCta": {
+      "label": "Join the list",
+      "route": "openAccount"
+    },
+    "stepsTitle": "How it works, in three steps"
+  },
+  "closingCta": {
+    "title": "Your next payment can arrive in reais.",
+    "card": {
+      "status": "Converting",
+      "time": "Nov 15, 9:11",
+      "from": "US$ 1,988.00",
+      "to": "R$ 10,834.60",
+      "note": "0.6% fee already taken · rate R$ 5.45"
+    }
   }
 }

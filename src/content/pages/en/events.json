@@ -1,0 +1,12 @@
+{
+  "page": "events",
+  "translationKey": "events",
+  "root": "Events",
+  "date": "Date",
+  "time": "Time",
+  "place": "Where",
+  "agendaTitle": "What we'll cover",
+  "speakersTitle": "Speakers",
+  "chaptersLabel": "Chapters",
+  "videoNote": "Demo: this site has no real video."
+}

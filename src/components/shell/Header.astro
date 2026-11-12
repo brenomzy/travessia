@@ -16,9 +16,11 @@ interface Props {
   alternates: Record<Locale, string>;
   variant?: 'seam' | 'light' | 'dark';
   current?: RouteKey;
+  /** Only the logo, the language switch and a way back (Paper: /abrir-conta). */
+  minimal?: boolean;
 }
 
-const { locale, alternates, variant = 'light', current } = Astro.props;
+const { locale, alternates, variant = 'light', current, minimal = false } = Astro.props;
 const s = t(locale);
 const items = s.nav.items.map((item) => ({
   label: item.label,
@@ -38,46 +40,66 @@ const navTheme = variant === 'seam' ? 'primary' : brandTheme;
       </a>
       <LanguageSwitcher locale={locale} alternates={alternates} />
     </div>
-    <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
-      <nav class="nav" aria-label={s.a11y.mainNav}>
-        <ul role="list">
-          {
-            items.map((item) => (
-              <li>
-                <a href={item.href} aria-current={item.current ? 'page' : undefined}>
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <Button variant="nav" size="s" href={cta.href}>{cta.label}</Button>
-      <div class="menu">
-        <MobileNav
-          client:media="(width < 80rem)"
-          items={items}
-          cta={cta}
-          languages={locales.map((l) => ({
-            code: langCode[l],
-            href: alternates[l],
-            hreflang: langTag[l],
-            current: l === locale,
-          }))}
-          labels={{
-            open: s.a11y.menuOpen,
-            close: s.a11y.menuClose,
-            title: s.a11y.menuTitle,
-            languageNav: s.a11y.languageNav,
-          }}
-          bannerNote={s.banner.long}
-        />
+    {
+      minimal ? (
+        <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
+          <a class="back" href={path('home', locale)}>{s.a11y.backToSite}</a>
+        </div>
+      ) : (
+      <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
+        <nav class="nav" aria-label={s.a11y.mainNav}>
+          <ul role="list">
+            {
+              items.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={item.current ? (item.href === alternates[locale] ? 'page' : 'true') : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <Button variant="nav" size="s" href={cta.href}>{cta.label}</Button>
+        <div class="menu">
+          <MobileNav
+            client:media="(width < 80rem)"
+            items={items}
+            cta={cta}
+            languages={locales.map((l) => ({
+              code: langCode[l],
+              href: alternates[l],
+              hreflang: langTag[l],
+              current: l === locale,
+            }))}
+            labels={{
+              open: s.a11y.menuOpen,
+              close: s.a11y.menuClose,
+              title: s.a11y.menuTitle,
+              languageNav: s.a11y.languageNav,
+            }}
+            bannerNote={s.banner.long}
+          />
+        </div>
       </div>
-    </div>
+      )
+    }
   </div>
 </header>
 
 <style>
+  .back {
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .back:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
   .header {
     position: relative;
     z-index: 10;

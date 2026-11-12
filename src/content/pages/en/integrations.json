@@ -1,0 +1,442 @@
+{
+  "page": "integrations",
+  "translationKey": "integrations",
+  "seo": {
+    "title": "Integrations | Travessia",
+    "description": "Connect Travessia to your accountant's system, the app where you track hours and the platforms where you find clients."
+  },
+  "index": {
+    "title": "Integrations",
+    "lead": "Connect Travessia to your accountant's system, the tool where you track hours and the platforms where you find clients.",
+    "searchLabel": "Search integrations",
+    "groupLabel": "Filter by category",
+    "all": "All",
+    "resultCount": "{count} integrations",
+    "resultOne": "1 integration",
+    "empty": "No integrations found. Try another name or category.",
+    "showAll": "See all {count} integrations",
+    "popular": "Popular",
+    "status": {
+      "beta": "Beta",
+      "coming-soon": "Coming soon"
+    },
+    "suggest": {
+      "title": "Missing the tool you use?",
+      "text": "Tell us which one. The most requested integrations go into the next quarter’s plan.",
+      "link": {
+        "label": "Suggest an integration",
+        "route": "openAccount"
+      }
+    }
+  },
+  "detail": {
+    "primary": {
+      "label": "Open an account to connect",
+      "route": "openAccount"
+    },
+    "secondary": "How it works",
+    "connectTitle": "How to connect",
+    "factsLabel": "About this integration",
+    "facts": {
+      "category": "Category",
+      "frequency": "Frequency",
+      "direction": "Direction",
+      "cost": "Cost",
+      "maintainedBy": "Maintained by"
+    },
+    "cost": "Included in every plan",
+    "direction": {
+      "to": "Travessia → {name}",
+      "from": "{name} → Travessia",
+      "both": "Travessia ⇄ {name}"
+    },
+    "pairLabel": "Travessia and {name}",
+    "title": "Travessia and {name}",
+    "view": "View"
+  },
+  "categories": {
+    "accounting": {
+      "label": "Accounting",
+      "relatedTitle": "Other accounting integrations",
+      "lead": "On the 1st of every month, {name} gets the previous month's payments, already in reais and with the rate for each one.",
+      "card": {
+        "title": "Monthly sends",
+        "status": "Connected",
+        "rows": [
+          {
+            "title": "October 2026",
+            "meta": "14 payments · R$ 48,212.30",
+            "time": "Nov 1, 8:00"
+          },
+          {
+            "title": "September 2026",
+            "meta": "11 payments · R$ 39,507.90",
+            "time": "Oct 1, 8:00"
+          },
+          {
+            "title": "August 2026",
+            "meta": "12 payments · R$ 41,880.15",
+            "time": "Sep 1, 8:00"
+          }
+        ],
+        "action": "Send November now"
+      },
+      "sends": {
+        "title": "What goes in each send",
+        "lead": "Each payment becomes an income entry, with the fields your accountant needs to close the month.",
+        "fields": [
+          {
+            "label": "Date received",
+            "value": "10/15/2026",
+            "highlight": false
+          },
+          {
+            "label": "Client and country",
+            "value": "Halden & Co., United Kingdom",
+            "highlight": false
+          },
+          {
+            "label": "Amount received",
+            "value": "US$ 2,000.00",
+            "highlight": false
+          },
+          {
+            "label": "Travessia fee (0.6%)",
+            "value": "US$ 12.00",
+            "highlight": false
+          },
+          {
+            "label": "Rate used",
+            "value": "R$ 5.45",
+            "highlight": false
+          },
+          {
+            "label": "Amount in reais",
+            "value": "R$ 10,834.60",
+            "highlight": true
+          },
+          {
+            "label": "Nota fiscal number",
+            "value": "NFS-e 2026/0142",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "invoicing": {
+      "label": "Invoicing",
+      "relatedTitle": "Other invoicing integrations",
+      "lead": "Every invoice you create in {name} reaches Travessia in English, with the client and currency already filled in.",
+      "card": {
+        "title": "Imported invoices",
+        "status": "Connected",
+        "rows": [
+          {
+            "title": "Invoice #0043 · Halden & Co.",
+            "meta": "€ 1,500.00 · draft ready",
+            "time": "today, 10:12"
+          },
+          {
+            "title": "Invoice #0042 · Northwind Studio",
+            "meta": "US$ 2,000.00 · paid",
+            "time": "Nov 12"
+          },
+          {
+            "title": "Invoice #0041 · Bergen & Lund",
+            "meta": "£ 900.00 · sent",
+            "time": "Nov 8"
+          }
+        ],
+        "action": "Import invoices now"
+      },
+      "sends": {
+        "title": "What comes in with each invoice",
+        "lead": "The invoice arrives as a draft, so you can check it before sending your client the link.",
+        "fields": [
+          {
+            "label": "Client",
+            "value": "Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Country",
+            "value": "United Kingdom",
+            "highlight": false
+          },
+          {
+            "label": "Currency",
+            "value": "Euro",
+            "highlight": false
+          },
+          {
+            "label": "Items",
+            "value": "Interface design, October",
+            "highlight": false
+          },
+          {
+            "label": "Amount",
+            "value": "€ 1,500.00",
+            "highlight": true
+          },
+          {
+            "label": "Due date",
+            "value": "11/30/2026",
+            "highlight": false
+          },
+          {
+            "label": "Invoice language",
+            "value": "English",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "time-tracking": {
+      "label": "Time tracking",
+      "relatedTitle": "Other time-tracking integrations",
+      "lead": "Billable hours you log in {name} become lines on your next invoice, at each client's hourly rate.",
+      "card": {
+        "title": "Imported hours",
+        "status": "Connected",
+        "rows": [
+          {
+            "title": "Halden & Co.",
+            "meta": "12h30 · US$ 1,125.00",
+            "time": "this week"
+          },
+          {
+            "title": "Northwind Studio",
+            "meta": "8h · US$ 720.00",
+            "time": "last week"
+          },
+          {
+            "title": "Bergen & Lund",
+            "meta": "5h15 · £ 420.00",
+            "time": "2 weeks ago"
+          }
+        ],
+        "action": "Import hours now"
+      },
+      "sends": {
+        "title": "What comes in with each import",
+        "lead": "Only hours marked as billable come in, grouped by client and project.",
+        "fields": [
+          {
+            "label": "Client",
+            "value": "Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Project",
+            "value": "App redesign",
+            "highlight": false
+          },
+          {
+            "label": "Hours",
+            "value": "12h30",
+            "highlight": false
+          },
+          {
+            "label": "Hourly rate",
+            "value": "US$ 90.00",
+            "highlight": false
+          },
+          {
+            "label": "Total",
+            "value": "US$ 1,125.00",
+            "highlight": true
+          },
+          {
+            "label": "Period",
+            "value": "Nov 3–9, 2026",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "freelance-platforms": {
+      "label": "Freelance platforms",
+      "relatedTitle": "Other freelance platforms",
+      "lead": "What you earn on {name} lands straight in your balance in the original currency, tagged by project.",
+      "card": {
+        "title": "Withdrawals received",
+        "status": "Connected",
+        "rows": [
+          {
+            "title": "Project Atlas",
+            "meta": "US$ 1,400.00 · dollar balance",
+            "time": "Nov 10"
+          },
+          {
+            "title": "Project Lume",
+            "meta": "US$ 860.00 · dollar balance",
+            "time": "Nov 3"
+          },
+          {
+            "title": "Project Vento",
+            "meta": "€ 1,200.00 · euro balance",
+            "time": "Oct 27"
+          }
+        ],
+        "action": "See statement"
+      },
+      "sends": {
+        "title": "What comes in with each withdrawal",
+        "lead": "Each withdrawal arrives as a payment, already with the project and client for the nota fiscal.",
+        "fields": [
+          {
+            "label": "Project",
+            "value": "Atlas",
+            "highlight": false
+          },
+          {
+            "label": "Client",
+            "value": "Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Withdrawal amount",
+            "value": "US$ 1,400.00",
+            "highlight": true
+          },
+          {
+            "label": "Platform fee",
+            "value": "US$ 70.00, charged by the platform",
+            "highlight": false
+          },
+          {
+            "label": "Balance",
+            "value": "Dollar",
+            "highlight": false
+          },
+          {
+            "label": "Date",
+            "value": "11/10/2026",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "payments": {
+      "label": "Payments",
+      "relatedTitle": "Other payment integrations",
+      "lead": "Payments made through {name} land in your balance and mark the right invoice as paid.",
+      "card": {
+        "title": "Payments received",
+        "status": "Connected",
+        "rows": [
+          {
+            "title": "Invoice #0042",
+            "meta": "US$ 2,000.00 · card",
+            "time": "Nov 14"
+          },
+          {
+            "title": "Invoice #0039",
+            "meta": "€ 950.00 · bank transfer",
+            "time": "Nov 6"
+          },
+          {
+            "title": "Invoice #0037",
+            "meta": "£ 600.00 · card",
+            "time": "Oct 29"
+          }
+        ],
+        "action": "See all payments"
+      },
+      "sends": {
+        "title": "What comes in with each payment",
+        "lead": "The payment is matched to its invoice, which switches to paid without you doing anything.",
+        "fields": [
+          {
+            "label": "Invoice",
+            "value": "Invoice #0042",
+            "highlight": false
+          },
+          {
+            "label": "Payer",
+            "value": "Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Payment method",
+            "value": "Card",
+            "highlight": false
+          },
+          {
+            "label": "Amount paid",
+            "value": "US$ 2,000.00",
+            "highlight": true
+          },
+          {
+            "label": "Processing fee",
+            "value": "US$ 58.00",
+            "highlight": false
+          },
+          {
+            "label": "Date",
+            "value": "11/14/2026",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "productivity": {
+      "label": "Productivity",
+      "relatedTitle": "Other productivity integrations",
+      "lead": "Reminders about invoices, payments and tax invoices show up in {name}, next to the rest of your work.",
+      "card": {
+        "title": "Reminders sent",
+        "status": "Connected",
+        "rows": [
+          {
+            "title": "Chase Halden & Co.",
+            "meta": "Invoice #0043 · due Nov 30",
+            "time": "scheduled"
+          },
+          {
+            "title": "Payment received",
+            "meta": "Northwind Studio · US$ 2,000.00",
+            "time": "Nov 14"
+          },
+          {
+            "title": "Nota fiscal issued",
+            "meta": "NFS-e 2026/0142",
+            "time": "Nov 14"
+          }
+        ],
+        "action": "Choose reminders"
+      },
+      "sends": {
+        "title": "What goes in each reminder",
+        "lead": "Just what you need to act, with a link back to Travessia.",
+        "fields": [
+          {
+            "label": "Title",
+            "value": "Chase Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Date",
+            "value": "11/30/2026",
+            "highlight": false
+          },
+          {
+            "label": "Amount",
+            "value": "€ 1,500.00",
+            "highlight": true
+          },
+          {
+            "label": "List",
+            "value": "Finance",
+            "highlight": false
+          },
+          {
+            "label": "Link",
+            "value": "Open in Travessia",
+            "highlight": false
+          }
+        ]
+      }
+    }
+  }
+}

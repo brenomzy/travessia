@@ -1,0 +1,61 @@
+---
+/** A dark band with a promise and one button, the seam running in on the right (Paper: /en/for-clients → closing CTA). */
+import seam from '../../assets/textures/seam-40.png';
+import Button from '../ui/Button.astro';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  title: string;
+  link: { label: string; href: string };
+}
+const { title, link } = Astro.props;
+---
+
+<section class="cta" data-theme="dark" aria-labelledby="cta-title" style={`--seam: url(${seam.src});`}>
+  <div class="l-container">
+    <div class="copy" data-reveal-stagger>
+      <h2 id="cta-title">{title}</h2>
+      <div><Button variant="accent" size="l" href={link.href}>{link.label}</Button></div>
+    </div>
+  </div>
+</section>
+
+<MotionScript />
+
+<style>
+  .cta {
+    position: relative;
+    overflow: clip;
+    padding-block: var(--space-2xl);
+    background-color: var(--color-bg-base);
+  }
+
+  .copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    max-inline-size: 36rem;
+  }
+
+  h2 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  /* From 1024 px the seam shows on the right third. */
+  @media (width >= 64rem) {
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 55%;
+      inline-size: 100%;
+      background-image: var(--seam);
+      background-size: cover;
+      background-position: left center;
+      image-rendering: pixelated;
+    }
+  }
+</style>

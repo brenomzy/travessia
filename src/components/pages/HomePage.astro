@@ -3,7 +3,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import HomeHero from '../sections/HomeHero.astro';
 import StatBand from '../sections/StatBand.astro';
-import CalculatorPreview from '../sections/CalculatorPreview.astro';
+import FeeCalculatorSection from '../sections/FeeCalculatorSection.astro';
 import FeatureGrid from '../sections/FeatureGrid.astro';
 import SeamStrip from '../sections/SeamStrip.astro';
 import Showcase from '../sections/Showcase.astro';
@@ -14,7 +14,7 @@ import FaqList from '../sections/FaqList.astro';
 import CtaBand from '../sections/CtaBand.astro';
 import { t, type Locale } from '../../i18n';
 import { alternates, path, type RouteKey } from '../../i18n/routes';
-import { getFaqs, getFeatures, getIntegrations, getPage, getPlans, getStories } from '../../lib/content';
+import { getFaqs, getFeatures, getIntegrations, getPage, getPlans, getRates, getStories } from '../../lib/content';
 
 interface Props {
   locale: Locale;
@@ -22,13 +22,16 @@ interface Props {
 const { locale } = Astro.props;
 const s = t(locale);
 const page = await getPage(locale, 'home');
-const [features, integrations, stories, faqs, plans] = await Promise.all([
+const [features, integrations, stories, faqs, plans, rates] = await Promise.all([
   getFeatures(locale),
   getIntegrations(locale),
   getStories(locale, { featuredOnly: true }),
   getFaqs(locale, 'general'),
   getPlans(),
+  getRates(),
 ]);
+/** Every plan has the same conversion fee today; show the lowest. */
+const feePercent = Math.min(...plans.map((p) => p.data.fee));
 const to = (l: { label: string; route: string }) => ({ label: l.label, href: path(l.route as RouteKey, locale) });
 ---
 
@@ -42,7 +45,13 @@ const to = (l: { label: string; route: string }) => ({ label: l.label, href: pat
 >
   <HomeHero locale={locale} content={page.hero} />
   <StatBand {...page.outcomes} />
-  <CalculatorPreview {...page.calculator} currencyBRL={s.common.currencyBRL} />
+  <FeeCalculatorSection
+    locale={locale}
+    content={page.calculator}
+    rates={rates}
+    feePercent={feePercent}
+    currencyBRL={s.common.currencyBRL}
+  />
   <FeatureGrid locale={locale} title={page.features.title} link={to(page.features.link)} features={features} />
   <SeamStrip />
   <Showcase {...page.showcase} />

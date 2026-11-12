@@ -1,0 +1,9 @@
+{
+  "title": "Two decimal places for reais in the tax invoice PDF",
+  "slug": "reais-in-tax-invoice-pdf",
+  "date": "2026-11-03",
+  "type": "fixed",
+  "area": "taxInvoice",
+  "summary": "On some tax invoices, the PDF rounded the converted amount. The XML sent to the city hall was always correct.",
+  "translationKey": "valor-em-reais-no-pdf"
+}

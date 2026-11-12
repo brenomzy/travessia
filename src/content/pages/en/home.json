@@ -126,31 +126,15 @@
       "You choose when to convert, or keep the balance in that currency",
       "No fee to receive, only to convert"
     ],
-    "currencies": [
-      "Dollar",
-      "Euro",
-      "Pound"
-    ],
     "amountLabel": "Invoice amount",
-    "amount": "2,000.00",
-    "currency": "US$",
-    "rows": [
-      {
-        "label": "Travessia fee, 0.6%",
-        "value": "− US$ 12.00"
-      },
-      {
-        "label": "Amount converted",
-        "value": "US$ 1,988.00"
-      },
-      {
-        "label": "Example rate",
-        "value": "1 US$ = R$ 5.45"
-      }
-    ],
+    "currencyLabel": "Invoice currency",
+    "defaultAmount": 2000,
+    "feeLabel": "Travessia fee, {fee}",
+    "convertedLabel": "Amount converted",
+    "rateLabel": "Example rate",
     "resultLabel": "You receive by Pix",
-    "result": "10,834.60",
-    "arrival": "Arrives tomorrow, Nov 15",
+    "arrival": "Arrives {when}, {date}",
+    "arrivalFallback": "Arrives in 1 business day",
     "disclaimer": "Made-up rate, for demonstration only. This site moves no money."
   },
   "features": {

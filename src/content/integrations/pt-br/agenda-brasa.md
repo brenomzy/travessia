@@ -1,16 +1,19 @@
 ---
-name: "Agenda Brasa"
+name: Agenda Brasa
 slug: agenda-brasa
 category: productivity
 status: coming-soon
-shortDescription: "Lembretes de vencimento das faturas na agenda que você já usa."
+shortDescription: Lembretes de vencimento das faturas na agenda que você já usa.
+frequency: Quando algo muda
+direction: both
+maintainedBy: Agenda Brasa
 setupSteps:
-  - title: "Conecte a conta"
-    detail: "Em Integrações, escolha Agenda Brasa e entre com a sua conta de lá."
-  - title: "Escolha o que sincronizar"
+  - title: Conecte a conta
+    detail: Em Integrações, escolha Agenda Brasa e entre com a sua conta de lá.
+  - title: Escolha o que sincronizar
     detail: "Marque o que deve vir para a Travessia: pagamentos, horas ou clientes."
-  - title: "Confira o primeiro envio"
-    detail: "O próximo item aparece no seu extrato marcado com Agenda Brasa."
+  - title: Confira o primeiro envio
+    detail: O próximo item aparece no seu extrato marcado com Agenda Brasa.
 featured: false
 sphere:
   include: true

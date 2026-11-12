@@ -1,0 +1,107 @@
+{
+  "page": "pricing",
+  "translationKey": "pricing",
+  "seo": {
+    "title": "Preços: a taxa é sempre 0,6% | Travessia",
+    "description": "Nenhuma taxa para receber. Você paga 0,6% só quando converte, em qualquer plano. Compare Grátis, Pro e Estúdio."
+  },
+  "hero": {
+    "title": "A taxa é sempre 0,6%. O plano muda o resto.",
+    "lead": "Nenhuma taxa para receber. Você paga 0,6% só quando converte, em qualquer plano."
+  },
+  "plans": {
+    "heading": "Planos",
+    "billingLabel": "Cobrança",
+    "billing": {
+      "monthly": "Mensal",
+      "annual": "Anual, 2 meses grátis"
+    },
+    "perMonth": "por mês",
+    "perYear": "por ano",
+    "popular": "Mais escolhido",
+    "usdNote": ""
+  },
+  "compare": {
+    "title": "Compare os planos lado a lado",
+    "note": "A taxa de conversão é 0,6% em todos.",
+    "featureLabel": "Recurso",
+    "included": "Incluída",
+    "notIncluded": "Não",
+    "helpLabel": "O que é: {label}",
+    "rows": [
+      {
+        "label": "Faturas por mês",
+        "values": {
+          "gratis": "3",
+          "pro": "Sem limite",
+          "estudio": "Sem limite"
+        }
+      },
+      {
+        "label": "Moedas no saldo",
+        "values": {
+          "gratis": "Dólar",
+          "pro": "Dólar, euro e libra",
+          "estudio": "Dólar, euro e libra"
+        }
+      },
+      {
+        "label": "Nota fiscal automática",
+        "values": {
+          "gratis": true,
+          "pro": true,
+          "estudio": true
+        }
+      },
+      {
+        "label": "Relatório mensal para o contador",
+        "values": {
+          "gratis": false,
+          "pro": true,
+          "estudio": true
+        },
+        "help": "Um resumo do mês com recebimentos, conversões e notas fiscais, em PDF e planilha."
+      },
+      {
+        "label": "Pessoas na conta",
+        "values": {
+          "gratis": "1",
+          "pro": "1",
+          "estudio": "Até 10"
+        },
+        "help": "Quem entra na conta com o próprio login, como sócios ou quem cuida do financeiro."
+      },
+      {
+        "label": "Acesso direto para o contador",
+        "values": {
+          "gratis": false,
+          "pro": false,
+          "estudio": true
+        },
+        "help": "O contador entra com acesso só de leitura aos relatórios e às notas fiscais, sem ver o seu saldo."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "tabsLabel": "Assuntos",
+    "topics": [
+      {
+        "id": "general",
+        "label": "Começar"
+      },
+      {
+        "id": "pricing",
+        "label": "Taxas"
+      },
+      {
+        "id": "taxes",
+        "label": "Impostos"
+      },
+      {
+        "id": "product",
+        "label": "Para clientes"
+      }
+    ]
+  }
+}

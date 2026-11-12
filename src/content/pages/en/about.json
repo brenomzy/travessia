@@ -1,0 +1,65 @@
+{
+  "page": "about",
+  "translationKey": "about",
+  "seo": {
+    "title": "About Travessia",
+    "description": "We started because a payment from London arrived R$ 600 short. Travessia is the account its founders wanted."
+  },
+  "title": "We started because a payment from London arrived R$ 600 short",
+  "lead": "In 2025, our founders were still freelancers. Travessia is the account they wanted.",
+  "story": {
+    "title": "How we got here",
+    "paragraphs": [
+      "Rafael Sato and Bia Nunes worked as designers for studios in Europe. Every invoice went through an international wire, a spread nobody explained and a tax invoice issued by hand at month end.",
+      "One month in 2025 they did the maths: a US$ 4,000 payment arrived R$ 600 below that day's commercial rate. That was the starting point.",
+      "Today Travessia has 14 people in São Paulo and Recife, and serves 2,140 accounts of Brazilian freelancers and studios with clients in 31 countries."
+    ]
+  },
+  "panels": [
+    {
+      "title": "What we do",
+      "tone": "tint",
+      "items": [
+        "We issue invoices in English and receive dollars, euros and pounds.",
+        "We convert to reais at a 0.6% fee, shown before you confirm.",
+        "We issue the export tax invoice with every payment."
+      ]
+    },
+    {
+      "title": "What we don't do",
+      "tone": "outline",
+      "items": [
+        "We don't offer credit, investments or cards.",
+        "We don't charge receiving or withdrawal fees.",
+        "We don't hold your money longer than it takes to convert."
+      ]
+    }
+  ],
+  "team": {
+    "title": "Who makes it",
+    "note": "14 people · São Paulo and Recife",
+    "people": [
+      {
+        "name": "Rafael Sato",
+        "role": "Co-founder, product"
+      },
+      {
+        "name": "Bia Nunes",
+        "role": "Co-founder, design"
+      },
+      {
+        "name": "Tiago Alves",
+        "role": "Engineering, exchange"
+      },
+      {
+        "name": "Marina Teles",
+        "role": "Accounting and content"
+      }
+    ]
+  },
+  "disclaimer": {
+    "title": "This company does not exist",
+    "text": "Travessia is a demo project, built to test Source by Webflow with a complete site. The people, stories, numbers and integrations on this page are made up.",
+    "note": "No form stores data and no money is moved."
+  }
+}

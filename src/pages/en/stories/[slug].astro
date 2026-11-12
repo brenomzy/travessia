@@ -1,0 +1,12 @@
+---
+import type { GetStaticPaths } from 'astro';
+import StoryPage from '../../../components/pages/StoryPage.astro';
+import { getStories } from '../../../lib/content';
+
+export const getStaticPaths = (async () =>
+  (await getStories('en')).map((story) => ({ params: { slug: story.data.slug }, props: { story } }))) satisfies GetStaticPaths;
+
+const { story } = Astro.props;
+---
+
+<StoryPage locale="en" story={story} />

@@ -4,13 +4,19 @@
  * plus FAQPage JSON-LD built from the same entries (SPEC rule 9).
  */
 import type { CollectionEntry } from 'astro:content';
+import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   title: string;
-  lead: string;
-  faqs: CollectionEntry<'faqs'>[];
+  lead?: string;
+  /** compact: the smaller heading used on feature pages (Paper: 40 px). */
+  size?: 'default' | 'compact';
+  /** Every answer starts open (Paper: /en/for-clients). Default: only the first. */
+  openAll?: boolean;
+  /** Entries from the faqs collection, or any list shaped like them (comparison pages). */
+  faqs: { data: Pick<CollectionEntry<'faqs'>['data'], 'question' | 'answer'> }[];
 }
-const { title, lead, faqs } = Astro.props;
+const { title, lead, faqs, size = 'default', openAll = false } = Astro.props;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -22,16 +28,17 @@ const jsonLd = {
 };
 ---
 
-<section class="faq" aria-labelledby="faq-title" data-theme="light">
+<section class="faq" data-size={size} aria-labelledby="faq-title" data-theme="light">
   <div class="l-container layout">
-    <div class="intro">
+    <div class="intro" data-reveal-stagger>
       <h2 id="faq-title">{title}</h2>
-      <p>{lead}</p>
+      {lead && <p>{lead}</p>}
+      <slot />
     </div>
-    <div class="list">
+    <div class="list" data-reveal-stagger>
       {
         faqs.map(({ data }, i) => (
-          <details name="faq" open={i === 0}>
+          <details name={openAll ? undefined : 'faq'} open={openAll || i === 0}>
             <summary>
               <span>{data.question}</span>
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -48,6 +55,8 @@ const jsonLd = {
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </section>
 
+<MotionScript />
+
 <style>
   .faq {
     padding-block: var(--space-section);
@@ -63,7 +72,7 @@ const jsonLd = {
 
   .intro {
     display: flex;
-    flex: 1 1 18rem;
+    flex: 0 1 26.25rem;
     flex-direction: column;
     gap: var(--space-m);
     max-inline-size: 26.25rem;
@@ -75,8 +84,13 @@ const jsonLd = {
     line-height: var(--leading-lg);
   }
 
+  [data-size='compact'] h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+  }
+
   .list {
-    flex: 999 1 30rem;
+    flex: 1 1 30rem;
     border-block-start: var(--size-hairline) solid var(--color-border-strong);
   }
 

@@ -1,0 +1,112 @@
+{
+  "title": "Travessia or an international bank transfer?",
+  "slug": "bank-transfer",
+  "label": "Bank transfer",
+  "description": "Compare getting paid through Travessia and by international bank transfer: costs, timing, rate and tax invoice, with a US$ 2,000 example.",
+  "updated": "2026-11-04",
+  "reviewer": "Marina Teles, accountant",
+  "short": {
+    "title": "Short answer",
+    "text": "To receive US$ 2,000 from a client abroad, Travessia leaves R$ 10,834.60 in your account. A bank with a 4% spread and a US$ 45 fee leaves R$ 10,228.56. That is R$ 606.04 less per payment.",
+    "note": "A bank can make more sense above US$ 50,000, where the spread is usually negotiated."
+  },
+  "table": {
+    "title": "Side by side",
+    "us": "Travessia",
+    "them": "Bank transfer",
+    "rows": [
+      {
+        "label": "Conversion cost",
+        "us": "0.6% of the amount received",
+        "them": "2% to 6% spread on the commercial rate"
+      },
+      {
+        "label": "Fee per payment",
+        "us": "None",
+        "them": "US$ 15 to US$ 50, plus the intermediary bank fee"
+      },
+      {
+        "label": "When you convert",
+        "us": "Whenever you want, with the rate on screen",
+        "them": "On the day the exchange closes"
+      },
+      {
+        "label": "How your client pays",
+        "us": "Card or local transfer in their country",
+        "them": "International wire (SWIFT)"
+      },
+      {
+        "label": "Time until reais land",
+        "us": "1 business day",
+        "them": "2 to 5 business days"
+      },
+      {
+        "label": "Invoice and tax invoice",
+        "us": "English invoice and export nota fiscal in one flow",
+        "them": "You issue both separately"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Questions about switching",
+    "items": [
+      {
+        "question": "Do I need to close my bank account?",
+        "answer": "No. Converted reais go to the account you already use, by Pix."
+      },
+      {
+        "question": "Does my client need to change anything?",
+        "answer": "They pay through the Travessia invoice, by card or local transfer. No sign-up needed."
+      },
+      {
+        "question": "What about IOF?",
+        "answer": "In most cases, payments for exported services have zero IOF. When there is IOF, it shows in the rate before you convert, in both cases."
+      }
+    ]
+  },
+  "translationKey": "transferencia-pelo-banco",
+  "breakdown": {
+    "title": "The numbers, step by step",
+    "rateNote": "Example commercial rate: R$ 5.45",
+    "totalLabel": "Arrives in your account",
+    "note": "Spread and fees vary by bank and by client. Use the calculator to try your own numbers.",
+    "cards": [
+      {
+        "title": "Travessia",
+        "rows": [
+          {
+            "label": "Client pays",
+            "value": "US$ 2,000.00"
+          },
+          {
+            "label": "0.6% fee",
+            "value": "− US$ 12.00"
+          },
+          {
+            "label": "Converted at R$ 5.45",
+            "value": "US$ 1,988.00"
+          }
+        ],
+        "total": "R$ 10,834.60"
+      },
+      {
+        "title": "Bank",
+        "rows": [
+          {
+            "label": "Client pays",
+            "value": "US$ 2,000.00"
+          },
+          {
+            "label": "Receiving fee",
+            "value": "− US$ 45.00"
+          },
+          {
+            "label": "Converted at R$ 5.232 (4% spread)",
+            "value": "US$ 1,955.00"
+          }
+        ],
+        "total": "R$ 10,228.56"
+      }
+    ]
+  }
+}

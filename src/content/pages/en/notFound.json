@@ -1,0 +1,24 @@
+{
+  "page": "notFound",
+  "translationKey": "notFound",
+  "seo": {
+    "title": "Page not found | Travessia",
+    "description": "This page does not exist."
+  },
+  "title": "This page does not exist",
+  "lead": "Error 404: the link may be wrong or the page has moved. These usually help:",
+  "links": [
+    {
+      "label": "Home page",
+      "route": "home"
+    },
+    {
+      "label": "Exchange calculator",
+      "route": "calculator"
+    },
+    {
+      "label": "Blog",
+      "route": "blog"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "title": "Travessia ou transferência internacional pelo banco?",
+  "slug": "transferencia-pelo-banco",
+  "label": "Transferência pelo banco",
+  "description": "Compare receber pela Travessia e por transferência internacional pelo banco: custos, prazo, câmbio e nota fiscal, com um exemplo de US$ 2.000.",
+  "updated": "2026-11-04",
+  "reviewer": "Marina Teles, contadora",
+  "short": {
+    "title": "Resposta curta",
+    "text": "Para receber US$ 2.000 de um cliente no exterior, a Travessia deixa R$ 10.834,60 na sua conta. Um banco com spread de 4% e tarifa de US$ 45 deixa R$ 10.228,56. A diferença é de R$ 606,04 por pagamento.",
+    "note": "O banco pode fazer mais sentido para valores acima de US$ 50 mil, quando o spread costuma ser negociado."
+  },
+  "table": {
+    "title": "Lado a lado",
+    "us": "Travessia",
+    "them": "Transferência pelo banco",
+    "rows": [
+      {
+        "label": "Custo da conversão",
+        "us": "0,6% sobre o valor recebido",
+        "them": "Spread de 2% a 6% sobre o câmbio comercial"
+      },
+      {
+        "label": "Tarifa por recebimento",
+        "us": "Nenhuma",
+        "them": "De US$ 15 a US$ 50, mais a tarifa do banco intermediário"
+      },
+      {
+        "label": "Quando você converte",
+        "us": "Quando quiser, com a cotação na tela",
+        "them": "No dia do fechamento do câmbio"
+      },
+      {
+        "label": "Como o cliente paga",
+        "us": "Cartão ou transferência local no país dele",
+        "them": "Transferência internacional (SWIFT)"
+      },
+      {
+        "label": "Prazo até cair em reais",
+        "us": "1 dia útil",
+        "them": "2 a 5 dias úteis"
+      },
+      {
+        "label": "Fatura e nota fiscal",
+        "us": "Fatura em inglês e nota fiscal de exportação no mesmo fluxo",
+        "them": "Você emite as duas por fora"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Perguntas sobre a troca",
+    "items": [
+      {
+        "question": "Preciso fechar a conta no banco?",
+        "answer": "Não. Os reais convertidos vão para a conta que você já usa, por Pix."
+      },
+      {
+        "question": "O meu cliente precisa mudar alguma coisa?",
+        "answer": "Ele passa a pagar pela fatura da Travessia, por cartão ou transferência local. Não precisa de cadastro."
+      },
+      {
+        "question": "E o IOF?",
+        "answer": "Na maioria dos casos, o recebimento por exportação de serviço tem IOF zero. Quando houver IOF, ele aparece na cotação antes de você converter, nos dois casos."
+      }
+    ]
+  },
+  "translationKey": "transferencia-pelo-banco",
+  "breakdown": {
+    "title": "A conta, passo a passo",
+    "rateNote": "Câmbio comercial do exemplo: R$ 5,45",
+    "totalLabel": "Chega na sua conta",
+    "note": "Spread e tarifa variam por banco e por cliente. Use a calculadora para simular com os números da sua conta.",
+    "cards": [
+      {
+        "title": "Travessia",
+        "rows": [
+          {
+            "label": "Cliente paga",
+            "value": "US$ 2.000,00"
+          },
+          {
+            "label": "Taxa de 0,6%",
+            "value": "− US$ 12,00"
+          },
+          {
+            "label": "Convertido a R$ 5,45",
+            "value": "US$ 1.988,00"
+          }
+        ],
+        "total": "R$ 10.834,60"
+      },
+      {
+        "title": "Banco",
+        "rows": [
+          {
+            "label": "Cliente paga",
+            "value": "US$ 2.000,00"
+          },
+          {
+            "label": "Tarifa de recebimento",
+            "value": "− US$ 45,00"
+          },
+          {
+            "label": "Convertido a R$ 5,232 (spread de 4%)",
+            "value": "US$ 1.955,00"
+          }
+        ],
+        "total": "R$ 10.228,56"
+      }
+    ]
+  }
+}

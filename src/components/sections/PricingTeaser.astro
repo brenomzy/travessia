@@ -10,7 +10,15 @@ import MotionScript from '../ui/MotionScript.astro';
 interface Props {
   locale: Locale;
   title: string;
-  titleSecond: string;
+  titleSecond?: string;
+  /** Keep the heading for screen readers only (the pricing page, where the hero says it). */
+  hideTitle?: boolean;
+  /**
+   * Whether this section holds its own billing scope. The pricing page puts the scope on a wrapper
+   * so the same toggle also switches the comparison table.
+   */
+  ownScope?: boolean;
+  spacing?: 'default' | 'after-strip';
   billingLabel: string;
   billing: { monthly: string; annual: string };
   perMonth: string;
@@ -29,10 +37,17 @@ const periods = [
 ] as const;
 ---
 
-<Section labelledby="pricing-title">
-  <div class="pricing l-stack" style="--gap: var(--space-2xl)" data-billing-scope data-billing="monthly">
-    <div class="head">
-      <h2 id="pricing-title">{p.title}<br />{p.titleSecond}</h2>
+<Section labelledby="pricing-title" spacing={p.spacing}>
+  <div
+    class="pricing l-stack"
+    style="--gap: var(--space-2xl)"
+    data-billing-scope={p.ownScope === false ? undefined : ''}
+    data-billing={p.ownScope === false ? undefined : 'monthly'}
+  >
+    <div class="head" data-reveal-stagger data-hidden-title={p.hideTitle ? '' : undefined}>
+      <h2 id="pricing-title" class:list={[{ 'u-visually-hidden': p.hideTitle }]}>
+        {p.title}{p.titleSecond && <><br />{p.titleSecond}</>}
+      </h2>
       <BillingToggle client:visible label={p.billingLabel} options={p.billing} />
     </div>
     <ul class="plans" role="list" data-reveal-stagger>
@@ -81,6 +96,10 @@ const periods = [
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--space-m) var(--space-2xl);
+  }
+
+  .head[data-hidden-title] {
+    justify-content: flex-end;
   }
 
   .plans {
@@ -156,8 +175,8 @@ const periods = [
   }
 
   /* Both periods are in the HTML; the toggle picks one. */
-  [data-billing='monthly'] [data-period='annual'],
-  [data-billing='annual'] [data-period='monthly'] {
+  :global([data-billing='monthly']) [data-period='annual'],
+  :global([data-billing='annual']) [data-period='monthly'] {
     display: none;
   }
 

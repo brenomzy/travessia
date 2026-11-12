@@ -1,0 +1,69 @@
+---
+/** Pricing, shared by /precos and /en/pricing (Paper: Pages · product and sales → /precos). */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import PricingTeaser from '../sections/PricingTeaser.astro';
+import ComparePlans from '../sections/ComparePlans.astro';
+import FeeCalculatorSection from '../sections/FeeCalculatorSection.astro';
+import FaqTopicsSection from '../sections/FaqTopicsSection.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import { t, type Locale } from '../../i18n';
+import { alternates, path } from '../../i18n/routes';
+import { getFaqs, getPage, getPlans, getRates } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const s = t(locale);
+const page = await getPage(locale, 'pricing');
+const home = await getPage(locale, 'home');
+const [plans, rates] = await Promise.all([getPlans(), getRates()]);
+const feePercent = Math.min(...plans.map((p) => p.data.fee));
+const topics = await Promise.all(
+  page.faq.topics.map(async (topic) => ({ ...topic, faqs: await getFaqs(locale, topic.id) })),
+);
+const ctaHref = path('openAccount', locale);
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('pricing')}
+  headerVariant="dark"
+  current="pricing"
+>
+  <InteriorHero title={page.hero.title} lead={page.hero.lead} size="short" />
+  <!-- One billing scope, so the toggle switches the plan cards and the comparison table together. -->
+  <div data-billing-scope data-billing="monthly">
+    <PricingTeaser
+      locale={locale}
+      title={page.plans.heading}
+      hideTitle
+      ownScope={false}
+      spacing="after-strip"
+      {...page.plans}
+      currencyBRL={s.common.currencyBRL}
+      plans={plans}
+      ctaHref={ctaHref}
+    />
+    <ComparePlans
+      locale={locale}
+      content={page.compare}
+      labels={page.plans}
+      plans={plans}
+      currencyBRL={s.common.currencyBRL}
+      ctaHref={ctaHref}
+    />
+  </div>
+  <FeeCalculatorSection
+    locale={locale}
+    content={home.calculator}
+    rates={rates}
+    feePercent={feePercent}
+    currencyBRL={s.common.currencyBRL}
+  />
+  <FaqTopicsSection title={page.faq.title} tabsLabel={page.faq.tabsLabel} topics={topics} />
+  <ClosingCta locale={locale} />
+</BaseLayout>

@@ -1,33 +1,46 @@
 ---
-name: "Ana Ribeiro"
+name: Ana Ribeiro
+slug: ana-ribeiro
 craft: design
-city: "Recife"
+city: Recife, PE
 teamSize: 1
-clientCountries: ["UK", "US", "DE"]
+clientCountries: Reino Unido
 person:
-  name: "Ana Ribeiro"
-  role: "designer de produto"
-quote: "Antes eu só sabia quanto ia receber quando o dinheiro caía. Agora vejo o valor em reais antes de converter."
+  name: Ana Ribeiro
+  role: designer de produto
+role: Designer de produto
+context: designer de produto com um cliente em Londres
+quote: Vejo quanto vira em reais antes de converter, e decido no dia.
+headline: Ana Ribeiro decide o dia de converter
+lead: Designer de produto em Recife, com um estúdio de Londres como cliente fixo. O banco convertia na chegada, e ela só via o valor depois.
+highlight:
+  value: US$ 2.000
+  label: por mês, de um estúdio em Londres
 metrics:
-  - value: "R$ 7.900"
-    label: "a mais por ano"
-  - value: "3 países"
-    label: "de clientes"
+  - value: US$ 2.000
+    label: por mês, de um estúdio em Londres
+  - value: R$ 410
+    label: a mais por mês, em média
+  - value: "0"
+    label: transferências internacionais
+legalName: Ana Ribeiro Design MEI
+since: 2025-11
+features: Faturas, saldo em USD, alerta de cotação
 cover: ../../../assets/textures/stories/dither-noite.png
-coverAlt: "Textura pontilhada em noite e tapajós"
+coverAlt: Textura pontilhada em noite e tapajós
 featured: true
-order: 1
+spotlight: false
+order: 2
 translationKey: ana-ribeiro
 ---
 
-## Desafio
+## Antes: o câmbio que o banco escolhia
 
-Cada pagamento do exterior chegava num câmbio diferente, e a nota fiscal ficava para depois.
+O pagamento chegava como transferência internacional, e o banco convertia no mesmo dia, com spread e tarifa. Ana só descobria quanto tinha recebido no extrato.
 
-## Solução
+> Hoje eu vejo o número em reais antes de apertar o botão. Parece pouco, mas muda o mês.
+> — Ana Ribeiro
 
-Faturas pela Travessia, com o saldo guardado na moeda do cliente e conversão quando faz sentido.
+## Depois: saldo em dólar e um alerta
 
-## Resultados
-
-O valor em reais aparece antes de converter, e o fechamento do mês não depende mais de planilha.
+O estúdio paga a fatura por transferência local no Reino Unido, o valor entra no saldo em dólar e Ana converte quando o alerta de cotação avisa.

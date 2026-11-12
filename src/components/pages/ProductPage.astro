@@ -1,0 +1,39 @@
+---
+/** Product overview, shared by /produto and /en/product (Paper: Pages · product and sales → /produto). */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import FeatureRows from '../sections/FeatureRows.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import ConversionCard from '../product/ConversionCard.astro';
+import type { Locale } from '../../i18n';
+import { alternates, path, type RouteKey } from '../../i18n/routes';
+import { getFeatures, getPage } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const page = await getPage(locale, 'product');
+const features = await getFeatures(locale);
+const to = (l: { label: string; route: string }) => ({ label: l.label, href: path(l.route as RouteKey, locale) });
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('product')}
+  headerVariant="dark"
+  current="product"
+>
+  <InteriorHero
+    title={page.hero.title}
+    lead={page.hero.lead}
+    primary={to(page.hero.primary)}
+    secondary={to(page.hero.secondary)}
+  >
+    <ConversionCard slot="visual" {...page.hero.card} shadow="floating-dark" />
+  </InteriorHero>
+  <FeatureRows locale={locale} features={features} />
+  <ClosingCta locale={locale} />
+</BaseLayout>

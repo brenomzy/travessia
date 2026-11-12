@@ -1,0 +1,12 @@
+---
+import type { GetStaticPaths } from 'astro';
+import IntegrationPage from '../../components/pages/IntegrationPage.astro';
+import { getIntegrations } from '../../lib/content';
+
+export const getStaticPaths = (async () =>
+  (await getIntegrations('pt-br')).map((integration) => ({ params: { slug: integration.data.slug }, props: { integration } }))) satisfies GetStaticPaths;
+
+const { integration } = Astro.props;
+---
+
+<IntegrationPage locale="pt-br" integration={integration} />

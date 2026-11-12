@@ -21,9 +21,11 @@ interface Props {
   /** "seam" when the page opens with a seam hero that the header sits on. */
   headerVariant?: 'seam' | 'light' | 'dark';
   current?: RouteKey;
+  /** A header with only the logo, language switch and a link back (the waitlist page). */
+  minimalHeader?: boolean;
 }
 
-const { locale, title, description, alternates, headerVariant = 'light', current } = Astro.props;
+const { locale, title, description, alternates, headerVariant = 'light', current, minimalHeader = false } = Astro.props;
 const s = t(locale);
 const site = Astro.site ?? new URL('https://travessia.example');
 ---
@@ -58,7 +60,7 @@ const site = Astro.site ?? new URL('https://travessia.example');
     <SkipLink label={s.a11y.skipLink} />
     <DemoBanner short={s.banner.short} long={s.banner.long} />
     <div class="page" data-header={headerVariant}>
-      <Header locale={locale} alternates={alternates} variant={headerVariant} current={current} />
+      <Header locale={locale} alternates={alternates} variant={headerVariant} current={current} minimal={minimalHeader} />
       <main id="main" tabindex="-1">
         <slot />
       </main>

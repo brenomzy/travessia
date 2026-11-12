@@ -5,6 +5,7 @@ import Section from './Section.astro';
 import SectionHeader from './SectionHeader.astro';
 import Button from '../ui/Button.astro';
 import LogoSphere from '../ui/LogoSphere.astro';
+import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   title: string;
@@ -26,7 +27,7 @@ const sphereItems = p.integrations
   <div class="l-stack" style="--gap: var(--space-2xl)">
     <SectionHeader id="integrations-title" title={p.title} lead={p.lead} />
     <div class="bento">
-      <div class="sphere-card" data-theme="tint">
+      <div class="sphere-card" data-theme="tint" data-reveal>
         <div class="sphere-head">
           <div>
             <h3>{p.count.replace('{count}', String(p.integrations.length))}</h3>
@@ -36,7 +37,7 @@ const sphereItems = p.integrations
         </div>
         <LogoSphere items={sphereItems} />
       </div>
-      <div class="side">
+      <div class="side" data-reveal-stagger>
         <div class="card">
           <h3>{p.accountant.title}</h3>
           <ul role="list">
@@ -58,6 +59,8 @@ const sphereItems = p.integrations
     </div>
   </div>
 </Section>
+
+<MotionScript />
 
 <style>
   .bento {

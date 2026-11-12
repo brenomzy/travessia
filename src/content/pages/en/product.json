@@ -1,0 +1,27 @@
+{
+  "page": "product",
+  "translationKey": "product",
+  "seo": {
+    "title": "Product: one account to get paid from abroad | Travessia",
+    "description": "English invoices, balances in dollars, euros and pounds, conversion with the fee up front, the export nota fiscal and a monthly report. See every part of Travessia."
+  },
+  "hero": {
+    "title": "One account to get paid from abroad, start to finish",
+    "lead": "English invoices, balances in three currencies, conversion with the fee up front, the nota fiscal and the monthly report.",
+    "primary": {
+      "label": "Join the list",
+      "route": "openAccount"
+    },
+    "secondary": {
+      "label": "See pricing",
+      "route": "pricing"
+    },
+    "card": {
+      "status": "Converting",
+      "time": "Nov 15, 9:11",
+      "from": "US$ 1,988.00",
+      "to": "R$ 10,834.60",
+      "note": "0.6% fee already taken · rate R$ 5.45"
+    }
+  }
+}

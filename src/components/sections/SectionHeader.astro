@@ -10,7 +10,7 @@ interface Props {
 const { id, title, lead } = Astro.props;
 ---
 
-<div class="header" data-reveal>
+<div class="header" data-reveal-stagger>
   <h2 id={id}>{title}</h2>
   {lead && <p class="lead">{lead}</p>}
   <slot />

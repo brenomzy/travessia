@@ -1,0 +1,163 @@
+@layer components {
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-2);
+    color: var(--color-text-base);
+  }
+
+  .currencies {
+    display: inline-flex;
+    align-self: flex-start;
+    gap: var(--space-3xs);
+    padding: var(--space-3xs);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-chip-bg);
+  }
+
+  .currency {
+    padding: var(--space-2xs) var(--space-s);
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: none;
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    transition:
+      background-color var(--duration-fast) var(--ease-hover),
+      color var(--duration-fast) var(--ease-hover);
+  }
+
+  .currency[data-pressed] {
+    background-color: var(--color-text-base);
+    color: var(--color-bg-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .currency:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  .label {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-s) var(--space-m);
+    border: var(--size-focus-ring) solid var(--color-border-strong);
+    border-radius: var(--radius-m);
+    background-color: var(--color-field-bg);
+    transition: border-color var(--duration-fast) var(--ease-hover);
+  }
+
+  .group:focus-within {
+    border-color: var(--color-focus);
+  }
+
+  /* A text input's default width (20 characters at this size) would set the card's minimum width. */
+  .input {
+    flex: 1 1 0;
+    inline-size: 100%;
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-title);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The group shows focus, so the input itself doesn't need a second ring. */
+  .input:focus-visible {
+    outline: none;
+  }
+
+  .unit {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .rows div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  .rows dt {
+    color: var(--color-text-muted);
+  }
+
+  .rows dd {
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+  }
+
+  .result {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-base);
+  }
+
+  .result .label {
+    color: var(--color-text-muted);
+  }
+
+  .sum {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .brl {
+    font-size: var(--text-xl);
+  }
+
+  .arrival {
+    padding-block-end: var(--space-2xs);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .disclaimer {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+  }
+}

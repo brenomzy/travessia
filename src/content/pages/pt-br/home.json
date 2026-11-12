@@ -126,31 +126,15 @@
       "Você escolhe quando converter, ou guarda o saldo na moeda",
       "Nenhuma taxa para receber, só para converter"
     ],
-    "currencies": [
-      "Dólar",
-      "Euro",
-      "Libra"
-    ],
     "amountLabel": "Valor da fatura",
-    "amount": "2.000,00",
-    "currency": "US$",
-    "rows": [
-      {
-        "label": "Taxa Travessia, 0,6%",
-        "value": "− US$ 12,00"
-      },
-      {
-        "label": "Valor convertido",
-        "value": "US$ 1.988,00"
-      },
-      {
-        "label": "Câmbio de exemplo",
-        "value": "1 US$ = R$ 5,45"
-      }
-    ],
+    "currencyLabel": "Moeda da fatura",
+    "defaultAmount": 2000,
+    "feeLabel": "Taxa Travessia, {fee}",
+    "convertedLabel": "Valor convertido",
+    "rateLabel": "Câmbio de exemplo",
     "resultLabel": "Você recebe por Pix",
-    "result": "10.834,60",
-    "arrival": "Chega amanhã, 15 nov",
+    "arrival": "Chega {when}, {date}",
+    "arrivalFallback": "Chega em 1 dia útil",
     "disclaimer": "Câmbio fictício, só para demonstração. Este site não move dinheiro."
   },
   "features": {

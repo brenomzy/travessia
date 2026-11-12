@@ -3,7 +3,29 @@ name: Automatic nota fiscal
 slug: automatic-tax-invoices
 tagline: The export nota fiscal (Brazil's service tax invoice) is issued with every payment.
 summary: Every payment issues the export nota fiscal, Brazil's service tax invoice, in under 2 minutes with the right client details.
-problem: Issuing an export tax invoice by hand is slow, and one wrong field turns into a problem with the accountant at month end.
+intro: Every payment you receive issues the export nota fiscal for services in under 2 minutes, with the client's details already filled in.
+benefits:
+  - Works with MEI and Simples Nacional
+  - Sent straight to your accountant
+  - XML and PDF kept for 5 years
+linkLabel: See the nota fiscal
+hero:
+  title: The export nota fiscal issues itself
+  lead: When a payment lands, Travessia issues the nota fiscal with your client's details and sends a copy to your accountant.
+  secondary:
+    label: See pricing
+    route: pricing
+heroCard:
+  kind: vignette
+problem:
+  title: Export tax invoices by hand are where mistakes happen
+  points:
+    - label: Tricky fields
+      detail: "Service code, the client's country and the amount in reais on the right date: one wrong detail and it bounces."
+    - label: Lost time
+      detail: Each one takes 15 to 30 minutes on the city hall portal.
+    - label: Accountant in the dark
+      detail: Tax invoices arrive one by one by email, and month-end closing runs late.
 steps:
   - title: Your client pays
     detail: As soon as the payment is confirmed, Travessia already has the client and service details.
@@ -11,10 +33,12 @@ steps:
     detail: The export nota fiscal is issued in under 2 minutes with your city's tax office.
   - title: Your accountant gets it
     detail: It goes to your email and your accountant's, with the day's exchange rate.
-benefits:
-  - Export nota fiscal in under 2 minutes
-  - Client details filled in from the invoice
-  - An automatic copy for your accountant
+faqTitle: Questions about the nota fiscal
+integrationsLabel: "Accounting integrations:"
+integrations:
+  - contai
+  - ancora-contabil
+  - nota-certa
 vignette:
   kind: taxInvoice
   title: Nota fiscal no. 318 issued
@@ -23,9 +47,8 @@ vignette:
     - label: Client
       value: Halden & Co.
     - label: Sent to accountant
-      value: 'Yes'
+      value: Yes
       highlight: true
-faqTopic: taxes
 order: 3
 translationKey: automatic-tax-invoices
 ---

@@ -1,16 +1,19 @@
 ---
-name: "Tempo Bom"
+name: Tempo Bom
 slug: tempo-bom
 category: time-tracking
 status: live
-shortDescription: "A simple timer linked to your invoices in dollars, euros or pounds."
+shortDescription: A simple timer linked to your invoices in dollars, euros or pounds.
+frequency: Every week
+direction: from
+maintainedBy: Tempo Bom
 setupSteps:
-  - title: "Connect your account"
-    detail: "In Integrations, pick Tempo Bom and sign in with your account there."
-  - title: "Choose what to sync"
+  - title: Connect your account
+    detail: In Integrations, pick Tempo Bom and sign in with your account there.
+  - title: Choose what to sync
     detail: "Tick what should come into Travessia: payments, hours or clients."
-  - title: "Check the first item"
-    detail: "The next item shows up in your statement, tagged Tempo Bom."
+  - title: Check the first item
+    detail: The next item shows up in your statement, tagged Tempo Bom.
 featured: false
 sphere:
   include: true

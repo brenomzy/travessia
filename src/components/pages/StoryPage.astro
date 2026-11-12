@@ -1,0 +1,271 @@
+---
+/** Story detail, shared by /historias/[slug] and /en/stories/[slug] (Paper: Pages · content → story detail). */
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import Section from '../sections/Section.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import ConversionCard from '../product/ConversionCard.astro';
+import Prose from '../ui/Prose.astro';
+import Avatar from '../ui/Avatar.astro';
+import Icon from '../ui/Icon.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import { langTag, t, type Locale } from '../../i18n';
+import { path, storyPath } from '../../i18n/routes';
+import { getPage, getStories } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+  story: CollectionEntry<'customers'>;
+}
+const { locale, story } = Astro.props;
+const s = story.data;
+const t_ = t(locale);
+const page = await getPage(locale, 'stories');
+const d = page.detail;
+const { Content } = await render(story);
+const others = (await getStories(locale)).filter((e) => e.data.slug !== s.slug).slice(0, 2);
+const [year, month] = s.since.split('-').map(Number);
+const sinceText = new Intl.DateTimeFormat(langTag[locale], { month: 'long', year: 'numeric' }).format(new Date(year, month - 1, 1));
+const facts = [
+  { label: d.facts.company, value: s.legalName },
+  { label: d.facts.city, value: s.city },
+  { label: d.facts.team, value: s.teamSize === 1 ? d.teamOne : d.teamMany.replace('{n}', String(s.teamSize)) },
+  { label: d.facts.clients, value: s.clientCountries },
+  { label: d.facts.since, value: sinceText.charAt(0).toUpperCase() + sinceText.slice(1) },
+  { label: d.facts.features, value: s.features },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${s.headline} | ${t_.meta.siteName}`}
+  description={s.lead}
+  alternates={{ 'pt-br': storyPath(s.slug, 'pt-br'), en: storyPath(s.slug, 'en') }}
+  headerVariant="dark"
+  current="stories"
+>
+  <InteriorHero
+    title={s.headline}
+    lead={s.lead}
+    breadcrumb={{
+      label: t_.a11y.breadcrumb,
+      items: [
+        { label: page.title, href: path('stories', locale) },
+        { label: s.name, href: storyPath(s.slug, locale) },
+      ],
+    }}
+  >
+    <ConversionCard slot="visual" {...t_.closingCta.card} shadow="floating-dark" />
+  </InteriorHero>
+
+  <Section>
+    <div class="layout">
+      <dl class="facts" aria-label={d.factsLabel} data-reveal-stagger>
+        {
+          facts.map((f) => (
+            <div>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="story" data-reveal>
+        <Prose><Content /></Prose>
+        <dl class="metrics" aria-label={d.metricsLabel}>
+          {
+            s.metrics.map((m) => (
+              <div>
+                <dt>{m.label}</dt>
+                <dd>{m.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </Section>
+
+  <Section spacing="none" labelledby="others-title">
+    <div class="others l-stack" style="--gap: var(--space-l)">
+      <h2 id="others-title">{d.otherTitle}</h2>
+      <ul class="other-list" role="list" data-reveal-stagger>
+        {
+          others.map(({ data: o }) => (
+            <li class="other">
+              <Avatar name={o.person.name} />
+              <span class="other-text">
+                <a href={storyPath(o.slug, locale)}>
+                  {o.person.name}, {o.role.toLocaleLowerCase(langTag[locale])} · {o.city.split(',')[0]}
+                </a>
+                <span>{o.quote}</span>
+              </span>
+              <span class="read" aria-hidden="true">
+                {page.read} <Icon name="arrow-right" />
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <ClosingCta locale={locale} />
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-2xl) var(--space-3xl);
+  }
+
+  .facts {
+    flex: 0 1 15rem;
+    min-inline-size: 13rem;
+  }
+
+  .facts div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding-block: var(--space-s);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+    font-size: var(--text-sm);
+  }
+
+  .facts div:first-child {
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .facts dt {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .facts dd {
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .story {
+    display: flex;
+    flex: 1 1 30rem;
+    min-inline-size: 0;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    max-inline-size: var(--size-measure-text);
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .metrics div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-3xs);
+    padding: var(--space-m) var(--space-m) 0 0;
+  }
+
+  .metrics div + div {
+    padding-inline-start: var(--space-m);
+    border-inline-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .metrics dt {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .metrics dd {
+    margin: 0;
+    color: var(--color-link);
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .others {
+    padding-block-end: var(--space-section);
+  }
+
+  .others h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+  }
+
+  .other-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .other {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-m) var(--space-l);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-l);
+    transition: border-color var(--duration-fast) var(--ease-hover);
+  }
+
+  .other:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .other:focus-within {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .other-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-inline-size: 0;
+    font-size: var(--text-sm);
+  }
+
+  .other-text a {
+    color: var(--color-text-base);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+  }
+
+  .other-text a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  .other-text a:focus-visible {
+    outline: none;
+  }
+
+  .other-text span {
+    overflow: hidden;
+    color: var(--color-text-subtle);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .read {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    --icon-size: var(--size-icon-s);
+  }
+</style>

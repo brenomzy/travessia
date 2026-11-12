@@ -1,0 +1,54 @@
+---
+/**
+ * "See more" for a long server-rendered list: with JS, only the first `visible` items show until the
+ * button is pressed; without JS, everything shows and the button is hidden. Focus moves to the
+ * first item revealed. Put it right after the list it controls.
+ */
+import Button from './Button.astro';
+
+interface Props {
+  targetId: string;
+  label: string;
+  visible: number;
+  total: number;
+}
+const { targetId, label, visible, total } = Astro.props;
+---
+
+{
+  total > visible && (
+    <div class="more" data-show-more={targetId} data-visible={visible}>
+      <Button variant="secondary" type="button">
+        {label}
+      </Button>
+    </div>
+  )
+}
+
+<script>
+  for (const wrap of document.querySelectorAll<HTMLElement>('[data-show-more]')) {
+    const list = document.getElementById(wrap.dataset.showMore ?? '');
+    const visible = Number(wrap.dataset.visible);
+    if (!list) continue;
+    const items = Array.from(list.children) as HTMLElement[];
+    const extra = items.slice(visible);
+    for (const item of extra) item.hidden = true;
+    wrap.querySelector('button')?.addEventListener('click', () => {
+      for (const item of extra) item.hidden = false;
+      wrap.hidden = true;
+      extra[0]?.querySelector<HTMLElement>('a, button')?.focus();
+    });
+  }
+</script>
+
+<style>
+  .more {
+    display: flex;
+    justify-content: center;
+  }
+
+  .more[hidden],
+  :global(.no-js) .more {
+    display: none;
+  }
+</style>

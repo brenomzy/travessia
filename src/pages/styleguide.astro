@@ -14,11 +14,41 @@ import FeatureVignette from '../components/product/FeatureVignette.astro';
 import LogoSphere from '../components/ui/LogoSphere.astro';
 import SeamStrip from '../components/sections/SeamStrip.astro';
 import BillingToggle from '../components/islands/BillingToggle';
+import FeeCalculator from '../components/islands/FeeCalculator';
 import FeatureTabs from '../components/islands/FeatureTabs';
 import MotionScript from '../components/ui/MotionScript.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+import IntegrationMark from '../components/ui/IntegrationMark.astro';
+import IntegrationCard from '../components/ui/IntegrationCard.astro';
+import SyncLog from '../components/product/SyncLog.astro';
+import IntegrationFilter from '../components/islands/IntegrationFilter';
+import Chip from '../components/ui/Chip.astro';
+import ProblemList from '../components/sections/ProblemList.astro';
+import StepCards from '../components/sections/StepCards.astro';
+import ClosingCta from '../components/sections/ClosingCta.astro';
+import ComparePlans from '../components/sections/ComparePlans.astro';
+import FaqTopicsSection from '../components/sections/FaqTopicsSection.astro';
+import CalculatorExamples from '../components/sections/CalculatorExamples.astro';
+import Avatar from '../components/ui/Avatar.astro';
+import PostCover from '../components/ui/PostCover.astro';
+import PostCard from '../components/ui/PostCard.astro';
+import StoryCard from '../components/ui/StoryCard.astro';
+import Prose from '../components/ui/Prose.astro';
+import ChangeVisual from '../components/product/ChangeVisual.astro';
+import SignupForm from '../components/islands/SignupForm';
+import ChipFilter from '../components/islands/ChipFilter';
+import ListPanels from '../components/sections/ListPanels.astro';
+import SimpleCta from '../components/sections/SimpleCta.astro';
+import NewsletterBand from '../components/sections/NewsletterBand.astro';
+import PageIntro from '../components/sections/PageIntro.astro';
+import NoteCards from '../components/sections/NoteCards.astro';
+import FeeCalculatorSeam from '../components/islands/FeeCalculatorSeam';
+import seamCta from '../assets/textures/seam-cta.png';
+import seamMobile from '../assets/textures/mobile-seam-v2.png';
+import { getChanges, getFaqs, getPosts, getStories } from '../lib/content';
 import { tokens } from '../tokens/tokens';
-import { t } from '../i18n';
-import { getFeatures, getIntegrations, getPage } from '../lib/content';
+import { langTag, t } from '../i18n';
+import { getFeatures, getIntegrations, getPage, getPlans, getRates } from '../lib/content';
 
 const locale = 'pt-br';
 const s = t(locale);
@@ -26,6 +56,28 @@ const g = s.styleguide;
 const home = await getPage(locale, 'home');
 const features = await getFeatures(locale);
 const integrations = await getIntegrations(locale);
+const rates = await getRates();
+const plans = await getPlans();
+const calc = home.calculator;
+const intPage = await getPage(locale, 'integrations');
+const pricingPage = await getPage(locale, 'pricing');
+const calcPage = await getPage(locale, 'calculator');
+const blogPage = await getPage(locale, 'blog');
+const storiesPage = await getPage(locale, 'stories');
+const openPage = await getPage(locale, 'openAccount');
+const posts = await getPosts(locale);
+const stories = await getStories(locale);
+const changes = await getChanges(locale);
+const visuals = changes.filter((c) => c.data.visual);
+const faqTopics = await Promise.all(
+  pricingPage.faq.topics.map(async (topic) => ({ ...topic, faqs: await getFaqs(locale, topic.id) })),
+);
+const sampleIntegrations = integrations.slice(0, 3);
+const sampleCategories = [...new Set(sampleIntegrations.map((i) => i.data.category))].map((id) => ({
+  id,
+  label: intPage.categories[id].label,
+  count: sampleIntegrations.filter((i) => i.data.category === id).length,
+}));
 const sphereItems = integrations.map((e) => ({
   id: e.data.translationKey,
   name: e.data.name,
@@ -227,6 +279,28 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
         <h2 class="label">{g.sections.billing}</h2>
         <BillingToggle client:visible label={home.pricing.billingLabel} options={home.pricing.billing} />
       </div>
+      <div class="calculator-slot">
+        <h2 class="label">{g.sections.calculator}</h2>
+        <FeeCalculator
+          client:visible
+          lang={langTag[locale]}
+          currencies={rates.map(({ data }) => ({ id: data.id, name: data.name[locale], symbol: data.symbol, rate: data.rate }))}
+          feePercent={Math.min(...plans.map((p) => p.data.fee))}
+          defaultAmount={calc.defaultAmount}
+          brlSymbol={s.common.currencyBRL}
+          labels={{
+            amount: calc.amountLabel,
+            currency: calc.currencyLabel,
+            fee: calc.feeLabel,
+            converted: calc.convertedLabel,
+            rate: calc.rateLabel,
+            result: calc.resultLabel,
+            arrival: calc.arrival,
+            arrivalFallback: calc.arrivalFallback,
+            disclaimer: calc.disclaimer,
+          }}
+        />
+      </div>
     </div>
   </Section>
 
@@ -244,7 +318,167 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     <div class="vignettes">
       {features.map((f) => <FeatureVignette vignette={f.data.vignette} />)}
     </div>
+    <div class="vignettes">
+      <FeatureVignette vignette={features[0].data.vignette} frame="panel" />
+      <FeatureVignette vignette={features[3].data.vignette} frame="bare" />
+    </div>
   </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.navigation}</h2>
+    <div class="l-stack">
+      <Breadcrumb
+        label={s.a11y.breadcrumb}
+        items={[
+          { label: s.nav.items[0].label, href: '/produto' },
+          { label: features[0].data.name, href: `/produto/${features[0].data.slug}` },
+        ]}
+      />
+      <ul class="l-cluster" role="list" style="--gap: var(--space-2xs)">
+        <li><Chip href="/integracoes">{integrations[0].data.name}</Chip></li>
+        <li><Chip>{integrations[1].data.name}</Chip></li>
+      </ul>
+    </div>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.integrations}</h2>
+    <div class="l-stack" style="--gap: var(--space-xl)">
+      <div class="l-cluster" style="--gap: var(--space-s)">
+        <IntegrationMark name="Livro Caixa" />
+        <IntegrationMark name="Freela" tone="primary" />
+        <IntegrationMark name="Trampo" tone="inverse" />
+        <IntegrationMark name="Travessia" text="t" tone="inverse" size="l" />
+      </div>
+      <div class="filter-demo" data-theme="dark">
+        <IntegrationFilter
+          client:idle
+          gridId="styleguide-grid"
+          categories={sampleCategories}
+          total={sampleIntegrations.length}
+          labels={{
+            search: intPage.index.searchLabel,
+            group: intPage.index.groupLabel,
+            all: intPage.index.all,
+            resultCount: intPage.index.resultCount,
+            resultOne: intPage.index.resultOne,
+          }}
+        />
+      </div>
+      <ul id="styleguide-grid" class="integration-grid" role="list">
+        {
+          sampleIntegrations.map(({ data }) => (
+            <IntegrationCard
+              integration={data}
+              href={`/integracoes/${data.slug}`}
+              categoryLabel={intPage.categories[data.category].label}
+              badge={data.featured ? intPage.index.popular : undefined}
+            />
+          ))
+        }
+      </ul>
+      <p id="styleguide-grid-empty" hidden>{intPage.index.empty}</p>
+      <div class="log-slot"><SyncLog {...intPage.categories.accounting.card} /></div>
+    </div>
+  </Section>
+
+  <Section>
+    <h2 class="label">{g.sections.content}</h2>
+    <div class="l-stack" style="--gap: var(--space-2xl)">
+      <div class="l-cluster" style="--gap: var(--space-s)">
+        <Avatar name="Marina Teles" size="s" />
+        <Avatar name="Marina Teles" />
+        <Avatar name="Marina Teles" size="l" />
+      </div>
+      <div class="covers">
+        {
+          (Object.keys(blogPage.categories) as (keyof typeof blogPage.categories)[]).map((c) => (
+            <PostCover category={c} categoryLabel={blogPage.categories[c].label} title={posts.find((p) => p.data.category === c)?.data.title} />
+          ))
+        }
+      </div>
+      <ChipFilter
+        client:visible
+        targetId="sg-cards"
+        resultCount="{count}"
+        groups={[{ id: 'kind', label: storiesPage.filterLabel, all: storiesPage.all, options: [{ value: 'design', label: storiesPage.crafts.design }, { value: 'studio', label: storiesPage.studios }] }]}
+      />
+      <ul id="sg-cards" class="sg-grid" role="list">
+        <PostCard post={posts[0]} locale={locale} href="/blog" categoryLabel={blogPage.categories[posts[0].data.category].label} minutesLabel={blogPage.minutes} />
+        {stories.slice(0, 2).map(({ data }) => (
+          <StoryCard story={data} href="/historias" readLabel={storiesPage.read} readAbout={storiesPage.readAbout.replace('{name}', data.person.name)} tags={[data.craft, data.teamSize > 1 ? 'studio' : ''].join(' ').trim()} />
+        ))}
+      </ul>
+      <div class="sg-grid">
+        {visuals.map((c) => c.data.visual && <ChangeVisual visual={c.data.visual} />)}
+      </div>
+      <Prose>
+        <h2>Prose</h2>
+        <p>{posts[0].data.description}</p>
+        <blockquote><p>{stories[0].data.quote}</p><p>{stories[0].data.person.name}</p></blockquote>
+        <ol><li>{storiesPage.lead}</li><li>{blogPage.lead}</li></ol>
+      </Prose>
+      <div class="signup-slot" data-theme="primary">
+        <SignupForm client:visible lang="pt-BR" privacyHref="/privacidade" labels={{ ...openPage.form, success: openPage.success, toast: openPage.toast }} />
+      </div>
+    </div>
+  </Section>
+  <PageIntro title={storiesPage.title} lead={storiesPage.lead} stats={storiesPage.stats} level="h2" />
+  <ListPanels panels={[{ title: g.sections.content, items: [blogPage.lead, storiesPage.lead], tone: 'tint' }, { title: g.sections.content, items: [blogPage.lead], tone: 'dark' }]} />
+  <SimpleCta title={blogPage.newsletter.title} link={{ label: blogPage.newsletter.submit, href: '/blog' }} />
+  <NewsletterBand locale={locale} {...blogPage.newsletter} />
+
+  <Section spacing="none">
+    <h2 class="label">{g.sections.interior}</h2>
+  </Section>
+  <ProblemList {...features[0].data.problem} />
+  <StepCards title={s.interior.stepsTitle} steps={features[0].data.steps} />
+  <div data-billing-scope data-billing="monthly">
+    <ComparePlans
+      locale={locale}
+      content={pricingPage.compare}
+      labels={pricingPage.plans}
+      plans={plans}
+      currencyBRL={s.common.currencyBRL}
+      ctaHref="/abrir-conta"
+    />
+  </div>
+  <Section spacing="none">
+    <h2 class="label">{g.sections.calculatorSeam}</h2>
+  </Section>
+  <section class="seam-demo" data-theme="dark" style={`--seam-desktop: url(${seamCta.src}); --seam-mobile: url(${seamMobile.src});`}>
+    <FeeCalculatorSeam
+      client:visible
+      headingLevel="h2"
+      titleId="seam-demo-title"
+      lang={langTag[locale]}
+      currencies={rates.map(({ data }) => ({ id: data.id, name: data.name[locale], symbol: data.symbol, rate: data.rate }))}
+      feePercent={Math.min(...plans.map((p) => p.data.fee))}
+      defaultAmount={calcPage.tool.defaultAmount}
+      brlSymbol={s.common.currencyBRL}
+      labels={{
+        title: calcPage.tool.title,
+        currency: calcPage.tool.currencyLabel,
+        amount: calcPage.tool.amountLabel,
+        fee: calcPage.tool.feeLabel,
+        rate: calcPage.tool.rateLabel,
+        arrives: calcPage.tool.arrivesLabel,
+        arrivesFallback: calcPage.tool.arrivesFallback,
+        result: calcPage.tool.resultLabel,
+        disclaimer: calcPage.tool.disclaimer,
+      }}
+    />
+  </section>
+  <CalculatorExamples
+    locale={locale}
+    content={calcPage.examples}
+    rates={rates}
+    feePercent={Math.min(...plans.map((p) => p.data.fee))}
+    currencyBRL={s.common.currencyBRL}
+  />
+  <NoteCards notes={calcPage.notes} spacing="none" />
+  <FaqTopicsSection title={pricingPage.faq.title} tabsLabel={pricingPage.faq.tabsLabel} topics={faqTopics} />
+  <ClosingCta locale={locale} />
 </BaseLayout>
 
 <style>
@@ -399,6 +633,60 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     border-radius: var(--radius-m);
     background-color: var(--color-bg-raised);
     box-shadow: var(--shadow-1);
+  }
+
+  .filter-demo {
+    display: grid;
+    grid-template-areas: 'search' 'groups';
+    gap: var(--space-m);
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .filter-demo :global(astro-island) {
+    display: contents;
+  }
+
+  .integration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .log-slot {
+    max-inline-size: 25rem;
+  }
+
+  .seam-demo {
+    background-color: var(--color-bg-base);
+  }
+
+  @media (width >= 64rem) {
+    .seam-demo {
+      background-image: var(--seam-desktop);
+      background-size: cover;
+      background-position: center;
+      image-rendering: pixelated;
+    }
+  }
+
+  .covers,
+  .sg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-m);
+  }
+
+  .signup-slot {
+    max-inline-size: 28.75rem;
+    padding: var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+  }
+
+  .calculator-slot {
+    max-inline-size: 37.5rem;
   }
 
   .logo-slot {

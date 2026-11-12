@@ -1,0 +1,71 @@
+---
+/** A post in a grid (Paper: /blog → Todos os textos): the cover as the link, the dek and the date. */
+import PostCover from './PostCover.astro';
+import type { Locale } from '../../i18n';
+import { shortDate } from '../../lib/format';
+import type { Post } from '../../lib/content';
+
+interface Props {
+  post: Post;
+  locale: Locale;
+  href: string;
+  categoryLabel: string;
+  /** "{n} min" */
+  minutesLabel: string;
+  /** Hide the dek (Paper: "Continue lendo" cards show date only). */
+  compact?: boolean;
+}
+const { post, locale, href, categoryLabel, minutesLabel, compact = false } = Astro.props;
+const date = shortDate(locale, post.data.date);
+---
+
+<li class="card" data-filter-item>
+  <a href={href} class="link">
+    <PostCover category={post.data.category} categoryLabel={categoryLabel} title={post.data.title} />
+  </a>
+  {!compact && <p class="dek">{post.data.description}</p>}
+  <p class="meta">
+    <time datetime={post.data.date.toISOString().slice(0, 10)}>{date}</time> · {minutesLabel.replace('{n}', String(post.minutes))}
+  </p>
+</li>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .card[hidden] {
+    display: none;
+  }
+
+  .link {
+    display: block;
+    border-radius: var(--radius-m);
+    color: inherit;
+    text-decoration: none;
+    transition: translate var(--duration-fast) var(--ease-hover);
+  }
+
+  .link:hover {
+    translate: 0 calc(var(--space-3xs) * -1);
+  }
+
+  .link:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .dek {
+    margin-block-start: var(--space-2xs);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .meta {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+</style>

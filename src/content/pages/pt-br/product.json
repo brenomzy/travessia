@@ -1,0 +1,27 @@
+{
+  "page": "product",
+  "translationKey": "product",
+  "seo": {
+    "title": "Produto: uma conta para receber do exterior | Travessia",
+    "description": "Fatura em inglês, saldo em dólar, euro e libra, conversão com a taxa à vista, nota fiscal de exportação e relatório do mês. Conheça cada parte da Travessia."
+  },
+  "hero": {
+    "title": "Uma conta para receber do exterior, do começo ao fim",
+    "lead": "Fatura em inglês, saldo em três moedas, conversão com a taxa à vista, nota fiscal e relatório do mês.",
+    "primary": {
+      "label": "Entrar na lista",
+      "route": "openAccount"
+    },
+    "secondary": {
+      "label": "Ver preços",
+      "route": "pricing"
+    },
+    "card": {
+      "status": "Convertendo",
+      "time": "15 nov, 9h11",
+      "from": "US$ 1.988,00",
+      "to": "R$ 10.834,60",
+      "note": "Taxa de 0,6% já descontada · câmbio R$ 5,45"
+    }
+  }
+}

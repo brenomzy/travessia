@@ -1,0 +1,9 @@
+{
+  "title": "Valor em reais com duas casas no PDF da nota",
+  "slug": "valor-em-reais-no-pdf",
+  "date": "2026-11-03",
+  "type": "fixed",
+  "area": "taxInvoice",
+  "summary": "Em algumas notas, o PDF arredondava o valor convertido. O XML enviado à prefeitura sempre esteve correto.",
+  "translationKey": "valor-em-reais-no-pdf"
+}

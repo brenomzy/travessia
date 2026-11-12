@@ -1,0 +1,9 @@
+{
+  "title": "Invoices in Spanish",
+  "slug": "invoices-in-spanish",
+  "date": "2026-09-18",
+  "type": "new",
+  "area": "invoices",
+  "summary": "Besides English and Portuguese, invoices can now be in Spanish, with dates and numbers in the client's format.",
+  "translationKey": "fatura-em-espanhol"
+}

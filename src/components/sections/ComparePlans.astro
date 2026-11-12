@@ -1,0 +1,243 @@
+---
+/**
+ * "Compare os planos lado a lado" (Paper: /precos → Compare). A real <table>, so screen readers get
+ * row and column headers. Prices follow the billing toggle through the [data-billing] scope around
+ * it. On narrow screens the table scrolls sideways inside a labelled region.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import Button from '../ui/Button.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import PlanTooltip from '../islands/PlanTooltip';
+import { langTag, type Locale } from '../../i18n';
+import type { getPage } from '../../lib/content';
+
+type Pricing = Awaited<ReturnType<typeof getPage<'pricing'>>>;
+interface Props {
+  locale: Locale;
+  content: Pricing['compare'];
+  labels: Pricing['plans'];
+  plans: CollectionEntry<'plans'>[];
+  currencyBRL: string;
+  ctaHref: string;
+}
+const { locale, content: c, labels, plans, currencyBRL, ctaHref } = Astro.props;
+const num = (n: number) => n.toLocaleString(langTag[locale]);
+const periods = [
+  { key: 'monthly', unit: labels.perMonth },
+  { key: 'annual', unit: labels.perYear },
+] as const;
+---
+
+<Section labelledby="compare-title" spacing="none">
+  <div class="compare l-stack" style="--gap: var(--space-xl)">
+    <h2 id="compare-title" data-reveal>{c.title}</h2>
+    <div class="scroller" role="region" aria-labelledby="compare-title" tabindex="0" data-reveal>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col" class="note">
+              <span class="u-visually-hidden">{c.featureLabel}. </span>{c.note}
+            </th>
+            {
+              plans.map(({ data: plan }) => (
+                <th scope="col" data-highlight={plan.highlight ? '' : undefined}>
+                  <span class="plan">{plan.name[locale]}</span>
+                  {periods.map(({ key, unit }) => (
+                    <span class="price" data-period={key}>
+                      {currencyBRL} {num(plan.price[key].brl)}
+                      {plan.price[key].brl > 0 && <span class="unit">{unit}</span>}
+                    </span>
+                  ))}
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {
+            c.rows.map((row) => (
+              <tr>
+                <th scope="row">
+                  <span class="label">
+                    {row.label}
+                    {row.help && (
+                      <PlanTooltip client:visible label={c.helpLabel.replace('{label}', row.label)} text={row.help} />
+                    )}
+                  </span>
+                </th>
+                {plans.map(({ data: plan }) => {
+                  const v = row.values[plan.id];
+                  return (
+                    <td
+                      data-highlight={plan.highlight ? '' : undefined}
+                      data-value={v === true ? 'yes' : v === false ? 'no' : undefined}
+                    >
+                      {v === true ? c.included : v === false ? c.notIncluded : v}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            {
+              plans.map(({ data: plan }) => (
+                <td data-highlight={plan.highlight ? '' : undefined}>
+                  <Button variant={plan.highlight ? 'accent' : 'secondary'} size="s" href={ctaHref} block>
+                    {plan.cta[locale]}
+                  </Button>
+                </td>
+              ))
+            }
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</Section>
+
+<MotionScript />
+
+<style>
+  /* Follows the plan cards directly, so only bottom spacing (Paper: 0 top, 136 bottom). */
+  .compare {
+    padding-block-end: var(--space-section);
+  }
+
+  h2 {
+    max-inline-size: 47.5rem;
+  }
+
+  .scroller {
+    overflow-x: auto;
+  }
+
+  .scroller:focus-visible {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  table {
+    inline-size: 100%;
+    min-inline-size: 45rem;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+    padding: var(--space-s) var(--space-l);
+    text-align: start;
+    vertical-align: middle;
+    font-weight: var(--font-weight-regular);
+  }
+
+  thead th {
+    padding-block: var(--space-m);
+    border-block-end: var(--size-hairline) solid var(--color-border-strong);
+    vertical-align: bottom;
+  }
+
+  thead th:first-child,
+  tbody th {
+    inline-size: 32%;
+    padding-inline-start: 0;
+  }
+
+  @media (width < 48rem) {
+    table {
+      min-inline-size: 40rem;
+    }
+
+    thead th:first-child,
+    tbody th {
+      inline-size: 9rem;
+    }
+  }
+
+  .note {
+    color: var(--color-text-subtle);
+  }
+
+  /* On narrow screens the table scrolls; the feature names stay pinned on the left. */
+  thead th:first-child,
+  tbody th,
+  tfoot td:first-child {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 1;
+    background-color: var(--color-bg-base);
+  }
+
+  .plan {
+    display: block;
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .price {
+    display: block;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+    white-space: nowrap;
+  }
+
+  .unit {
+    margin-inline-start: var(--space-2xs);
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--font-tracking-normal);
+  }
+
+  /* Both periods are in the HTML; the billing toggle picks one. */
+  :global([data-billing='monthly']) [data-period='annual'],
+  :global([data-billing='annual']) [data-period='monthly'] {
+    display: none;
+  }
+
+  tbody tr {
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+  }
+
+  [data-value='yes'] {
+    color: var(--color-link);
+    font-weight: var(--font-weight-medium);
+  }
+
+  [data-value='no'] {
+    color: var(--color-text-subtle);
+  }
+
+  /* The highlighted plan's column is one tinted strip, rounded at the top and bottom. */
+  [data-highlight] {
+    background-color: var(--color-chip-bg);
+  }
+
+  thead [data-highlight] {
+    border-start-start-radius: var(--radius-m);
+    border-start-end-radius: var(--radius-m);
+  }
+
+  tfoot [data-highlight] {
+    border-end-start-radius: var(--radius-m);
+    border-end-end-radius: var(--radius-m);
+  }
+
+  tfoot td {
+    padding-block: var(--space-l);
+  }
+</style>

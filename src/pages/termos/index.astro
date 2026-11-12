@@ -1,0 +1,9 @@
+---
+import LegalPage from '../../components/pages/LegalPage.astro';
+import { getLegal } from '../../lib/content';
+
+const doc = (await getLegal('pt-br')).find((d) => d.data.route === 'terms');
+if (!doc) throw new Error('Missing pt-br terms page');
+---
+
+<LegalPage locale="pt-br" doc={doc} />

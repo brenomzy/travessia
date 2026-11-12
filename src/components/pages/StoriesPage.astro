@@ -1,0 +1,246 @@
+---
+/** Stories index, shared by /historias and /en/stories (Paper: Pages · content → /historias). */
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../sections/PageIntro.astro';
+import Section from '../sections/Section.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import StoryCard from '../ui/StoryCard.astro';
+import Icon from '../ui/Icon.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import ChipFilter from '../islands/ChipFilter';
+import type { Locale } from '../../i18n';
+import { alternates, storyPath } from '../../i18n/routes';
+import { getPage, getStories } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const page = await getPage(locale, 'stories');
+const stories = await getStories(locale);
+const spotlight = stories.find((s) => s.data.spotlight) ?? stories[0];
+const rest = stories.filter((s) => s !== spotlight);
+const tagsFor = (s: (typeof stories)[number]['data']) => [s.craft, s.teamSize > 1 ? 'studio' : ''].join(' ').trim();
+const crafts = [...new Set(rest.map((s) => s.data.craft))];
+const options = [
+  ...crafts.map((c) => ({ value: c, label: page.crafts[c] })),
+  ...(rest.some((s) => s.data.teamSize > 1) ? [{ value: 'studio', label: page.studios }] : []),
+];
+const sp = spotlight.data;
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('stories')}
+  headerVariant="dark"
+  current="stories"
+>
+  <PageIntro title={page.title} lead={page.lead} stats={page.stats} />
+
+  <Section theme="tint" labelledby="spotlight-name">
+    <article class="spotlight" data-reveal>
+      <div class="cover">
+        <Image
+          src={sp.cover}
+          alt={sp.coverAlt}
+          widths={[480, 720, 960]}
+          sizes="(width >= 64rem) 40vw, 100vw"
+          format="webp"
+          quality={90}
+          style={`object-position: ${sp.coverPosition}`}
+        />
+        <span class="tag">{sp.name} · {sp.city.split(',')[0]}</span>
+      </div>
+      <div class="body">
+        <blockquote><p>“{sp.quote}”</p></blockquote>
+        <p class="who" id="spotlight-name">{sp.person.name}, {sp.person.role} · {sp.context}</p>
+        <div class="foot">
+          <dl class="metrics">
+            {
+              sp.metrics.map((m) => (
+                <div>
+                  <dt>{m.label}</dt>
+                  <dd>{m.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+          <a href={storyPath(sp.slug, locale)}>{page.spotlightLink} <Icon name="arrow-right" /></a>
+        </div>
+      </div>
+    </article>
+  </Section>
+
+  <Section labelledby="more-title">
+    <div class="l-stack" style="--gap: var(--space-xl)">
+      <div class="more-head">
+        <h2 id="more-title">{page.moreTitle}</h2>
+        <ChipFilter
+          client:visible
+          targetId="story-grid"
+          resultCount="{count}"
+          groups={[{ id: 'kind', label: page.filterLabel, all: page.all, options }]}
+        />
+      </div>
+      <ul id="story-grid" class="grid" role="list" data-reveal-stagger>
+        {
+          rest.map(({ data }) => (
+            <StoryCard
+              story={data}
+              href={storyPath(data.slug, locale)}
+              readLabel={page.read}
+              readAbout={page.readAbout.replace('{name}', data.person.name)}
+              tags={tagsFor(data)}
+            />
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <ClosingCta locale={locale} />
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .spotlight {
+    display: grid;
+    overflow: hidden;
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-raised);
+  }
+
+  .cover {
+    position: relative;
+    min-block-size: 16rem;
+  }
+
+  .cover :global(img) {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .tag {
+    position: absolute;
+    inset-block-end: var(--space-m);
+    inset-inline-start: var(--space-m);
+    padding: var(--space-3xs) var(--space-xs);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-bg-raised);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    padding: var(--space-xl) var(--space-l);
+  }
+
+  blockquote {
+    margin: 0;
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  .who {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block-start: var(--space-m);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-xl);
+  }
+
+  .metrics div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .metrics dt {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .metrics dd {
+    margin: 0;
+    color: var(--color-link);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .foot a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    --icon-size: var(--size-icon-s);
+  }
+
+  .foot a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (width >= 56rem) {
+    .spotlight {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    }
+
+    .body {
+      padding: var(--space-xl);
+    }
+  }
+
+  .more-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m) var(--space-xl);
+  }
+
+  .more-head h2 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .more-head :global(astro-island) {
+    display: block;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-m);
+  }
+</style>

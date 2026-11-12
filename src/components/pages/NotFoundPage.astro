@@ -1,0 +1,106 @@
+---
+/** 404, shared by /404 and /en/404 (Paper: Pages · company and utility → /404). */
+import seam from '../../assets/textures/seam-40.png';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../ui/Icon.astro';
+import type { Locale } from '../../i18n';
+import { path, type RouteKey } from '../../i18n/routes';
+import { getPage } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const page = await getPage(locale, 'notFound');
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={{ 'pt-br': '/404', en: '/en/404' }}
+  headerVariant="dark"
+>
+  <section class="nf" data-theme="dark" aria-labelledby="page-title" style={`--seam: url(${seam.src});`}>
+    <div class="l-container">
+      <div class="copy">
+        <h1 id="page-title">{page.title}</h1>
+        <p class="lead">{page.lead}</p>
+        <ul role="list" class="links">
+          {
+            page.links.map((l) => (
+              <li>
+                <a href={path(l.route as RouteKey, locale)}>
+                  {l.label} <Icon name="arrow-right" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    position: relative;
+    overflow: clip;
+    min-block-size: 40rem;
+    padding-block: var(--space-3xl);
+    background-color: var(--color-bg-base);
+  }
+
+  .copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    max-inline-size: 35rem;
+  }
+
+  h1 {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-5xl);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .links {
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-s);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+    color: var(--color-text-base);
+    text-decoration: none;
+    --icon-size: var(--size-icon-s);
+  }
+
+  .links a:hover {
+    color: var(--color-text-highlight);
+  }
+
+  @media (width >= 64rem) {
+    .nf::before {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 55%;
+      inline-size: 100%;
+      background-image: var(--seam);
+      background-size: cover;
+      background-position: left center;
+      image-rendering: pixelated;
+    }
+  }
+</style>

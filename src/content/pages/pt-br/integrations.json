@@ -1,0 +1,442 @@
+{
+  "page": "integrations",
+  "translationKey": "integrations",
+  "seo": {
+    "title": "Integrações | Travessia",
+    "description": "Ligue a Travessia ao sistema do seu contador, ao app onde você registra horas e às plataformas onde encontra clientes."
+  },
+  "index": {
+    "title": "Integrações",
+    "lead": "Ligue a Travessia ao sistema do seu contador, à ferramenta onde você registra horas e às plataformas onde encontra clientes.",
+    "searchLabel": "Buscar integração",
+    "groupLabel": "Filtrar por categoria",
+    "all": "Todas",
+    "resultCount": "{count} integrações",
+    "resultOne": "1 integração",
+    "empty": "Nenhuma integração encontrada. Tente outro nome ou outra categoria.",
+    "showAll": "Ver as {count} integrações",
+    "popular": "Popular",
+    "status": {
+      "beta": "Beta",
+      "coming-soon": "Em breve"
+    },
+    "suggest": {
+      "title": "Falta a ferramenta que você usa?",
+      "text": "Conte qual é. As integrações mais pedidas entram no planejamento do trimestre seguinte.",
+      "link": {
+        "label": "Sugerir integração",
+        "route": "openAccount"
+      }
+    }
+  },
+  "detail": {
+    "primary": {
+      "label": "Abrir conta para conectar",
+      "route": "openAccount"
+    },
+    "secondary": "Como funciona",
+    "connectTitle": "Como conectar",
+    "factsLabel": "Sobre a integração",
+    "facts": {
+      "category": "Categoria",
+      "frequency": "Frequência",
+      "direction": "Direção",
+      "cost": "Custo",
+      "maintainedBy": "Mantida por"
+    },
+    "cost": "Incluída em todos os planos",
+    "direction": {
+      "to": "Travessia → {name}",
+      "from": "{name} → Travessia",
+      "both": "Travessia ⇄ {name}"
+    },
+    "pairLabel": "Travessia e {name}",
+    "title": "Travessia e {name}",
+    "view": "Ver"
+  },
+  "categories": {
+    "accounting": {
+      "label": "Contabilidade",
+      "relatedTitle": "Outras integrações de contabilidade",
+      "lead": "Todo dia 1º, {name} recebe os recebimentos do mês anterior, já em reais e com a cotação de cada um.",
+      "card": {
+        "title": "Envios mensais",
+        "status": "Conectado",
+        "rows": [
+          {
+            "title": "Outubro de 2026",
+            "meta": "14 recebimentos · R$ 48.212,30",
+            "time": "1 nov, 8h00"
+          },
+          {
+            "title": "Setembro de 2026",
+            "meta": "11 recebimentos · R$ 39.507,90",
+            "time": "1 out, 8h00"
+          },
+          {
+            "title": "Agosto de 2026",
+            "meta": "12 recebimentos · R$ 41.880,15",
+            "time": "1 set, 8h00"
+          }
+        ],
+        "action": "Enviar novembro agora"
+      },
+      "sends": {
+        "title": "O que vai em cada envio",
+        "lead": "Cada recebimento vira um lançamento de receita, com os campos que o contador precisa para a apuração do mês.",
+        "fields": [
+          {
+            "label": "Data do recebimento",
+            "value": "15/10/2026",
+            "highlight": false
+          },
+          {
+            "label": "Cliente e país",
+            "value": "Halden & Co., Reino Unido",
+            "highlight": false
+          },
+          {
+            "label": "Valor recebido",
+            "value": "US$ 2.000,00",
+            "highlight": false
+          },
+          {
+            "label": "Taxa da Travessia (0,6%)",
+            "value": "US$ 12,00",
+            "highlight": false
+          },
+          {
+            "label": "Cotação usada",
+            "value": "R$ 5,45",
+            "highlight": false
+          },
+          {
+            "label": "Valor em reais",
+            "value": "R$ 10.834,60",
+            "highlight": true
+          },
+          {
+            "label": "Número da nota fiscal",
+            "value": "NFS-e 2026/0142",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "invoicing": {
+      "label": "Faturamento",
+      "relatedTitle": "Outras integrações de faturamento",
+      "lead": "Cada fatura criada em {name} chega à Travessia em inglês, com o cliente e a moeda já preenchidos.",
+      "card": {
+        "title": "Faturas importadas",
+        "status": "Conectado",
+        "rows": [
+          {
+            "title": "Invoice #0043 · Halden & Co.",
+            "meta": "€ 1.500,00 · rascunho pronto",
+            "time": "hoje, 10h12"
+          },
+          {
+            "title": "Invoice #0042 · Northwind Studio",
+            "meta": "US$ 2.000,00 · paga",
+            "time": "12 nov"
+          },
+          {
+            "title": "Invoice #0041 · Bergen & Lund",
+            "meta": "£ 900,00 · enviada",
+            "time": "8 nov"
+          }
+        ],
+        "action": "Importar faturas agora"
+      },
+      "sends": {
+        "title": "O que chega em cada fatura",
+        "lead": "A fatura entra como rascunho, para você revisar antes de mandar o link ao cliente.",
+        "fields": [
+          {
+            "label": "Cliente",
+            "value": "Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "País",
+            "value": "Reino Unido",
+            "highlight": false
+          },
+          {
+            "label": "Moeda",
+            "value": "Euro",
+            "highlight": false
+          },
+          {
+            "label": "Itens",
+            "value": "Interface design, outubro",
+            "highlight": false
+          },
+          {
+            "label": "Valor",
+            "value": "€ 1.500,00",
+            "highlight": true
+          },
+          {
+            "label": "Vencimento",
+            "value": "30/11/2026",
+            "highlight": false
+          },
+          {
+            "label": "Idioma da fatura",
+            "value": "Inglês",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "time-tracking": {
+      "label": "Controle de horas",
+      "relatedTitle": "Outras integrações de controle de horas",
+      "lead": "As horas faturáveis registradas em {name} viram linhas da próxima fatura, com o valor por hora de cada cliente.",
+      "card": {
+        "title": "Horas importadas",
+        "status": "Conectado",
+        "rows": [
+          {
+            "title": "Halden & Co.",
+            "meta": "12h30 · US$ 1.125,00",
+            "time": "esta semana"
+          },
+          {
+            "title": "Northwind Studio",
+            "meta": "8h · US$ 720,00",
+            "time": "semana passada"
+          },
+          {
+            "title": "Bergen & Lund",
+            "meta": "5h15 · £ 420,00",
+            "time": "há 2 semanas"
+          }
+        ],
+        "action": "Importar horas agora"
+      },
+      "sends": {
+        "title": "O que chega em cada importação",
+        "lead": "Só entram as horas marcadas como faturáveis, agrupadas por cliente e projeto.",
+        "fields": [
+          {
+            "label": "Cliente",
+            "value": "Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Projeto",
+            "value": "Redesign do app",
+            "highlight": false
+          },
+          {
+            "label": "Horas",
+            "value": "12h30",
+            "highlight": false
+          },
+          {
+            "label": "Valor por hora",
+            "value": "US$ 90,00",
+            "highlight": false
+          },
+          {
+            "label": "Total",
+            "value": "US$ 1.125,00",
+            "highlight": true
+          },
+          {
+            "label": "Período",
+            "value": "3 a 9 nov 2026",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "freelance-platforms": {
+      "label": "Plataformas de freelance",
+      "relatedTitle": "Outras plataformas de freelance",
+      "lead": "O que você recebe em {name} cai direto no seu saldo na moeda original, identificado por projeto.",
+      "card": {
+        "title": "Saques recebidos",
+        "status": "Conectado",
+        "rows": [
+          {
+            "title": "Projeto Atlas",
+            "meta": "US$ 1.400,00 · saldo em dólar",
+            "time": "10 nov"
+          },
+          {
+            "title": "Projeto Lume",
+            "meta": "US$ 860,00 · saldo em dólar",
+            "time": "3 nov"
+          },
+          {
+            "title": "Projeto Vento",
+            "meta": "€ 1.200,00 · saldo em euro",
+            "time": "27 out"
+          }
+        ],
+        "action": "Ver extrato"
+      },
+      "sends": {
+        "title": "O que chega em cada saque",
+        "lead": "Cada saque entra como um recebimento, já com o projeto e o cliente para a nota fiscal.",
+        "fields": [
+          {
+            "label": "Projeto",
+            "value": "Atlas",
+            "highlight": false
+          },
+          {
+            "label": "Cliente",
+            "value": "Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Valor do saque",
+            "value": "US$ 1.400,00",
+            "highlight": true
+          },
+          {
+            "label": "Taxa da plataforma",
+            "value": "US$ 70,00, cobrada por ela",
+            "highlight": false
+          },
+          {
+            "label": "Saldo",
+            "value": "Dólar",
+            "highlight": false
+          },
+          {
+            "label": "Data",
+            "value": "10/11/2026",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "payments": {
+      "label": "Pagamentos",
+      "relatedTitle": "Outras integrações de pagamento",
+      "lead": "Pagamentos feitos por {name} entram no seu saldo e marcam a fatura certa como paga.",
+      "card": {
+        "title": "Pagamentos recebidos",
+        "status": "Conectado",
+        "rows": [
+          {
+            "title": "Invoice #0042",
+            "meta": "US$ 2.000,00 · cartão",
+            "time": "14 nov"
+          },
+          {
+            "title": "Invoice #0039",
+            "meta": "€ 950,00 · transferência",
+            "time": "6 nov"
+          },
+          {
+            "title": "Invoice #0037",
+            "meta": "£ 600,00 · cartão",
+            "time": "29 out"
+          }
+        ],
+        "action": "Ver todos os pagamentos"
+      },
+      "sends": {
+        "title": "O que chega em cada pagamento",
+        "lead": "O pagamento é ligado à fatura, e ela passa para paga sem você fazer nada.",
+        "fields": [
+          {
+            "label": "Fatura",
+            "value": "Invoice #0042",
+            "highlight": false
+          },
+          {
+            "label": "Pagador",
+            "value": "Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Forma de pagamento",
+            "value": "Cartão",
+            "highlight": false
+          },
+          {
+            "label": "Valor pago",
+            "value": "US$ 2.000,00",
+            "highlight": true
+          },
+          {
+            "label": "Taxa do meio de pagamento",
+            "value": "US$ 58,00",
+            "highlight": false
+          },
+          {
+            "label": "Data",
+            "value": "14/11/2026",
+            "highlight": false
+          }
+        ]
+      }
+    },
+    "productivity": {
+      "label": "Produtividade",
+      "relatedTitle": "Outras integrações de produtividade",
+      "lead": "Lembretes de faturas, pagamentos e notas fiscais aparecem em {name}, junto com o resto do seu trabalho.",
+      "card": {
+        "title": "Lembretes enviados",
+        "status": "Conectado",
+        "rows": [
+          {
+            "title": "Cobrar Halden & Co.",
+            "meta": "Invoice #0043 · vence 30 nov",
+            "time": "agendado"
+          },
+          {
+            "title": "Pagamento recebido",
+            "meta": "Northwind Studio · US$ 2.000,00",
+            "time": "14 nov"
+          },
+          {
+            "title": "Nota fiscal emitida",
+            "meta": "NFS-e 2026/0142",
+            "time": "14 nov"
+          }
+        ],
+        "action": "Escolher lembretes"
+      },
+      "sends": {
+        "title": "O que vai em cada lembrete",
+        "lead": "Só o necessário para você agir, com um link de volta para a Travessia.",
+        "fields": [
+          {
+            "label": "Título",
+            "value": "Cobrar Halden & Co.",
+            "highlight": false
+          },
+          {
+            "label": "Data",
+            "value": "30/11/2026",
+            "highlight": false
+          },
+          {
+            "label": "Valor",
+            "value": "€ 1.500,00",
+            "highlight": true
+          },
+          {
+            "label": "Lista",
+            "value": "Financeiro",
+            "highlight": false
+          },
+          {
+            "label": "Link",
+            "value": "Abrir na Travessia",
+            "highlight": false
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "title": "Travessia ou uma conta no exterior?",
+  "slug": "conta-no-exterior",
+  "label": "Conta no exterior",
+  "description": "Compare receber pela Travessia e manter o dinheiro numa conta no exterior: custos, declaração, nota fiscal e o caminho até o real.",
+  "updated": "2026-10-20",
+  "reviewer": "Marina Teles, contadora",
+  "short": {
+    "title": "Resposta curta",
+    "text": "Uma conta no exterior guarda dólares, mas o dinheiro ainda precisa voltar para o Brasil e ser declarado. A Travessia recebe na moeda do cliente e já leva para reais, com a nota fiscal no mesmo fluxo.",
+    "note": "Uma conta lá fora faz sentido se você gasta em dólar, por exemplo morando parte do ano fora."
+  },
+  "table": {
+    "title": "Lado a lado",
+    "us": "Travessia",
+    "them": "Conta no exterior",
+    "rows": [
+      {
+        "label": "Abertura",
+        "us": "Online, com CPF ou CNPJ brasileiro",
+        "them": "Muitas vezes pede endereço ou documento do país"
+      },
+      {
+        "label": "Custo mensal",
+        "us": "Conforme o plano, a partir de R$ 0",
+        "them": "Tarifa de manutenção em alguns bancos"
+      },
+      {
+        "label": "Trazer para reais",
+        "us": "Conversão com 0,6% e Pix em 1 dia útil",
+        "them": "Transferência internacional, com spread e tarifa"
+      },
+      {
+        "label": "Nota fiscal",
+        "us": "Emitida a cada pagamento",
+        "them": "Você emite por fora"
+      },
+      {
+        "label": "Declaração",
+        "us": "Recebimentos já em reais no relatório do mês",
+        "them": "Conta no exterior entra na declaração anual"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Perguntas sobre a troca",
+    "items": [
+      {
+        "question": "Posso manter as duas?",
+        "answer": "Pode. Muita gente usa a conta no exterior para gastos lá fora e a Travessia para receber de clientes."
+      },
+      {
+        "question": "O saldo em dólar na Travessia é uma conta no exterior?",
+        "answer": "Não. É um saldo em moeda estrangeira dentro de uma conta brasileira, convertido quando você decide."
+      },
+      {
+        "question": "Preciso declarar algo diferente?",
+        "answer": "Os recebimentos entram como receita no Brasil. Confirme com o seu contador como declarar contas que você já tem lá fora."
+      }
+    ]
+  },
+  "translationKey": "conta-no-exterior"
+}

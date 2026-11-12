@@ -1,16 +1,19 @@
 ---
-name: "Rascunho"
+name: Rascunho
 slug: rascunho
 category: productivity
 status: live
-shortDescription: "Propostas aprovadas no Rascunho viram faturas com o mesmo valor."
+shortDescription: Propostas aprovadas no Rascunho viram faturas com o mesmo valor.
+frequency: Quando algo muda
+direction: to
+maintainedBy: Rascunho
 setupSteps:
-  - title: "Conecte a conta"
-    detail: "Em Integrações, escolha Rascunho e entre com a sua conta de lá."
-  - title: "Escolha o que sincronizar"
+  - title: Conecte a conta
+    detail: Em Integrações, escolha Rascunho e entre com a sua conta de lá.
+  - title: Escolha o que sincronizar
     detail: "Marque o que deve vir para a Travessia: pagamentos, horas ou clientes."
-  - title: "Confira o primeiro envio"
-    detail: "O próximo item aparece no seu extrato marcado com Rascunho."
+  - title: Confira o primeiro envio
+    detail: O próximo item aparece no seu extrato marcado com Rascunho.
 featured: false
 sphere:
   include: true

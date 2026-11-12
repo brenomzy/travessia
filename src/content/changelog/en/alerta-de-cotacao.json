@@ -1,0 +1,16 @@
+{
+  "title": "Rate alert",
+  "slug": "rate-alert",
+  "date": "2026-11-10",
+  "type": "new",
+  "area": "exchange",
+  "summary": "Pick a rate for the dollar, euro or pound and get a notice when it gets there. Converting is still your call.",
+  "translationKey": "alerta-de-cotacao",
+  "visual": {
+    "kind": "rateAlert",
+    "title": "Notify me at",
+    "from": "US$ 1 =",
+    "rate": "R$ 5.60",
+    "note": "Today: R$ 5.45 · R$ 0.15 to go"
+  }
+}

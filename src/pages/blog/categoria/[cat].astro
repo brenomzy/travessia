@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BlogCategoryPage from '../../../components/pages/BlogCategoryPage.astro';
+import { getPage } from '../../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const page = await getPage('pt-br', 'blog');
+  return (Object.keys(page.categories) as (keyof typeof page.categories)[]).map((category) => ({
+    params: { cat: page.categories[category].slug },
+    props: { category },
+  }));
+}) satisfies GetStaticPaths;
+
+const { category } = Astro.props;
+---
+
+<BlogCategoryPage locale="pt-br" category={category} />

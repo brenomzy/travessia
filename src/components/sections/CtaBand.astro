@@ -7,6 +7,7 @@ import seamCta from '../../assets/textures/seam-cta.png';
 import strip from '../../assets/textures/strip-tap-noite.png';
 import WaitlistForm from '../ui/WaitlistForm.astro';
 import type { Locale } from '../../i18n';
+import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   locale: Locale;
@@ -17,15 +18,17 @@ const { locale, title, lead } = Astro.props;
 ---
 
 <section class="cta" data-theme="dark" aria-labelledby="cta-title" style={`--seam: url(${seamCta.src}); --strip: url(${strip.src});`}>
-  <div class="promise">
+  <div class="promise" data-reveal>
     <h2 id="cta-title">{title}</h2>
   </div>
   <div class="strip" aria-hidden="true"></div>
-  <div class="join" data-theme="primary">
+  <div class="join" data-theme="primary" data-reveal-stagger>
     <p class="lead">{lead}</p>
     <WaitlistForm locale={locale} layout="inline" showNotice />
   </div>
 </section>
+
+<MotionScript />
 
 <style>
   .cta {

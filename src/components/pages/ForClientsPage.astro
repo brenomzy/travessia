@@ -1,0 +1,51 @@
+---
+/**
+ * For clients, shared by /para-clientes and /en/for-clients (Paper: /en/for-clients). Written in
+ * English first and translated to Portuguese, the reverse of every other page (SPEC §6.2).
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import StepCards from '../sections/StepCards.astro';
+import ListPanels from '../sections/ListPanels.astro';
+import FaqList from '../sections/FaqList.astro';
+import SimpleCta from '../sections/SimpleCta.astro';
+import InvoiceCard from '../product/InvoiceCard.astro';
+import type { Locale } from '../../i18n';
+import { alternates, featurePath } from '../../i18n/routes';
+import { getFaqs, getFeatures, getPage } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const page = await getPage(locale, 'forClients');
+const features = await getFeatures(locale);
+const faqs = await getFaqs(locale, 'clients');
+const featureHref = (key: string) => {
+  const f = features.find((e) => e.data.translationKey === key);
+  if (!f) throw new Error(`For clients links to a missing ${locale} feature "${key}"`);
+  return featurePath(f.data.slug, locale);
+};
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('forClients')}
+  headerVariant="dark"
+  current="forClients"
+>
+  <InteriorHero
+    title={page.hero.title}
+    lead={page.hero.lead}
+    primary={{ label: page.hero.primary.label, href: featureHref(page.hero.primary.feature) }}
+    secondary={page.hero.secondary}
+  >
+    <div slot="visual" lang="en"><InvoiceCard {...page.invoice} shadow="floating-dark" /></div>
+  </InteriorHero>
+  <StepCards title={page.steps.title} steps={page.steps.items} variant="columns" />
+  <ListPanels panels={page.panels} />
+  <FaqList title={page.faq.title} lead={page.faq.lead} faqs={faqs} size="compact" openAll />
+  <SimpleCta title={page.cta.title} link={{ label: page.cta.link.label, href: featureHref(page.cta.link.feature) }} />
+</BaseLayout>

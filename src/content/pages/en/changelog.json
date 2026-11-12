@@ -1,0 +1,36 @@
+{
+  "page": "changelog",
+  "translationKey": "changelog",
+  "seo": {
+    "title": "Changelog | Travessia",
+    "description": "Everything that changed in Travessia, newest first."
+  },
+  "title": "Changelog",
+  "lead": "Everything that changed in Travessia, newest first. Updated with every release.",
+  "email": {
+    "label": "Get it by email"
+  },
+  "rss": {
+    "label": "Subscribe by RSS"
+  },
+  "filters": {
+    "type": "Type",
+    "area": "Area",
+    "allType": "All",
+    "allArea": "All"
+  },
+  "types": {
+    "new": "New",
+    "improved": "Improved",
+    "fixed": "Fixed"
+  },
+  "areas": {
+    "invoices": "Invoices",
+    "exchange": "Exchange",
+    "taxInvoice": "Nota fiscal",
+    "account": "Account"
+  },
+  "resultCount": "{count} updates",
+  "showMore": "See earlier months",
+  "feedTitle": "Travessia: changelog"
+}

@@ -1,0 +1,59 @@
+{
+  "page": "calculator",
+  "translationKey": "calculator",
+  "seo": {
+    "title": "Calculadora: quanto vou receber em reais? | Travessia",
+    "description": "Digite o valor da fatura em dólar, euro ou libra e veja quanto chega em reais, com a taxa de 0,6% e o câmbio de exemplo."
+  },
+  "tool": {
+    "title": "Quanto vou receber?",
+    "currencyLabel": "Moeda da fatura",
+    "amountLabel": "Seu cliente paga",
+    "feeLabel": "Taxa {fee}",
+    "rateLabel": "Câmbio",
+    "arrivesLabel": "Chega",
+    "arrivesFallback": "em 1 dia útil",
+    "resultLabel": "Você recebe por Pix",
+    "disclaimer": "Câmbio de exemplo, só para demonstração.",
+    "defaultAmount": 2000
+  },
+  "examples": {
+    "title": "Três exemplos, linha a linha",
+    "lead": "Câmbios de exemplo: {rates}. A taxa é sempre {fee} do valor convertido.",
+    "caption": "Exemplos de conversão",
+    "columns": {
+      "invoice": "Fatura",
+      "fee": "Taxa {fee}",
+      "converted": "Convertido",
+      "receive": "Você recebe"
+    },
+    "rows": [
+      {
+        "currency": "usd",
+        "amount": 1000
+      },
+      {
+        "currency": "eur",
+        "amount": 2500
+      },
+      {
+        "currency": "gbp",
+        "amount": 800
+      }
+    ]
+  },
+  "notes": [
+    {
+      "title": "A taxa",
+      "text": "0,6% sobre o valor que você converte. Receber e guardar saldo não custa nada."
+    },
+    {
+      "title": "O câmbio",
+      "text": "O câmbio comercial do momento, sem margem escondida. Você vê o valor antes de confirmar."
+    },
+    {
+      "title": "O prazo",
+      "text": "Conversões confirmadas até as 16h chegam no seu Pix no próximo dia útil."
+    }
+  ]
+}

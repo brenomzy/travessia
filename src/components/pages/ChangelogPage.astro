@@ -1,0 +1,238 @@
+---
+/**
+ * Changelog, shared by /novidades and /en/changelog (Paper: Pages · content → /novidades). Grouped
+ * by month, newest first; every entry has an anchor. ChipFilter filters by type and area.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../sections/PageIntro.astro';
+import ChangeVisual from '../product/ChangeVisual.astro';
+import ShowMore from '../ui/ShowMore.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import ChipFilter from '../islands/ChipFilter';
+import type { Locale } from '../../i18n';
+import { dayMonth, monthYear } from '../../lib/format';
+import { alternates, path } from '../../i18n/routes';
+import { getChanges, getPage } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const page = await getPage(locale, 'changelog');
+const changes = await getChanges(locale);
+const monthOf = (d: Date) => monthYear(locale, d);
+const dayOf = (d: Date) => dayMonth(locale, d);
+const months = [...new Map(changes.map((c) => [monthOf(c.data.date), [] as typeof changes])).entries()];
+for (const c of changes) months.find(([m]) => m === monthOf(c.data.date))?.[1].push(c);
+const feed = `${path('changelog', locale)}/rss.xml`;
+---
+
+<BaseLayout
+  locale={locale}
+  title={page.seo.title}
+  description={page.seo.description}
+  alternates={alternates('changelog')}
+  headerVariant="dark"
+  current="changelog"
+>
+  <link slot="head" rel="alternate" type="application/rss+xml" title={page.feedTitle} href={feed} />
+  <PageIntro title={page.title} lead={page.lead} layout="stack">
+    <p slot="after-lead" class="links">
+      <a href={`${path('blog', locale)}#newsletter`}>{page.email.label}</a>
+      <a href={feed}>{page.rss.label}</a>
+    </p>
+  </PageIntro>
+
+  <div class="bar">
+    <div class="l-container">
+      <ChipFilter
+        client:visible
+        targetId="changes"
+        resultCount={page.resultCount}
+        groups={[
+          {
+            id: 'type',
+            label: page.filters.type,
+            all: page.filters.allType,
+            showLabel: true,
+            options: (Object.keys(page.types) as (keyof typeof page.types)[]).map((k) => ({ value: k, label: page.types[k] })),
+          },
+          {
+            id: 'area',
+            label: page.filters.area,
+            all: page.filters.allArea,
+            showLabel: true,
+            options: (Object.keys(page.areas) as (keyof typeof page.areas)[]).map((k) => ({ value: k, label: page.areas[k] })),
+          },
+        ]}
+      />
+    </div>
+  </div>
+
+  <section class="list" aria-labelledby="page-title">
+    <div class="l-container">
+      <div id="changes" class="months">
+        {
+          months.map(([month, items]) => (
+            <section class="month" data-filter-group aria-label={month}>
+              <h2>{month}</h2>
+              <ol role="list" class="entries">
+                {items.map(({ data: c }) => (
+                  <li class="entry" id={c.slug} data-filter-item data-filter-type={c.type} data-filter-area={c.area} data-visual={c.visual ? '' : undefined}>
+                    <div class="text">
+                      <p class="meta">
+                        <span class="type" data-type={c.type}>{page.types[c.type]}</span>
+                        {page.areas[c.area]} · <time datetime={c.date.toISOString().slice(0, 10)}>{dayOf(c.date)}</time>
+                      </p>
+                      <h3>
+                        <a href={`#${c.slug}`}>{c.title}</a>
+                      </h3>
+                      <p class="summary">{c.summary}</p>
+                    </div>
+                    {c.visual && <ChangeVisual visual={c.visual} />}
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))
+        }
+      </div>
+      <ShowMore targetId="changes" label={page.showMore} visible={2} total={months.length} />
+    </div>
+  </section>
+</BaseLayout>
+
+<MotionScript />
+
+<style>
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-l);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .links a {
+    color: var(--color-text-highlight);
+  }
+
+  .bar {
+    padding-block: var(--space-m);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .list {
+    padding-block: var(--space-2xl) var(--space-section);
+  }
+
+  .months {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .month {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-l) var(--space-3xl);
+  }
+
+  .month[hidden] {
+    display: none;
+  }
+
+  .month h2 {
+    flex: 1 1 14rem;
+    max-inline-size: 18rem;
+    font-size: var(--text-2xl);
+    line-height: var(--leading-2xl);
+  }
+
+  .entries {
+    display: flex;
+    flex: 999 1 30rem;
+    flex-direction: column;
+  }
+
+  .entry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-l) var(--space-xl);
+    padding-block: var(--space-l);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+    scroll-margin-block-start: calc(var(--size-header) + var(--space-l));
+  }
+
+  .entry:first-child {
+    padding-block-start: 0;
+  }
+
+  .entry:last-child {
+    border-block-end: 0;
+  }
+
+  .entry[hidden] {
+    display: none;
+  }
+
+  .text {
+    display: flex;
+    flex: 999 1 22rem;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-inline-size: var(--size-measure-text);
+  }
+
+  .entry :global(.visual) {
+    flex: 1 1 15rem;
+    max-inline-size: 17.5rem;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .type {
+    padding: var(--space-3xs) var(--space-xs);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .type[data-type='new'] {
+    border-color: transparent;
+    background-color: var(--color-chip-bg);
+    color: var(--color-chip-text);
+  }
+
+  .type[data-type='fixed'] {
+    border-color: transparent;
+    background-color: var(--color-border-base);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+  }
+
+  h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .summary {
+    color: var(--color-text-muted);
+  }
+</style>

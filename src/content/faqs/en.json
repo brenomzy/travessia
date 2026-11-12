@@ -48,5 +48,215 @@
       "product"
     ],
     "order": 5
+  },
+  {
+    "id": "fatura-documento-fiscal",
+    "question": "Does the invoice count as a tax document abroad?",
+    "answer": "It works as a commercial invoice for your client. In Brazil, the tax document is the export nota fiscal, which Travessia issues when the payment arrives.",
+    "topics": [
+      "product"
+    ],
+    "feature": "international-invoices",
+    "order": 101
+  },
+  {
+    "id": "fatura-parcelas",
+    "question": "Can I bill in instalments or by the hour?",
+    "answer": "Yes. Split the amount into instalments with different dates, or import hours from a time-tracking app such as Cronos. Each instalment becomes an invoice with its own link.",
+    "topics": [
+      "product"
+    ],
+    "feature": "international-invoices",
+    "order": 102
+  },
+  {
+    "id": "fatura-taxa-cartao",
+    "question": "Who pays the card fee?",
+    "answer": "You choose when you create the invoice: absorb the fee or pass it on. If you pass it on, it shows as a separate line so the client sees it before paying.",
+    "topics": [
+      "product"
+    ],
+    "feature": "international-invoices",
+    "order": 103
+  },
+  {
+    "id": "cambio-origem",
+    "question": "Where does the exchange rate come from?",
+    "answer": "It's the commercial rate at the moment you convert, with no hidden spread. The 0.6% fee shows separately, and you see the final amount in reais before you confirm.",
+    "topics": [
+      "pricing"
+    ],
+    "feature": "get-paid-and-convert",
+    "order": 101
+  },
+  {
+    "id": "saldo-prazo",
+    "question": "How long can money stay in my balance?",
+    "answer": "As long as you like. There's no time limit and no fee for holding dollars, euros or pounds.",
+    "topics": [
+      "pricing"
+    ],
+    "feature": "get-paid-and-convert",
+    "order": 102
+  },
+  {
+    "id": "pix-conta",
+    "question": "Can I send the reais to any account?",
+    "answer": "To any Pix key under your own CPF or CNPJ. Reais arrive within 1 business day of converting.",
+    "topics": [
+      "pricing"
+    ],
+    "feature": "get-paid-and-convert",
+    "order": 103
+  },
+  {
+    "id": "nota-precisa",
+    "question": "Do I need a nota fiscal to get paid from abroad?",
+    "answer": "Yes. The export nota fiscal records income from services sold abroad. Check your city's rules with your accountant.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "automatic-tax-invoices",
+    "order": 101
+  },
+  {
+    "id": "nota-mei",
+    "question": "Does it work for MEI?",
+    "answer": "It does. The nota fiscal is issued under your MEI, with the service code you chose when you signed up.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "automatic-tax-invoices",
+    "order": 102
+  },
+  {
+    "id": "nota-quem-recebe",
+    "question": "Who gets the nota fiscal?",
+    "answer": "You, your accountant and, if you want, the client, along with the payment receipt.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "automatic-tax-invoices",
+    "order": 103
+  },
+  {
+    "id": "relatorio-contador",
+    "question": "Does the report replace my accountant?",
+    "answer": "No. It puts the month's numbers in a format your accountant can use directly, and they stay responsible for the filing.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "taxes-up-to-date",
+    "order": 101
+  },
+  {
+    "id": "limite-mei",
+    "question": "What happens when I get close to the MEI limit?",
+    "answer": "You get a warning once you pass 80% of the yearly limit, showing how much is left, so you can talk to your accountant in time.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "taxes-up-to-date",
+    "order": 102
+  },
+  {
+    "id": "acesso-contador",
+    "question": "Can my accountant get in on their own?",
+    "answer": "Yes. You give them read-only access to the reports and tax invoices, with no access to your balance.",
+    "topics": [
+      "taxes"
+    ],
+    "feature": "taxes-up-to-date",
+    "order": 103
+  },
+  {
+    "id": "receive-fee",
+    "question": "Is there a fee to receive money?",
+    "answer": "No. Receiving dollars, euros or pounds costs nothing on any plan. The 0.6% fee only applies when you convert to reais.",
+    "topics": [
+      "pricing"
+    ],
+    "order": 20
+  },
+  {
+    "id": "change-plan",
+    "question": "Can I change plans later?",
+    "answer": "Yes, at any time. Moving up, you pay only the difference for the period. Moving down takes effect from the next cycle.",
+    "topics": [
+      "pricing"
+    ],
+    "order": 21
+  },
+  {
+    "id": "annual",
+    "question": "How does the yearly plan work?",
+    "answer": "You pay for 10 months and use 12. It’s charged once a year, and the conversion fee stays at 0.6%.",
+    "topics": [
+      "pricing"
+    ],
+    "order": 22
+  },
+  {
+    "id": "accountant-needed",
+    "question": "Do I still need an accountant?",
+    "answer": "For MEI, the monthly report is usually enough. For Simples Nacional or carnê-leão, we recommend keeping an accountant; Travessia gives them the numbers ready to use.",
+    "topics": [
+      "taxes"
+    ],
+    "order": 23
+  },
+  {
+    "id": "client-sees",
+    "question": "Does my client see Travessia on the invoice?",
+    "answer": "They see your name and details, with a small footer saying the payment goes through Travessia.",
+    "topics": [
+      "product"
+    ],
+    "order": 24
+  },
+  {
+    "id": "client-currencies",
+    "question": "Which currencies can my client pay in?",
+    "answer": "Dollars, euros or pounds, by card or local bank transfer in their country.",
+    "topics": [
+      "product"
+    ],
+    "order": 25
+  },
+  {
+    "id": "fc-register",
+    "question": "Do we need to register with Travessia?",
+    "answer": "No. You pay from the invoice link. There is nothing to sign up for and no contract with us.",
+    "topics": [
+      "clients"
+    ],
+    "order": 31
+  },
+  {
+    "id": "fc-supplier",
+    "question": "Who is the supplier on the invoice?",
+    "answer": "The freelancer, under their own business name in Brazil. Travessia only processes the payment.",
+    "topics": [
+      "clients"
+    ],
+    "order": 32
+  },
+  {
+    "id": "fc-timing",
+    "question": "How long does a payment take?",
+    "answer": "Card payments clear the same day. Local transfers take one to two business days.",
+    "topics": [
+      "clients"
+    ],
+    "order": 33
+  },
+  {
+    "id": "fc-currencies",
+    "question": "Which currencies can we pay in?",
+    "answer": "The invoice is issued in the currency you agreed with the freelancer: USD, EUR or GBP.",
+    "topics": [
+      "clients"
+    ],
+    "order": 34
   }
 ]

@@ -5,11 +5,16 @@ import Icon from '../ui/Icon.astro';
 
 interface Props {
   vignette: CollectionEntry<'features'>['data']['vignette'];
+  /**
+   * card: the tinted block on a Home feature card. panel: the larger rounded panel on the product
+   * overview (Paper: 640×420). bare: just the UI, for a feature page hero.
+   */
+  frame?: 'card' | 'panel' | 'bare';
 }
-const { vignette: v } = Astro.props;
+const { vignette: v, frame = 'card' } = Astro.props;
 ---
 
-<div class="vignette" data-kind={v.kind} data-theme="light">
+<div class="vignette" data-kind={v.kind} data-frame={frame} data-theme="light">
   {
     v.kind === 'invoice' && (
       <div class="card" lang="en">
@@ -107,6 +112,26 @@ const { vignette: v } = Astro.props;
   .card,
   .balances {
     inline-size: min(100%, 22.5rem);
+  }
+
+  [data-frame='panel'] {
+    min-block-size: 26.25rem;
+    border-radius: var(--radius-l);
+  }
+
+  [data-frame='panel'] :is(.card, .balances) {
+    inline-size: min(100%, 25rem);
+  }
+
+  [data-frame='bare'] {
+    min-block-size: 0;
+    padding: 0;
+    background: none;
+  }
+
+  [data-frame='bare'] :is(.card, .balances) {
+    inline-size: min(100%, 25rem);
+    box-shadow: var(--shadow-3-on-color);
   }
 
   .card {
