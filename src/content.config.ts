@@ -22,6 +22,8 @@ const vignette = z.discriminatedUnion('kind', [
   z.object({
     kind: z.literal('invoice'),
     title: z.string(),
+    /** Who sent it, under the title on the product bento. */
+    from: z.string().optional(),
     languages: z.array(z.string()).length(2),
     amount: z.string(),
     action: z.string(),
@@ -485,6 +487,8 @@ const product = z.object({
     secondary: link,
     card: z.object({ status: z.string(), time: z.string(), from: z.string(), to: z.string(), note: z.string() }),
   }),
+  /** The heading over the feature bento. */
+  features: z.object({ title: z.string(), lead: z.string() }),
 });
 
 const categoryIds = ['accounting', 'invoicing', 'time-tracking', 'freelance-platforms', 'payments', 'productivity'] as const;

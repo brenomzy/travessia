@@ -2,7 +2,7 @@
 /** Product overview, shared by /produto and /en/product (Paper: Pages · product and sales → /produto). */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InteriorHero from '../sections/InteriorHero.astro';
-import FeatureRows from '../sections/FeatureRows.astro';
+import FeatureBento from '../sections/FeatureBento.astro';
 import ClosingCta from '../sections/ClosingCta.astro';
 import ConversionCard from '../product/ConversionCard.astro';
 import type { Locale } from '../../i18n';
@@ -34,6 +34,6 @@ const to = (l: { label: string; route: string }) => ({ label: l.label, href: pat
   >
     <ConversionCard slot="visual" {...page.hero.card} shadow="floating-dark" />
   </InteriorHero>
-  <FeatureRows locale={locale} features={features} />
+  <FeatureBento locale={locale} title={page.features.title} lead={page.features.lead} features={features} />
   <ClosingCta locale={locale} />
 </BaseLayout>

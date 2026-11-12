@@ -57,6 +57,7 @@ integrations:
 vignette:
   kind: invoice
   title: "Invoice #0043"
+  from: Ana Ribeiro · Product design
   languages:
     - EN
     - PT

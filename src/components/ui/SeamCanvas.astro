@@ -17,11 +17,16 @@ interface Props {
   height?: number;
   /** How the PNG is positioned vertically in its box: background-position center or top. */
   align?: 'center' | 'top';
+  /**
+   * width: the PNG is drawn full width at its aspect ratio (a box wider than the PNG).
+   * cover: the PNG is `background-size: cover; background-position: center` in a box of any shape.
+   */
+  fit?: 'width' | 'cover';
   /** A preset from MOTION_PRESETS in src/lib/generators/seam. */
   motion?: 'river' | 'flow' | 'drift' | 'breathe' | 'shimmer' | 'still';
 }
 
-const { at, amp, width = 2880, height = 1800, align = 'center', motion = 'river' } = Astro.props;
+const { at, amp, width = 2880, height = 1800, align = 'center', fit = 'width', motion = 'river' } = Astro.props;
 ---
 
 <canvas
@@ -32,6 +37,7 @@ const { at, amp, width = 2880, height = 1800, align = 'center', motion = 'river'
   data-width={width}
   data-height={height}
   data-align={align}
+  data-fit={fit}
   style={`--seam-ratio: ${width} / ${height};`}
   aria-hidden="true"></canvas>
 
@@ -59,6 +65,14 @@ const { at, amp, width = 2880, height = 1800, align = 'center', motion = 'river'
 
   [data-align='top'] {
     inset-block-start: 0;
+  }
+
+  [data-fit='cover'] {
+    inset: 0;
+    block-size: 100%;
+    aspect-ratio: auto;
+    translate: none;
+    object-fit: cover;
   }
 
   [data-ready] {

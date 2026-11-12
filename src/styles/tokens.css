@@ -25,6 +25,7 @@
   --color-accent-data-strong: var(--agua-700);
   --color-accent-primary-hover: var(--urucum-500);
   --color-accent-data-soft: var(--agua-200);
+  --color-accent-data-dim: var(--agua-800);
   --color-on-accent: var(--white);
   --color-logo-above: var(--noite-900);
   --color-logo-above-inverse: var(--white);
@@ -37,6 +38,7 @@
   --color-focus: var(--agua-500);
   --color-scrim: rgb(15 28 36 / 0.5);
   --color-on-data: var(--noite-900);
+  --color-glow: var(--agua-800);
   --font-sans: var(--font-figtree), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --font-weight-regular: 400;

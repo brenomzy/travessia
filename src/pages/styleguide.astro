@@ -11,6 +11,7 @@ import ConversionCard from '../components/product/ConversionCard.astro';
 import CrossingCard from '../components/product/CrossingCard.astro';
 import PhoneMock from '../components/product/PhoneMock.astro';
 import FeatureVignette from '../components/product/FeatureVignette.astro';
+import FeatureBento from '../components/sections/FeatureBento.astro';
 import LogoSphere from '../components/ui/LogoSphere.astro';
 import SeamStrip from '../components/sections/SeamStrip.astro';
 import BillingToggle from '../components/islands/BillingToggle';
@@ -57,6 +58,7 @@ const s = t(locale);
 const g = s.styleguide;
 const home = await getPage(locale, 'home');
 const features = await getFeatures(locale);
+const productPage = await getPage(locale, 'product');
 const integrations = await getIntegrations(locale);
 const rates = await getRates();
 const plans = await getPlans();
@@ -348,6 +350,11 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
       <FeatureVignette vignette={features[3].data.vignette} frame="bare" />
     </div>
   </Section>
+
+  <Section spacing="after-strip">
+    <h2 class="label">{g.sections.bento}</h2>
+  </Section>
+  <FeatureBento locale={locale} title={productPage.features.title} lead={productPage.features.lead} features={features} />
 
   <Section>
     <h2 class="label">{g.sections.navigation}</h2>

@@ -118,7 +118,8 @@ export const tokens = {
       "data": "#13A7B5",
       "data-strong": "#0B5E73",
       "primary-hover": "#F2542D",
-      "data-soft": "#9FE0E3"
+      "data-soft": "#9FE0E3",
+      "data-dim": "#0B4456"
     },
     "on-accent": "#FFFFFF",
     "logo": {
@@ -137,7 +138,8 @@ export const tokens = {
     },
     "focus": "#13A7B5",
     "scrim": "rgb(15 28 36 / 0.5)",
-    "on-data": "#0F1C24"
+    "on-data": "#0F1C24",
+    "glow": "#0B4456"
   },
   "themes": {
     "light": {
