@@ -20,7 +20,7 @@ const date = shortDate(locale, post.data.date);
 ---
 
 <li class="card" data-filter-item>
-  <a href={href} class="link">
+  <a href={href} class="link" data-press="card">
     <PostCover category={post.data.category} categoryLabel={categoryLabel} title={post.data.title} />
   </a>
   {!compact && <p class="dek">{post.data.description}</p>}
@@ -45,7 +45,7 @@ const date = shortDate(locale, post.data.date);
     border-radius: var(--radius-m);
     color: inherit;
     text-decoration: none;
-    transition: translate var(--duration-fast) var(--ease-hover);
+    transition: translate var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   .link:hover {

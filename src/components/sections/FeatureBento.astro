@@ -1,0 +1,627 @@
+---
+/**
+ * Product overview bento (Paper: "Options · Product feature rows" → B4 · Bento on noite). Four dark tiles, one per
+ * feature, each with a piece of white product UI that fades into the seam dither at the tile's foot. The wide tiles
+ * (first and last) span two columns from 720 px; three columns from 1408 px (a 1440 px window less a scrollbar). The second tile is the deep teal one.
+ *
+ * The dither is seam-cta.png under a radial mask, with the seam shader on top so it drifts (SeamCanvas; the PNG
+ * stays with reduced motion or without WebGL2). The whole tile is the link to the feature page.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import SeamCanvas from '../ui/SeamCanvas.astro';
+import seamCta from '../../assets/textures/seam-cta.png';
+import { featurePath } from '../../i18n/routes';
+import type { Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  lead: string;
+  features: CollectionEntry<'features'>[];
+}
+const { locale, title, lead, features } = Astro.props;
+---
+
+<Section theme="dark" labelledby="bento-title">
+  <div class="stack" style={`--_texture: url(${seamCta.src});`}>
+    <SectionHeader id="bento-title" title={title} lead={lead} />
+    <ul class="bento" role="list" data-dim-siblings>
+      {
+        features.map(({ data: f }, i) => {
+          const v = f.vignette;
+          return (
+            <li
+              class="tile"
+              data-kind={v.kind}
+              data-wide={i % 3 === 0 ? '' : undefined}
+              data-theme={v.kind === 'balances' ? 'deep' : undefined}
+              data-press="card"
+              data-hover-host
+              data-reveal
+            >
+              <div class="texture" aria-hidden="true">
+                <SeamCanvas texture="seam-cta" fit="cover" />
+              </div>
+
+              <div class="text">
+                <h3>{f.name}</h3>
+                <p>{f.summary}</p>
+                <div>
+                  <Button variant="link" href={featurePath(f.slug, locale)} arrow>
+                    {f.linkLabel}
+                  </Button>
+                </div>
+              </div>
+
+              <div class="visual" data-theme="light">
+                {v.kind === 'invoice' && (
+                  <div class="ui invoice" lang="en">
+                    <div class="row">
+                      <div>
+                        <strong>{v.title}</strong>
+                        {v.from && <p class="meta">{v.from}</p>}
+                      </div>
+                      <span class="toggle">
+                        {v.languages.map((l, n) => (
+                          <span data-selected={n === 0 ? '' : undefined}>{l}</span>
+                        ))}
+                      </span>
+                    </div>
+                    <div class="row total">
+                      <strong class="big">{v.amount}</strong>
+                      <span class="action">{v.action}</span>
+                    </div>
+                    <div class="lines" aria-hidden="true">
+                      <span />
+                      <span />
+                      <span />
+                    </div>
+                    <div class="methods" aria-hidden="true">
+                      <span />
+                      <span />
+                    </div>
+                  </div>
+                )}
+
+                {v.kind === 'balances' && (
+                  <div class="balances">
+                    {v.rows.map((r) => (
+                      <div class="ui balance">
+                        <span>{r.label}</span>
+                        <strong>{r.amount}</strong>
+                      </div>
+                    ))}
+                    <div class="ui balance" data-theme="primary">
+                      <span>{v.convert.label}</span>
+                      <strong>{v.convert.amount}</strong>
+                    </div>
+                  </div>
+                )}
+
+                {v.kind === 'taxInvoice' && (
+                  <div class="ui tax">
+                    <div class="issued">
+                      <span class="badge">
+                        <Icon name="check" />
+                      </span>
+                      <div>
+                        <strong>{v.title}</strong>
+                        <p class="meta">{v.meta}</p>
+                      </div>
+                    </div>
+                    <dl>
+                      {v.rows.map((r) => (
+                        <div data-highlight={r.highlight ? '' : undefined}>
+                          <dt>{r.label}</dt>
+                          <dd>{r.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                )}
+
+                {v.kind === 'report' && (
+                  <div class="report">
+                    <div class="ui label">
+                      <strong>{v.footer.label}</strong>
+                      <span>{v.footer.value}</span>
+                    </div>
+                    <div class="bars" aria-hidden="true">
+                      {v.bars.map((b, n) => (
+                        <span
+                          style={`--h: ${b}; --i: ${n};`}
+                          data-current={n === v.bars.length - 1 ? '' : undefined}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</Section>
+
+<style>
+  /* The mask reach grows on hover, so the dither creeps further into the tile. */
+  @property --_reach {
+    syntax: '<percentage>';
+    inherits: true;
+    initial-value: 0%;
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .bento {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-m);
+  }
+
+  /* ---------- tile ---------- */
+
+  .tile {
+    --_pad: var(--space-l);
+    --_bg: var(--color-bg-raised);
+    --_glow: var(--color-glow);
+    --_texture-opacity: 0.85;
+    --_mask-size: 120% 110%;
+    --_mask-from: 25%;
+    --_mask-to: 80%;
+    --_reach: 0%;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-l);
+    min-block-size: 25rem;
+    padding: var(--_pad) var(--_pad) 0;
+    overflow: clip;
+    border-radius: var(--radius-l);
+    background:
+      radial-gradient(ellipse 80% 90% at 85% 100% in oklab, var(--_glow), transparent 70%),
+      var(--_bg);
+    border: var(--size-hairline) solid var(--color-border-base);
+    color: var(--color-text-base);
+    transition:
+      --_reach var(--duration-slow) var(--ease-out),
+      var(--transition-press),
+      var(--transition-dim);
+  }
+
+  .tile[data-theme='deep'] {
+    --_bg: var(--color-bg-base);
+    --_glow: transparent;
+    --_texture-opacity: 0.55;
+    --_mask-size: 100% 80%;
+    --_mask-from: 10%;
+    --_mask-to: 70%;
+    border-color: transparent;
+  }
+
+  .tile[data-kind='invoice'] {
+    --_texture-opacity: 0.9;
+    --_mask-size: 110% 130%;
+    --_mask-from: 30%;
+  }
+
+  .tile[data-kind='report'] {
+    --_mask-size: 90% 120%;
+  }
+
+  .texture {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--_texture) center / cover;
+    image-rendering: pixelated;
+    opacity: var(--_texture-opacity);
+    mask-image: radial-gradient(
+      var(--_mask-size) at 100% 100%,
+      currentColor calc(var(--_mask-from) + var(--_reach)),
+      transparent calc(var(--_mask-to) + var(--_reach))
+    );
+    pointer-events: none;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-inline-size: 23rem;
+  }
+
+  h3 {
+    font-size: var(--text-2xl);
+    line-height: 1.2;
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .text p {
+    color: var(--color-text-muted);
+    font-size: var(--text-base);
+    line-height: var(--leading-lg);
+  }
+
+  .text > div {
+    padding-block-start: var(--space-3xs);
+  }
+
+  .tile :global(.button[data-variant='link']) {
+    --_fg: var(--color-text-highlight);
+  }
+
+  /* The link covers the whole tile. */
+  .tile :global(.button[data-variant='link'])::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .tile:hover :global(.button[data-variant='link']) {
+    --_fg: var(--color-text-base);
+  }
+
+  .tile:has(:focus-visible) {
+    outline: var(--size-focus-ring) solid var(--color-focus);
+    outline-offset: var(--size-focus-ring);
+  }
+
+  .tile :global(.button[data-variant='link']):focus-visible {
+    outline: none;
+  }
+
+  /* ---------- product UI ---------- */
+
+  .visual {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-inline-size: 0;
+    background: none;
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+    pointer-events: none;
+  }
+
+  .ui {
+    background-color: var(--color-bg-raised);
+    color: var(--color-text-base);
+    transition: translate var(--duration-story) var(--spring-gentle);
+  }
+
+  strong {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .meta {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  /* Invoice: a tall page cut by the tile's foot; the filler under the total fades out. */
+  .invoice {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    inline-size: min(100%, 30rem);
+    margin-block-end: calc(var(--space-3xl) * -1);
+    padding: var(--space-l);
+    border-radius: var(--radius-m);
+    box-shadow: var(--shadow-3);
+    mask-image: linear-gradient(to bottom, currentColor 55%, transparent 92%);
+  }
+
+  .total {
+    padding-block: var(--space-xs);
+    border-block: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .big {
+    font-size: var(--text-xl);
+  }
+
+  .toggle {
+    display: flex;
+    gap: var(--space-3xs);
+    padding: var(--space-3xs);
+    border-radius: var(--radius-control);
+    background-color: var(--color-chip-bg);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .toggle span {
+    padding-inline: var(--space-2xs);
+    border-radius: calc(var(--radius-control) - var(--space-3xs));
+  }
+
+  .toggle [data-selected],
+  .action {
+    background-color: var(--color-text-base);
+    color: var(--color-bg-raised);
+  }
+
+  .action {
+    padding: var(--space-2xs) var(--space-s);
+    border-radius: var(--radius-control);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+  }
+
+  .lines {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .lines span {
+    block-size: var(--size-dot);
+    border-radius: var(--radius-pill);
+    background: linear-gradient(
+      to right,
+      var(--color-border-base) var(--_w, 40%),
+      transparent var(--_w, 40%) 85%,
+      var(--color-border-base) 85%
+    );
+  }
+
+  .lines span:nth-child(2) {
+    --_w: 30%;
+  }
+
+  .lines span:nth-child(3) {
+    --_w: 45%;
+  }
+
+  .methods {
+    display: flex;
+    gap: var(--space-2xs);
+    padding-block-start: var(--space-3xs);
+  }
+
+  .methods span {
+    flex: 1 1 0;
+    block-size: var(--size-tap);
+    border: var(--size-hairline) solid var(--color-border-base);
+    border-radius: var(--radius-control);
+  }
+
+  /* Balances: whole, sitting above the dither. */
+  .balances {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    inline-size: min(100%, 22.5rem);
+    padding-block-end: var(--_pad);
+  }
+
+  .balance {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding: var(--space-s);
+    border-radius: var(--radius-s);
+    color: var(--color-text-subtle);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .balance[data-theme='primary'] {
+    background-color: var(--color-bg-base);
+  }
+
+  .balance strong {
+    color: var(--color-text-base);
+    font-size: var(--text-lg);
+    white-space: nowrap;
+  }
+
+  .balance:nth-child(2) {
+    transition-delay: calc(var(--duration-stagger) / 2);
+  }
+
+  .balance:nth-child(3) {
+    transition-delay: var(--duration-stagger);
+  }
+
+  /* Nota fiscal: cut a little by the tile's foot and faded. */
+  .tax {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    inline-size: min(100%, 25rem);
+    margin-block-end: calc(var(--space-l) * -1);
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+    box-shadow: var(--shadow-2);
+    mask-image: linear-gradient(to bottom, currentColor 50%, transparent 95%);
+  }
+
+  .issued {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .badge {
+    --icon-size: var(--size-icon-s);
+    display: grid;
+    place-items: center;
+    inline-size: var(--space-xl);
+    block-size: var(--space-xl);
+    flex-shrink: 0;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent-data);
+    color: var(--color-on-data);
+  }
+
+  dl {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding-block-start: var(--space-xs);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  dt {
+    color: var(--color-text-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  [data-highlight] dd {
+    color: var(--color-accent-data-strong);
+  }
+
+  /* Report: frameless bars rising from the tile's foot, fading downward, with the month's label above. */
+  .report {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-s);
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: 15rem;
+  }
+
+  .label {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-xs) var(--space-s);
+    border-radius: var(--radius-s);
+    box-shadow: var(--shadow-3);
+  }
+
+  .label span {
+    color: var(--color-accent-data-strong);
+    font-size: var(--text-xs);
+  }
+
+  .bars {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: flex-end;
+    gap: var(--space-2xs);
+    inline-size: 100%;
+    min-block-size: 10rem;
+    mask-image: linear-gradient(to bottom, currentColor 30%, transparent);
+  }
+
+  .bars span {
+    flex: 1 1 0;
+    block-size: calc(var(--h) * 100%);
+    border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+    background-color: var(--color-accent-data-dim);
+    transform-origin: bottom;
+    transition: scale var(--duration-story) var(--spring-gentle) calc(var(--i) * var(--duration-stagger) / 3);
+  }
+
+  .bars [data-current] {
+    background-color: var(--color-accent-data);
+  }
+
+  /* ---------- hover ---------- */
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .tile:hover {
+      --_reach: 12%;
+    }
+
+    .tile:hover .ui {
+      translate: 0 calc(var(--space-2xs) * -1);
+    }
+
+    .tile:hover .bars span {
+      scale: 1 1.08;
+    }
+  }
+
+  /* ---------- layout ---------- */
+
+  @container (width >= 45rem) {
+    .bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    [data-wide] {
+      grid-column: span 2;
+    }
+
+    /* Wide tiles: the text on the left, the UI to its right and below it. */
+    [data-wide][data-kind='invoice'] {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr);
+      min-block-size: 27.5rem;
+    }
+
+    [data-wide][data-kind='invoice'] .text {
+      grid-column: 1 / -1;
+    }
+
+    /* The page sits right under the text; when the row is taller than the page, it doesn't sink to the foot. */
+    [data-wide][data-kind='invoice'] .visual {
+      grid-column: 2;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    [data-wide][data-kind='report'] {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      column-gap: var(--space-xl);
+    }
+
+    [data-wide][data-kind='report'] .visual {
+      grid-column: 2;
+      grid-row: 1 / -1;
+    }
+  }
+
+  @container (width >= 88rem) {
+    .bento {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .tile:nth-child(-n + 2) {
+      min-block-size: 27.5rem;
+    }
+
+    .tile {
+      --_pad: var(--space-xl);
+    }
+
+    .balance {
+      padding-inline: var(--space-m);
+    }
+  }
+</style>

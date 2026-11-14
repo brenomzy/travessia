@@ -45,15 +45,59 @@
     "items": [
       {
         "title": "You get an email",
-        "detail": "With the invoice as a PDF and a secure link. No account, no app."
+        "detail": "With the invoice as a PDF and a secure link. No account, no app.",
+        "screen": {
+          "kind": "message",
+          "from": "Ana Ribeiro",
+          "to": "to Halden & Co. accounts",
+          "subject": "Invoice #0042 · US$ 2,000.00",
+          "body": "Due Nov 14. Pay by card or bank transfer, no account needed.",
+          "actions": [
+            "Pay invoice",
+            "PDF"
+          ]
+        }
       },
       {
         "title": "You pay the way you already do",
-        "detail": "Card, or a local transfer in USD, EUR or GBP to an account in your region."
+        "detail": "Card, or a local transfer in USD, EUR or GBP to an account in your region.",
+        "screen": {
+          "kind": "status",
+          "title": "Pay US$ 2,000.00",
+          "rows": [
+            {
+              "label": "Card",
+              "value": "Visa, Mastercard, Amex"
+            },
+            {
+              "label": "Bank transfer",
+              "value": "GBP to a UK account"
+            }
+          ]
+        }
       },
       {
         "title": "You get a receipt",
-        "detail": "A paid receipt for your books, in English, the moment the payment clears."
+        "detail": "A paid receipt for your books, in English, the moment the payment clears.",
+        "screen": {
+          "kind": "status",
+          "title": "Receipt #0042",
+          "rows": [
+            {
+              "label": "Method",
+              "value": "Card"
+            },
+            {
+              "label": "Paid",
+              "value": "Nov 14, 9:11 am",
+              "highlight": true
+            }
+          ],
+          "total": {
+            "label": "Amount",
+            "value": "US$ 2,000.00"
+          }
+        }
       }
     ]
   },

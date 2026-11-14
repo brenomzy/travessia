@@ -12,7 +12,7 @@
     background: none;
     color: var(--color-text-subtle);
     vertical-align: middle;
-    transition: color var(--duration-fast) var(--ease-hover);
+    transition: color var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   /* A 44 px tap area around the small icon. */

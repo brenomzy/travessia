@@ -118,13 +118,18 @@ export const tokens = {
       "data": "#13A7B5",
       "data-strong": "#0B5E73",
       "primary-hover": "#F2542D",
-      "data-soft": "#9FE0E3"
+      "data-soft": "#9FE0E3",
+      "data-dim": "#0B4456"
     },
     "on-accent": "#FFFFFF",
     "logo": {
       "above": "#0F1C24",
       "above-inverse": "#FFFFFF",
       "below": "#13A7B5"
+    },
+    "seam": {
+      "dark": "#0F1C24",
+      "light": "#13A7B5"
     },
     "banner": {
       "bg": "#0F1C24",
@@ -133,7 +138,8 @@ export const tokens = {
     },
     "focus": "#13A7B5",
     "scrim": "rgb(15 28 36 / 0.5)",
-    "on-data": "#0F1C24"
+    "on-data": "#0F1C24",
+    "glow": "#0B4456"
   },
   "themes": {
     "light": {
@@ -376,11 +382,14 @@ export const tokens = {
     "desktop": 1440
   },
   "radius": {
+    "xs": 6,
     "s": 10,
     "m": 16,
     "l": 24,
     "pill": 999,
-    "device": 54
+    "device": 54,
+    "control": 10,
+    "tag": 6
   },
   "shadow": {
     "1": "0 0 0 1px rgb(15 28 36 / 0.06), 0 1px 1px rgb(15 28 36 / 0.04), 0 2px 2px rgb(15 28 36 / 0.04), 0 4px 4px rgb(15 28 36 / 0.03)",
@@ -388,6 +397,13 @@ export const tokens = {
     "3": "0 0 0 1px rgb(15 28 36 / 0.04), 0 1px 1px rgb(15 28 36 / 0.03), 0 2px 2px rgb(15 28 36 / 0.03), 0 4px 4px rgb(15 28 36 / 0.03), 0 8px 8px rgb(15 28 36 / 0.03), 0 16px 16px rgb(15 28 36 / 0.03), 0 32px 32px rgb(15 28 36 / 0.03), 0 64px 64px rgb(15 28 36 / 0.03)",
     "3-on-color": "0 1px 1px rgb(11 68 86 / 0.06), 0 2px 2px rgb(11 68 86 / 0.06), 0 4px 4px rgb(11 68 86 / 0.06), 0 8px 8px rgb(11 68 86 / 0.06), 0 16px 16px rgb(11 68 86 / 0.06), 0 32px 32px rgb(11 68 86 / 0.06), 0 64px 64px rgb(11 68 86 / 0.06)",
     "3-on-dark": "0 1px 1px rgb(0 0 0 / 0.1), 0 2px 2px rgb(0 0 0 / 0.1), 0 4px 4px rgb(0 0 0 / 0.1), 0 8px 8px rgb(0 0 0 / 0.1), 0 16px 16px rgb(0 0 0 / 0.1), 0 32px 32px rgb(0 0 0 / 0.1), 0 64px 64px rgb(0 0 0 / 0.1)"
+  },
+  "opacity": {
+    "dim": 0.6
+  },
+  "scale": {
+    "press": 0.97,
+    "press-card": 0.99
   },
   "motion": motion
 } as const;

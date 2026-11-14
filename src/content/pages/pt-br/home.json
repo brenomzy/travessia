@@ -100,21 +100,53 @@
   "outcomes": {
     "title": "O que muda quando você recebe pela Travessia",
     "lead": "Comparado com uma transferência internacional comum, recebida num banco brasileiro.",
+    "legend": {
+      "bank": "Banco brasileiro",
+      "travessia": "Travessia"
+    },
     "stats": [
       {
-        "before": "No banco, até 6% entre tarifa e câmbio.",
-        "value": "0,6%",
-        "after": "Uma taxa só, mostrada antes de você converter."
+        "label": "Taxa",
+        "detail": "Tarifa e câmbio somados",
+        "bank": {
+          "value": "até 6%",
+          "share": 1
+        },
+        "travessia": {
+          "value": "0,6%",
+          "share": 0.1
+        },
+        "gain": "10×",
+        "gainLabel": "menos, no pior caso"
       },
       {
-        "before": "No banco, de 3 a 5 dias úteis até o dinheiro aparecer.",
-        "value": "1 dia",
-        "after": "Do pagamento do cliente até os reais no seu Pix."
+        "label": "Tempo",
+        "detail": "Do pagamento do cliente aos reais no Pix",
+        "bank": {
+          "value": "3 a 5 dias úteis",
+          "share": 1
+        },
+        "travessia": {
+          "value": "1 dia",
+          "share": 0.2
+        },
+        "gain": "4 dias",
+        "gainLabel": "mais cedo, no pior caso"
       },
       {
-        "before": "No banco, a nota fiscal é com você, depois.",
-        "value": "2 min",
-        "after": "Para a nota fiscal de exportação sair, sozinha."
+        "label": "Nota fiscal",
+        "detail": "De exportação, a cada pagamento",
+        "bank": {
+          "value": "com você, depois",
+          "share": 1,
+          "open": true
+        },
+        "travessia": {
+          "value": "2 min, sozinha",
+          "share": 0.02
+        },
+        "gain": "0",
+        "gainLabel": "notas para você emitir"
       }
     ]
   },

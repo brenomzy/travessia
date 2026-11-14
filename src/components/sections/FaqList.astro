@@ -8,6 +8,8 @@ import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   title: string;
+  /** The heading's id; change it when a page has two FAQ blocks. */
+  id?: string;
   lead?: string;
   /** compact: the smaller heading used on feature pages (Paper: 40 px). */
   size?: 'default' | 'compact';
@@ -16,7 +18,7 @@ interface Props {
   /** Entries from the faqs collection, or any list shaped like them (comparison pages). */
   faqs: { data: Pick<CollectionEntry<'faqs'>['data'], 'question' | 'answer'> }[];
 }
-const { title, lead, faqs, size = 'default', openAll = false } = Astro.props;
+const { title, id = 'faq-title', lead, faqs, size = 'default', openAll = false } = Astro.props;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -28,10 +30,10 @@ const jsonLd = {
 };
 ---
 
-<section class="faq" data-size={size} aria-labelledby="faq-title" data-theme="light">
+<section class="faq" data-size={size} aria-labelledby={id} data-theme="light">
   <div class="l-container layout">
     <div class="intro" data-reveal-stagger>
-      <h2 id="faq-title">{title}</h2>
+      <h2 id={id}>{title}</h2>
       {lead && <p>{lead}</p>}
       <slot />
     </div>
@@ -95,7 +97,12 @@ const jsonLd = {
   }
 
   details {
+    position: relative;
+    isolation: isolate;
     border-block-end: var(--size-hairline) solid var(--color-border-base);
+    transition:
+      opacity var(--duration-base) var(--ease-hover),
+      border-color var(--duration-base) var(--ease-hover);
   }
 
   summary {
@@ -116,10 +123,59 @@ const jsonLd = {
     display: none;
   }
 
-  summary:hover span {
-    text-decoration: underline;
-    text-decoration-thickness: var(--size-hairline);
-    text-underline-offset: 0.2em;
+  summary span,
+  summary svg,
+  details p {
+    transition: translate var(--duration-base) var(--ease-out);
+  }
+
+  /*
+   * Hover, after the portfolio's FAQ (itself after wearecollins.com): the row under the pointer or keyboard focus fills
+   * in, its question and answer step in and the plus steps out, and the other rows fall back. Fine pointers only.
+   */
+  details::before {
+    content: '';
+    position: absolute;
+    inset: 0 calc(var(--space-s) * -1);
+    z-index: -1;
+    border-radius: var(--radius-m);
+    background-color: var(--color-chip-bg);
+    opacity: 0;
+    scale: 1.01 1;
+    transition:
+      opacity var(--duration-slow) var(--ease-fade),
+      scale var(--duration-base) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .list:has(summary:is(:hover, :focus-visible)) details {
+      opacity: var(--opacity-dim);
+    }
+
+    .list details:has(> summary:is(:hover, :focus-visible)) {
+      opacity: 1;
+    }
+
+    /* The hovered row's lines give way to the fill. */
+    details:has(> summary:is(:hover, :focus-visible)),
+    details:has(+ details > summary:is(:hover, :focus-visible)) {
+      border-color: transparent;
+    }
+
+    details:has(> summary:is(:hover, :focus-visible))::before {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    details:has(> summary:is(:hover, :focus-visible)) :is(summary span, p) {
+      translate: var(--space-s) 0;
+    }
+
+    details:has(> summary:is(:hover, :focus-visible)) summary svg {
+      translate: calc(var(--space-s) * -1) 0;
+    }
   }
 
   svg {

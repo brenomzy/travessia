@@ -3,6 +3,15 @@
  * Each takes options through custom properties, e.g. style="--gap: var(--space-l)".
  */
 
+/*
+ * --page-inset: the space from the viewport edge to the content column. Full-bleed bands (heroes, header, footer)
+ * pad by it, or use it as an edge grid column, so their content lines up with .l-container while their background
+ * runs edge to edge. The 100% resolves where the property is used, against that band's width.
+ */
+:root {
+  --page-inset: max(var(--space-gutter), (100% - var(--size-measure-content)) / 2);
+}
+
 .l-container {
   --_measure: var(--measure, var(--size-measure-content));
   width: min(100% - 2 * var(--space-gutter), var(--_measure));
@@ -19,6 +28,10 @@
 
 .l-container[data-width='wide'] {
   --_measure: 100%;
+}
+
+.l-bleed {
+  padding-inline: var(--page-inset);
 }
 
 .l-stack {

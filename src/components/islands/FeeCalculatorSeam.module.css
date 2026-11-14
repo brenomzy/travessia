@@ -42,14 +42,15 @@
   .currency {
     padding: var(--space-2xs) var(--space-m);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background: none;
     color: var(--color-text-muted);
     font: inherit;
     font-size: var(--text-sm);
     transition:
       background-color var(--duration-fast) var(--ease-hover),
-      color var(--duration-fast) var(--ease-hover);
+      color var(--duration-fast) var(--ease-hover),
+      var(--transition-press);
   }
 
   .currency[data-pressed] {
@@ -209,7 +210,7 @@
       grid-template-columns: minmax(0, 1fr) 15rem minmax(0, 1fr);
       column-gap: var(--space-xl);
       min-block-size: 37.5rem;
-      padding: var(--space-2xl) var(--space-gutter);
+      padding: var(--space-2xl) var(--page-inset);
     }
 
     .pay,

@@ -21,7 +21,7 @@ interface Props {
 const { story: s, href, readLabel, readAbout, tags, as: Tag = 'li' } = Astro.props;
 ---
 
-<Tag class="card" data-filter-item data-filter-kind={tags}>
+<Tag class="card" data-press="card" data-filter-item data-filter-kind={tags}>
   <div class="who">
     <Avatar name={s.person.name} />
     <span>
@@ -49,7 +49,10 @@ const { story: s, href, readLabel, readAbout, tags, as: Tag = 'li' } = Astro.pro
     border: var(--size-hairline) solid var(--color-border-base);
     border-radius: var(--radius-l);
     background-color: var(--color-bg-base);
-    transition: border-color var(--duration-fast) var(--ease-hover);
+    transition:
+      border-color var(--duration-fast) var(--ease-hover),
+      var(--transition-press),
+      var(--transition-dim);
   }
 
   .card[hidden] {

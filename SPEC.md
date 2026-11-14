@@ -338,6 +338,7 @@ Small, composable classes in the spirit of Every Layout. They're the only global
 | Class | Does | Options |
 |---|---|---|
 | `l-container` | Centred max width with side gutters | `--measure`, or `data-width="narrow\|wide"` |
+| `l-bleed` | Full-bleed band whose content lines up with `l-container`: pads by `--page-inset`, the distance from the viewport edge to the content column. Heroes use `--page-inset` as their edge grid columns instead. | none |
 | `l-stack` | Vertical rhythm between children | `--gap` |
 | `l-cluster` | Wrapping inline group (buttons, tags, logos) | `--gap`, `--justify` |
 | `l-grid` | Auto-fit grid, no breakpoints | `--min` (card min width), `--gap` |

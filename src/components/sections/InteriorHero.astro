@@ -3,12 +3,15 @@
  * Hero for interior pages (Paper: "Interior hero" on /produto and the feature template).
  * From 1024 px: copy on noite on the left, the seam texture running in from the right with a piece of
  * product UI on the tapajós side. Below it: the copy, then the UI on a horizontal seam band.
+ * The content sits in the page's content column (--page-inset); the seam is pinned to the page centre, so it stays
+ * between the copy and the visual at every width.
  */
 import seamDesktop from '../../assets/textures/seam-40.png';
 import seamMobile from '../../assets/textures/mobile-seam-v2.png';
 import Button from '../ui/Button.astro';
 import Breadcrumb from '../ui/Breadcrumb.astro';
 import MotionScript from '../ui/MotionScript.astro';
+import SeamCanvas from '../ui/SeamCanvas.astro';
 
 interface Props {
   title: string;
@@ -33,6 +36,7 @@ const hasVisual = Astro.slots.has('visual');
   data-size={size}
   style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
 >
+  <div class="seam" aria-hidden="true"><SeamCanvas texture="seam-40" align="top" /></div>
   <div class="copy" data-reveal-stagger>
     {breadcrumb && <Breadcrumb label={breadcrumb.label} items={breadcrumb.items} />}
     <slot name="intro" />
@@ -117,6 +121,10 @@ const hasVisual = Astro.slots.has('visual');
     image-rendering: pixelated;
   }
 
+  .seam {
+    display: none;
+  }
+
   .visual > :global(*) {
     inline-size: min(100%, 23.75rem);
   }
@@ -126,26 +134,35 @@ const hasVisual = Astro.slots.has('visual');
     max-inline-size: 45rem;
   }
 
-  /* From 1024 px: the seam runs in from the right, as in Paper (texture offset 320 px of 1440). */
+  /*
+   * From 1024 px: the seam runs in from the right, as in Paper (its centre line at 896 of 1440, 11 rem right of the
+   * page centre). The texture is drawn on .seam at 16:10, never narrower than the hero (up to 1440 px), anchored
+   * to its top edge as in Paper. Past its edges the gradient continues the two flat colours. SeamCanvas animates it.
+   */
   @media (width >= 64rem) {
     .hero {
+      --seam-x: calc(50% + 11rem);
+
       position: relative;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: var(--page-inset) minmax(0, 1fr) minmax(0, 1fr) var(--page-inset);
       align-items: center;
       min-block-size: 33rem;
       overflow: clip;
+      background-image: linear-gradient(to right, var(--color-seam-dark) var(--seam-x), var(--color-seam-light) var(--seam-x));
     }
 
-    .hero::before {
-      content: '';
+    .seam {
+      display: block;
       position: absolute;
       inset-block-start: 0;
-      inset-inline-start: 22.2%;
-      inline-size: 100%;
-      block-size: 170%;
+      inset-inline-start: var(--seam-x);
+      block-size: 100%;
+      aspect-ratio: 16 / 10;
+      min-inline-size: min(100%, 90rem);
+      translate: -40% 0;
       background-image: var(--seam-desktop);
       background-size: cover;
-      background-position: center;
+      background-position: center top;
       image-rendering: pixelated;
     }
 
@@ -160,14 +177,17 @@ const hasVisual = Astro.slots.has('visual');
 
     .copy {
       position: relative;
+      grid-column: 2;
       align-self: start;
       gap: var(--space-l);
       padding-block: var(--space-2xl) var(--space-3xl);
+      padding-inline: 0 var(--space-gutter);
     }
 
     .visual {
       position: relative;
-      padding: var(--space-xl) var(--space-gutter);
+      grid-column: 3;
+      padding: var(--space-xl) 0 var(--space-xl) var(--space-gutter);
       background: none;
     }
   }

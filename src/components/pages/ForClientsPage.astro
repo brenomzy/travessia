@@ -44,7 +44,7 @@ const featureHref = (key: string) => {
   >
     <div slot="visual" lang="en"><InvoiceCard {...page.invoice} shadow="floating-dark" /></div>
   </InteriorHero>
-  <StepCards title={page.steps.title} steps={page.steps.items} variant="columns" />
+  <StepCards title={page.steps.title} steps={page.steps.items} theme="light" />
   <ListPanels panels={page.panels} />
   <FaqList title={page.faq.title} lead={page.faq.lead} faqs={faqs} size="compact" openAll />
   <SimpleCta title={page.cta.title} link={{ label: page.cta.link.label, href: featureHref(page.cta.link.feature) }} />

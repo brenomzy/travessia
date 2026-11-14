@@ -15,13 +15,66 @@ const pathId = ({ entry }: { entry: string }) => entry.replace(/\.(md|json)$/, '
 
 // ---------- features ----------
 const link = z.object({ label: z.string(), route: z.string() });
-const step = z.object({ title: z.string(), detail: z.string() });
+/**
+ * The product screen under a step (Paper: "Steps A · One track, a screen per step"). Strings are content. lang marks
+ * a screen in a language other than the page's (what the client sees is in English).
+ */
+const stepScreen = z.discriminatedUnion('kind', [
+  z.object({
+    kind: z.literal('form'),
+    lang: z.string().optional(),
+    fields: z.array(z.object({ label: z.string(), value: z.string() })).min(1),
+    suggestion: z.object({ label: z.string(), items: z.array(z.object({ label: z.string(), value: z.string() })) }).optional(),
+  }),
+  z.object({
+    kind: z.literal('message'),
+    lang: z.string().optional(),
+    from: z.string(),
+    to: z.string(),
+    subject: z.string(),
+    body: z.string(),
+    /** The first is the primary action. */
+    actions: z.array(z.string()).min(1),
+  }),
+  z.object({
+    kind: z.literal('status'),
+    lang: z.string().optional(),
+    title: z.string(),
+    rows: z.array(z.object({ label: z.string(), value: z.string(), highlight: z.boolean().default(false) })),
+    total: z.object({ label: z.string(), value: z.string() }).optional(),
+  }),
+]);
+const step = z.object({ title: z.string(), detail: z.string(), screen: stepScreen.optional() });
+
+/**
+ * How Travessia fixes one problem, drawn as a piece of product UI (Paper: "Problem B · Problem beside its fix").
+ * figure: a big value with a note or a segmented control. chips: a primary button and options. progress: states
+ * leading to the last one, highlighted. meter: a labelled bar.
+ */
+const problemFix = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('figure'), value: z.string(), note: z.string().optional(), tags: z.array(z.string()).optional() }),
+  z.object({ kind: z.literal('chips'), primary: z.string().optional(), items: z.array(z.string()) }),
+  z.object({ kind: z.literal('progress'), items: z.array(z.string()), done: z.string() }),
+  z.object({ kind: z.literal('meter'), label: z.string(), value: z.string(), fraction: z.number().min(0).max(1) }),
+]);
+const problemPoint = z.object({
+  label: z.string(),
+  detail: z.string(),
+  /** The old way, struck through. mono for bank details and file names. */
+  before: z.string(),
+  beforeMono: z.boolean().default(false),
+  after: problemFix,
+  /** lang of the fix when it differs from the page's. */
+  afterLang: z.string().optional(),
+});
 
 /** The small product-UI picture on each feature card. Strings are content, not code. */
 const vignette = z.discriminatedUnion('kind', [
   z.object({
     kind: z.literal('invoice'),
     title: z.string(),
+    /** Who sent it, under the title on the product bento. */
+    from: z.string().optional(),
     languages: z.array(z.string()).length(2),
     amount: z.string(),
     action: z.string(),
@@ -81,7 +134,13 @@ const features = defineCollection({
     hero: z.object({ title: z.string(), lead: z.string(), secondary: link }),
     /** The product UI in the hero. Invoices stay in English: they are what the client sees. */
     heroCard: productCard,
-    problem: z.object({ title: z.string(), points: z.array(z.object({ label: z.string(), detail: z.string() })).length(3) }),
+    problem: z.object({
+      title: z.string(),
+      /** Column headings: the old way and Travessia's, e.g. "Fatura em reais" and "Fatura da Travessia". */
+      beforeLabel: z.string(),
+      afterLabel: z.string(),
+      points: z.array(problemPoint).length(3),
+    }),
     steps: z.array(step).length(3),
     faqTitle: z.string(),
     integrationsLabel: z.string(),
@@ -348,7 +407,19 @@ const legal = defineCollection({
 });
 
 // ---------- pages ----------
-const stat = z.object({ before: z.string(), value: z.string(), after: z.string() });
+/**
+ * One row of the Home comparison (Paper: "Stats A · Bank against Travessia, measured"). share is each bar's length as
+ * a fraction of the row; open draws the bank's bar hatched, for a cost with no fixed size ("later, up to you").
+ */
+const stat = z.object({
+  label: z.string(),
+  detail: z.string(),
+  bank: z.object({ value: z.string(), share: z.number().min(0).max(1).default(1), open: z.boolean().default(false) }),
+  travessia: z.object({ value: z.string(), share: z.number().min(0).max(1) }),
+  /** The difference, set large, and what it means. */
+  gain: z.string(),
+  gainLabel: z.string(),
+});
 
 const home = z.object({
   page: z.literal('home'),
@@ -395,7 +466,12 @@ const home = z.object({
       received: z.object({ label: z.string(), currency: z.string(), amount: z.string(), note: z.string() }),
     }),
   }),
-  outcomes: z.object({ title: z.string(), lead: z.string(), stats: z.array(stat).length(3) }),
+  outcomes: z.object({
+    title: z.string(),
+    lead: z.string(),
+    legend: z.object({ bank: z.string(), travessia: z.string() }),
+    stats: z.array(stat).length(3),
+  }),
   calculator: z.object({
     title: z.string(),
     lead: z.string(),
@@ -485,6 +561,8 @@ const product = z.object({
     secondary: link,
     card: z.object({ status: z.string(), time: z.string(), from: z.string(), to: z.string(), note: z.string() }),
   }),
+  /** The heading over the feature bento. */
+  features: z.object({ title: z.string(), lead: z.string() }),
 });
 
 const categoryIds = ['accounting', 'invoicing', 'time-tracking', 'freelance-platforms', 'payments', 'productivity'] as const;
@@ -636,7 +714,7 @@ const forClients = z.object({
     total: z.string(),
     methods: z.array(z.string()),
   }),
-  steps: z.object({ title: z.string(), items: z.array(z.object({ title: z.string(), detail: z.string() })).length(3) }),
+  steps: z.object({ title: z.string(), items: z.array(step).length(3) }),
   panels: z.array(z.object({ title: z.string(), items: z.array(z.string()), tone: z.enum(['tint', 'dark']) })),
   faq: z.object({ title: z.string(), lead: z.string() }),
   cta: z.object({ title: z.string(), link: z.object({ label: z.string(), feature: z.string() }) }),

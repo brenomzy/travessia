@@ -1,27 +1,69 @@
 ---
-/** The three proof points, each with the bank's number above it (Paper: Home → Section · Outcomes). */
+/**
+ * The bank against Travessia, measured (Paper: Options · Feature page and Home stats → "Stats A"). One row per
+ * comparison: what it is, two bars (the bank's in grey, hatched when it has no fixed size; Travessia's in teal), and
+ * the difference set large. The bars grow in as each row is revealed.
+ */
 import Section from './Section.astro';
-import SectionHeader from './SectionHeader.astro';
 import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   title: string;
   lead: string;
-  stats: { before: string; value: string; after: string }[];
+  legend: { bank: string; travessia: string };
+  stats: {
+    label: string;
+    detail: string;
+    bank: { value: string; share: number; open: boolean };
+    travessia: { value: string; share: number };
+    gain: string;
+    gainLabel: string;
+  }[];
 }
-const { title, lead, stats } = Astro.props;
+const { title, lead, legend, stats } = Astro.props;
 ---
 
 <Section labelledby="outcomes-title">
   <div class="l-stack" style="--gap: var(--space-2xl)">
-    <SectionHeader id="outcomes-title" title={title} lead={lead} />
-    <ul class="stats" role="list" data-reveal-stagger>
+    <div class="header" data-reveal-stagger>
+      <div class="intro">
+        <h2 id="outcomes-title">{title}</h2>
+        <p class="lead">{lead}</p>
+      </div>
+      <ul class="legend" role="list">
+        <li data-series="bank">{legend.bank}</li>
+        <li data-series="travessia">{legend.travessia}</li>
+      </ul>
+    </div>
+
+    <ul class="rows" role="list" data-reveal-stagger>
       {
         stats.map((s) => (
-          <li>
-            <p class="before">{s.before}</p>
-            <p class="value" data-count-up>{s.value}</p>
-            <p class="after">{s.after}</p>
+          <li class="row">
+            <div class="what">
+              <h3>{s.label}</h3>
+              <p>{s.detail}</p>
+            </div>
+            <dl class="bars">
+              <div data-series="bank" data-open={s.bank.open ? '' : undefined}>
+                <dt class="u-visually-hidden">{legend.bank}</dt>
+                <dd>
+                  <span class="bar" style={`--share: ${s.bank.share}`} aria-hidden="true" />
+                  <span class="value">{s.bank.value}</span>
+                </dd>
+              </div>
+              <div data-series="travessia">
+                <dt class="u-visually-hidden">{legend.travessia}</dt>
+                <dd>
+                  <span class="bar" style={`--share: ${s.travessia.share}`} aria-hidden="true" />
+                  <span class="value">{s.travessia.value}</span>
+                </dd>
+              </div>
+            </dl>
+            <p class="gain">
+              <strong>{s.gain}</strong>
+              <span>{s.gainLabel}</span>
+            </p>
           </li>
         ))
       }
@@ -32,55 +74,183 @@ const { title, lead, stats } = Astro.props;
 <MotionScript />
 
 <style>
-  .stats {
-    display: grid;
-    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m) var(--space-2xl);
   }
 
-  li {
+  .intro {
     display: flex;
     flex-direction: column;
-    gap: var(--space-m);
-    padding-block: var(--space-l);
+    gap: var(--space-s);
+    max-inline-size: 47.5rem;
   }
 
-  .before {
-    color: var(--color-text-subtle);
-  }
-
-  .value {
-    color: var(--color-text-highlight);
-    font-size: var(--text-6xl);
-    line-height: var(--leading-6xl);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--font-tracking-display);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .after {
+  .lead {
+    max-inline-size: var(--size-measure-text);
+    color: var(--color-text-muted);
     font-size: var(--text-lg);
     line-height: var(--leading-lg);
   }
 
-  /* Three columns: hairlines between them. One column: hairlines between rows. */
-  @container (width >= 54rem) {
-    .stats {
-      grid-template-columns: repeat(3, 1fr);
+  .legend {
+    display: flex;
+    gap: var(--space-l);
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .legend li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .legend li::before {
+    content: '';
+    inline-size: var(--space-xs);
+    block-size: var(--space-xs);
+    border-radius: var(--radius-xs);
+    background: var(--_fill);
+  }
+
+  .legend [data-series='travessia'] {
+    color: var(--color-text-base);
+  }
+
+  [data-series='bank'] {
+    --_fill: var(--color-border-base);
+  }
+
+  [data-series='travessia'] {
+    --_fill: var(--color-accent-data);
+  }
+
+  .rows {
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-m);
+    padding-block: var(--space-l);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .row:last-child {
+    border-block-end: 0;
+  }
+
+  .what {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .what p {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  dd {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin: 0;
+  }
+
+  .bar {
+    flex: 0 0 auto;
+    inline-size: calc(var(--share) * (100% - 9rem));
+    min-inline-size: var(--space-xs);
+    block-size: var(--space-xs);
+    border-radius: var(--radius-xs);
+    background: var(--_fill);
+    transform-origin: left center;
+    transition: scale var(--duration-story) var(--ease-expo);
+  }
+
+  [data-open] .bar {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--_fill) 0 var(--space-2xs),
+      transparent var(--space-2xs) calc(var(--space-2xs) * 2)
+    );
+  }
+
+  .value {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+
+  [data-series='travessia'] .value {
+    color: var(--color-text-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .gain {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+  }
+
+  .gain strong {
+    color: var(--color-accent-data-strong);
+    font-size: var(--text-4xl);
+    line-height: var(--leading-4xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .gain span {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  /* Bars grow in with their row's reveal; with no script or reduced motion they're simply there. */
+  @media screen and (prefers-reduced-motion: no-preference) {
+    :root[data-motion='ready'] .row:not([data-revealed]) .bar {
+      scale: 0 1;
     }
 
-    li + li {
-      padding-inline-start: var(--space-xl);
-      border-inline-start: var(--size-hairline) solid var(--color-border-base);
-    }
-
-    li:not(:last-child) {
-      padding-inline-end: var(--space-xl);
+    :root[data-motion='ready'] .row [data-series='travessia'] .bar {
+      transition-delay: var(--duration-stagger);
     }
   }
 
-  @container (width < 54rem) {
-    li + li {
-      border-block-start: var(--size-hairline) solid var(--color-border-base);
+  /* From 900 px: label, bars and gain side by side. */
+  @container (width >= 56rem) {
+    .row {
+      grid-template-columns: 15rem minmax(0, 1fr) 13.75rem;
+      align-items: center;
+      gap: var(--space-2xl);
+      padding-block: var(--space-xl);
+    }
+
+    .gain {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--space-3xs);
+      text-align: end;
     }
   }
 </style>

@@ -65,7 +65,7 @@ const id = uid('waitlist');
     display: flex;
     align-items: center;
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--color-field-bg);
   }
 
@@ -80,7 +80,7 @@ const id = uid('waitlist');
     min-block-size: var(--size-tap);
     padding: var(--space-s) var(--space-m);
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: calc(var(--radius-control) - var(--space-3xs));
     background-color: transparent;
     color: var(--color-text-base);
     font-size: var(--text-base);
@@ -109,12 +109,12 @@ const id = uid('waitlist');
     min-block-size: var(--size-tap);
     padding: var(--space-s) var(--space-m);
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--color-accent-primary);
     color: var(--color-on-accent);
     font-weight: var(--font-weight-semibold);
     line-height: 1.2;
-    transition: background-color var(--duration-fast) var(--ease-hover);
+    transition: background-color var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   button:hover {
@@ -124,6 +124,10 @@ const id = uid('waitlist');
   [data-with-button] {
     padding: var(--space-3xs);
     padding-inline-start: 0;
+  }
+
+  [data-with-button] button {
+    border-radius: calc(var(--radius-control) - var(--space-3xs));
   }
 
   .notice,

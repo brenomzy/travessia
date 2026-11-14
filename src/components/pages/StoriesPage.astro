@@ -85,7 +85,7 @@ const sp = spotlight.data;
           groups={[{ id: 'kind', label: page.filterLabel, all: page.all, options }]}
         />
       </div>
-      <ul id="story-grid" class="grid" role="list" data-reveal-stagger>
+      <ul id="story-grid" class="grid" role="list" data-reveal-stagger data-dim-siblings>
         {
           rest.map(({ data }) => (
             <StoryCard
@@ -132,7 +132,7 @@ const sp = spotlight.data;
     inset-block-end: var(--space-m);
     inset-inline-start: var(--space-m);
     padding: var(--space-3xs) var(--space-xs);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-tag);
     background-color: var(--color-bg-raised);
     font-size: var(--text-xs);
     font-weight: var(--font-weight-medium);
@@ -203,9 +203,12 @@ const sp = spotlight.data;
     --icon-size: var(--size-icon-s);
   }
 
-  .foot a:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  .foot a :global(.icon) {
+    transition: translate var(--duration-fast) var(--ease-hover);
+  }
+
+  .foot a:hover :global(.icon) {
+    translate: var(--space-3xs) 0;
   }
 
   @media (width >= 56rem) {

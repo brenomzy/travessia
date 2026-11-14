@@ -7,7 +7,7 @@ const { href } = Astro.props;
 const Tag = href ? 'a' : 'span';
 ---
 
-<Tag class="chip" href={href}><slot /></Tag>
+<Tag class="chip" href={href} data-press={href ? '' : undefined}><slot /></Tag>
 
 <style>
   .chip {
@@ -15,13 +15,13 @@ const Tag = href ? 'a' : 'span';
     align-items: center;
     padding: var(--space-2xs) var(--space-s);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-tag);
     color: var(--color-text-base);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
     line-height: var(--leading-sm);
     text-decoration: none;
-    transition: border-color var(--duration-fast) var(--ease-hover);
+    transition: border-color var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   a.chip:hover {

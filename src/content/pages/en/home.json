@@ -100,21 +100,53 @@
   "outcomes": {
     "title": "What changes when you get paid through Travessia",
     "lead": "Compared with a regular international wire received at a Brazilian bank.",
+    "legend": {
+      "bank": "Brazilian bank",
+      "travessia": "Travessia"
+    },
     "stats": [
       {
-        "before": "At a bank, up to 6% between fees and the exchange rate.",
-        "value": "0.6%",
-        "after": "One fee, shown before you convert."
+        "label": "Fee",
+        "detail": "Fees and exchange rate together",
+        "bank": {
+          "value": "up to 6%",
+          "share": 1
+        },
+        "travessia": {
+          "value": "0.6%",
+          "share": 0.1
+        },
+        "gain": "10×",
+        "gainLabel": "less, at worst"
       },
       {
-        "before": "At a bank, 3 to 5 business days until the money shows up.",
-        "value": "1 day",
-        "after": "From your client's payment to reais in your Pix."
+        "label": "Time",
+        "detail": "From your client's payment to reais in Pix",
+        "bank": {
+          "value": "3 to 5 business days",
+          "share": 1
+        },
+        "travessia": {
+          "value": "1 day",
+          "share": 0.2
+        },
+        "gain": "4 days",
+        "gainLabel": "sooner, at worst"
       },
       {
-        "before": "At a bank, the tax invoice is up to you, later.",
-        "value": "2 min",
-        "after": "For the export nota fiscal to be issued, by itself."
+        "label": "Nota fiscal",
+        "detail": "For export, on every payment",
+        "bank": {
+          "value": "up to you, later",
+          "share": 1,
+          "open": true
+        },
+        "travessia": {
+          "value": "2 min, by itself",
+          "share": 0.02
+        },
+        "gain": "0",
+        "gainLabel": "tax invoices for you to issue"
       }
     ]
   },

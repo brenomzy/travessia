@@ -18,7 +18,7 @@
     max-inline-size: 100%;
     padding: var(--space-3xs);
     overflow-x: auto;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--color-chip-bg);
     scrollbar-width: none;
   }
@@ -27,7 +27,7 @@
     flex-shrink: 0;
     padding: var(--space-2xs) var(--space-m);
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: calc(var(--radius-control) - var(--space-3xs));
     background: none;
     color: var(--color-text-base);
     font: inherit;
@@ -35,7 +35,8 @@
     white-space: nowrap;
     transition:
       background-color var(--duration-fast) var(--ease-hover),
-      color var(--duration-fast) var(--ease-hover);
+      color var(--duration-fast) var(--ease-hover),
+      var(--transition-press);
   }
 
   .tab[data-active] {

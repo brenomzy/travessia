@@ -1,0 +1,78 @@
+---
+/**
+ * The moving version of a seam texture: a WebGL canvas drawn over the texture's PNG (src/lib/motion/seam.ts).
+ * Put it inside the element that paints the PNG; the canvas sizes itself the same way and lines up with it. It stays
+ * transparent until its first frame, which matches the PNG, and never shows with reduced motion or without WebGL2.
+ * Decorative.
+ *
+ * texture names the PNG (TEXTURES in src/lib/generators/seam, from docs/design/texture-lab/README.md).
+ */
+import { TEXTURES, type TextureName } from '../../lib/generators/seam';
+
+interface Props {
+  texture: TextureName;
+  /**
+   * width: the PNG is drawn full width at its aspect ratio, centred or top-aligned (a box wider than the PNG).
+   * cover: the PNG is `background-size: cover` (or `100% auto` in a box wider than it) at `position`.
+   */
+  fit?: 'width' | 'cover';
+  /** fit="width": how the PNG sits vertically in its box. */
+  align?: 'center' | 'top';
+  /** fit="cover": the PNG's background-position, e.g. "center 30%". */
+  position?: string;
+  /** A preset from MOTION_PRESETS in src/lib/generators/seam. */
+  motion?: 'river' | 'flow' | 'drift' | 'breathe' | 'shimmer' | 'still';
+}
+
+const { texture, fit = 'width', align = 'center', position = 'center', motion = 'river' } = Astro.props;
+const { width, height } = TEXTURES[texture];
+---
+
+<canvas
+  class="seam-canvas"
+  data-seam={motion}
+  data-texture={texture}
+  data-align={align}
+  data-fit={fit}
+  style={`--seam-ratio: ${width} / ${height}; --seam-position: ${position};`}
+  aria-hidden="true"></canvas>
+
+<script>
+  import { initSeams } from '../../lib/motion/seam';
+
+  initSeams();
+</script>
+
+<style>
+  .seam-canvas {
+    position: absolute;
+    inset-inline: 0;
+    inline-size: 100%;
+    aspect-ratio: var(--seam-ratio);
+    opacity: 0;
+    image-rendering: pixelated;
+    pointer-events: none;
+  }
+
+  [data-align='center'] {
+    inset-block-start: 50%;
+    translate: 0 -50%;
+  }
+
+  [data-align='top'] {
+    inset-block-start: 0;
+  }
+
+  [data-fit='cover'] {
+    inset: 0;
+    block-size: 100%;
+    aspect-ratio: auto;
+    translate: none;
+    object-fit: cover;
+    object-position: var(--seam-position);
+  }
+
+  [data-ready] {
+    opacity: 1;
+  }
+</style>

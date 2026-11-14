@@ -11,6 +11,9 @@ import ConversionCard from '../components/product/ConversionCard.astro';
 import CrossingCard from '../components/product/CrossingCard.astro';
 import PhoneMock from '../components/product/PhoneMock.astro';
 import FeatureVignette from '../components/product/FeatureVignette.astro';
+import FeatureBento from '../components/sections/FeatureBento.astro';
+import FeatureGrid from '../components/sections/FeatureGrid.astro';
+import FaqList from '../components/sections/FaqList.astro';
 import LogoSphere from '../components/ui/LogoSphere.astro';
 import SeamStrip from '../components/sections/SeamStrip.astro';
 import BillingToggle from '../components/islands/BillingToggle';
@@ -25,6 +28,7 @@ import IntegrationFilter from '../components/islands/IntegrationFilter';
 import Chip from '../components/ui/Chip.astro';
 import ProblemList from '../components/sections/ProblemList.astro';
 import StepCards from '../components/sections/StepCards.astro';
+import StatBand from '../components/sections/StatBand.astro';
 import ClosingCta from '../components/sections/ClosingCta.astro';
 import ComparePlans from '../components/sections/ComparePlans.astro';
 import FaqTopicsSection from '../components/sections/FaqTopicsSection.astro';
@@ -44,6 +48,8 @@ import PageIntro from '../components/sections/PageIntro.astro';
 import NoteCards from '../components/sections/NoteCards.astro';
 import FeeCalculatorSeam from '../components/islands/FeeCalculatorSeam';
 import seamCta from '../assets/textures/seam-cta.png';
+import seam40 from '../assets/textures/seam-40.png';
+import SeamCanvas from '../components/ui/SeamCanvas.astro';
 import seamMobile from '../assets/textures/mobile-seam-v2.png';
 import { getChanges, getFaqs, getPosts, getStories } from '../lib/content';
 import { tokens } from '../tokens/tokens';
@@ -55,6 +61,8 @@ const s = t(locale);
 const g = s.styleguide;
 const home = await getPage(locale, 'home');
 const features = await getFeatures(locale);
+const productPage = await getPage(locale, 'product');
+const hoverFaqs = (await getFaqs(locale, 'general')).slice(0, 4);
 const integrations = await getIntegrations(locale);
 const rates = await getRates();
 const plans = await getPlans();
@@ -304,6 +312,29 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     </div>
   </Section>
 
+  <Section>
+    <div class="l-stack" style="--gap: var(--space-s)">
+      <h2 class="label">{g.seamMotion.title}</h2>
+      <p class="seam-lead">{g.seamMotion.lead}</p>
+    </div>
+    <ul class="seam-tiles" role="list" style={`--seam-png: url(${seam40.src});`}>
+      {
+        (Object.keys(g.seamMotion.presets) as (keyof typeof g.seamMotion.presets)[]).map((name) => (
+          <li>
+            <div class="seam-tile">
+              <div class="seam-plate">
+                <SeamCanvas texture="seam-40" align="top" motion={name} />
+              </div>
+            </div>
+            <p>
+              <code>{name}</code> {g.seamMotion.presets[name]}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
   <SeamStrip />
 
   <Section theme="dark" spacing="after-strip">
@@ -323,6 +354,25 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
       <FeatureVignette vignette={features[3].data.vignette} frame="bare" />
     </div>
   </Section>
+
+  <Section spacing="after-strip">
+    <h2 class="label">{g.sections.bento}</h2>
+  </Section>
+  <FeatureBento locale={locale} title={productPage.features.title} lead={productPage.features.lead} features={features} />
+
+  <Section spacing="after-strip">
+    <div class="l-stack" style="--gap: var(--space-m)">
+      <h2 class="label">{g.hover.title}</h2>
+      <p class="hover-lead">{g.hover.lead}</p>
+      <nav class="hover-pill" aria-label={g.hover.pillLabel} data-pill>
+        {s.nav.items.slice(0, 4).map((item, i) => (
+          <a href="#hover" aria-current={i === 0 ? 'true' : undefined}>{item.label}</a>
+        ))}
+      </nav>
+    </div>
+  </Section>
+  <FeatureGrid locale={locale} title={home.features.title} link={{ label: home.features.link.label, href: '/produto' }} features={features} />
+  <FaqList id="hover-faq-title" title={g.hover.faqTitle} faqs={hoverFaqs} size="compact" />
 
   <Section>
     <h2 class="label">{g.sections.navigation}</h2>
@@ -431,6 +481,7 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
   <Section spacing="none">
     <h2 class="label">{g.sections.interior}</h2>
   </Section>
+  <StatBand {...home.outcomes} />
   <ProblemList {...features[0].data.problem} />
   <StepCards title={s.interior.stepsTitle} steps={features[0].data.steps} />
   <div data-billing-scope data-billing="monthly">
@@ -662,6 +713,47 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     background-color: var(--color-bg-base);
   }
 
+  .seam-lead {
+    max-inline-size: var(--size-measure-text);
+    color: var(--color-text-muted);
+  }
+
+  .seam-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-l);
+    margin-block-start: var(--space-l);
+  }
+
+  .seam-tiles li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* A window onto the seam at its real dot size (1440 px wide), centred on the seam line. */
+  .seam-tile {
+    position: relative;
+    block-size: 20rem;
+    overflow: clip;
+    border-radius: var(--radius-m);
+  }
+
+  .seam-plate {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
+    inline-size: 90rem;
+    aspect-ratio: 16 / 10;
+    translate: -40% 0;
+    background-image: var(--seam-png);
+    background-size: cover;
+    background-position: center top;
+    image-rendering: pixelated;
+  }
+
   @media (width >= 64rem) {
     .seam-demo {
       background-image: var(--seam-desktop);
@@ -714,6 +806,25 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
   }
 
   .product,
+  .hover-lead {
+    max-inline-size: var(--size-measure-text);
+    color: var(--color-text-muted);
+  }
+
+  .hover-pill {
+    display: flex;
+    gap: var(--space-3xs);
+  }
+
+  .hover-pill a {
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-control);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
   .vignettes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));

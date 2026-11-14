@@ -39,11 +39,11 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
   <PageIntro title={page.title} lead={page.lead}>
     <nav class="cats" aria-label={page.categoriesLabel}>
       <ul role="list">
-        <li><a href={alternates('blog')[locale]} aria-current="page">{page.all}</a></li>
+        <li><a data-press href={alternates('blog')[locale]} aria-current="page">{page.all}</a></li>
         {
           categoryIds.map((c) => (
             <li>
-              <a href={blogCategoryPath(cat(c).slug, locale)}>{cat(c).label}</a>
+              <a data-press href={blogCategoryPath(cat(c).slug, locale)}>{cat(c).label}</a>
             </li>
           ))
         }
@@ -92,7 +92,7 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
         <h2 id="all-title">{page.allTitle}</h2>
         <p>{page.count.replace('{n}', String(posts.length))}</p>
       </div>
-      <ul id="post-grid" class="grid" role="list" data-reveal-stagger>
+      <ul id="post-grid" class="grid" role="list" data-reveal-stagger data-dim-siblings>
         {
           rest.map((p) => (
             <PostCard
@@ -127,7 +127,7 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
     display: inline-block;
     padding: var(--space-2xs) var(--space-s);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     color: var(--color-text-base);
     font-size: var(--text-sm);
     text-decoration: none;
@@ -217,9 +217,12 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
     text-decoration: none;
   }
 
+  .popular a {
+    transition: color var(--duration-fast) var(--ease-hover);
+  }
+
   .popular a:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+    color: var(--color-link);
   }
 
   .all {

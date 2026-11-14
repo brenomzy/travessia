@@ -153,6 +153,7 @@
       "forms": "Formulário da lista de espera",
       "product": "Peças de interface do produto",
       "vignettes": "Ilustrações dos recursos",
+      "bento": "Bento dos recursos (/produto)",
       "sphere": "Esfera de integrações",
       "billing": "Alternância de cobrança",
       "tabs": "Telas do produto (abas)",
@@ -172,7 +173,25 @@
       "nav": "Abrir conta",
       "link": "Ver o produto"
     },
-    "countSample": "0,6%"
+    "countSample": "0,6%",
+    "seamMotion": {
+      "title": "Movimento das costuras (shader)",
+      "lead": "A mesma costura do PNG, desenhada por WebGL e em movimento. O primeiro quadro é igual ao PNG. Com movimento reduzido, ou sem WebGL2, fica o PNG.",
+      "presets": {
+        "still": "Parada: o shader sem movimento, para comparar com o PNG.",
+        "flow": "Correnteza: o desenho da margem desce ao longo da costura.",
+        "drift": "Deriva: a margem muda de forma sem sair do lugar.",
+        "breathe": "Respiração: a zona de mistura alarga e estreita devagar.",
+        "shimmer": "Brilho: os pontos da zona de mistura piscam, um passo do pontilhado por vez.",
+        "river": "Rio: correnteza, deriva e respiração juntas, bem fracas. É a que está nos heróis."
+      }
+    },
+    "hover": {
+      "title": "Hover",
+      "lead": "Só com mouse ou trackpad, e nada se move com movimento reduzido. A pílula desliza entre os links da navegação e para na página atual. Em grades de cartões, os outros cartões recuam. Num cartão que é link, o texto do link rola e uma parte da ilustração se mexe: o idioma da fatura muda para PT, os saldos ondulam, o visto da nota fiscal aparece, as barras crescem. Nas perguntas, a linha sob o ponteiro ganha fundo e as outras recuam.",
+      "pillLabel": "Exemplo de pílula deslizante",
+      "faqTitle": "Perguntas (hover)"
+    }
   },
   "interior": {
     "primaryCta": {

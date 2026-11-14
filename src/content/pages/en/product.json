@@ -23,5 +23,9 @@
       "to": "R$ 10,834.60",
       "note": "0.6% fee already taken · rate R$ 5.45"
     }
+  },
+  "features": {
+    "title": "Four features, one account",
+    "lead": "Invoice, balance, nota fiscal and report. Each one has its own page."
   }
 }

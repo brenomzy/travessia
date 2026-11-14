@@ -24,20 +24,74 @@ heroCard:
   note: Taxa de 0,6% já descontada · câmbio R$ 5,45
 problem:
   title: No banco, o câmbio é surpresa
+  beforeLabel: "Banco brasileiro"
+  afterLabel: "Saldo da Travessia"
   points:
     - label: Câmbio escondido
       detail: O banco converte na chegada e você só vê o valor em reais depois, sem saber o câmbio usado.
+      before: "Crédito: R$ 10.412,00 · câmbio não informado"
+      after:
+        kind: "figure"
+        value: "R$ 5,45"
+        note: "Câmbio mostrado antes de você confirmar"
     - label: Taxas somadas
       detail: Tarifa de recebimento, spread e IOF chegam a levar até 6% do valor.
+      before: "Tarifa + spread + IOF: até 6%"
+      after:
+        kind: "chips"
+        primary: "Taxa 0,6% · US$ 12,00"
+        items:
+          - "Sem tarifa para receber"
     - label: Sem escolha de quando
       detail: O dinheiro vira reais no dia em que chega, mesmo que o câmbio esteja ruim.
+      before: "Convertido na chegada"
+      after:
+        kind: "chips"
+        primary: "Converter agora"
+        items:
+          - "Manter em dólar"
 steps:
   - title: Receba na moeda do cliente
     detail: O pagamento entra no seu saldo em dólar, euro ou libra, sem taxa para receber.
+    screen:
+      kind: "status"
+      title: "Saldo em dólar"
+      rows:
+        - label: "Halden & Co."
+          value: "+ US$ 2,000.00"
+          highlight: true
+        - label: "Taxa para receber"
+          value: "US$ 0,00"
+      total:
+        label: "Saldo"
+        value: "US$ 4.212,40"
   - title: Veja a conta antes
     detail: Ao converter, a taxa de 0,6% e o câmbio aparecem antes de você confirmar.
+    screen:
+      kind: "status"
+      title: "Converter US$ 2,000.00"
+      rows:
+        - label: "Taxa de 0,6%"
+          value: "− US$ 12,00"
+        - label: "Câmbio"
+          value: "R$ 5,45"
+      total:
+        label: "Você recebe"
+        value: "R$ 10.834,60"
   - title: Receba por Pix
     detail: Os reais chegam na sua conta por Pix em 1 dia útil.
+    screen:
+      kind: "status"
+      title: "Pix recebido"
+      rows:
+        - label: "De"
+          value: "Travessia"
+        - label: "Chegou"
+          value: "15 nov, 9h20"
+          highlight: true
+      total:
+        label: "Valor"
+        value: "R$ 10.834,60"
 faqTitle: Perguntas sobre saldo e câmbio
 integrationsLabel: "Integrações de pagamento:"
 integrations:

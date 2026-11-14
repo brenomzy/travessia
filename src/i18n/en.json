@@ -152,6 +152,7 @@
       "forms": "Waitlist form",
       "product": "Product UI pieces",
       "vignettes": "Feature vignettes",
+      "bento": "Feature bento (/product)",
       "sphere": "Integrations sphere",
       "billing": "Billing toggle",
       "tabs": "Product screens (tabs)",
@@ -171,7 +172,25 @@
       "nav": "Open an account",
       "link": "See the product"
     },
-    "countSample": "0.6%"
+    "countSample": "0.6%",
+    "seamMotion": {
+      "title": "Seam motion (shader)",
+      "lead": "The same seam as the PNG, drawn with WebGL and moving. The first frame matches the PNG. With reduced motion, or without WebGL2, the PNG stays.",
+      "presets": {
+        "still": "Still: the shader with no motion, to compare against the PNG.",
+        "flow": "Flow: the shoreline’s shape travels down the seam.",
+        "drift": "Drift: the shoreline changes shape without moving along.",
+        "breathe": "Breathe: the mixing zone slowly widens and narrows.",
+        "shimmer": "Shimmer: dots in the mixing zone twinkle, one dither step at a time.",
+        "river": "River: flow, drift and breathe together, all faint. This is the one on the heroes."
+      }
+    },
+    "hover": {
+      "title": "Hover",
+      "lead": "Mouse and trackpad only, and nothing moves with reduced motion. The pill slides between nav links and rests on the current page. In card grids, the other cards fall back. On a card that's a link, the link's label rolls and one part of the picture moves: the invoice switches to PT, the balances wave, the nota fiscal's tick pops, the bars grow. In the FAQ, the row under the pointer fills in and the others fall back.",
+      "pillLabel": "Sliding pill example",
+      "faqTitle": "Questions (hover)"
+    }
   },
   "interior": {
     "primaryCta": {

@@ -59,7 +59,7 @@ const pageAlternates = {
     <div class="l-container bar-inner">
       <nav class="cats" aria-label={page.categoriesLabel}>
         <ul role="list">
-          <li><a href={path('blog', locale)}>{page.all}</a></li>
+          <li><a data-press href={path('blog', locale)}>{page.all}</a></li>
           {
             categoryIds.map((id) => (
               <li>
@@ -80,7 +80,7 @@ const pageAlternates = {
 
   <Section spacing="after-strip" labelledby="page-title">
     <div class="l-stack" style="--gap: var(--space-xl)">
-      <ul id="category-grid" class="grid" role="list" data-reveal-stagger>
+      <ul id="category-grid" class="grid" role="list" data-reveal-stagger data-dim-siblings>
         {
           posts.map((p) => (
             <PostCard
@@ -179,7 +179,7 @@ const pageAlternates = {
     display: inline-block;
     padding: var(--space-2xs) var(--space-s);
     border: var(--size-hairline) solid var(--color-border-base);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     color: var(--color-text-base);
     font-size: var(--text-sm);
     text-decoration: none;

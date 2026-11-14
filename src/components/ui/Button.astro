@@ -1,7 +1,10 @@
 ---
 /**
  * Buttons and button-like links (Paper: Design system → Components → Buttons and links).
- * One accent button per view. Everything is a full pill. Labels are verbs in sentence case.
+ * One accent button per view. Corners use radius.control (not pills). Labels are verbs in sentence case.
+ * Pressing scales the button down a little and springs back (data-press, styles/base.css).
+ * A link button's label rolls up to a copy of itself on hover, after the portfolio's RollLink; inside a card marked
+ * data-hover-host (the whole card is the link), hovering anywhere on the card rolls it.
  */
 import type { HTMLAttributes } from 'astro/types';
 import Icon from './Icon.astro';
@@ -17,6 +20,8 @@ type Props = {
 
 const { variant = 'accent', size = 'm', href, type = 'button', arrow = false, block = false, class: className, ...rest } = Astro.props;
 const Tag = href ? 'a' : 'button';
+const roll = variant === 'link';
+const label = roll ? await Astro.slots.render('default') : '';
 ---
 
 <Tag
@@ -24,11 +29,21 @@ const Tag = href ? 'a' : 'button';
   data-variant={variant}
   data-size={size}
   data-block={block ? '' : undefined}
+  data-press
   href={href}
   type={href ? undefined : type}
   {...rest}
 >
-  <slot />
+  {
+    roll ? (
+      <span class="roll">
+        <span set:html={label} />
+        <span aria-hidden="true" set:html={label} />
+      </span>
+    ) : (
+      <slot />
+    )
+  }
   {arrow && <Icon name="arrow-right" />}
 </Tag>
 
@@ -46,7 +61,7 @@ const Tag = href ? 'a' : 'button';
     padding-block: var(--space-xs);
     padding-inline: var(--space-m);
     border: var(--size-focus-ring) solid var(--_border);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-control);
     background-color: var(--_bg);
     color: var(--_fg);
     font-family: var(--font-sans);
@@ -58,15 +73,11 @@ const Tag = href ? 'a' : 'button';
     transition:
       background-color var(--duration-fast) var(--ease-hover),
       color var(--duration-fast) var(--ease-hover),
-      translate var(--duration-fast) var(--ease-hover);
+      var(--transition-press);
   }
 
   .button:hover {
     text-decoration: none;
-  }
-
-  .button:active {
-    translate: 0 1px;
   }
 
   [data-variant='accent']:hover {
@@ -97,17 +108,43 @@ const Tag = href ? 'a' : 'button';
   }
 
   [data-variant='link']:hover {
-    text-decoration: underline;
-    text-decoration-thickness: var(--size-hairline);
-    text-underline-offset: 0.2em;
+    --_fg: var(--color-text-base);
+  }
+
+  /* The rolling label: two copies stacked in a one-line window. */
+  .roll {
+    position: relative;
+    display: inline-flex;
+    overflow: hidden;
+  }
+
+  .roll > span {
+    padding-block: calc(var(--space-3xs) / 2);
+    transition: translate var(--duration-story) var(--ease-expo);
+  }
+
+  .roll > span + span {
+    position: absolute;
+    inset: 0;
+    translate: 0 100%;
   }
 
   [data-variant='link'] :global(.icon) {
-    transition: translate var(--duration-fast) var(--ease-hover);
+    transition: translate var(--duration-story) var(--ease-expo);
   }
 
-  [data-variant='link']:hover :global(.icon) {
+  :is([data-variant='link']:hover, :global([data-hover-host]:hover) [data-variant='link']) :global(.icon) {
     translate: var(--space-3xs) 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :is([data-variant='link']:hover, :global([data-hover-host]:hover) [data-variant='link']) .roll > span:first-child {
+      translate: 0 -100%;
+    }
+
+    :is([data-variant='link']:hover, :global([data-hover-host]:hover) [data-variant='link']) .roll > span + span {
+      translate: 0 0;
+    }
   }
 
   [data-size='s'] {
