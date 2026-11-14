@@ -6,7 +6,7 @@
  * the seam is off screen or the tab is hidden; time only advances while it runs, so it resumes where it stopped.
  * Frames step at 15 per second: pixel art reads better stepped, and it's a quarter of the GPU work.
  */
-import { createSeamRenderer, MOTION_PRESETS, type SeamRenderer } from '../generators/seam';
+import { createSeamRenderer, MOTION_PRESETS, TEXTURES, type SeamRenderer, type TextureName } from '../generators/seam';
 
 const FPS = 15;
 
@@ -24,12 +24,10 @@ function rgb(value: string): [number, number, number] {
 function start(canvas: HTMLCanvasElement): void {
   const d = canvas.dataset;
   const css = getComputedStyle(canvas);
+  const texture = TEXTURES[d.texture as TextureName];
+  if (!texture) return;
   const renderer: SeamRenderer | null = createSeamRenderer(canvas, {
-    width: Number(d.width),
-    height: Number(d.height),
-    cell: Number(d.cell ?? 6),
-    at: Number(d.at),
-    amp: Number(d.amp),
+    ...texture,
     dark: rgb(css.getPropertyValue('--color-seam-dark')),
     light: rgb(css.getPropertyValue('--color-seam-light')),
     motion: MOTION_PRESETS[d.seam ?? 'river'] ?? MOTION_PRESETS.river,

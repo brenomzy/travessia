@@ -36,7 +36,7 @@ const hasVisual = Astro.slots.has('visual');
   data-size={size}
   style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
 >
-  <div class="seam" aria-hidden="true"><SeamCanvas at={0.4} amp={0.16} align="top" /></div>
+  <div class="seam" aria-hidden="true"><SeamCanvas texture="seam-40" align="top" /></div>
   <div class="copy" data-reveal-stagger>
     {breadcrumb && <Breadcrumb label={breadcrumb.label} items={breadcrumb.items} />}
     <slot name="intro" />

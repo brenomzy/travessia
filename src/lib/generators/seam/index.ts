@@ -7,6 +7,10 @@
  * reproduces the approved PNG: same Perlin noise and the same permutation table (Park–Miller, seed 7), same fbm,
  * domain warp, boundary, gain and 4×4 Bayer matrix. Only float32 rounding can flip a cell right on a threshold.
  *
+ * Two shapes share the pipeline. Vertical seams (seam-40, seam-50, seam-cta: gen5 `seam()`) mix left to right; the
+ * horizontal family (hseam and the strip from gen5, the mobile hero seam from gen4) mixes top to bottom with its own
+ * scales, warp strength and gain. TEXTURES holds each approved PNG's recipe by name.
+ *
  * Motion ideas, each a multiplier so 0 turns it off:
  * - flow: the noise field slides along the seam (downstream), so the shoreline keeps changing shape.
  * - drift: the warp's second lookup moves, so the shape churns in place without travelling.
@@ -25,21 +29,80 @@ export type SeamMotion = {
   shimmer: number;
 };
 
-export type SeamRecipe = {
-  /** Texture size in pixels, as in the PNG (e.g. 2880×1800). */
-  width: number;
-  height: number;
-  /** Dither cell in texture pixels (6 for the seams). */
-  cell: number;
+/** A vertical seam (gen5 `seam()`): dark on the left, light on the right. */
+export type VerticalShape = {
+  axis: 'vertical';
   /** Seam centre line, 0–1 across the width. */
   at: number;
   /** Warp amplitude (0.16 for seam-40/50, 0.12 for seam-cta). */
   amp: number;
-  /** Two flat colours as [r, g, b] 0–255: left (dark) and right (light). */
+};
+
+/**
+ * A horizontal seam (gen5 hseam and strip, gen4 mobile seam). X and Y are a cell's pixel position times `scale`;
+ * the noise is read at (X·noise.x, Y·noise.y), warped with strength `k`, and the boundary is `Y − at`.
+ */
+export type HorizontalShape = {
+  axis: 'horizontal';
+  /** Pixels to field units, per axis (e.g. hseam: 4.2 / width and 1 / height). */
+  scale: [number, number];
+  noise: [number, number];
+  k: number;
+  at: number;
+  amp: number;
+  gain: number;
+  /** true when the colour above the threshold is the dark one (the strip: tapajós on top). */
+  invert: boolean;
+};
+
+export type SeamRecipe = {
+  /** Texture size in pixels, as in the PNG (e.g. 2880×1800). */
+  width: number;
+  height: number;
+  /** Dither cell in texture pixels (6 for every seam). */
+  cell: number;
+  shape: VerticalShape | HorizontalShape;
+  /** Two flat colours as [r, g, b] 0–255: dark (noite) and light (tapajós). */
   dark: [number, number, number];
   light: [number, number, number];
   motion: SeamMotion;
 };
+
+/** The approved PNGs (docs/design/texture-lab/README.md), by the name SeamCanvas takes. */
+export const TEXTURES = {
+  'seam-40': { width: 2880, height: 1800, cell: 6, shape: { axis: 'vertical', at: 0.4, amp: 0.16 } },
+  'seam-50': { width: 2880, height: 1800, cell: 6, shape: { axis: 'vertical', at: 0.5, amp: 0.16 } },
+  'seam-cta': { width: 2880, height: 1200, cell: 6, shape: { axis: 'vertical', at: 0.5, amp: 0.12 } },
+  hseam: {
+    width: 2880,
+    height: 1800,
+    cell: 6,
+    shape: { axis: 'horizontal', scale: [4.2 / 2880, 1 / 1800], noise: [0.8, 2.4], k: 3.5, at: 0.47, amp: 0.13, gain: 8, invert: false },
+  },
+  'strip-tap-noite': {
+    width: 2880,
+    height: 480,
+    cell: 6,
+    shape: { axis: 'horizontal', scale: [6 / 2880, 1 / 480], noise: [0.7, 2], k: 3, at: 0.5, amp: 0.45, gain: 2.2, invert: true },
+  },
+  'mobile-seam-v2': {
+    width: 780,
+    height: 3040,
+    cell: 6,
+    shape: {
+      axis: 'horizontal',
+      scale: [1.3 / 780, 1.3 / 780],
+      noise: [1.2, 0.8],
+      k: 3.5,
+      at: ((0.315 * 3040) / 780) * 1.3,
+      amp: 0.75,
+      gain: 1.7,
+      invert: false,
+    },
+  },
+} satisfies Record<string, Pick<SeamRecipe, 'width' | 'height' | 'cell' | 'shape'>>;
+
+export type TextureName = keyof typeof TEXTURES;
 
 export const STILL: SeamMotion = { flow: 0, drift: 0, breathe: 0, shimmer: 0 };
 
@@ -77,8 +140,15 @@ uniform vec2 u_cells;      // canvas size in cells
 uniform float u_cellUV;    // one cell as a fraction of texture width (cell / width)
 uniform float u_cellV;     // one cell as a fraction of texture height (cell / height)
 uniform float u_aspect;    // texture width / height
+uniform int u_axis;        // 0 vertical, 1 horizontal
 uniform float u_at;
 uniform float u_amp;
+uniform float u_cell;      // cell in pixels (horizontal)
+uniform vec2 u_scale;      // pixels to field units (horizontal)
+uniform vec2 u_noise;      // noise frequency per axis (horizontal)
+uniform float u_k;         // warp strength (horizontal)
+uniform float u_gain;      // edge sharpness (horizontal)
+uniform bool u_invert;
 uniform float u_time;
 uniform vec4 u_motion;     // flow, drift, breathe, shimmer
 uniform vec3 u_dark;
@@ -114,23 +184,37 @@ void main() {
   // gl_FragCoord is bottom-up; the texture is top-down.
   int cx = int(gl_FragCoord.x);
   int cy = int(u_cells.y) - 1 - int(gl_FragCoord.y);
-  float uu = float(cx) * u_cellUV;
-  float vv = float(cy) * u_cellV;
-
-  float px = vv * 1.6 / u_aspect * 2.2 - u_time * u_motion.x; // minus: the pattern travels down
-  float py = uu * 1.6 * 2.2;
-  float qx = fbm(px, py * 2.5);
-  float qy = fbm(px + 5.2, py * 2.5 + 1.3);
   float d = u_time * u_motion.y;
-  float warp = fbm(px + 4.0 * qx + d, py * 2.5 + 4.0 * qy - d * 0.6);
   float amp = u_amp * (1.0 + u_motion.z * sin(u_time * 0.35));
-  float boundary = (uu - u_at) + warp * amp + sin(vv * 4.0 + 1.0) * 0.012;
-  float f = clamp(0.5 + boundary * 9.0 + warp * 0.2, 0.0, 1.0);
+  float f;
+
+  if (u_axis == 0) {
+    float uu = float(cx) * u_cellUV;
+    float vv = float(cy) * u_cellV;
+    float px = vv * 1.6 / u_aspect * 2.2 - u_time * u_motion.x; // minus: the pattern travels down
+    float py = uu * 1.6 * 2.2;
+    float qx = fbm(px, py * 2.5);
+    float qy = fbm(px + 5.2, py * 2.5 + 1.3);
+    float warp = fbm(px + 4.0 * qx + d, py * 2.5 + 4.0 * qy - d * 0.6);
+    float boundary = (uu - u_at) + warp * amp + sin(vv * 4.0 + 1.0) * 0.012;
+    f = clamp(0.5 + boundary * 9.0 + warp * 0.2, 0.0, 1.0);
+  } else {
+    float X = float(cx) * u_cell * u_scale.x;
+    float Y = float(cy) * u_cell * u_scale.y;
+    float nx = X * u_noise.x - u_time * u_motion.x; // minus: the pattern travels right
+    float ny = Y * u_noise.y;
+    float qx = fbm(nx, ny);
+    float qy = fbm(nx + 5.2, ny + 1.3);
+    float warp = fbm(nx + u_k * qx + d, ny + u_k * qy - d * 0.6);
+    float boundary = (Y - u_at) + warp * amp;
+    f = clamp(0.5 + boundary * u_gain + warp * 0.2, 0.0, 1.0);
+  }
 
   int k = int(floor(u_time * u_motion.w));
   int bi = ((cy + k) % 4) * 4 + ((cx + k * 3) % 4);
   float threshold = (BAYER[bi] + 0.5) / 16.0;
-  outColor = vec4((f > threshold ? u_light : u_dark) / 255.0, 1.0);
+  bool high = (f > threshold) != u_invert;
+  outColor = vec4((high ? u_light : u_dark) / 255.0, 1.0);
 }`;
 
 export type SeamRenderer = {
@@ -195,8 +279,18 @@ export function createSeamRenderer(canvas: HTMLCanvasElement, recipe: SeamRecipe
   gl.uniform1f(u('u_cellUV'), recipe.cell / recipe.width);
   gl.uniform1f(u('u_cellV'), recipe.cell / recipe.height);
   gl.uniform1f(u('u_aspect'), recipe.width / recipe.height);
-  gl.uniform1f(u('u_at'), recipe.at);
-  gl.uniform1f(u('u_amp'), recipe.amp);
+  const shape = recipe.shape;
+  gl.uniform1i(u('u_axis'), shape.axis === 'vertical' ? 0 : 1);
+  gl.uniform1f(u('u_at'), shape.at);
+  gl.uniform1f(u('u_amp'), shape.amp);
+  gl.uniform1f(u('u_cell'), recipe.cell);
+  if (shape.axis === 'horizontal') {
+    gl.uniform2f(u('u_scale'), ...shape.scale);
+    gl.uniform2f(u('u_noise'), ...shape.noise);
+    gl.uniform1f(u('u_k'), shape.k);
+    gl.uniform1f(u('u_gain'), shape.gain);
+    gl.uniform1i(u('u_invert'), shape.invert ? 1 : 0);
+  }
   gl.uniform3f(u('u_dark'), ...recipe.dark);
   gl.uniform3f(u('u_light'), ...recipe.light);
   const uTime = u('u_time');
