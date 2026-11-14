@@ -85,7 +85,7 @@ const sp = spotlight.data;
           groups={[{ id: 'kind', label: page.filterLabel, all: page.all, options }]}
         />
       </div>
-      <ul id="story-grid" class="grid" role="list" data-reveal-stagger>
+      <ul id="story-grid" class="grid" role="list" data-reveal-stagger data-dim-siblings>
         {
           rest.map(({ data }) => (
             <StoryCard

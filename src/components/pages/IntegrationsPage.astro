@@ -62,7 +62,7 @@ const badgeFor = (i: (typeof integrations)[number]['data']) =>
 
   <Section spacing="after-strip">
     <div class="l-stack" style="--gap: var(--space-xl)">
-      <ul id={gridId} class="grid" role="list" data-collapsed data-reveal-stagger>
+      <ul id={gridId} class="grid" role="list" data-collapsed data-reveal-stagger data-dim-siblings>
         {
           integrations.map(({ data }) => (
             <IntegrationCard

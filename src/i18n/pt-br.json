@@ -185,6 +185,12 @@
         "shimmer": "Brilho: os pontos da zona de mistura piscam, um passo do pontilhado por vez.",
         "river": "Rio: correnteza, deriva e respiração juntas, bem fracas. É a que está nos heróis."
       }
+    },
+    "hover": {
+      "title": "Hover",
+      "lead": "Só com mouse ou trackpad, e nada se move com movimento reduzido. A pílula desliza entre os links da navegação e para na página atual. Em grades de cartões, os outros cartões recuam. Num cartão que é link, o texto do link rola e uma parte da ilustração se mexe: o idioma da fatura muda para PT, os saldos ondulam, o visto da nota fiscal aparece, as barras crescem. Nas perguntas, a linha sob o ponteiro ganha fundo e as outras recuam.",
+      "pillLabel": "Exemplo de pílula deslizante",
+      "faqTitle": "Perguntas (hover)"
     }
   },
   "interior": {

@@ -92,7 +92,7 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
         <h2 id="all-title">{page.allTitle}</h2>
         <p>{page.count.replace('{n}', String(posts.length))}</p>
       </div>
-      <ul id="post-grid" class="grid" role="list" data-reveal-stagger>
+      <ul id="post-grid" class="grid" role="list" data-reveal-stagger data-dim-siblings>
         {
           rest.map((p) => (
             <PostCard

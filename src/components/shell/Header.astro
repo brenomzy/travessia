@@ -47,7 +47,7 @@ const navTheme = variant === 'seam' ? 'primary' : brandTheme;
         </div>
       ) : (
       <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
-        <nav class="nav" aria-label={s.a11y.mainNav}>
+        <nav class="nav" aria-label={s.a11y.mainNav} data-pill>
           <ul role="list">
             {
               items.map((item) => (
@@ -153,28 +153,24 @@ const navTheme = variant === 'seam' ? 'primary' : brandTheme;
 
   .nav ul {
     display: flex;
-    gap: var(--space-l);
+    gap: var(--space-3xs);
     margin: 0;
     padding: 0;
   }
 
+  /* A sliding pill (lib/motion/pill.ts) follows the pointer and rests on the current page. */
   .nav a {
+    display: block;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-control);
     color: var(--color-text-base);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     text-decoration: none;
   }
 
-  /* Hovering one link dims the others. The underline marks the current page only. */
-  .nav a {
-    transition: opacity var(--duration-fast) var(--ease-hover);
-  }
-
-  .nav ul:hover a:not(:hover) {
-    opacity: var(--opacity-dim);
-  }
-
-  .nav a[aria-current] {
+  /* Without the script, an underline marks the current page. */
+  .nav:not([data-pill-ready]) a[aria-current] {
     text-decoration: underline;
     text-decoration-thickness: var(--size-focus-ring);
     text-underline-offset: 0.4em;

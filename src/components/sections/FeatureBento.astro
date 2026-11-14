@@ -26,10 +26,10 @@ interface Props {
 const { locale, title, lead, features } = Astro.props;
 ---
 
-<Section theme="dark" labelledby="features-title">
+<Section theme="dark" labelledby="bento-title">
   <div class="stack" style={`--_texture: url(${seamCta.src});`}>
-    <SectionHeader id="features-title" title={title} lead={lead} />
-    <ul class="bento" role="list">
+    <SectionHeader id="bento-title" title={title} lead={lead} />
+    <ul class="bento" role="list" data-dim-siblings>
       {
         features.map(({ data: f }, i) => {
           const v = f.vignette;
@@ -40,6 +40,7 @@ const { locale, title, lead, features } = Astro.props;
               data-wide={i % 3 === 0 ? '' : undefined}
               data-theme={v.kind === 'balances' ? 'deep' : undefined}
               data-press="card"
+              data-hover-host
               data-reveal
             >
               <div class="texture" aria-hidden="true">
@@ -195,7 +196,8 @@ const { locale, title, lead, features } = Astro.props;
     color: var(--color-text-base);
     transition:
       --_reach var(--duration-slow) var(--ease-out),
-      var(--transition-press);
+      var(--transition-press),
+      var(--transition-dim);
   }
 
   .tile[data-theme='deep'] {
@@ -270,10 +272,6 @@ const { locale, title, lead, features } = Astro.props;
 
   .tile:hover :global(.button[data-variant='link']) {
     --_fg: var(--color-text-base);
-  }
-
-  .tile:hover :global(.button[data-variant='link'] .icon) {
-    translate: var(--space-3xs) 0;
   }
 
   .tile:has(:focus-visible) {

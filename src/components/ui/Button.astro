@@ -3,6 +3,8 @@
  * Buttons and button-like links (Paper: Design system → Components → Buttons and links).
  * One accent button per view. Corners use radius.control (not pills). Labels are verbs in sentence case.
  * Pressing scales the button down a little and springs back (data-press, styles/base.css).
+ * A link button's label rolls up to a copy of itself on hover, after the portfolio's RollLink; inside a card marked
+ * data-hover-host (the whole card is the link), hovering anywhere on the card rolls it.
  */
 import type { HTMLAttributes } from 'astro/types';
 import Icon from './Icon.astro';
@@ -18,6 +20,8 @@ type Props = {
 
 const { variant = 'accent', size = 'm', href, type = 'button', arrow = false, block = false, class: className, ...rest } = Astro.props;
 const Tag = href ? 'a' : 'button';
+const roll = variant === 'link';
+const label = roll ? await Astro.slots.render('default') : '';
 ---
 
 <Tag
@@ -30,7 +34,16 @@ const Tag = href ? 'a' : 'button';
   type={href ? undefined : type}
   {...rest}
 >
-  <slot />
+  {
+    roll ? (
+      <span class="roll">
+        <span set:html={label} />
+        <span aria-hidden="true" set:html={label} />
+      </span>
+    ) : (
+      <slot />
+    )
+  }
   {arrow && <Icon name="arrow-right" />}
 </Tag>
 
@@ -98,12 +111,40 @@ const Tag = href ? 'a' : 'button';
     --_fg: var(--color-text-base);
   }
 
-  [data-variant='link'] :global(.icon) {
-    transition: translate var(--duration-fast) var(--ease-hover);
+  /* The rolling label: two copies stacked in a one-line window. */
+  .roll {
+    position: relative;
+    display: inline-flex;
+    overflow: hidden;
   }
 
-  [data-variant='link']:hover :global(.icon) {
+  .roll > span {
+    padding-block: calc(var(--space-3xs) / 2);
+    transition: translate var(--duration-story) var(--ease-expo);
+  }
+
+  .roll > span + span {
+    position: absolute;
+    inset: 0;
+    translate: 0 100%;
+  }
+
+  [data-variant='link'] :global(.icon) {
+    transition: translate var(--duration-story) var(--ease-expo);
+  }
+
+  :is([data-variant='link']:hover, :global([data-hover-host]:hover) [data-variant='link']) :global(.icon) {
     translate: var(--space-3xs) 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :is([data-variant='link']:hover, :global([data-hover-host]:hover) [data-variant='link']) .roll > span:first-child {
+      translate: 0 -100%;
+    }
+
+    :is([data-variant='link']:hover, :global([data-hover-host]:hover) [data-variant='link']) .roll > span + span {
+      translate: 0 0;
+    }
   }
 
   [data-size='s'] {

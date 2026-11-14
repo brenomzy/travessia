@@ -68,7 +68,9 @@ const site = Astro.site ?? new URL('https://travessia.example');
     <Footer locale={locale} alternates={alternates} />
     <script>
       import { wirePress } from '../lib/motion/press';
+      import { wirePills } from '../lib/motion/pill';
       wirePress();
+      wirePills();
     </script>
   </body>
 </html>

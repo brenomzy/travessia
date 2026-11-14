@@ -46,7 +46,10 @@ const search = `${i.name} ${i.shortDescription} ${categoryLabel}`
     border: var(--size-hairline) solid var(--color-border-base);
     border-radius: var(--radius-l);
     background-color: var(--color-bg-base);
-    transition: border-color var(--duration-fast) var(--ease-hover), var(--transition-press);
+    transition:
+      border-color var(--duration-fast) var(--ease-hover),
+      var(--transition-press),
+      var(--transition-dim);
   }
 
   /* Set by the IntegrationFilter island. */
@@ -56,6 +59,18 @@ const search = `${i.name} ${i.shortDescription} ${categoryLabel}`
 
   .card:hover {
     border-color: var(--color-border-strong);
+  }
+
+  /* The mark hops a little on hover, on a springy curve. */
+  .top :global(.mark) {
+    transition: translate var(--duration-story) var(--spring-gentle), rotate var(--duration-story) var(--spring-gentle);
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .card:hover .top :global(.mark) {
+      translate: 0 calc(var(--space-3xs) * -1);
+      rotate: -4deg;
+    }
   }
 
   .card:focus-within {
