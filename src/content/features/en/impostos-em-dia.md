@@ -19,20 +19,75 @@ heroCard:
   kind: vignette
 problem:
   title: The monthly spreadsheet is where taxes get complicated
+  beforeLabel: "Monthly spreadsheet"
+  afterLabel: "Travessia report"
   points:
     - label: Scattered numbers
       detail: Invoices, rates and tax invoices live in different places and have to be added up by hand.
+      before: "invoices.xlsx · rates.pdf · notas by email"
+      beforeMono: true
+      after:
+        kind: "chips"
+        primary: "October report"
+        items:
+          - "6 invoices"
+          - "4 conversions"
+          - "6 notas"
     - label: The MEI limit
       detail: If you don't track it, you only notice you've gone over when it's too late.
+      before: "MEI limit: ?"
+      after:
+        kind: "meter"
+        label: "2026 revenue"
+        value: "R$ 58.3k of R$ 81k"
+        fraction: 0.72
     - label: Carnê-leão
       detail: If you're paid as an individual, you work it out and pay every month, at the right rate.
+      before: "Day's rate: look it up on the Central Bank site"
+      after:
+        kind: "figure"
+        value: "R$ 1,284.20"
+        note: "October's carnê-leão, at each payment's rate"
 steps:
   - title: Everything comes in by itself
     detail: Invoices, payments, conversions and tax invoices sit in one place, with each day's exchange rate.
+    screen:
+      kind: "status"
+      title: "October"
+      rows:
+        - label: "Invoice #0041 paid"
+          value: "US$ 1,500.00"
+        - label: "Converted to reais"
+          value: "R$ 8,120.40"
+        - label: "Nota fiscal #318"
+          value: "Issued"
+          highlight: true
   - title: The report closes the month
     detail: On the first business day, the month's report comes out in your regime's format, MEI, Simples Nacional or carnê-leão.
+    screen:
+      kind: "status"
+      title: "October report · MEI"
+      rows:
+        - label: "Month's revenue"
+          value: "R$ 10,834.60"
+        - label: "Notas issued"
+          value: "6"
+        - label: "MEI limit used"
+          value: "72%"
+      total:
+        label: "Ready for your accountant"
+        value: "PDF"
   - title: Your accountant gets it
     detail: Send the report in one click, or let it go out automatically.
+    screen:
+      kind: "message"
+      from: "Travessia"
+      to: "to Marta Lima, accountant"
+      subject: "October report · Ana Ribeiro"
+      body: "The month's revenue, conversions and notas, in MEI format."
+      actions:
+        - "Open report"
+        - "PDF"
 faqTitle: Questions about taxes
 integrationsLabel: "Accounting integrations:"
 integrations:

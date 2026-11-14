@@ -1,67 +1,204 @@
 ---
-/** "Why this matters" on a feature page (Paper: feature template → Problem): a heading beside three labelled points. */
+/**
+ * "Why this matters" on a feature page (Paper: Options · Feature page and Home stats → "Problem B"). Each problem sits
+ * beside the old way, struck through, and Travessia's fix as a piece of product UI on a tint. From 960 px it's a
+ * three-column table with the column headings over the last two; below, each row stacks.
+ */
+import type { ComponentProps } from 'astro/types';
 import Section from './Section.astro';
+import ProblemFix from '../product/ProblemFix.astro';
 import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   title: string;
-  points: { label: string; detail: string }[];
+  beforeLabel: string;
+  afterLabel: string;
+  points: {
+    label: string;
+    detail: string;
+    before: string;
+    beforeMono: boolean;
+    after: ComponentProps<typeof ProblemFix>['fix'];
+    afterLang?: string;
+  }[];
 }
-const { title, points } = Astro.props;
+const { title, beforeLabel, afterLabel, points } = Astro.props;
 ---
 
 <Section labelledby="problem-title">
-  <div class="layout">
-    <h2 id="problem-title" data-reveal>{title}</h2>
-    <dl class="points" data-reveal-stagger>
+  <div class="table">
+    <div class="head" data-reveal-stagger>
+      <h2 id="problem-title">{title}</h2>
+      <p class="col-label" aria-hidden="true">{beforeLabel}</p>
+      <p class="col-label" data-after aria-hidden="true">{afterLabel}</p>
+    </div>
+    <ul class="rows" role="list" data-reveal-stagger>
       {
         points.map((p) => (
-          <div>
-            <dt>{p.label}</dt>
-            <dd>{p.detail}</dd>
-          </div>
+          <li class="row">
+            <div class="what">
+              <h3>{p.label}</h3>
+              <p>{p.detail}</p>
+            </div>
+            <div class="before">
+              <span class="cell-label">{beforeLabel}</span>
+              <s data-mono={p.beforeMono ? '' : undefined}>{p.before}</s>
+            </div>
+            <div class="after">
+              <span class="cell-label">{afterLabel}</span>
+              <ProblemFix fix={p.after} lang={p.afterLang} />
+            </div>
+          </li>
         ))
       }
-    </dl>
+    </ul>
   </div>
 </Section>
 
 <MotionScript />
 
 <style>
-  .layout {
+  .table {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xl) var(--space-3xl);
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .head {
+    display: grid;
+    align-items: end;
   }
 
   h2 {
-    flex: 0 1 32.5rem;
+    max-inline-size: 32.5rem;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
   }
 
-  .points {
-    flex: 1 1 30rem;
-    border-block-start: var(--size-hairline) solid var(--color-border-strong);
-  }
-
-  .points div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2xs) var(--space-l);
-    padding-block: var(--space-m);
-    border-block-end: var(--size-hairline) solid var(--color-border-base);
-  }
-
-  dt {
-    flex: 0 0 13.75rem;
-    font-size: var(--text-lg);
-    line-height: var(--leading-lg);
+  .col-label {
+    display: none;
+    align-items: center;
+    gap: var(--space-2xs);
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
     font-weight: var(--font-weight-semibold);
   }
 
-  dd {
-    flex: 1 1 18rem;
-    margin: 0;
-    color: var(--color-text-muted);
+  .col-label[data-after] {
+    color: var(--color-text-base);
+  }
+
+  .col-label[data-after]::before {
+    content: '';
+    inline-size: var(--space-xs);
+    block-size: var(--space-xs);
+    border-radius: var(--radius-xs);
+    background-color: var(--color-accent-data);
+  }
+
+  .rows {
+    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  }
+
+  .row {
+    display: grid;
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .what {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding-block: var(--space-m) var(--space-s);
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .what p {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .before,
+  .after {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-2xs);
+  }
+
+  .before {
+    padding-block-end: var(--space-s);
+  }
+
+  .after {
+    margin-block-end: var(--space-m);
+    padding: var(--space-s) var(--space-m);
+    border-radius: var(--radius-m);
+    background-color: var(--color-chip-bg);
+  }
+
+  /* On one column each cell says which side it is. */
+  .cell-label {
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  s {
+    color: var(--color-text-subtle);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+    font-weight: var(--font-weight-semibold);
+    text-decoration-thickness: var(--size-focus-ring);
+    text-decoration-color: var(--color-text-quiet);
+  }
+
+  s[data-mono] {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-regular);
+  }
+
+  /* From 960 px: the three-column table. */
+  @container (width >= 60rem) {
+    .head,
+    .row {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .col-label {
+      display: flex;
+      padding-inline: var(--space-l);
+    }
+
+    .what {
+      padding-block: var(--space-l);
+      padding-inline-end: var(--space-xl);
+    }
+
+    .before,
+    .after {
+      padding: var(--space-l);
+    }
+
+    .after {
+      margin: 0;
+      border-radius: 0;
+    }
+
+    /* The column headings carry it on screen; screen readers still get it per cell. */
+    .cell-label {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
   }
 </style>

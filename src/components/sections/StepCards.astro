@@ -1,31 +1,38 @@
 ---
 /**
- * Three numbered steps. cards: white cards on tint (Paper: feature template → How it works).
- * columns: open columns split by rules, on white (Paper: /en/for-clients → What happens on your side).
+ * Three numbered steps on one track, each with the product screen it produces (Paper: Options · Feature page and
+ * Home stats → "Steps A"). From 800 px the steps sit side by side with a line joining their numbers; below, they stack
+ * and the line runs down the left. A step without a screen shows its text only.
+ * theme: tint on feature pages, light on /para-clientes.
  */
+import type { ComponentProps } from 'astro/types';
 import Section from './Section.astro';
+import StepScreen from '../product/StepScreen.astro';
 import MotionScript from '../ui/MotionScript.astro';
 
 interface Props {
   title: string;
-  steps: { title: string; detail: string }[];
-  variant?: 'cards' | 'columns';
+  steps: { title: string; detail: string; screen?: ComponentProps<typeof StepScreen>['screen'] }[];
+  theme?: 'tint' | 'light';
 }
-const { title, steps, variant = 'cards' } = Astro.props;
+const { title, steps, theme = 'tint' } = Astro.props;
 ---
 
-<Section theme={variant === 'cards' ? 'tint' : 'light'} labelledby="steps-title">
-  <div class="l-stack" style="--gap: var(--space-xl)">
+<Section theme={theme} labelledby="steps-title">
+  <div class="l-stack" style="--gap: var(--space-2xl)">
     <h2 id="steps-title" data-reveal>{title}</h2>
-    <ol class="steps l-grid" role="list" style="--min: 16rem; --gap: var(--space-l)" data-reveal-stagger data-variant={variant}>
+    <ol class="track" role="list" data-reveal-stagger>
       {
         steps.map((step, i) => (
           <li class="step">
             <span class="number" aria-hidden="true">
               {i + 1}
             </span>
-            <h3>{step.title}</h3>
-            <p>{step.detail}</p>
+            <div class="text">
+              <h3>{step.title}</h3>
+              <p>{step.detail}</p>
+            </div>
+            {step.screen && <StepScreen screen={step.screen} />}
           </li>
         ))
       }
@@ -36,49 +43,100 @@ const { title, steps, variant = 'cards' } = Astro.props;
 <MotionScript />
 
 <style>
+  .track {
+    --_dot: var(--space-l);
+    display: grid;
+    gap: var(--space-xl);
+  }
+
   .step {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    padding: var(--space-l);
-    border-radius: var(--radius-l);
-    background-color: var(--color-bg-raised);
-    box-shadow: var(--shadow-1);
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--_dot) minmax(0, 1fr);
+    gap: var(--space-s) var(--space-m);
+    align-items: start;
   }
 
-  [data-variant='columns'] {
-    padding-block-start: var(--space-l);
-    border-block-start: var(--size-hairline) solid var(--color-border-strong);
+  .step > :not(.number),
+  .step > :global(.screen) {
+    grid-column: 2;
   }
 
-  [data-variant='columns'] .step {
-    padding: 0 var(--space-l) 0 0;
-    border-radius: 0;
-    background: none;
-    box-shadow: none;
-  }
-
-  @container (width >= 50rem) {
-    [data-variant='columns'] .step + .step {
-      padding-inline-start: var(--space-l);
-      border-inline-start: var(--size-hairline) solid var(--color-border-base);
-    }
+  /* The line: down from each number to the next on one column. */
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    inset-block: var(--_dot) calc(var(--space-xl) * -1);
+    inset-inline-start: calc(var(--_dot) / 2 - var(--size-hairline));
+    inline-size: var(--size-focus-ring);
+    background-color: var(--color-accent-data-soft);
   }
 
   .number {
-    color: var(--color-accent-data);
-    font-size: var(--text-3xl);
-    line-height: var(--leading-3xl);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--font-tracking-heading);
+    position: relative;
+    display: grid;
+    place-items: center;
+    inline-size: var(--_dot);
+    block-size: var(--_dot);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent-data);
+    box-shadow: 0 0 0 var(--space-2xs) var(--color-bg-base);
+    color: var(--color-on-data);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
   }
 
   h3 {
     font-size: var(--text-xl);
     line-height: var(--leading-xl);
+    letter-spacing: var(--font-tracking-title);
   }
 
-  p {
+  .text p {
+    max-inline-size: 26rem;
     color: var(--color-text-muted);
+  }
+
+  /* From 800 px: three columns, the line runs across under the numbers. */
+  @container (width >= 50rem) {
+    /* Subgrid rows, so the three texts and the three screens line up across the steps. */
+    .track {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: auto auto 1fr;
+      gap: var(--space-m) var(--space-l);
+    }
+
+    .step {
+      grid-row: span 3;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: subgrid;
+      gap: var(--space-m);
+    }
+
+    .step > :global(.screen) {
+      align-self: stretch;
+    }
+
+    .step > :not(.number),
+    .step > :global(.screen) {
+      grid-column: 1;
+    }
+
+    .step:not(:last-child)::before {
+      inset-block: calc(var(--_dot) / 2 - var(--size-hairline)) auto;
+      inset-inline: var(--_dot) calc(var(--space-l) * -1);
+      inline-size: auto;
+      block-size: var(--size-focus-ring);
+    }
+
+    .text {
+      padding-inline-end: var(--space-l);
+    }
   }
 </style>

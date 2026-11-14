@@ -28,6 +28,7 @@ import IntegrationFilter from '../components/islands/IntegrationFilter';
 import Chip from '../components/ui/Chip.astro';
 import ProblemList from '../components/sections/ProblemList.astro';
 import StepCards from '../components/sections/StepCards.astro';
+import StatBand from '../components/sections/StatBand.astro';
 import ClosingCta from '../components/sections/ClosingCta.astro';
 import ComparePlans from '../components/sections/ComparePlans.astro';
 import FaqTopicsSection from '../components/sections/FaqTopicsSection.astro';
@@ -480,6 +481,7 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
   <Section spacing="none">
     <h2 class="label">{g.sections.interior}</h2>
   </Section>
+  <StatBand {...home.outcomes} />
   <ProblemList {...features[0].data.problem} />
   <StepCards title={s.interior.stepsTitle} steps={features[0].data.steps} />
   <div data-billing-scope data-billing="monthly">

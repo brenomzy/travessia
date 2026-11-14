@@ -24,20 +24,74 @@ heroCard:
   note: 0.6% fee already taken · rate R$ 5.45
 problem:
   title: At the bank, the exchange rate is a surprise
+  beforeLabel: "Brazilian bank"
+  afterLabel: "Travessia balance"
   points:
     - label: Hidden rate
       detail: The bank converts on arrival and you only see the amount in reais afterwards, without knowing the rate.
+      before: "Credit: R$ 10,412.00 · rate not shown"
+      after:
+        kind: "figure"
+        value: "R$ 5.45"
+        note: "Rate shown before you confirm"
     - label: Stacked fees
       detail: Receiving fees, spread and IOF tax can take up to 6% of the amount.
+      before: "Fee + spread + IOF: up to 6%"
+      after:
+        kind: "chips"
+        primary: "0.6% fee · US$ 12.00"
+        items:
+          - "No fee to receive"
     - label: No say on timing
       detail: The money turns into reais the day it arrives, even when the rate is bad.
+      before: "Converted on arrival"
+      after:
+        kind: "chips"
+        primary: "Convert now"
+        items:
+          - "Keep in dollars"
 steps:
   - title: Get paid in your client's currency
     detail: The payment lands in your dollar, euro or pound balance, with no fee to receive it.
+    screen:
+      kind: "status"
+      title: "Dollar balance"
+      rows:
+        - label: "Halden & Co."
+          value: "+ US$ 2,000.00"
+          highlight: true
+        - label: "Fee to receive"
+          value: "US$ 0.00"
+      total:
+        label: "Balance"
+        value: "US$ 4,212.40"
   - title: See the numbers first
     detail: When you convert, the 0.6% fee and the exchange rate show before you confirm.
+    screen:
+      kind: "status"
+      title: "Convert US$ 2,000.00"
+      rows:
+        - label: "0.6% fee"
+          value: "− US$ 12.00"
+        - label: "Rate"
+          value: "R$ 5.45"
+      total:
+        label: "You get"
+        value: "R$ 10,834.60"
   - title: Receive by Pix
     detail: The reais reach your Brazilian account by Pix in 1 business day.
+    screen:
+      kind: "status"
+      title: "Pix received"
+      rows:
+        - label: "From"
+          value: "Travessia"
+        - label: "Arrived"
+          value: "Nov 15, 9:20 am"
+          highlight: true
+      total:
+        label: "Amount"
+        value: "R$ 10,834.60"
 faqTitle: Questions about balances and rates
 integrationsLabel: "Payment integrations:"
 integrations:

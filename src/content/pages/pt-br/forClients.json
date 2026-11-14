@@ -45,15 +45,62 @@
     "items": [
       {
         "title": "Você recebe um e-mail",
-        "detail": "Com a fatura em PDF e um link seguro. Sem conta, sem app."
+        "detail": "Com a fatura em PDF e um link seguro. Sem conta, sem app.",
+        "screen": {
+          "kind": "message",
+          "lang": "en",
+          "from": "Ana Ribeiro",
+          "to": "to Halden & Co. accounts",
+          "subject": "Invoice #0042 · US$ 2,000.00",
+          "body": "Due Nov 14. Pay by card or bank transfer, no account needed.",
+          "actions": [
+            "Pay invoice",
+            "PDF"
+          ]
+        }
       },
       {
         "title": "Você paga como já paga hoje",
-        "detail": "Cartão ou transferência local em USD, EUR ou GBP para uma conta na sua região."
+        "detail": "Cartão ou transferência local em USD, EUR ou GBP para uma conta na sua região.",
+        "screen": {
+          "kind": "status",
+          "lang": "en",
+          "title": "Pay US$ 2,000.00",
+          "rows": [
+            {
+              "label": "Card",
+              "value": "Visa, Mastercard, Amex"
+            },
+            {
+              "label": "Bank transfer",
+              "value": "GBP to a UK account"
+            }
+          ]
+        }
       },
       {
         "title": "Você recebe um recibo",
-        "detail": "Um recibo de pagamento para a contabilidade, em inglês, assim que o pagamento é confirmado."
+        "detail": "Um recibo de pagamento para a contabilidade, em inglês, assim que o pagamento é confirmado.",
+        "screen": {
+          "kind": "status",
+          "lang": "en",
+          "title": "Receipt #0042",
+          "rows": [
+            {
+              "label": "Method",
+              "value": "Card"
+            },
+            {
+              "label": "Paid",
+              "value": "Nov 14, 9:11 am",
+              "highlight": true
+            }
+          ],
+          "total": {
+            "label": "Amount",
+            "value": "US$ 2,000.00"
+          }
+        }
       }
     ]
   },

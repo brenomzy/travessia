@@ -34,20 +34,83 @@ heroCard:
     - Bank transfer
 problem:
   title: An invoice in reais doesn't work for someone paying from abroad
+  beforeLabel: "Invoice in reais"
+  afterLabel: "Travessia invoice"
   points:
     - label: Currency and language
       detail: The client's finance team needs the amount in their currency and a document they can read and file.
+      before: "R$ 10,900.00 · in Portuguese"
+      after:
+        kind: "figure"
+        value: "US$ 2,000.00"
+        tags:
+          - "EN"
+          - "ES"
+          - "PT"
     - label: How to pay
       detail: Brazilian bank details confuse people. A link with card or local transfer solves it.
+      before: "Bank 341 · Branch 1234 · Acct 56789-0"
+      beforeMono: true
+      after:
+        kind: "chips"
+        primary: "Pay US$ 2,000.00"
+        items:
+          - "Card"
+          - "Bank transfer"
     - label: Knowing it's paid
       detail: With no status, you only find out when the money shows up, days later.
+      before: "Status: —"
+      after:
+        kind: "progress"
+        items:
+          - "Sent"
+          - "Viewed"
+        done: "Paid · Nov 14, 9:11"
 steps:
   - title: Build the invoice
     detail: Pick the client, currency and language. Services you've invoiced before come up as suggestions.
+    screen:
+      kind: "form"
+      fields:
+        - label: "Client"
+          value: "Halden & Co., London"
+        - label: "Currency"
+          value: "USD"
+        - label: "Language"
+          value: "English"
+      suggestion:
+        label: "Suggestions"
+        items:
+          - label: "+ Interface design, October"
+            value: "1,600.00"
   - title: Send the link
     detail: Your client gets an email with a link to the PDF invoice and the ways to pay.
+    screen:
+      kind: "message"
+      lang: "en"
+      from: "Ana Ribeiro"
+      to: "to Halden & Co. accounts"
+      subject: "Invoice #0042 · US$ 2,000.00"
+      body: "Due Nov 14. Pay by card or bank transfer, no account needed."
+      actions:
+        - "Pay invoice"
+        - "PDF"
   - title: Track it and get paid
     detail: See when they opened it and when they paid. The money lands in your balance in the invoice currency.
+    screen:
+      kind: "status"
+      title: "Invoice #0042"
+      rows:
+        - label: "Sent"
+          value: "Nov 12, 4:40 pm"
+        - label: "Viewed"
+          value: "Nov 13, 10:02 am"
+        - label: "Paid"
+          value: "Nov 14, 9:11 am"
+          highlight: true
+      total:
+        label: "Dollar balance"
+        value: "+ US$ 2,000.00"
 faqTitle: Questions about invoices
 integrationsLabel: "Integrations that help with invoicing:"
 integrations:
