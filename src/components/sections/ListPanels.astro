@@ -1,0 +1,65 @@
+---
+/** Two or more panels, each a title and a short list (Paper: /en/for-clients → Ways to pay / What your finance team gets). */
+import Section from './Section.astro';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  panels: { title: string; items: string[]; tone: 'tint' | 'dark' | 'outline' }[];
+}
+const { panels } = Astro.props;
+---
+
+<Section spacing="none">
+  <ul class="panels" role="list" data-reveal-stagger>
+    {
+      panels.map((p) => (
+        <li class="panel" data-theme={p.tone === 'outline' ? 'light' : p.tone} data-tone={p.tone}>
+          <h2>{p.title}</h2>
+          <ul role="list">
+            {p.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<MotionScript />
+
+<style>
+  .panels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: var(--space-m);
+    padding-block-end: var(--space-section);
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding: var(--space-xl) var(--space-l);
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-base);
+  }
+
+  [data-tone='outline'] {
+    border: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-xl);
+    letter-spacing: var(--font-tracking-title);
+  }
+
+  ul ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    color: var(--color-text-muted);
+  }
+</style>

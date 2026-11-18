@@ -1,0 +1,23 @@
+[
+  {
+    "id": "usd",
+    "name": "Dollar",
+    "symbol": "US$",
+    "rate": 5.45,
+    "order": 1
+  },
+  {
+    "id": "eur",
+    "name": "Euro",
+    "symbol": "€",
+    "rate": 6.3,
+    "order": 2
+  },
+  {
+    "id": "gbp",
+    "name": "Pound",
+    "symbol": "£",
+    "rate": 7.25,
+    "order": 3
+  }
+]

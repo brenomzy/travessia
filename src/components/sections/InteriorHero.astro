@@ -1,0 +1,194 @@
+---
+/**
+ * Hero for interior pages (Paper: "Interior hero" on /produto and the feature template).
+ * From 1024 px: copy on noite on the left, the seam texture running in from the right with a piece of
+ * product UI on the tapajós side. Below it: the copy, then the UI on a horizontal seam band.
+ * The content sits in the page's content column (--page-inset); the seam is pinned to the page centre, so it stays
+ * between the copy and the visual at every width.
+ */
+import seamDesktop from '../../assets/textures/seam-40.png';
+import seamMobile from '../../assets/textures/mobile-seam-v2.png';
+import Button from '../ui/Button.astro';
+import Breadcrumb from '../ui/Breadcrumb.astro';
+import MotionScript from '../ui/MotionScript.astro';
+import SeamCanvas from '../ui/SeamCanvas.astro';
+
+interface Props {
+  title: string;
+  lead: string;
+  primary?: { label: string; href: string };
+  secondary?: { label: string; href: string };
+  /** short: a title band with no product UI (Paper: /precos "Short hero", 460 px with the nav). */
+  size?: 'default' | 'short';
+  /** The visual is decorative product UI by default. Set false when it holds a real form (events). */
+  visualDecorative?: boolean;
+  breadcrumb?: { label: string; items: { label: string; href?: string }[] };
+}
+const { title, lead, primary, secondary, breadcrumb, size = 'default', visualDecorative = true } = Astro.props;
+const hasVisual = Astro.slots.has('visual');
+---
+
+<section
+  class="hero"
+  data-theme="dark"
+  aria-labelledby="page-title"
+  data-reveal-intro
+  data-size={size}
+  style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
+>
+  <div class="seam" aria-hidden="true"><SeamCanvas texture="seam-40" align="top" /></div>
+  <div class="copy" data-reveal-stagger>
+    {breadcrumb && <Breadcrumb label={breadcrumb.label} items={breadcrumb.items} />}
+    <slot name="intro" />
+    <h1 id="page-title">{title}</h1>
+    <p class="lead">{lead}</p>
+    <slot name="after-lead" />
+    {
+      (primary || secondary) && (
+        <div class="actions">
+          {primary && (
+            <Button variant="accent" size="l" href={primary.href}>
+              {primary.label}
+            </Button>
+          )}
+          {secondary && (
+            <Button variant="secondary" size="l" href={secondary.href}>
+              {secondary.label}
+            </Button>
+          )}
+        </div>
+      )
+    }
+  </div>
+  {
+    hasVisual && (
+      <div class="visual" aria-hidden={visualDecorative ? 'true' : undefined} data-reveal>
+        <slot name="visual" />
+      </div>
+    )
+  }
+</section>
+
+<MotionScript />
+
+<style>
+  .hero {
+    display: grid;
+    background-color: var(--color-bg-base);
+  }
+
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding: var(--space-xl) var(--space-gutter) var(--space-2xl);
+  }
+
+  .copy > :where(*) {
+    max-inline-size: 37.5rem;
+  }
+
+  h1 {
+    font-size: var(--text-hero);
+    line-height: var(--leading-hero);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  .lead {
+    max-inline-size: 32.5rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    padding-block-start: var(--space-3xs);
+  }
+
+  /* Phones and tablets: the UI rides on a horizontal seam band below the copy. */
+  .visual {
+    display: grid;
+    place-items: center;
+    padding: var(--space-2xl) var(--space-gutter);
+    background-color: var(--color-bg-base);
+    background-image: var(--seam-mobile);
+    background-size: 100% auto;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+  }
+
+  .seam {
+    display: none;
+  }
+
+  .visual > :global(*) {
+    inline-size: min(100%, 23.75rem);
+  }
+
+  /* Short: the copy only, with the seam on the right from 1024 px. */
+  [data-size='short'] .copy > :where(*) {
+    max-inline-size: 45rem;
+  }
+
+  /*
+   * From 1024 px: the seam runs in from the right, as in Paper (its centre line at 896 of 1440, 11 rem right of the
+   * page centre). The texture is drawn on .seam at 16:10, never narrower than the hero (up to 1440 px), anchored
+   * to its top edge as in Paper. Past its edges the gradient continues the two flat colours. SeamCanvas animates it.
+   */
+  @media (width >= 64rem) {
+    .hero {
+      --seam-x: calc(50% + 11rem);
+
+      position: relative;
+      grid-template-columns: var(--page-inset) minmax(0, 1fr) minmax(0, 1fr) var(--page-inset);
+      align-items: center;
+      min-block-size: 33rem;
+      overflow: clip;
+      background-image: linear-gradient(to right, var(--color-seam-dark) var(--seam-x), var(--color-seam-light) var(--seam-x));
+    }
+
+    .seam {
+      display: block;
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: var(--seam-x);
+      block-size: 100%;
+      aspect-ratio: 16 / 10;
+      min-inline-size: min(100%, 90rem);
+      translate: -40% 0;
+      background-image: var(--seam-desktop);
+      background-size: cover;
+      background-position: center top;
+      image-rendering: pixelated;
+    }
+
+    [data-size='short'] {
+      min-block-size: 21.75rem;
+    }
+
+    [data-size='short'] .copy {
+      align-self: center;
+      padding-block: var(--space-xl);
+    }
+
+    .copy {
+      position: relative;
+      grid-column: 2;
+      align-self: start;
+      gap: var(--space-l);
+      padding-block: var(--space-2xl) var(--space-3xl);
+      padding-inline: 0 var(--space-gutter);
+    }
+
+    .visual {
+      position: relative;
+      grid-column: 3;
+      padding: var(--space-xl) 0 var(--space-xl) var(--space-gutter);
+      background: none;
+    }
+  }
+</style>

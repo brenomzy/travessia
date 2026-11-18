@@ -1,0 +1,54 @@
+---
+/** Inline SVG icons. Stroke icons use currentColor; size comes from --icon-size. */
+interface Props {
+  name: 'arrow-right' | 'arrow-down' | 'check' | 'check-circle' | 'menu' | 'close';
+  /** Accessible name; omit for decorative icons. */
+  label?: string;
+  class?: string;
+}
+const { name, label, class: className } = Astro.props;
+const paths: Record<Props['name'], string> = {
+  'arrow-right': 'M3 12h16M13 6l6 6-6 6',
+  'arrow-down': 'M12 4v15M6 13l6 6 6-6',
+  check: 'M5 12.4l4.3 4.3L19 7',
+  'check-circle': 'M7.5 12.4l3 3L16.5 9',
+  menu: 'M4 8h16M4 16h16',
+  close: 'M6 6l12 12M18 6L6 18',
+};
+---
+
+<svg
+  class:list={['icon', className]}
+  data-name={name}
+  viewBox="0 0 24 24"
+  xmlns="http://www.w3.org/2000/svg"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+>
+  {name === 'check-circle' && <circle cx="12" cy="12" r="11" class="disc" />}
+  <path d={paths[name]} />
+</svg>
+
+<style>
+  .icon {
+    inline-size: var(--icon-size, var(--size-icon-s));
+    block-size: var(--icon-size, var(--size-icon-s));
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .disc {
+    fill: var(--color-accent-data);
+    stroke: none;
+  }
+
+  [data-name='check-circle'] path {
+    stroke: var(--color-on-data);
+  }
+</style>

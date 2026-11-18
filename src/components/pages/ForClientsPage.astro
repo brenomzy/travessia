@@ -1,0 +1,45 @@
+---
+/** For clients at /for-clients (Paper: /en/for-clients): the page for the companies abroad that pay Travessia's users. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import StepCards from '../sections/StepCards.astro';
+import ListPanels from '../sections/ListPanels.astro';
+import FaqList from '../sections/FaqList.astro';
+import SimpleCta from '../sections/SimpleCta.astro';
+import InvoiceCard from '../product/InvoiceCard.astro';
+import { path, featurePath } from '../../lib/routes';
+import { getFaqs, getFeatures, getPage } from '../../lib/content';
+
+interface Props {
+}
+const page = await getPage('forClients');
+const features = await getFeatures();
+const faqs = await getFaqs('clients');
+const featureHref = (key: string) => {
+  const f = features.find((e) => e.data.key === key);
+  if (!f) throw new Error(`For clients links to a missing feature "${key}"`);
+  return featurePath(f.data.slug);
+};
+---
+
+<BaseLayout
+ 
+  title={page.seo.title}
+  description={page.seo.description}
+  canonical={path('forClients')}
+  headerVariant="dark"
+  current="forClients"
+>
+  <InteriorHero
+    title={page.hero.title}
+    lead={page.hero.lead}
+    primary={{ label: page.hero.primary.label, href: featureHref(page.hero.primary.feature) }}
+    secondary={page.hero.secondary}
+  >
+    <div slot="visual" lang="en"><InvoiceCard {...page.invoice} shadow="floating-dark" /></div>
+  </InteriorHero>
+  <StepCards title={page.steps.title} steps={page.steps.items} theme="light" />
+  <ListPanels panels={page.panels} />
+  <FaqList title={page.faq.title} lead={page.faq.lead} faqs={faqs} size="compact" openAll />
+  <SimpleCta title={page.cta.title} link={{ label: page.cta.link.label, href: featureHref(page.cta.link.feature) }} />
+</BaseLayout>

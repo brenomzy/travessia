@@ -1,0 +1,33 @@
+---
+/** Section wrapper (SPEC §5.5.4): theme, spacing and width as props mapped to data attributes. */
+interface Props {
+  theme?: 'light' | 'tint' | 'primary' | 'deep' | 'dark';
+  /** after-strip: less space on top, for a section that follows a SeamStrip. */
+  spacing?: 'default' | 'after-strip' | 'none';
+  width?: 'content' | 'text' | 'wide';
+  labelledby?: string;
+  class?: string;
+}
+const { theme = 'light', spacing = 'default', width = 'content', labelledby, class: className } = Astro.props;
+---
+
+<section class:list={['section', className]} data-theme={theme} data-spacing={spacing} aria-labelledby={labelledby}>
+  <div class="l-container" data-width={width === 'content' ? undefined : width}>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    background-color: var(--color-bg-base);
+    container-type: inline-size;
+  }
+
+  [data-spacing='default'] {
+    padding-block: var(--space-section);
+  }
+
+  [data-spacing='after-strip'] {
+    padding-block: var(--space-2xl) var(--space-section);
+  }
+</style>

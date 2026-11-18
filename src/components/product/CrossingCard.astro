@@ -1,0 +1,111 @@
+---
+/** Product UI: "A travessia", what happens between the dollar and the real. */
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  title: string;
+  rows: { label: string; value: string; highlight?: boolean }[];
+  /** "row" puts the three facts side by side (phones), "list" stacks them. */
+  layout?: 'row' | 'list';
+}
+const { title, rows, layout = 'list' } = Astro.props;
+---
+
+<div class="crossing" data-theme="light" data-layout={layout}>
+  <div class="head">
+    <span>{title}</span>
+    <Icon name={layout === 'row' ? 'arrow-down' : 'arrow-right'} />
+  </div>
+  <dl>
+    {
+      rows.map((r) => (
+        <div data-highlight={r.highlight ? '' : undefined}>
+          <dt>{r.label}</dt>
+          <dd>
+            {r.highlight && <Icon name="check" />}
+            {r.value}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>
+
+<style>
+  .crossing {
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+    color: var(--color-text-base);
+    box-shadow: var(--shadow-3-on-color);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-xs) var(--space-s);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .head :global(.icon) {
+    color: var(--color-text-highlight);
+  }
+
+  dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding: var(--space-xs) var(--space-s);
+  }
+
+  dl > div + div {
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  dt {
+    color: var(--color-text-muted);
+  }
+
+  dd {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+  }
+
+  [data-highlight] dd {
+    color: var(--color-text-highlight);
+  }
+
+  [data-highlight] dd :global(.icon) {
+    --icon-size: var(--size-icon-s);
+  }
+
+  [data-layout='row'] dl {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  [data-layout='row'] dl > div {
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  [data-layout='row'] dl > div + div {
+    border-block-start: 0;
+    border-inline-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  [data-layout='row'] dd {
+    white-space: nowrap;
+  }
+
+  [data-layout='row'] [data-highlight] dd :global(.icon) {
+    display: none;
+  }
+</style>

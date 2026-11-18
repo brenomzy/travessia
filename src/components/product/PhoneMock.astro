@@ -1,0 +1,165 @@
+---
+/** Product UI: the freelancer's phone, lock screen with the Pix notification. Decorative frame, real numbers. */
+import Logo from '../ui/Logo.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  date: string;
+  time: string;
+  appTime: string;
+  notificationTitle: string;
+  notificationBody: string;
+  taxInvoice: string;
+  balanceLabel: string;
+  balance: string;
+}
+const p = Astro.props;
+---
+
+<div class="phone" data-theme="tint">
+  <div class="screen">
+    <span class="island"></span>
+    <p class="date">{p.date}</p>
+    <p class="clock">{p.time}</p>
+    <div class="notification">
+      <div class="app">
+        <span class="app-icon"></span>
+        <Logo label="" />
+        <span class="when">{p.appTime}</span>
+      </div>
+      <p class="title">{p.notificationTitle}</p>
+      <p class="body">{p.notificationBody}</p>
+    </div>
+    <div class="row">
+      <Icon name="check-circle" />
+      <p>{p.taxInvoice}</p>
+    </div>
+    <div class="balance" data-theme="deep">
+      <span>{p.balanceLabel}</span>
+      <strong>{p.balance}</strong>
+    </div>
+  </div>
+</div>
+
+<style>
+  .phone {
+    inline-size: var(--size-phone-width);
+    block-size: var(--size-phone-height);
+    padding: 0;
+    border: var(--size-phone-bezel) solid var(--color-border-strong);
+    border-radius: var(--radius-device);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-3-on-color);
+  }
+
+  .screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3xs);
+    block-size: 100%;
+    padding: var(--space-s) var(--space-xs);
+    overflow: hidden;
+    border-radius: calc(var(--radius-device) - var(--size-phone-bezel));
+    background-color: var(--color-bg-base);
+  }
+
+  .island {
+    inline-size: 5.375rem;
+    block-size: var(--space-m);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-border-strong);
+  }
+
+  .date {
+    padding-block-start: var(--space-m);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .clock {
+    font-size: calc(var(--text-4xl) * 1.15);
+    line-height: 1.03;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+  }
+
+  .notification,
+  .row {
+    inline-size: 100%;
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-raised);
+    box-shadow: var(--shadow-1);
+  }
+
+  .notification {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    margin-block-start: var(--space-s);
+    padding: var(--space-xs);
+  }
+
+  .app {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    --logo-width: 3.1875rem;
+  }
+
+  .app-icon {
+    inline-size: var(--size-icon-m);
+    block-size: var(--size-icon-m);
+    border-radius: var(--radius-s);
+    background-color: var(--color-accent-data);
+  }
+
+  .when {
+    margin-inline-start: auto;
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+  }
+
+  .title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .body {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-xs);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+    font-weight: var(--font-weight-semibold);
+    --icon-size: var(--size-icon-m);
+  }
+
+  .balance {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    inline-size: 100%;
+    margin-block-start: auto;
+    padding: var(--space-xs) var(--space-xs);
+    border-radius: var(--radius-m);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .balance strong {
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+/** The fictional-company notice above the header on every page (SPEC D18). Only the agency changes it. */
+interface Props {
+  short: string;
+  long: string;
+}
+const { short, long } = Astro.props;
+---
+
+<p class="banner" role="note">
+  <span class="long">{long}</span>
+  <span class="short" aria-hidden="true">{short}</span>
+</p>
+
+<style>
+  .banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: var(--size-banner);
+    padding-inline: var(--space-gutter);
+    border-block-end: var(--size-hairline) solid var(--color-banner-border);
+    background-color: var(--color-banner-bg);
+    color: var(--color-banner-text);
+    font-size: var(--text-xs);
+    line-height: var(--leading-xs);
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+  }
+
+  .short {
+    display: none;
+  }
+
+  @media (width < 40rem) {
+    .long {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .short {
+      display: inline;
+    }
+  }
+</style>

@@ -1,0 +1,208 @@
+{
+  "meta": {
+    "siteName": "Travessia"
+  },
+  "banner": {
+    "short": "Demo of a fictional company",
+    "long": "Demo site for a fictional company. No data is stored.",
+    "footer": "Travessia is a fictional company, made as a design and brand-system demo. This site is not a bank, moves no money and stores no data."
+  },
+  "a11y": {
+    "skipLink": "Skip to content",
+    "homeLink": "Travessia, home page",
+    "mainNav": "Main",
+    "footerNav": "Footer",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "menuTitle": "Menu",
+    "breadcrumb": "Breadcrumb",
+    "backToSite": "Back to the site"
+  },
+  "nav": {
+    "items": [
+      {
+        "label": "Product",
+        "route": "product"
+      },
+      {
+        "label": "Pricing",
+        "route": "pricing"
+      },
+      {
+        "label": "For clients",
+        "route": "forClients"
+      },
+      {
+        "label": "Stories",
+        "route": "stories"
+      }
+    ],
+    "cta": {
+      "label": "Open an account",
+      "route": "openAccount"
+    }
+  },
+  "footer": {
+    "tagline": "An international account for Brazilian freelancers and studios who work for clients abroad.",
+    "columns": [
+      {
+        "title": "Product",
+        "links": [
+          {
+            "label": "International invoices",
+            "feature": "international-invoices"
+          },
+          {
+            "label": "Get paid and convert",
+            "feature": "get-paid-and-convert"
+          },
+          {
+            "label": "Automatic nota fiscal",
+            "feature": "automatic-tax-invoices"
+          },
+          {
+            "label": "Taxes up to date",
+            "feature": "taxes-up-to-date"
+          },
+          {
+            "label": "Calculator",
+            "route": "calculator"
+          }
+        ]
+      },
+      {
+        "title": "Company",
+        "links": [
+          {
+            "label": "About",
+            "route": "about"
+          },
+          {
+            "label": "Stories",
+            "route": "stories"
+          },
+          {
+            "label": "Changelog",
+            "route": "changelog"
+          },
+          {
+            "label": "Blog",
+            "route": "blog"
+          }
+        ]
+      },
+      {
+        "title": "For clients",
+        "links": [
+          {
+            "label": "How paying works",
+            "route": "forClients"
+          },
+          {
+            "label": "Integrations",
+            "route": "integrations"
+          },
+          {
+            "label": "Pricing",
+            "route": "pricing"
+          }
+        ]
+      }
+    ],
+    "copyright": "© 2026 Travessia (fictional)",
+    "legal": [
+      {
+        "label": "Privacy",
+        "route": "privacy"
+      },
+      {
+        "label": "Terms",
+        "route": "terms"
+      }
+    ]
+  },
+  "form": {
+    "nameLabel": "Your name",
+    "emailLabel": "Your email",
+    "submit": "Join the list",
+    "submitLong": "Join the waitlist",
+    "demoNotice": "Name and email only. This is a demo site and nothing is stored.",
+    "demoDone": "Done. This site is a demo, so nothing was sent or stored."
+  },
+  "common": {
+    "currencyBRL": "R$"
+  },
+  "styleguide": {
+    "title": "Style guide",
+    "lead": "Every token and component, rendered from the real CSS. Internal page, not indexed.",
+    "sections": {
+      "themes": "Section themes",
+      "palette": "Palette",
+      "type": "Type scale",
+      "space": "Space",
+      "radius": "Radii",
+      "shadow": "Shadows",
+      "logo": "Logo",
+      "buttons": "Buttons",
+      "icons": "Icons",
+      "forms": "Waitlist form",
+      "product": "Product UI pieces",
+      "vignettes": "Feature vignettes",
+      "bento": "Feature bento (/product)",
+      "sphere": "Integrations sphere",
+      "billing": "Billing toggle",
+      "tabs": "Product screens (tabs)",
+      "strip": "Seam strip",
+      "motion": "Motion",
+      "calculator": "Fee calculator",
+      "navigation": "Breadcrumb and chips",
+      "interior": "Interior page sections",
+      "integrations": "Integrations: mark, card, filter and log",
+      "calculatorSeam": "Calculator on the seam and examples",
+      "content": "Content page pieces"
+    },
+    "sample": "You get paid in reais.",
+    "buttonLabels": {
+      "accent": "Join the list",
+      "secondary": "See fees",
+      "nav": "Open an account",
+      "link": "See the product"
+    },
+    "countSample": "0.6%",
+    "seamMotion": {
+      "title": "Seam motion (shader)",
+      "lead": "The same seam as the PNG, drawn with WebGL and moving. The first frame matches the PNG. With reduced motion, or without WebGL2, the PNG stays.",
+      "presets": {
+        "still": "Still: the shader with no motion, to compare against the PNG.",
+        "flow": "Flow: the shoreline’s shape travels down the seam.",
+        "drift": "Drift: the shoreline changes shape without moving along.",
+        "breathe": "Breathe: the mixing zone slowly widens and narrows.",
+        "shimmer": "Shimmer: dots in the mixing zone twinkle, one dither step at a time.",
+        "river": "River: flow, drift and breathe together, all faint. This is the one on the heroes."
+      }
+    },
+    "hover": {
+      "title": "Hover",
+      "lead": "Mouse and trackpad only, and nothing moves with reduced motion. The pill slides between nav links and rests on the current page. In card grids, the other cards fall back. On a card that's a link, the link's label rolls and one part of the picture moves: the invoice switches to PT, the balances wave, the nota fiscal's tick pops, the bars grow. In the FAQ, the row under the pointer fills in and the others fall back.",
+      "pillLabel": "Sliding pill example",
+      "faqTitle": "Questions (hover)"
+    }
+  },
+  "interior": {
+    "primaryCta": {
+      "label": "Join the list",
+      "route": "openAccount"
+    },
+    "stepsTitle": "How it works, in three steps"
+  },
+  "closingCta": {
+    "title": "Your next payment can arrive in reais.",
+    "card": {
+      "status": "Converting",
+      "time": "Nov 15, 9:11",
+      "from": "US$ 1,988.00",
+      "to": "R$ 10,834.60",
+      "note": "0.6% fee already taken · rate R$ 5.45"
+    }
+  }
+}

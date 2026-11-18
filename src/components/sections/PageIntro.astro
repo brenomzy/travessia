@@ -1,0 +1,102 @@
+---
+/**
+ * The dark title band at the top of index pages (Paper: /historias, /blog, /novidades): a big title,
+ * a lead, optional stats underneath and a slot for filters. Fills the space under the header.
+ */
+interface Props {
+  title: string;
+  lead: string;
+  stats?: { value: string; label: string }[];
+  /** "split": lead beside the title (stories, blog). "stack": lead under it (changelog). */
+  layout?: 'split' | 'stack';
+  /** h1 on real pages; h2 where the page already has one (the styleguide). */
+  level?: 'h1' | 'h2';
+}
+const { title, lead, stats, layout = 'split', level = 'h1' } = Astro.props;
+const Heading = level;
+const headingId = level === 'h1' ? 'page-title' : 'intro-sample-title';
+---
+
+<section class="intro" data-theme="dark" aria-labelledby={headingId} data-reveal-intro>
+  <div class="l-container">
+    <div class="head" data-layout={layout} data-reveal-stagger>
+      <Heading id={headingId} class="title">{title}</Heading>
+      <p class="lead">{lead}</p>
+      <slot name="after-lead" />
+    </div>
+    {
+      stats && (
+        <dl class="stats" data-reveal-stagger>
+          {stats.map((s) => (
+            <div>
+              <dt>{s.label}</dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style>
+  .intro {
+    padding-block: var(--space-2xl) var(--space-xl);
+    background-color: var(--color-bg-base);
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-m) var(--space-2xl);
+    padding-block-end: var(--space-xl);
+  }
+
+  .head[data-layout='stack'] {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-5xl);
+    letter-spacing: var(--font-tracking-display);
+  }
+
+  .lead {
+    flex: 0 1 28rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-m) var(--space-xl);
+    padding-block-start: var(--space-l);
+    border-block-start: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .stats div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-3xs);
+  }
+
+  .stats dt {
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .stats dd {
+    margin: 0;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-3xl);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--font-tracking-heading);
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+/** Product overview at /product (Paper: Pages · product and sales → /produto). */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import FeatureBento from '../sections/FeatureBento.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import ConversionCard from '../product/ConversionCard.astro';
+import { path, type RouteKey } from '../../lib/routes';
+import { getFeatures, getPage } from '../../lib/content';
+
+interface Props {
+}
+const page = await getPage('product');
+const features = await getFeatures();
+const to = (l: { label: string; route: string }) => ({ label: l.label, href: path(l.route as RouteKey) });
+---
+
+<BaseLayout
+ 
+  title={page.seo.title}
+  description={page.seo.description}
+  canonical={path('product')}
+  headerVariant="dark"
+  current="product"
+>
+  <InteriorHero
+    title={page.hero.title}
+    lead={page.hero.lead}
+    primary={to(page.hero.primary)}
+    secondary={to(page.hero.secondary)}
+  >
+    <ConversionCard slot="visual" {...page.hero.card} shadow="floating-dark" />
+  </InteriorHero>
+  <FeatureBento title={page.features.title} lead={page.features.lead} features={features} />
+  <ClosingCta />
+</BaseLayout>

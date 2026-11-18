@@ -1,0 +1,20 @@
+[
+  {
+    "id": "marina-teles",
+    "name": "Marina Teles",
+    "role": "Accountant",
+    "bio": "Accountant, working with freelancers since 2014"
+  },
+  {
+    "id": "rafael-sato",
+    "name": "Rafael Sato",
+    "role": "Co-founder, product",
+    "bio": "Travessia co-founder, runs product"
+  },
+  {
+    "id": "tiago-alves",
+    "name": "Tiago Alves",
+    "role": "Engineering, exchange",
+    "bio": "Engineer, works on exchange and payments"
+  }
+]

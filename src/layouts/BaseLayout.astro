@@ -1,0 +1,91 @@
+---
+/**
+ * Page shell (SPEC §5.5.4): head, meta, canonical, noindex, the no-js → js swap, fonts,
+ * the fictional-company banner, header, main and footer.
+ */
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import SkipLink from '../components/shell/SkipLink.astro';
+import DemoBanner from '../components/shell/DemoBanner.astro';
+import Header from '../components/shell/Header.astro';
+import Footer from '../components/shell/Footer.astro';
+import { s, lang } from '../strings';
+import type { RouteKey } from '../lib/routes';
+
+interface Props {
+  title: string;
+  description: string;
+  /** This page's path, for the canonical link and the current nav item. */
+  canonical: string;
+  /** "seam" when the page opens with a seam hero that the header sits on. */
+  headerVariant?: 'seam' | 'light' | 'dark';
+  current?: RouteKey;
+  /** A header with only the logo and a link back (the waitlist page). */
+  minimalHeader?: boolean;
+}
+
+const { title, description, canonical, headerVariant = 'light', current, minimalHeader = false } = Astro.props;
+const site = Astro.site ?? new URL('https://travessia.example');
+---
+
+<!doctype html>
+<html lang={lang} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href={new URL(canonical, site)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content={s.meta.siteName} />
+    <meta name="generator" content={Astro.generator} />
+    <Font cssVariable="--font-figtree" preload />
+    <Font cssVariable="--font-geist-mono" />
+    <slot name="head" />
+  </head>
+  <body>
+    <SkipLink label={s.a11y.skipLink} />
+    <DemoBanner short={s.banner.short} long={s.banner.long} />
+    <div class="page" data-header={headerVariant}>
+      <Header canonical={canonical} variant={headerVariant} current={current} minimal={minimalHeader} />
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+    </div>
+    <Footer />
+    <script>
+      import { wirePress } from '../lib/motion/press';
+      import { wirePills } from '../lib/motion/pill';
+      wirePress();
+      wirePills();
+    </script>
+  </body>
+</html>
+
+<style>
+  /* On a seam page the header floats over the hero, which runs up underneath it. */
+  .page[data-header='seam'] {
+    display: grid;
+    grid-template-areas: 'stack';
+  }
+
+  .page[data-header='seam'] > :global(*) {
+    grid-area: stack;
+  }
+
+  .page[data-header='seam'] > :global(header) {
+    align-self: start;
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>

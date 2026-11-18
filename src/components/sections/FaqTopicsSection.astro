@@ -1,0 +1,43 @@
+---
+/**
+ * FAQ with topic tabs and open answers (Paper: /precos → "FAQ B"). The island renders the tabs;
+ * this wrapper adds the FAQPage JSON-LD for every question on the page, built from the same
+ * entries (SPEC rule 9).
+ */
+import type { CollectionEntry } from 'astro:content';
+import Section from './Section.astro';
+import FaqTopics from '../islands/FaqTopics';
+
+interface Props {
+  title: string;
+  tabsLabel: string;
+  topics: { id: string; label: string; faqs: CollectionEntry<'faqs'>[] }[];
+}
+const { title, tabsLabel, topics } = Astro.props;
+const withItems = topics.filter((t) => t.faqs.length > 0);
+const unique = [...new Map(withItems.flatMap((t) => t.faqs).map((f) => [f.data.id, f.data])).values()];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: unique.map((f) => ({
+    '@type': 'Question',
+    name: f.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.answer },
+  })),
+};
+---
+
+<Section labelledby="faq-title">
+  <FaqTopics
+    client:visible
+    title={title}
+    titleId="faq-title"
+    label={tabsLabel}
+    topics={withItems.map((t) => ({
+      id: t.id,
+      label: t.label,
+      items: t.faqs.map(({ data }) => ({ id: data.id, question: data.question, answer: data.answer })),
+    }))}
+  />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</Section>

@@ -1,0 +1,66 @@
+---
+/** Pricing at /pricing (Paper: Pages · product and sales → /precos). */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import PricingTeaser from '../sections/PricingTeaser.astro';
+import ComparePlans from '../sections/ComparePlans.astro';
+import FeeCalculatorSection from '../sections/FeeCalculatorSection.astro';
+import FaqTopicsSection from '../sections/FaqTopicsSection.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import { s } from '../../strings';
+import { path } from '../../lib/routes';
+import { getFaqs, getPage, getPlans, getRates } from '../../lib/content';
+
+interface Props {
+}
+const page = await getPage('pricing');
+const home = await getPage('home');
+const [plans, rates] = await Promise.all([getPlans(), getRates()]);
+const feePercent = Math.min(...plans.map((p) => p.data.fee));
+const topics = await Promise.all(
+  page.faq.topics.map(async (topic) => ({ ...topic, faqs: await getFaqs(topic.id) })),
+);
+const ctaHref = path('openAccount');
+---
+
+<BaseLayout
+ 
+  title={page.seo.title}
+  description={page.seo.description}
+  canonical={path('pricing')}
+  headerVariant="dark"
+  current="pricing"
+>
+  <InteriorHero title={page.hero.title} lead={page.hero.lead} size="short" />
+  <!-- One billing scope, so the toggle switches the plan cards and the comparison table together. -->
+  <div data-billing-scope data-billing="monthly">
+    <PricingTeaser
+     
+      title={page.plans.heading}
+      hideTitle
+      ownScope={false}
+      spacing="after-strip"
+      {...page.plans}
+      currencyBRL={s.common.currencyBRL}
+      plans={plans}
+      ctaHref={ctaHref}
+    />
+    <ComparePlans
+     
+      content={page.compare}
+      labels={page.plans}
+      plans={plans}
+      currencyBRL={s.common.currencyBRL}
+      ctaHref={ctaHref}
+    />
+  </div>
+  <FeeCalculatorSection
+   
+    content={home.calculator}
+    rates={rates}
+    feePercent={feePercent}
+    currencyBRL={s.common.currencyBRL}
+  />
+  <FaqTopicsSection title={page.faq.title} tabsLabel={page.faq.tabsLabel} topics={topics} />
+  <ClosingCta />
+</BaseLayout>

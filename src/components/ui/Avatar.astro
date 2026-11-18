@@ -1,0 +1,40 @@
+---
+/** Initials in a soft tinted circle, for people and studios (Paper: stories, blog authors, about). */
+import { initials } from '../../lib/sphere/layout';
+
+interface Props {
+  name: string;
+  size?: 's' | 'm' | 'l';
+}
+const { name, size = 'm' } = Astro.props;
+---
+
+<span class="avatar" data-size={size} aria-hidden="true">{initials(name)}</span>
+
+<style>
+  .avatar {
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+    inline-size: var(--size-tap);
+    block-size: var(--size-tap);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-chip-bg);
+    color: var(--color-link);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+  }
+
+  [data-size='s'] {
+    inline-size: var(--size-icon-m);
+    block-size: var(--size-icon-m);
+    font-size: var(--text-xs);
+  }
+
+  [data-size='l'] {
+    inline-size: var(--size-mark-l);
+    block-size: var(--size-mark-l);
+    font-size: var(--text-base);
+  }
+</style>

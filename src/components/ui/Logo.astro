@@ -1,0 +1,93 @@
+---
+/**
+ * The Travessia wordmark: Figtree 600 outlines, the two s woven, cut by a waterline.
+ * Master: Paper file "Travessia", Design system → 5 · Logo. Never recolour or stretch it.
+ * tone="light" for light grounds (noite above the line), tone="dark" for noite (white above).
+ */
+import { uid } from '../../lib/ids';
+
+interface Props {
+  tone?: 'light' | 'dark';
+  /** Accessible name. Pass an empty string when the logo sits inside a link that already has a name. */
+  label?: string;
+  class?: string;
+}
+
+const { tone = 'light', label = 'Travessia', class: className } = Astro.props;
+const id = uid('logo');
+const word =
+  'M261 12Q182 12 140 -28Q99 -67 99 -141V-404H16V-500H99V-656H210V-500H345V-404H210V-162Q210 -127 226 -109Q243 -91 275 -91Q285 -91 297 -95Q309 -99 324 -110L365 -25Q339 -7 313 2Q287 12 261 12ZM395 0V-500H507V-409Q537 -456 585 -479Q633 -502 684 -502V-395Q638 -395 598 -382Q557 -370 532 -342Q507 -314 507 -268V0ZM888 12Q798 12 748 -28Q699 -68 699 -141Q699 -219 752 -260Q804 -301 898 -301H1025Q1019 -356 994 -385Q969 -414 920 -414Q884 -414 857 -399Q830 -384 811 -352L713 -388Q729 -421 756 -450Q782 -478 822 -495Q863 -512 920 -512Q993 -512 1042 -484Q1091 -455 1114 -402Q1138 -349 1138 -274L1135 0H1032L1029 -61Q1009 -26 974 -7Q938 12 888 12ZM902 -82Q939 -82 968 -98Q996 -115 1012 -143Q1027 -171 1027 -205V-215H934Q867 -215 840 -196Q813 -178 813 -144Q813 -115 836 -98Q860 -82 902 -82ZM1323 0 1116 -500H1231L1379 -128L1526 -500H1642L1436 0ZM1859 12Q1786 12 1730 -22Q1673 -55 1640 -114Q1608 -173 1608 -250Q1608 -327 1641 -386Q1674 -445 1732 -478Q1789 -512 1863 -512Q1930 -512 1984 -478Q2038 -443 2070 -378Q2101 -313 2101 -223H1724Q1729 -160 1770 -124Q1812 -88 1869 -88Q1915 -88 1945 -108Q1975 -129 1992 -162L2091 -120Q2070 -80 2038 -50Q2005 -20 1960 -4Q1916 12 1859 12ZM1731 -309H1980Q1977 -345 1959 -368Q1941 -392 1915 -404Q1889 -416 1860 -416Q1832 -416 1804 -404Q1775 -393 1755 -369Q1735 -345 1731 -309ZM2908 0V-500H3019V0ZM2964 -595Q2937 -595 2918 -614Q2898 -634 2898 -661Q2898 -688 2918 -707Q2937 -726 2964 -726Q2991 -726 3010 -707Q3030 -688 3030 -661Q3030 -634 3010 -614Q2991 -595 2964 -595ZM3254 12Q3164 12 3114 -28Q3065 -68 3065 -141Q3065 -219 3118 -260Q3170 -301 3264 -301H3391Q3385 -356 3360 -385Q3335 -414 3286 -414Q3250 -414 3223 -399Q3196 -384 3177 -352L3079 -388Q3095 -421 3122 -450Q3148 -478 3188 -495Q3229 -512 3286 -512Q3359 -512 3408 -484Q3457 -455 3480 -402Q3504 -349 3504 -274L3501 0H3398L3395 -61Q3375 -26 3340 -7Q3304 12 3254 12ZM3268 -82Q3305 -82 3334 -98Q3362 -115 3378 -143Q3393 -171 3393 -205V-215H3300Q3233 -215 3206 -196Q3179 -178 3179 -144Q3179 -115 3202 -98Q3226 -82 3268 -82Z';
+const s =
+  'M244 12Q194 12 152 -3Q110 -18 80 -46Q50 -73 34 -110L131 -153Q146 -125 176 -106Q205 -87 241 -87Q280 -87 304 -100Q327 -114 327 -138Q327 -161 309 -174Q291 -186 258 -194L211 -207Q140 -225 100 -264Q60 -304 60 -355Q60 -430 108 -471Q157 -512 248 -512Q294 -512 332 -498Q371 -485 399 -460Q427 -436 438 -403L345 -361Q335 -386 307 -400Q279 -413 245 -413Q211 -413 192 -398Q173 -384 173 -358Q173 -343 190 -330Q207 -318 239 -310L298 -296Q347 -284 378 -258Q409 -233 424 -202Q439 -170 439 -138Q439 -93 414 -59Q388 -25 344 -6Q300 12 244 12Z';
+// Each s passes over the other once: the first at the top crossing, the second at the bottom.
+const halves = [
+  { clip: `${id}-above`, part: 'above' },
+  { clip: `${id}-below`, part: 'below' },
+];
+---
+
+<svg
+  class:list={['logo', className]}
+  data-tone={tone}
+  viewBox="-30 -790 3615 860"
+  xmlns="http://www.w3.org/2000/svg"
+  role={label ? 'img' : undefined}
+  aria-label={label || undefined}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+>
+  <defs>
+    <path id={`${id}-s`} d={s}></path>
+    <clipPath id={`${id}-above`}><rect x="-300" y="-1000" width="4155" height="777"></rect></clipPath>
+    <clipPath id={`${id}-below`}><rect x="-300" y="-185" width="4155" height="400"></rect></clipPath>
+    <clipPath id={`${id}-top`}><rect x="-300" y="-1000" width="4155" height="796"></rect></clipPath>
+    <clipPath id={`${id}-bottom`}><rect x="-300" y="-204" width="4155" height="600"></rect></clipPath>
+    <mask id={`${id}-m1`} maskUnits="userSpaceOnUse" x="-300" y="-1000" width="4155" height="1400">
+      <rect x="-300" y="-1000" width="4155" height="1400" fill="white"></rect>
+      <g clip-path={`url(#${id}-bottom)`}>
+        <use href={`#${id}-s`} transform="translate(2421 0)" fill="black" stroke="black" stroke-width="60" stroke-linejoin="round"></use>
+      </g>
+    </mask>
+    <mask id={`${id}-m2`} maskUnits="userSpaceOnUse" x="-300" y="-1000" width="4155" height="1400">
+      <rect x="-300" y="-1000" width="4155" height="1400" fill="white"></rect>
+      <g clip-path={`url(#${id}-top)`}>
+        <use href={`#${id}-s`} transform="translate(2085 0)" fill="black" stroke="black" stroke-width="60" stroke-linejoin="round"></use>
+      </g>
+    </mask>
+  </defs>
+  {
+    halves.map(({ clip, part }) => (
+      <g clip-path={`url(#${clip})`} data-part={part}>
+        <path d={word} />
+        <g mask={`url(#${id}-m1)`}>
+          <use href={`#${id}-s`} transform="translate(2085 0)" />
+        </g>
+        <g mask={`url(#${id}-m2)`}>
+          <use href={`#${id}-s`} transform="translate(2421 0)" />
+        </g>
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .logo {
+    display: block;
+    inline-size: var(--logo-width, var(--size-logo-nav));
+    block-size: auto;
+    aspect-ratio: 3615 / 860;
+    flex-shrink: 0;
+  }
+
+  [data-part='above'] {
+    fill: var(--color-logo-above);
+  }
+
+  [data-tone='dark'] [data-part='above'] {
+    fill: var(--color-logo-above-inverse);
+  }
+
+  [data-part='below'] {
+    fill: var(--color-logo-below);
+  }
+</style>

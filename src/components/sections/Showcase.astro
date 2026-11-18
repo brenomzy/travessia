@@ -1,0 +1,31 @@
+---
+/** "Saldo em três moedas" (Paper: Home → Section · Showcase): the app window with four tabs (FeatureTabs island). */
+import Section from './Section.astro';
+import SectionHeader from './SectionHeader.astro';
+import Logo from '../ui/Logo.astro';
+import FeatureTabs from '../islands/FeatureTabs';
+import type { FeatureTabsProps } from '../islands/FeatureTabs';
+import MotionScript from '../ui/MotionScript.astro';
+
+interface Props {
+  title: string;
+  lead: string;
+  tabsLabel: string;
+  app: { nav: string[]; user: FeatureTabsProps['user'] };
+  tabs: FeatureTabsProps['tabs'];
+}
+const { title, lead, tabsLabel, app, tabs } = Astro.props;
+---
+
+<Section theme="dark" spacing="after-strip" labelledby="showcase-title">
+  <div class="l-stack" style="--gap: var(--space-2xl)">
+    <SectionHeader id="showcase-title" title={title} lead={lead} />
+    <div data-reveal>
+      <FeatureTabs client:visible label={tabsLabel} nav={app.nav} user={app.user} tabs={tabs}>
+        <Logo slot="logo" label="" />
+      </FeatureTabs>
+    </div>
+  </div>
+</Section>
+
+<MotionScript />

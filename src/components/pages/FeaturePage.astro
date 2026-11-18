@@ -1,0 +1,101 @@
+---
+/**
+ * Feature page template for /product/[slug]
+ * (Paper: Pages · product and sales → feature template). SPEC §6.2: hero, problem, how it works,
+ * related integrations, FAQ, CTA.
+ */
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InteriorHero from '../sections/InteriorHero.astro';
+import ProblemList from '../sections/ProblemList.astro';
+import StepCards from '../sections/StepCards.astro';
+import FaqList from '../sections/FaqList.astro';
+import ClosingCta from '../sections/ClosingCta.astro';
+import InvoiceCard from '../product/InvoiceCard.astro';
+import ConversionCard from '../product/ConversionCard.astro';
+import FeatureVignette from '../product/FeatureVignette.astro';
+import Chip from '../ui/Chip.astro';
+import { s } from '../../strings';
+import { featurePath, integrationPath, path, type RouteKey } from '../../lib/routes';
+import { getFeatureFaqs, getIntegrations } from '../../lib/content';
+
+interface Props {
+  feature: CollectionEntry<'features'>;
+}
+const { feature } = Astro.props;
+const f = feature.data;
+
+
+const faqs = await getFeatureFaqs(f.key);
+const related = (await getIntegrations()).filter((i) => f.integrations.includes(i.data.key));
+const productLabel = s.nav.items.find((i) => i.route === 'product')?.label ?? '';
+const card = f.heroCard;
+---
+
+<BaseLayout
+ 
+  title={`${f.name} | ${s.meta.siteName}`}
+  description={f.summary}
+  canonical={featurePath(f.slug)}
+  headerVariant="dark"
+  current="product"
+>
+  <InteriorHero
+    title={f.hero.title}
+    lead={f.hero.lead}
+    primary={{ label: s.interior.primaryCta.label, href: path(s.interior.primaryCta.route as RouteKey) }}
+    secondary={{ label: f.hero.secondary.label, href: path(f.hero.secondary.route as RouteKey) }}
+    breadcrumb={{
+      label: s.a11y.breadcrumb,
+      items: [
+        { label: productLabel, href: path('product') },
+        { label: f.name, href: featurePath(f.slug) },
+      ],
+    }}
+  >
+    <div slot="visual">
+      {card.kind === 'invoice' && <InvoiceCard {...card} shadow="floating-dark" />}
+      {card.kind === 'conversion' && <ConversionCard {...card} shadow="floating-dark" />}
+      {card.kind === 'vignette' && <FeatureVignette vignette={f.vignette} frame="bare" />}
+    </div>
+  </InteriorHero>
+  <ProblemList {...f.problem} />
+  <StepCards title={s.interior.stepsTitle} steps={f.steps} />
+  {
+    faqs.length > 0 && (
+      <FaqList title={f.faqTitle} faqs={faqs} size="compact">
+        {related.length > 0 && (
+          <div class="related">
+            <p>{f.integrationsLabel}</p>
+            <ul class="chips" role="list">
+              {related.map((i) => (
+                <li>
+                  <Chip href={integrationPath(i.data.slug)}>{i.data.name}</Chip>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </FaqList>
+    )
+  }
+  <ClosingCta />
+</BaseLayout>
+
+<style>
+  .related {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .related p {
+    color: var(--color-text-muted);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+</style>

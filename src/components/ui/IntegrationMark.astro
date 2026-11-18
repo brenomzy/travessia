@@ -1,0 +1,55 @@
+---
+/**
+ * An integration's mark: its logo when one exists, otherwise its initials in a circle (Paper:
+ * integrations index and detail). tone follows the sphere setting: plain is an outline,
+ * primary is filled tapajós, inverse is filled with the text colour.
+ */
+import { initials } from '../../lib/sphere/layout';
+
+interface Props {
+  name: string;
+  /** Overrides the initials, e.g. "t" for Travessia. */
+  text?: string;
+  tone?: 'plain' | 'primary' | 'inverse';
+  size?: 'm' | 'l';
+}
+const { name, text, tone = 'plain', size = 'm' } = Astro.props;
+---
+
+<span class="mark" data-tone={tone} data-size={size} aria-hidden="true">{text ?? initials(name)}</span>
+
+<style>
+  .mark {
+    display: inline-grid;
+    flex-shrink: 0;
+    place-items: center;
+    inline-size: var(--size-mark-m);
+    block-size: var(--size-mark-m);
+    border: var(--size-focus-ring) solid currentColor;
+    border-radius: var(--radius-pill);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+  }
+
+  [data-size='l'] {
+    inline-size: var(--size-mark-l);
+    block-size: var(--size-mark-l);
+    font-size: var(--text-base);
+  }
+
+  [data-tone='primary'] {
+    border-color: var(--color-accent-data);
+    background-color: var(--color-accent-data);
+    color: var(--color-on-data);
+  }
+
+  [data-tone='inverse'] {
+    border-color: var(--color-text-base);
+    background-color: var(--color-text-base);
+    color: var(--color-bg-base);
+    font-size: var(--text-xl);
+    letter-spacing: var(--font-tracking-title);
+  }
+</style>

@@ -1,0 +1,13 @@
+---
+/**
+ * Loads the Motion helpers (src/lib/motion) on pages that use `data-reveal`, `data-reveal-stagger`
+ * or `data-count-up`. Render it inside any component that uses those attributes; Astro bundles the
+ * script once per page, so pages without these components ship no Motion code.
+ */
+---
+
+<script>
+  import { initMotion } from '../../lib/motion';
+
+  initMotion();
+</script>

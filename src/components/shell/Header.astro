@@ -1,0 +1,188 @@
+---
+/**
+ * Site header (SPEC §5.5.4). variant="seam" sits over a seam hero: the brand side is on noite,
+ * the nav side on tapajós (from the laptop breakpoint up). Below it the whole header is on noite.
+ * The full link list shows from 1280 px; below that the links live in the MobileNav drawer.
+ */
+import Logo from '../ui/Logo.astro';
+import Button from '../ui/Button.astro';
+import MobileNav from '../islands/MobileNav';
+import { s } from '../../strings';
+import { path, type RouteKey } from '../../lib/routes';
+
+interface Props {
+  /** This page's path; the matching nav item is marked as the current page. */
+  canonical: string;
+  variant?: 'seam' | 'light' | 'dark';
+  current?: RouteKey;
+  /** Only the logo and a way back (Paper: the open-account page). */
+  minimal?: boolean;
+}
+
+const { canonical, variant = 'light', current, minimal = false } = Astro.props;
+const items = s.nav.items.map((item) => ({
+  label: item.label,
+  href: path(item.route as RouteKey),
+  current: item.route === current,
+}));
+const cta = { label: s.nav.cta.label, href: path(s.nav.cta.route as RouteKey) };
+const brandTheme = variant === 'light' ? 'light' : 'dark';
+const navTheme = variant === 'seam' ? 'primary' : brandTheme;
+---
+
+<header class="header" data-variant={variant} data-theme={variant === 'seam' ? undefined : variant}>
+  <div class="bar">
+    <div class="brand" data-theme={brandTheme}>
+      <a class="home" href={path('home')} aria-label={s.a11y.homeLink}>
+        <Logo tone={brandTheme === 'dark' ? 'dark' : 'light'} label="" />
+      </a>
+    </div>
+    {
+      minimal ? (
+        <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
+          <a class="back" href={path('home')}>{s.a11y.backToSite}</a>
+        </div>
+      ) : (
+      <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
+        <nav class="nav" aria-label={s.a11y.mainNav} data-pill>
+          <ul role="list">
+            {
+              items.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={item.current ? (item.href === canonical ? 'page' : 'true') : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <Button variant="nav" size="s" href={cta.href}>{cta.label}</Button>
+        <div class="menu">
+          <MobileNav
+            client:media="(width < 80rem)"
+            items={items}
+            cta={cta}
+            labels={{
+              open: s.a11y.menuOpen,
+              close: s.a11y.menuClose,
+              title: s.a11y.menuTitle,
+            }}
+            bannerNote={s.banner.long}
+          />
+        </div>
+      </div>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .back {
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  .back {
+    transition: opacity var(--duration-fast) var(--ease-hover);
+  }
+
+  .back:hover {
+    opacity: var(--opacity-dim);
+  }
+
+  .header {
+    position: relative;
+    z-index: 10;
+  }
+
+  .header[data-variant='light'],
+  .header[data-variant='dark'] {
+    background-color: var(--color-bg-base);
+    border-block-end: var(--size-hairline) solid var(--color-border-base);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    min-block-size: var(--size-header);
+    padding-block: var(--space-s);
+    padding-inline: var(--page-inset);
+  }
+
+  /* The themed groups only swap colour roles; the header itself paints no background over the seam. */
+  .brand,
+  .end {
+    background-color: transparent;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-l);
+  }
+
+  .home {
+    display: block;
+    padding-block: var(--space-2xs);
+  }
+
+  .end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .nav ul {
+    display: flex;
+    gap: var(--space-3xs);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* A sliding pill (lib/motion/pill.ts) follows the pointer and rests on the current page. */
+  .nav a {
+    display: block;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-control);
+    color: var(--color-text-base);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+  }
+
+  /* Without the script, an underline marks the current page. */
+  .nav:not([data-pill-ready]) a[aria-current] {
+    text-decoration: underline;
+    text-decoration-thickness: var(--size-focus-ring);
+    text-underline-offset: 0.4em;
+  }
+
+  .menu {
+    display: flex;
+    margin-inline-end: calc(var(--space-xs) * -1);
+  }
+
+  /* The full nav needs 1280 px: below that its first links would land on the seam's dither. */
+  @media (width >= 80rem) {
+    .end {
+      gap: var(--space-l);
+    }
+
+    .nav {
+      display: block;
+    }
+
+    .menu {
+      display: none;
+    }
+  }
+</style>

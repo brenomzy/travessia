@@ -1,0 +1,66 @@
+---
+/** Home at /. Section order follows Paper: Home → "Home · Desktop". */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomeHero from '../sections/HomeHero.astro';
+import StatBand from '../sections/StatBand.astro';
+import FeeCalculatorSection from '../sections/FeeCalculatorSection.astro';
+import FeatureGrid from '../sections/FeatureGrid.astro';
+import SeamStrip from '../sections/SeamStrip.astro';
+import Showcase from '../sections/Showcase.astro';
+import IntegrationsBento from '../sections/IntegrationsBento.astro';
+import StoryCards from '../sections/StoryCards.astro';
+import PricingTeaser from '../sections/PricingTeaser.astro';
+import FaqList from '../sections/FaqList.astro';
+import CtaBand from '../sections/CtaBand.astro';
+import { s } from '../../strings';
+import { path, type RouteKey } from '../../lib/routes';
+import { getFaqs, getFeatures, getIntegrations, getPage, getPlans, getRates, getStories } from '../../lib/content';
+
+interface Props {
+}
+const page = await getPage('home');
+const [features, integrations, stories, faqs, plans, rates] = await Promise.all([
+  getFeatures(),
+  getIntegrations(),
+  getStories({ featuredOnly: true }),
+  getFaqs('general'),
+  getPlans(),
+  getRates(),
+]);
+/** Every plan has the same conversion fee today; show the lowest. */
+const feePercent = Math.min(...plans.map((p) => p.data.fee));
+const to = (l: { label: string; route: string }) => ({ label: l.label, href: path(l.route as RouteKey) });
+---
+
+<BaseLayout
+ 
+  title={page.seo.title}
+  description={page.seo.description}
+  canonical={path('home')}
+  headerVariant="seam"
+  current="home"
+>
+  <HomeHero content={page.hero} />
+  <StatBand {...page.outcomes} />
+  <FeeCalculatorSection
+   
+    content={page.calculator}
+    rates={rates}
+    feePercent={feePercent}
+    currencyBRL={s.common.currencyBRL}
+  />
+  <FeatureGrid title={page.features.title} link={to(page.features.link)} features={features} />
+  <SeamStrip />
+  <Showcase {...page.showcase} />
+  <IntegrationsBento {...page.integrations} link={to(page.integrations.link)} integrations={integrations} />
+  <StoryCards title={page.stories.title} link={to(page.stories.link)} stories={stories} />
+  <PricingTeaser
+   
+    {...page.pricing}
+    currencyBRL={s.common.currencyBRL}
+    plans={plans}
+    ctaHref={path('openAccount')}
+  />
+  <FaqList {...page.faq} faqs={faqs} />
+  <CtaBand {...page.finalCta} />
+</BaseLayout>
