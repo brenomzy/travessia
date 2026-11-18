@@ -25,6 +25,6 @@ Plain Astro 7 with a hand-built CSS system (no CSS framework), React islands wit
 
 ## Status
 
-The website is built: every page in SPEC §6.1, the islands and `/styleguide`. The brand system is in Phase 0 (brief §8): cleanup, deploy and a fresh repo. Phase 1 consolidates the brand into `brand/`.
+The website is built: every page in SPEC §6.1, the islands and `/styleguide`. It's live at [travessia.brenodaroz.com](https://travessia.brenodaroz.com) (Cloudflare Pages; every push to `main` deploys). The brand system has finished Phase 0 (brief §8); Phase 1 consolidates the brand into `brand/`.
 
 Design source: the Paper file "Travessia". Build from the pages above the divider (Design system, Home, Pages, Blog covers); pages marked "Archive" are history. Textures in `src/assets/textures/` are the approved stills from `docs/design/texture-lab/`.

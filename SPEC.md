@@ -23,7 +23,7 @@
 
 ### 1.2 Done when
 
-- [ ] The site is live on Cloudflare Pages at `travessia.brenodaroz.com`, deployed from the GitHub repo.
+- [x] The site is live on Cloudflare Pages at `travessia.brenodaroz.com`, deployed from the GitHub repo (project `travessia`, also at `travessia-e3u.pages.dev`).
 - [x] Every route in §6.1 renders, in English.
 - [x] `/styleguide` shows every token and component.
 - [ ] The `/brand` page is live (brief §9).
@@ -41,7 +41,8 @@
 
 - Built: tokens pipeline with a WCAG check, CSS layers, layout primitives, Stylelint, the page shell, every page in §6.1 (64 pages), the islands in §5.6.1, the Motion helpers, the seam shader, and `/styleguide`.
 - Not built: the main nav dropdowns (the design has four flat links), the `/brand` page, the generated blog covers.
-- Next: brief Phase 0 (deploy, fresh repo), then Phase 1.
+- Live at `travessia.brenodaroz.com` since 2026-11-18; every push to `main` deploys.
+- Next: brief Phase 1.
 
 ---
 
@@ -123,7 +124,7 @@ Numbers are kept from earlier versions; gaps are retired decisions.
 - **React islands** only where needed: the Base UI components in §5.6.1. Everything else is `.astro` with zero client JS by default.
 - **Libraries (§5.6):** Base UI `@base-ui/react` 1.9.0, Motion `motion` 14.12.0, React 19.3.1. Pin exact versions.
 - **Fonts:** Astro's Fonts API self-hosts Figtree and Geist Mono.
-- **Hosting:** Cloudflare Pages, static output (`dist/`), at `travessia.brenodaroz.com`.
+- **Hosting:** Cloudflare Pages, static output (`dist/`, one `.html` file per route), at `travessia.brenodaroz.com`. Build: `npm run build`, `NODE_VERSION=24`.
 - **Scripts:** `dev`, `build`, `preview`, `check`, `lint:css`, `tokens`, `format`.
 
 ### 5.2 Repo layout
