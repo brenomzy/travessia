@@ -1,8 +1,9 @@
 # Travessia brand system: brief
 
-> **Status:** v0.2 · 2026-11-18 · Owner: Breno Daroz
+> **Status:** v0.3 · 2026-11-19 · Owner: Breno Daroz
 > **What this is:** the main brief for Travessia. It turns the Travessia brand into a working system: context, approved examples, layouts, skills and checks that produce on-brand decks, one-pagers, landing pages, campaigns and product graphics on request. `SPEC.md` is the spec for the website itself; where the two disagree, this file wins.
 > **v0.2:** decisions from the 2026-11-18 grilling session (§11). The earlier site-builder test is dropped, the site becomes English-only, Slack moves to Phase 6, and the brief gains approved examples, a gaps log and a consolidation phase.
+> **v0.3:** Phase 1 becomes "Brand build and consolidation": the whole brand (strategy, messaging, voice, proof, identity, photography, motion, a launch campaign) is built and polished before the system encodes it, following `docs/brand-building-playbook.md`, with Ramp as the structural reference. Colour primitives will be named after Brazilian rivers and natural products (§11).
 > **Origin:** Paul Jun, "Brand as software", part 1 (Sep 2026, https://pauljun.substack.com/p/brand-as-software) and part 2 (https://x.com/PaulJun_/status/2122714711095468195), which describes Ramp Creative, Ramp's internal Slack agent. Brainstorm notes: `~/Projects/Lab Ideas/context/memory/brand-as-software.md`.
 
 ---
@@ -88,14 +89,18 @@ What the agents know. Plain Markdown, versioned, short enough to load whole.
 | File | Contents |
 |---|---|
 | `brand/sources.md` | Phase 1 output: every source consulted, the claims pulled from each, and the conflicts and gaps found. |
-| `brand/strategy.md` | Beliefs, positioning, what Travessia will and won't say. |
+| `brand/references.md` | The reference brand teardowns (Ramp, Wise, Mercury, Nubank, Stripe) in one table. |
+| `brand/strategy.md` | Tension, promise, category, beliefs, what Travessia will and won't say. |
+| `brand/messaging.md` | The messaging house: promise, platform claim, feature pillars with proof, audiences, the page template in words. |
 | `brand/audience.md` | Brazilian freelancers and studios with clients abroad, and those clients: their jobs and objections. |
 | `brand/product-truths.md` | What the product does and doesn't do, per feature. The only source for product claims. |
 | `brand/proof.md` | Approved numbers and proof points, with where each may be used. |
 | `brand/voice.md` | Voice rules and vocabulary, with good and bad examples side by side. |
 | `brand/modes.md` | The three modes (§5.3). |
 | `brand/imagery.md` | Photography and illustration direction, references, and what imagery each mode allows. |
-| `brand/rules.md` | Hard rules the checks enforce (contrast, accents per surface, logo use, lengths). |
+| `brand/rules.md` | Hard rules the checks enforce (contrast, accents per surface, logo use, lengths), and the graphic language (seam, product UI, charts, icons). |
+| `brand/motion.md` | Motion principles, the logo sting, the seam in motion, product UI demos. |
+| `brand/campaigns/` | Campaign concepts and executions; loud mode is written from the first one. |
 | `brand/corrections.md` | Failures and the rule, fix, example or test case each one produced. |
 | `brand/gaps.md` | Requests the system couldn't serve with an approved layout (§5.6), and how each was closed. |
 | `brand/templates/` | Approved layouts (§5.4). |
@@ -111,7 +116,7 @@ Each mode is a short list of rules the system can choose and check: background t
 
 | Mode | Used for | Visual | Voice | Imagery | Defined in |
 |---|---|---|---|---|---|
-| Quiet | Decks, investor updates, sales and support one-pagers | Papel background, text first, one small teal accent, no seam texture, no illustration | Headlines state facts; every number has a source; no exclamation marks | Product UI, charts from `proof.md`. No photography. | Phase 2 |
+| Quiet | Decks, investor updates, sales and support one-pagers | White background, text first, one small tapajós accent, no seam texture, no illustration | Headlines state facts; every number has a source; no exclamation marks | Product UI, charts from `proof.md`. No photography. | Phase 2 |
 | Standard | Feature one-pagers, landing pages, product graphics | Close to the site: seam texture band, one accent per surface, product UI vignettes | To be defined | Product UI, seam textures | Phase 3 |
 | Loud | Launches, campaigns, social | Rio-negro or urucum fields, large type, illustration scenes, motion allowed | Short imperative headlines allowed; one claim per surface | AI photography of places, objects, hands and work settings. Never a face presented as a customer. | Phase 4 |
 
@@ -197,7 +202,7 @@ brief (a message, Markdown, pasted Google Doc text)
 Each phase starts with art direction, then the build. Log each in the new `docs/journal.md`.
 
 0. **Cleanup.** Done 2026-11-18: PT-BR dropped (English only at `/`), the earlier site-builder test removed from the code and docs, `SPEC.md` rewritten as the website spec, README, AGENTS.md and the journal updated, a fresh public repo (the old one is private as `travessia-archive`, to be deleted later), and the site live on Cloudflare Pages at `travessia.brenodaroz.com` (`noindex` and the fictional-company banner stay).
-1. **Consolidation.** Run `consolidate-brand` on Travessia's scattered sources (SPEC §4, `src/strings/strings.json`, the content collections, `tokens.json`, `rates.json`, the stats content, Paper). Collect references and imagery direction. Done when `brand/` exists with every claim sourced and `sources.md` lists the conflicts found.
+1. **Brand build and consolidation.** Build the whole brand before the system encodes it, following the 14 steps in `docs/brand-building-playbook.md`, with Ramp as the structural reference (same layers, nothing that looks or sounds like Ramp). Steps 1–13 are art direction: reference teardowns, strategy and the master promise, messaging house, voice, proof, the visual direction tested at campaign scale, the finished core identity (including the colour rename, §11), graphic language, photography, illustration and 3D, motion, twelve touchpoints on one wall, and one launch campaign. Step 14 is the consolidation: run `consolidate-brand` on the results and Travessia's existing sources (SPEC §4, `src/strings/strings.json`, the content collections, `tokens.json`, `rates.json`, the stats content, Paper) and write `brand/`. Done when `brand/` exists with every claim sourced, `sources.md` lists the conflicts found, and the touchpoints are approved; approved touchpoints become the first approved examples.
 2. **Decks and one-pagers, quiet mode.** Define quiet mode. ~8 slide layouts and 2 one-pager layouts from batches of Paper variants; `design-sync`; the engine CLI through HTML and PDF; automatic checks; first approved examples; the 12-brief test set. Done when `make-deck` passes the test set's decks with no layout fixes and the refusals are refused.
 3. **Landing pages, standard mode.** Define standard mode. Section catalogue, `src/content/landing/`, `make-landing-page`. Then publish the case study and the `/brand` page (§9).
 4. **Campaign and social kit, loud mode.** Define loud mode. Reuse the cover and seam engines; AI photography within §5.3's limits.
@@ -221,6 +226,9 @@ The case study and `/brand` page are updated after each phase from 4 on.
 - **[verify]** Paper → template: how close `get_jsx` and computed styles get to a token-only template.
 - **[verify]** Claude API credits and cost per request, before Phase 6.
 - **[decide]** Agent SDK vs direct API, at Phase 6.
+- **[decide]** The seam story: Rio Negro doesn't meet the Tapajós. Treat the seam as "two waters meeting" in general, or move its light side toward a sandy `solimoes` to match the real *Encontro das Águas* (playbook step 7).
+- **[decide]** Typeface: keep Figtree, or license a more distinctive face (playbook step 7).
+- **[decide]** Illustration and 3D: yes or no (playbook step 10).
 
 ---
 
@@ -236,7 +244,7 @@ The case study and `/brand` page are updated after each phase from 4 on.
 | Modes | Defined when an output first needs them; quiet first. Each mode includes voice rules. |
 | Repo | Everything stays in this repo. Engine free of Travessia specifics; brand pack in `brand/`. Extract when a second client exists. |
 | Slack | Not in v1. Requests come as messages in Claude Code; the bot is Phase 6. |
-| Phase 1 | A documented consolidation, including references, imagery and photography direction. Doubles as the demo for the second buyer. |
+| Phase 1 | A documented consolidation, including references, imagery and photography direction. Doubles as the demo for the second buyer. (Widened on 2026-11-19, below.) |
 | Formats | HTML and PDF. PPTX later; Google Slides optional. |
 | Editing | Change the recipe and re-render. |
 | Language | English only. PT-BR is dropped. |
@@ -251,3 +259,20 @@ The case study and `/brand` page are updated after each phase from 4 on.
 | Out-of-scope | Hard refusal for brand-defining work and unproven claims; flagged draft plus `gaps.md` for everything else. |
 | Examples | 2–3 approved examples per format in `brand/examples/`; first-pass approvals get promoted. |
 | Case study | Portfolio write-up plus a `/brand` page generated from `brand/`, published after Phase 3; credits Paul Jun. |
+
+### Decisions, 2026-11-19
+
+| Topic | Decision |
+|---|---|
+| Phase 1 | Becomes "Brand build and consolidation". The full brand is built and polished first (`docs/brand-building-playbook.md`, steps 1–13); consolidation into `brand/` is its last step. Phases 2–6 keep their numbers. |
+| Structural reference | Ramp: the same layers (one promise, a small strict identity, product UI as illustration, proof as a programme, campaigns aimed at the pain), with nothing that looks or sounds like Ramp. |
+| Central idea | The river crossing, from the name, runs through strategy, voice, colour names, graphic language, photography and the campaign. |
+| Colour names | Primitives are named after Brazilian rivers and natural products from Brazil. Semantic tokens keep functional names. The old placeholder names (papel and others) are retired. |
+| Launch campaign | Made in Phase 1 as art direction; loud mode's rules are still written in Phase 4, from it. |
+
+### Decisions, 2026-11-20
+
+| Topic | Decision |
+|---|---|
+| Colour names | Renamed in code: noite → rio-negro, agua → tapajos, cinza → neblina; urucum and white unchanged. Values unchanged. Texture file names keep their old names to match the texture-lab archive. |
+| How Phase 1 is done | About 95% by directing agents (Paper, Magnific, Markdown, code), not by hand. Each step is brief → batch → pick and mark up → iterate → approve. `docs/direction-log.md` records rounds, time and what had to be done by hand, as evidence for the case study. |

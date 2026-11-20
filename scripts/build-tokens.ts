@@ -22,7 +22,7 @@ function walk(node: Json, path: string[], fn: (path: string[], token: Json) => v
   }
 }
 
-/** "{palette.agua.500}" → node in the JSON */
+/** "{palette.tapajos.500}" → node in the JSON */
 function lookup(ref: string): Json {
   const node = ref.slice(1, -1).split('.').reduce((n: Json, k) => n?.[k], src);
   if (!isToken(node)) throw new Error(`Unknown token reference ${ref}`);
@@ -31,7 +31,7 @@ function lookup(ref: string): Json {
 const isRef = (v: unknown): v is string => typeof v === 'string' && /^\{.+\}$/.test(v);
 /** Resolves aliases to a raw value (for tokens.ts and contrast checks). */
 const resolve = (v: any): any => (isRef(v) ? resolve(lookup(v).$value) : v);
-/** "{palette.agua.500}" → "var(--agua-500)" (palette names drop the "palette" prefix). */
+/** "{palette.tapajos.500}" → "var(--tapajos-500)" (palette names drop the "palette" prefix). */
 const refVar = (ref: string) => {
   const parts = ref.slice(1, -1).split('.');
   return `var(--${kebab(parts[0] === 'palette' ? parts.slice(1) : parts)})`;

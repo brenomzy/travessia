@@ -84,19 +84,19 @@ export const motion = {
 export const tokens = {
   "palette": {
     "white": "#FFFFFF",
-    "noite": {
+    "rio-negro": {
       "600": "#2A3E48",
       "700": "#1E2F38",
       "800": "#16262F",
       "900": "#0F1C24"
     },
-    "cinza": {
+    "neblina": {
       "100": "#E1E7E8",
       "400": "#8FA3AB",
       "600": "#4D5A61",
       "700": "#2E3B42"
     },
-    "agua": {
+    "tapajos": {
       "50": "#EAF8F8",
       "100": "#CDEFF0",
       "200": "#9FE0E3",

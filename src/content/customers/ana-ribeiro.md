@@ -27,7 +27,7 @@ legalName: Ana Ribeiro Design MEI
 since: 2025-11
 features: Invoices, USD balance, rate alert
 cover: ../../assets/textures/stories/dither-noite.png
-coverAlt: Dotted texture in noite and tapajós
+coverAlt: Dotted texture in dark blue and teal
 featured: true
 spotlight: false
 order: 2

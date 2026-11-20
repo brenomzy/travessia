@@ -27,7 +27,7 @@ legalName: Okabe Desenvolvimento Ltda.
 since: 2025-09
 features: Invoices, monthly report, accountant access
 cover: ../../assets/textures/stories/dither-noite.png
-coverAlt: Dotted texture in noite and tapajós
+coverAlt: Dotted texture in dark blue and teal
 featured: false
 spotlight: false
 order: 4

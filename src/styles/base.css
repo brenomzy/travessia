@@ -64,8 +64,8 @@ a:hover {
 }
 
 ::selection {
-  background-color: var(--agua-200);
-  color: var(--noite-900);
+  background-color: var(--tapajos-200);
+  color: var(--rio-negro-900);
 }
 
 [data-theme='dark'] {

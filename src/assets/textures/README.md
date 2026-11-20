@@ -18,8 +18,8 @@ One pattern per blog category, copied from the Paper page "Blog covers → Cover
 
 | File | Category |
 |---|---|
-| `covers/exchange.png` | Câmbio / Exchange: noite meets tapajós along a vertical seam |
+| `covers/exchange.png` | Câmbio / Exchange: rio-negro meets tapajós along a vertical seam |
 | `covers/taxes.png` | Impostos / Taxes: terraced halftone on mist |
 | `covers/invoices.png` | Faturas / Invoices: dithered ledger bars on white |
 | `covers/guides.png` | Guias / Guides: a halftone river on white |
-| `covers/news.png` | Novidades / News: release streaks on noite |
+| `covers/news.png` | Novidades / News: release streaks on rio-negro |

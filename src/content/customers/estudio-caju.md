@@ -27,7 +27,7 @@ legalName: Caju Ilustração Ltda.
 since: 2026-02
 features: Studio plan, three-currency balance, accountant access
 cover: ../../assets/textures/stories/halftone-dots.png
-coverAlt: Halftone dots forming waves in tapajós
+coverAlt: Halftone dots forming waves in teal
 featured: false
 spotlight: false
 order: 5

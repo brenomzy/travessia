@@ -62,7 +62,7 @@ export type SeamRecipe = {
   /** Dither cell in texture pixels (6 for every seam). */
   cell: number;
   shape: VerticalShape | HorizontalShape;
-  /** Two flat colours as [r, g, b] 0–255: dark (noite) and light (tapajós). */
+  /** Two flat colours as [r, g, b] 0–255: dark (rio-negro) and light (tapajós). */
   dark: [number, number, number];
   light: [number, number, number];
   motion: SeamMotion;

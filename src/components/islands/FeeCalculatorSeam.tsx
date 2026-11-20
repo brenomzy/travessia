@@ -7,7 +7,7 @@ import styles from './FeeCalculatorSeam.module.css';
 
 /**
  * The fee calculator laid across the seam (Paper: /calculadora → "Calculator B · On the seam"):
- * what the client pays on noite, the fee and rate on a card riding the seam, what you receive on
+ * what the client pays on rio-negro, the fee and rate on a card riding the seam, what you receive on
  * tapajós. Same maths as FeeCalculator (useFeeCalculator). The page's <h1> is rendered here so it
  * shares the grid; it's in the server HTML like everything else.
  */

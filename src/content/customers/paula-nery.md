@@ -27,7 +27,7 @@ legalName: Paula Nery Textos
 since: 2025-10
 features: Invoices, monthly report, CSV export
 cover: ../../assets/textures/stories/dither-noite.png
-coverAlt: Dotted texture in noite and tapajós
+coverAlt: Dotted texture in dark blue and teal
 featured: false
 spotlight: false
 order: 7

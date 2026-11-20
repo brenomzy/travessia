@@ -14,7 +14,7 @@ export interface ChipFilterProps {
   groups: { id: string; label: string; all: string; options: { value: string; label: string }[]; showLabel?: boolean }[];
   /** "{count}" is replaced; announced politely after filtering. */
   resultCount: string;
-  /** light: chips on a light section. dark: chips on noite. */
+  /** light: chips on a light section. dark: chips on rio-negro. */
   tone?: 'light' | 'dark';
 }
 
