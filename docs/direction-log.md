@@ -8,3 +8,4 @@ How much of the Travessia brand can be directed rather than made by hand (brief 
 
 | Date | Step | Tools | Rounds | Time | By hand | Result |
 |---|---|---|---|---|---|---|
+| 2026-11-20 | 1. References | Four web research agents in parallel (one per brand); Paper MCP for the board | 1 | ~1 h | Nothing | `brand/references.md` and the Paper page "Brand · References" (one row per brand, then what is taken and what is still open). Overlap notes added to the playbook. |

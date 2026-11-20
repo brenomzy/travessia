@@ -21,6 +21,8 @@
 
 ## Where Travessia overlaps
 
+Travessia is fictional, so none of this is a legal or market risk. Treat these as notes for later steps, acted on when it's cheap or makes the work better; the outputs and the system behind them matter more than distance from these brands.
+
 Grouped by the playbook step that has to deal with it. **High** means a reader who knows the other brand would likely make the connection; **medium** means it would add up with other similarities; **low** means shared practice.
 
 ### The ones that change current plans

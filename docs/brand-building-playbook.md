@@ -360,7 +360,7 @@ Ramp's campaigns share a structure: the old way shown as a physical burden (a pi
 - **Typeface.** Keep Figtree, or license a face (step 7).
 - **Illustration.** Yes or no (step 10).
 
-Raised by step 1 (`brand/references.md`, "Where Travessia overlaps", 2026-11-20):
+Raised by step 1 (`brand/references.md`, "Where Travessia overlaps", 2026-11-20). These are notes, not blockers: Travessia is fictional, and the outputs and the system behind them are what the project is for (Breno, 2026-11-20). Act on one when it's cheap or when it makes the work better, not to avoid a competitor.
 - **Where the promise comes from.** Wise already sells BRL balances and Pix payouts in Brazil and has a freelancer segment; Nubank has multi-currency accounts. Fee and speed can't carry the strategy; the export tax invoice and the accountant's report are unclaimed (step 2).
 - **The bank-versus-Travessia bars.** Wise's green-versus-grey comparison bars are one of its signature images. Keep the comparison, find another form (step 8).
 - **The held `acai` colour.** A deep purple reads as Nubank to Brazilian readers. Drop it or move it towards wine or near-black (step 7).
