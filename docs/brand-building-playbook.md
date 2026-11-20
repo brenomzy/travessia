@@ -243,6 +243,14 @@ Pick one territory. If the current one wins, this step costs a day and gives you
 
 **Output:** a Paper page "Direction · campaign scale" and a short written decision.
 
+**Decided (2026-11-20, approved by Breno as the initial direction; polish comes in the next steps):**
+- **Direction:** territory B's photography with territory A's waterline device. Three territories were tested (A Encontro, B Margem, C Urucum); the round 2 row on the Paper page "Brand · Direction at campaign scale" is the reference.
+- **Photography:** close still lifes and aerials of the crossing, overcast and documentary; water always clean and clear. The aerial of two waters with one boat crossing the seam is the hero image.
+- **Headline device, the waterline:** the promise split across dark and light. On a photo or the seam, the first half sits on dark water in white and the second on light water in rio-negro. On white, the first half is rio-negro and the second tapajós-700.
+- **Seam texture:** stays, for product surfaces (product posts, cards riding the seam).
+- **Type:** Figtree only, no serifs, no second face. The scale on the Paper page "Brand · Type study" ("One face, one rule"): every heading 600; leading falls from 1.53 (body) to 0.88 (200 px); tracking from 0 to −0.06em; amounts 500 with tabular figures. Encoded in tokens in step 7.
+- **Loud mode (territory C):** urucum as a surface is kept for launches only; it stays one-per-view everywhere else.
+
 ### 7. Finish the core identity
 
 **Goal:** a small, strict core, the way Ramp's is.
