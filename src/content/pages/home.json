@@ -122,11 +122,11 @@
         "label": "Time",
         "detail": "From your client's payment to reais in Pix",
         "bank": {
-          "value": "3 to 5 business days",
+          "value": "2 to 5 business days",
           "share": 1
         },
         "travessia": {
-          "value": "1 day",
+          "value": "1 business day",
           "share": 0.2
         },
         "gain": "4 days",

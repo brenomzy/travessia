@@ -5,7 +5,7 @@ tagline: A monthly report ready for your accountant.
 summary: A monthly report for MEI, Simples Nacional or carnê-leão, ready to send to your accountant without a spreadsheet.
 intro: One report a month with everything that came in, was converted and was invoiced. For MEI, Simples Nacional or carnê-leão, without a spreadsheet.
 benefits:
-  - A warning when you near the MEI limit
+  - A warning at 80% of the MEI limit
   - "Carnê-leão: the month's amount worked out for you to check"
   - Read-only access for your accountant
 linkLabel: See the reports

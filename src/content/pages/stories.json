@@ -9,7 +9,7 @@
   "stats": [
     {
       "value": "2,140",
-      "label": "accounts opened since March"
+      "label": "accounts opened"
     },
     {
       "value": "31 countries",
@@ -17,7 +17,7 @@
     },
     {
       "value": "1 business day",
-      "label": "on average until the reais land"
+      "label": "from converting to reais in your Pix"
     }
   ],
   "spotlightLink": "Read the story",

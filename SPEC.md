@@ -85,7 +85,7 @@ Numbers are kept from earlier versions; gaps are retired decisions.
   - Keep a monthly tax report ready for the accountant (MEI, Simples Nacional, or an individual using carnê-leão).
 - **Features (one page each):** international invoices, get paid and convert, automatic tax invoices, tax reports.
 - **Audiences:** the freelancers and studios (most pages), and their clients abroad, who need to trust the invoice and pay easily (the For clients page).
-- **Stage:** Series A, about 40 people in São Paulo and remote, a marketing team of 4.
+- **Stage:** seed stage, 14 people in São Paulo and Recife, a marketing team of 4. (Was Series A, about 40 people; changed 2026-11-20 to match the About page, `brand/proof.md`.)
 - **What the site is for:** account sign-ups (a waitlist form that stores nothing), and being cited in AI answers for questions like "how to get paid from abroad as a Brazilian freelancer" and "how to pay a contractor in Brazil".
 - **Proof points (made up, used in copy):** reais in your account by Pix in 1 business day; one 0.6% fee, shown before you convert; export tax invoice issued in under 2 minutes.
 
@@ -94,7 +94,7 @@ Numbers are kept from earlier versions; gaps are retired decisions.
 - **Freelancers** (designers, developers, translators, video editors, writers) billing 1–5 foreign clients, usually as MEI or a small company.
 - **Small studios** (2–10 people) with several foreign clients and a part-time accountant.
 - **Their clients abroad**, who want a professional invoice and an easy way to pay.
-- Their jobs: get paid on time, stop losing 4–6% to bank wires and bad rates, know the rate before converting, and keep taxes right without a spreadsheet.
+- Their jobs: get paid on time, stop losing 2% to 6% to bank wires and bad rates, know the rate before converting, and keep taxes right without a spreadsheet.
 
 ### 4.3 Brand direction (starting point)
 

@@ -11,7 +11,7 @@ benefits:
 linkLabel: See invoices
 hero:
   title: Invoices your client understands and pays
-  lead: In dollars, euros or pounds, in their language, with a link to pay by card or bank transfer.
+  lead: In dollars, euros or pounds, in their language, with a link to pay by card or bank transfer. 8 in 10 are paid by their due date.
   secondary:
     label: See how clients pay
     route: forClients
