@@ -1,6 +1,6 @@
 # Rules
 
-> **Status:** in progress · playbook step 7 (core identity), started 2026-11-20. Type is done; logo, colour and the graphic language (step 8) follow.
+> **Status:** in progress · playbook step 7 (core identity), started 2026-11-20. Type and the wordmark are done; the standalone mark, colour and the graphic language (step 8) follow.
 > **What this is:** the small, strict core of the identity, in rules an agent can follow and a check can test. Values live in `src/tokens/tokens.json`; this page says how to use them.
 
 ---
@@ -48,3 +48,53 @@ The promise, or any two-part headline, is split across dark and light water.
 - On a photograph or the seam: the first half sits on the dark water in white; the second on the light water in rio-negro.
 - On a flat surface: the first half in `--color-text-base`; the second in `--color-text-highlight`, which each theme resolves to the right tapajós (700 on white and tint, 300 on rio-negro). The Home hero already does this.
 - Two parts at most. The split follows the sense of the line ("Paid abroad." / "Sorted at home."), never a break in the middle of a phrase.
+
+---
+
+## Logo
+
+Boards: Paper page "Brand · Core identity". The masters are on the "Design system" page, board "5 · Logo"; in code, `src/components/ui/Logo.astro`. Every logo is a copy of a master, never redrawn or retyped.
+
+### The wordmark
+
+- Lowercase "travessia" in Figtree 600 outlines, kerned by hand. The two s are woven: each passes over the other once (the first at the top crossing, the second at the bottom).
+- The whole word is cut by **the waterline**: a 38-unit channel from y −223 to −185 (Figtree's 1000-unit em), just under the e's crossbar.
+- Above the waterline: rio-negro (`--color-logo-above`), or white on rio-negro (`--color-logo-above-inverse`). Below: tapajós-500 (`--color-logo-below`).
+
+### Clear space and size
+
+- **Clear space:** one x-height (500 units, the height of the "a") on every side. Nothing enters it, including the edge of a photo crop or a seam band.
+- **Minimum width:** 96 px on screen, where the waterline channel is still 1 px wide (`--size-logo-nav`). 25 mm in print. Below that, use the mark.
+- Common sizes: 96 px in the nav, 160 px in the footer (`--size-logo-footer`), 400 px on a deck cover.
+
+### Colourways
+
+| Background | Wordmark |
+|---|---|
+| White, tint | Two-colour: rio-negro above, tapajós below |
+| Rio-negro | Two-colour: white above, tapajós below |
+| Tapajós | One colour: rio-negro, both halves |
+| Urucum (launches only) | One colour: rio-negro, both halves |
+| Photograph | Two-colour (white above) on dark water or shadow, in the quietest area of the image; one colour where the area is light and busy |
+| The seam texture | On one solid side only, never across the dither |
+
+The waterline channel stays in every colourway, one-colour included.
+
+### Never
+
+- Recolour a half in any other colour (no urucum, no gradients), or swap the halves.
+- Move, thicken or remove the waterline, or undo the weave.
+- Stretch, outline, add shadows or effects, or rotate.
+- Place it across the seam's dither or across a busy part of a photo.
+- Set "travessia" in live text as a stand-in for the logo.
+- Put the mark next to the wordmark as a lockup.
+
+### The mark
+
+Still open (2026-11-20). Three options on the Paper page "Brand · Core identity", board "Logo · the mark, three options":
+
+- **A · The woven ss**, taken out of the word at the same spacing. Most ownable, but standing alone it can read as "SS", and at 16 px the weave disappears.
+- **B · The t**, cut by the same waterline. Clear at every size; less distinctive.
+- **C · The seam**, no letters: a crop of the texture, dark water meeting light.
+
+Once chosen, the mark replaces the default favicon (`public/favicon.svg`, `favicon.ico`) and gets an app icon and an avatar version.

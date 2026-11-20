@@ -362,7 +362,7 @@ export const tokens = {
       "m": 22
     },
     "logo": {
-      "nav": 94,
+      "nav": 96,
       "footer": 160
     },
     "banner": 32,
