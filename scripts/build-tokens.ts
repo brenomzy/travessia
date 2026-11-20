@@ -68,6 +68,7 @@ walk(src.font, ['font'], (p, t) => decl(kebab(p.filter((k) => k !== 'family')), 
 walk(src.text, ['text'], (p, t) => {
   decl(kebab(p), cssValue(t));
   decl(kebab(['leading', ...p.slice(1)]), String(t.leading));
+  decl(kebab(['tracking', ...p.slice(1)]), String(t.tracking));
 });
 walk(src.space, ['space'], (p, t) => decl(kebab(p), cssValue(t)));
 walk(src.size, ['size'], (p, t) => decl(kebab(p), cssValue(t)));
@@ -125,7 +126,7 @@ const ts = {
   color: toObject(src.color, raw),
   themes,
   font: toObject(src.font, raw),
-  text: toObject(src.text, (t) => ({ ...t.$value, leading: t.leading })),
+  text: toObject(src.text, (t) => ({ ...t.$value, leading: t.leading, tracking: t.tracking })),
   space: toObject(src.space, raw),
   size: toObject(src.size, raw),
   breakpoint: toObject(src.breakpoint, raw),

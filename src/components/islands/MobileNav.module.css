@@ -89,7 +89,7 @@
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
     color: var(--color-text-subtle);
-    letter-spacing: var(--font-tracking-normal);
+    letter-spacing: var(--tracking-sm);
   }
 
   .list {
@@ -108,7 +108,7 @@
     font-size: var(--text-2xl);
     line-height: var(--leading-2xl);
     font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--font-tracking-title);
+    letter-spacing: var(--tracking-2xl);
     text-decoration: none;
   }
 

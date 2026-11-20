@@ -233,69 +233,74 @@ export const tokens = {
       "medium": 500,
       "semibold": 600,
       "bold": 700
-    },
-    "tracking": {
-      "display": "-0.045em",
-      "heading": "-0.04em",
-      "title": "-0.02em",
-      "normal": "0em"
     }
   },
   "text": {
     "xs": {
       "min": 13,
       "max": 13,
-      "leading": 1.38
+      "leading": 1.38,
+      "tracking": "0.01em"
     },
     "sm": {
       "min": 15,
       "max": 15,
-      "leading": 1.47
+      "leading": 1.47,
+      "tracking": "0em"
     },
     "base": {
       "min": 16,
       "max": 17,
-      "leading": 1.53
+      "leading": 1.53,
+      "tracking": "0em"
     },
     "lg": {
       "min": 17,
       "max": 19,
-      "leading": 1.53
+      "leading": 1.53,
+      "tracking": "0em"
     },
     "xl": {
       "min": 19,
       "max": 22,
-      "leading": 1.27
+      "leading": 1.36,
+      "tracking": "-0.01em"
     },
     "2xl": {
       "min": 23,
       "max": 28,
-      "leading": 1.2
+      "leading": 1.16,
+      "tracking": "-0.02em"
     },
     "3xl": {
       "min": 30,
       "max": 40,
-      "leading": 1.1
+      "leading": 1.06,
+      "tracking": "-0.03em"
     },
     "4xl": {
       "min": 36,
       "max": 56,
-      "leading": 1.04
+      "leading": 1,
+      "tracking": "-0.04em"
     },
     "5xl": {
       "min": 42,
       "max": 76,
-      "leading": 1
+      "leading": 0.96,
+      "tracking": "-0.045em"
     },
     "6xl": {
       "min": 52,
       "max": 88,
-      "leading": 1
+      "leading": 0.94,
+      "tracking": "-0.05em"
     },
     "hero": {
       "min": 42,
       "max": 60,
-      "leading": 1.04
+      "leading": 0.98,
+      "tracking": "-0.045em"
     }
   },
   "space": {

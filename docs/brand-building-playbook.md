@@ -277,6 +277,8 @@ Pick one territory. If the current one wins, this step costs a day and gives you
 - **Data visualisation:** the bank-versus-Travessia bars from the Home stats are already a signature; write them up as a reusable chart rule.
 - **Icons:** pick a set or draw one, and write sizes and stroke.
 
+- **Image treatments:** Ramp uses a lot of effects around its imagery: gradients, solid fields of light and textures behind product and photography. Research how Ramp (and the other references) build these, then define Travessia's own set (for example light across the waterline, seam-derived textures, solid fields in rio-negro or tapajós) and when each is allowed. Requested by Breno, 2026-11-20.
+
 **Output:** a "Graphic language" section in `brand/rules.md`.
 
 ### 9. Direct the photography

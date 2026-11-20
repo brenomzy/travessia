@@ -82,7 +82,7 @@
     font-size: var(--text-xl);
     line-height: var(--leading-xl);
     font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--font-tracking-title);
+    letter-spacing: var(--tracking-xl);
   }
 
   .answer {

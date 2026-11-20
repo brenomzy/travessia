@@ -153,7 +153,7 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
           textSteps.map((step) => (
             <div class="type-row">
               <code>--text-{step}</code>
-              <p style={`font-size: var(--text-${step}); line-height: var(--leading-${step})`}>{g.sample}</p>
+              <p style={`font-size: var(--text-${step}); line-height: var(--leading-${step}); letter-spacing: var(--tracking-${step})`}>{g.sample}</p>
             </div>
           ))
         }
@@ -541,7 +541,7 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     margin-block-end: var(--space-m);
     font-size: var(--text-2xl);
     line-height: var(--leading-2xl);
-    letter-spacing: var(--font-tracking-title);
+    letter-spacing: var(--tracking-2xl);
   }
 
   code {
@@ -617,7 +617,6 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
 
   .type-row p {
     font-weight: var(--font-weight-semibold);
-    letter-spacing: var(--font-tracking-title);
   }
 
   .bar {
