@@ -1,6 +1,6 @@
 # Rules
 
-> **Status:** in progress · playbook step 7 (core identity), started 2026-11-20. Type and the wordmark are done; the standalone mark, colour and the graphic language (step 8) follow.
+> **Status:** in progress · playbook step 7 (core identity), started 2026-11-20. Type, the wordmark and the mark are done; colour and the graphic language (step 8) follow.
 > **What this is:** the small, strict core of the identity, in rules an agent can follow and a check can test. Values live in `src/tokens/tokens.json`; this page says how to use them.
 
 ---
@@ -91,10 +91,11 @@ The waterline channel stays in every colourway, one-colour included.
 
 ### The mark
 
-Still open (2026-11-20). Three options on the Paper page "Brand · Core identity", board "Logo · the mark, three options":
+**The woven ss on the seam** (decided by Breno, 2026-11-20). Boards: Paper page "Brand · Core identity", "Logo · the mark, A + C" and "Icon exports".
 
-- **A · The woven ss**, taken out of the word at the same spacing. Most ownable, but standing alone it can read as "SS", and at 16 px the weave disappears.
-- **B · The t**, cut by the same waterline. Clear at every size; less distinctive.
-- **C · The seam**, no letters: a crop of the texture, dark water meeting light.
-
-Once chosen, the mark replaces the default favicon (`public/favicon.svg`, `favicon.ico`) and gets an app icon and an avatar version.
+- The ss is taken out of the wordmark at the same spacing (336 units), with the same weave and waterline. Nothing is redrawn.
+- It sits on a square of the seam texture (`hseam.png`), positioned so the dither meets the solid tapajós exactly at the waterline: the top of the ss is white on the dark water and the dither, the bottom is rio-negro on the light water.
+- It is used **only in this seam version**, at every size, favicon included. There is no flat or single-colour mark.
+- Files in `public/`: `favicon.ico` (16, 32 and 48 px), `favicon-32.png`, `apple-touch-icon.png` (180 px), `icon-192.png` and `icon-512.png` for the web manifest (`src/pages/site.webmanifest.ts`). App icons are square; the operating system rounds the corners. The favicon tile has a 22% corner radius.
+- Use it for the favicon, app icon and social avatar, and anywhere under the wordmark's 96 px minimum. Never next to the wordmark: the word already contains it.
+- Because the seam is a pixel texture, the mark is always a rendered image, exported from the Paper board, never rebuilt as vector.
