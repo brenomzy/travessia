@@ -13,7 +13,7 @@ key: carne-leao-2026
 
 If you're paid by a client abroad as an individual, with no company in Brazil, that money goes into the carnê-leão, Brazil's monthly income tax for individuals. It's worked out every month: each month has its own calculation and its own DARF payment slip.
 
-If you invoice through an MEI or a Simples company, you don't use the carnê-leão. The tax goes through the company, and the export nota fiscal replaces this calculation.
+If you invoice through an MEI or a Simples company, you don't use the carnê-leão. The tax goes through the company, and the export tax invoice (nota fiscal) replaces this calculation.
 
 <aside>Travessia shows the value in reais of every payment on the day it lands. You export the whole month as a CSV for the carnê-leão.</aside>
 

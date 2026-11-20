@@ -11,7 +11,7 @@ benefits:
 linkLabel: See the reports
 hero:
   title: The month closed, no spreadsheet
-  lead: Everything that came in, was converted and became a nota fiscal, in one report ready for you and your accountant.
+  lead: Everything that came in, was converted and became a tax invoice, in one report ready for you and your accountant.
   secondary:
     label: See pricing
     route: pricing
@@ -24,7 +24,7 @@ problem:
   points:
     - label: Scattered numbers
       detail: Invoices, rates and tax invoices live in different places and have to be added up by hand.
-      before: "invoices.xlsx · rates.pdf · notas by email"
+      before: "invoices.xlsx · rates.pdf · tax invoices by email"
       beforeMono: true
       after:
         kind: "chips"
@@ -32,7 +32,7 @@ problem:
         items:
           - "6 invoices"
           - "4 conversions"
-          - "6 notas"
+          - "6 tax invoices"
     - label: The MEI limit
       detail: If you don't track it, you only notice you've gone over when it's too late.
       before: "MEI limit: ?"
@@ -59,7 +59,7 @@ steps:
           value: "US$ 1,500.00"
         - label: "Converted to reais"
           value: "R$ 8,120.40"
-        - label: "Nota fiscal #318"
+        - label: "Tax invoice #318"
           value: "Issued"
           highlight: true
   - title: The report closes the month
@@ -70,7 +70,7 @@ steps:
       rows:
         - label: "Month's revenue"
           value: "R$ 10,834.60"
-        - label: "Notas issued"
+        - label: "Tax invoices issued"
           value: "6"
         - label: "MEI limit used"
           value: "72%"
@@ -84,7 +84,7 @@ steps:
       from: "Travessia"
       to: "to Marta Lima, accountant"
       subject: "October report · Ana Ribeiro"
-      body: "The month's revenue, conversions and notas, in MEI format."
+      body: "The month's revenue, conversions and tax invoices, in MEI format."
       actions:
         - "Open report"
         - "PDF"

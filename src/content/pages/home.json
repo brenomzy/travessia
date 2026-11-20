@@ -65,7 +65,7 @@
             "value": "R$ 5.45"
           },
           {
-            "label": "Nota fiscal",
+            "label": "Tax invoice",
             "value": "Issued",
             "highlight": true
           }
@@ -84,7 +84,7 @@
         "appTime": "now",
         "notificationTitle": "Pix received",
         "notificationBody": "R$ 10,834.60 from invoice #0042, Halden & Co.",
-        "taxInvoice": "Nota fiscal no. 318 issued and sent to your accountant",
+        "taxInvoice": "Tax invoice no. 318 issued and sent to your accountant",
         "balanceLabel": "Balance in reais",
         "balance": "R$ 10,834.60"
       },
@@ -133,7 +133,7 @@
         "gainLabel": "sooner, at worst"
       },
       {
-        "label": "Nota fiscal",
+        "label": "Tax invoice",
         "detail": "For export, on every payment",
         "bank": {
           "value": "up to you, later",
@@ -184,7 +184,7 @@
         "Balance",
         "Invoices",
         "Convert",
-        "Notas fiscais",
+        "Tax invoices",
         "Reports",
         "Clients"
       ],
@@ -319,9 +319,9 @@
       },
       {
         "id": "notas",
-        "label": "Notas fiscais",
+        "label": "Tax invoices",
         "nav": 3,
-        "title": "Notas fiscais",
+        "title": "Tax invoices",
         "actions": [
           "Download XML",
           "Send to accountant"
@@ -346,7 +346,7 @@
             "highlight": false
           }
         ],
-        "listTitle": "Recent notas fiscais",
+        "listTitle": "Recent tax invoices",
         "rows": [
           {
             "title": "No. 318 · Halden & Co.",
@@ -411,7 +411,7 @@
         "rows": [
           {
             "title": "Export revenue",
-            "detail": "Notas fiscais 311 to 315",
+            "detail": "Tax invoices 311 to 315",
             "date": "Oct",
             "amount": "R$ 31,540.20",
             "tone": "default"
@@ -492,10 +492,10 @@
   },
   "faq": {
     "title": "Questions",
-    "lead": "Can't find yours? Send it to us and we'll answer within one business day."
+    "lead": "Can't find yours? Send it to us and we'll answer within 1 business day."
   },
   "finalCta": {
-    "title": "Your next payment can arrive in reais.",
-    "lead": "Join the waitlist. We'll email you when your account is ready."
+    "title": "Paid abroad. Sorted at home.",
+    "lead": "Your next payment can arrive in reais. Join the waitlist to hear when your account is ready."
   }
 }

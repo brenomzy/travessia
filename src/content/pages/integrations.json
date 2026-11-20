@@ -115,7 +115,7 @@
             "highlight": true
           },
           {
-            "label": "Nota fiscal number",
+            "label": "Tax invoice number",
             "value": "NFS-e 2026/0142",
             "highlight": false
           }
@@ -281,7 +281,7 @@
       },
       "sends": {
         "title": "What comes in with each withdrawal",
-        "lead": "Each withdrawal arrives as a payment, already with the project and client for the nota fiscal.",
+        "lead": "Each withdrawal arrives as a payment, already with the project and client for the tax invoice.",
         "fields": [
           {
             "label": "Project",
@@ -398,7 +398,7 @@
             "time": "Nov 14"
           },
           {
-            "title": "Nota fiscal issued",
+            "title": "Tax invoice issued",
             "meta": "NFS-e 2026/0142",
             "time": "Nov 14"
           }

@@ -43,7 +43,7 @@
     }
   },
   "footer": {
-    "tagline": "An international account for Brazilian freelancers and studios who work for clients abroad.",
+    "tagline": "An account for getting paid from abroad, for Brazilian freelancers and studios.",
     "columns": [
       {
         "title": "Product",
@@ -57,7 +57,7 @@
             "feature": "get-paid-and-convert"
           },
           {
-            "label": "Automatic nota fiscal",
+            "label": "Automatic tax invoices",
             "feature": "automatic-tax-invoices"
           },
           {
@@ -183,7 +183,7 @@
     },
     "hover": {
       "title": "Hover",
-      "lead": "Mouse and trackpad only, and nothing moves with reduced motion. The pill slides between nav links and rests on the current page. In card grids, the other cards fall back. On a card that's a link, the link's label rolls and one part of the picture moves: the invoice switches to PT, the balances wave, the nota fiscal's tick pops, the bars grow. In the FAQ, the row under the pointer fills in and the others fall back.",
+      "lead": "Mouse and trackpad only, and nothing moves with reduced motion. The pill slides between nav links and rests on the current page. In card grids, the other cards fall back. On a card that's a link, the link's label rolls and one part of the picture moves: the invoice switches to PT, the balances wave, the tax invoice's tick pops, the bars grow. In the FAQ, the row under the pointer fills in and the others fall back.",
       "pillLabel": "Sliding pill example",
       "faqTitle": "Questions (hover)"
     }
@@ -196,7 +196,8 @@
     "stepsTitle": "How it works, in three steps"
   },
   "closingCta": {
-    "title": "Your next payment can arrive in reais.",
+    "title": "Paid abroad. Sorted at home.",
+    "lead": "Your next payment can arrive in reais.",
     "card": {
       "status": "Converting",
       "time": "Nov 15, 9:11",

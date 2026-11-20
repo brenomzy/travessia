@@ -10,7 +10,7 @@ benefits:
   - An alert when the rate reaches the number you want
 linkLabel: See the balance
 hero:
-  title: Get paid in your client's currency and convert when it makes sense
+  title: The rate and the fee, before you convert
   lead: The money waits in your balance in dollars, euros or pounds. You see the fee and the rate before sending it to reais.
   secondary:
     label: Try the calculator

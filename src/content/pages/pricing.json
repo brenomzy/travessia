@@ -45,7 +45,7 @@
         }
       },
       {
-        "label": "Automatic nota fiscal",
+        "label": "Automatic tax invoices",
         "values": {
           "gratis": true,
           "pro": true,

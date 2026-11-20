@@ -11,8 +11,8 @@ person:
 role: Motion designer
 context: a motion designer with clients in the UK
 quote: My client in Manchester pays in pounds, like they would any local supplier.
-headline: Diego Ramos gets paid in pounds in one business day
-lead: A motion designer in São Paulo working for UK agencies. Money used to take up to five days to arrive.
+headline: Diego Ramos gets paid in pounds in 1 business day
+lead: A motion designer in São Paulo working for UK agencies. Money used to take up to 5 days to arrive.
 highlight:
   value: £ 3,100
   label: per project, paid in 1 business day
@@ -35,9 +35,9 @@ order: 6
 key: diego-ramos
 ---
 
-## Before: five days of waiting
+## Before: 5 days of waiting
 
-Every UK payment went through an intermediary bank and took three to five business days, with a fee along the way.
+Every UK payment went through an intermediary bank and took 3 to 5 business days, with a fee along the way.
 
 > The client pays in the morning and it's in my Pix the next day.
 > — Diego Ramos

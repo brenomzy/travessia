@@ -11,7 +11,7 @@ person:
 role: Copywriter
 context: a copywriter with 12 clients in 5 countries
 quote: The month's carnê-leão comes straight from the CSV the account exports.
-headline: Paula Nery files her carnê-leão in ten minutes
+headline: Paula Nery files her carnê-leão in 10 minutes
 lead: A copywriter in Belo Horizonte, paid as an individual by twelve clients in five countries. The carnê-leão was the worst job of the month.
 highlight:
   value: 12 clients

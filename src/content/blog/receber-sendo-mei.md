@@ -10,13 +10,13 @@ key: receber-sendo-mei
 
 ## An MEI can export services
 
-Many activities allowed under MEI, Brazil's simplified sole-trader regime, can serve clients abroad. What matters is that the activity is in your registration and that an export nota fiscal is issued for every payment.
+Many activities allowed under MEI, Brazil's simplified sole-trader regime, can serve clients abroad. What matters is that the activity is in your registration and that an export tax invoice (nota fiscal) is issued for every payment.
 
 ## Step by step
 
 1. Check that your activity is in your MEI registration.
 2. Send the invoice in English, in your client's currency.
-3. When the payment lands, issue the export nota fiscal.
+3. When the payment lands, issue the export tax invoice.
 
 ## When MEI stops making sense
 

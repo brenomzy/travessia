@@ -26,7 +26,7 @@
   "areas": {
     "invoices": "Invoices",
     "exchange": "Exchange",
-    "taxInvoice": "Nota fiscal",
+    "taxInvoice": "Tax invoices",
     "account": "Account"
   },
   "resultCount": "{count} updates",

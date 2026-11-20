@@ -1,17 +1,17 @@
 ---
-name: Automatic nota fiscal
+name: Automatic tax invoices
 slug: automatic-tax-invoices
-tagline: The export nota fiscal (Brazil's service tax invoice) is issued with every payment.
-summary: Every payment issues the export nota fiscal, Brazil's service tax invoice, in under 2 minutes with the right client details.
-intro: Every payment you receive issues the export nota fiscal for services in under 2 minutes, with the client's details already filled in.
+tagline: The export tax invoice (nota fiscal) is issued with every payment.
+summary: Every payment issues the export tax invoice (nota fiscal), Brazil's official record of a service sold, in under 2 minutes with the right client details.
+intro: Every payment you receive issues the export tax invoice in under 2 minutes, with the client's details already filled in.
 benefits:
   - Works with MEI and Simples Nacional
   - Sent straight to your accountant
   - XML and PDF kept for 5 years
-linkLabel: See the nota fiscal
+linkLabel: See tax invoices
 hero:
-  title: The export nota fiscal issues itself
-  lead: When a payment lands, Travessia issues the nota fiscal with your client's details and sends a copy to your accountant.
+  title: Your tax invoice issues itself
+  lead: When a payment lands, Travessia issues the tax invoice (nota fiscal) with your client's details and sends a copy to your accountant.
   secondary:
     label: See pricing
     route: pricing
@@ -20,7 +20,7 @@ heroCard:
 problem:
   title: Export tax invoices by hand are where mistakes happen
   beforeLabel: "City hall portal"
-  afterLabel: "Travessia nota fiscal"
+  afterLabel: "Travessia tax invoice"
   points:
     - label: Tricky fields
       detail: "Service code, the client's country and the amount in reais on the right date: one wrong detail and it bounces."
@@ -37,10 +37,10 @@ problem:
       after:
         kind: "figure"
         value: "1 min 48 s"
-        note: "from confirmed payment to issued nota"
+        note: "from confirmed payment to issued tax invoice"
     - label: Accountant in the dark
       detail: Tax invoices arrive one by one by email, and month-end closing runs late.
-      before: "Loose notas, by email"
+      before: "Loose tax invoices, by email"
       after:
         kind: "progress"
         items:
@@ -60,11 +60,11 @@ steps:
       total:
         label: "Received"
         value: "US$ 2,000.00"
-  - title: The nota fiscal is issued
-    detail: The export nota fiscal is issued in under 2 minutes with your city's tax office.
+  - title: The tax invoice is issued
+    detail: The export tax invoice is issued in under 2 minutes with your city's tax office.
     screen:
       kind: "status"
-      title: "Nota fiscal #318"
+      title: "Tax invoice #318"
       rows:
         - label: "Client"
           value: "Halden & Co."
@@ -81,12 +81,12 @@ steps:
       kind: "message"
       from: "Travessia"
       to: "to you and Marta Lima, accountant"
-      subject: "Nota fiscal #318 issued"
+      subject: "Tax invoice #318 issued"
       body: "Export of services to Halden & Co., at the Nov 14 rate. PDF and XML attached."
       actions:
-        - "View nota"
+        - "View tax invoice"
         - "XML"
-faqTitle: Questions about the nota fiscal
+faqTitle: Questions about tax invoices
 integrationsLabel: "Accounting integrations:"
 integrations:
   - contai
@@ -94,7 +94,7 @@ integrations:
   - nota-certa
 vignette:
   kind: taxInvoice
-  title: Nota fiscal no. 318 issued
+  title: Tax invoice no. 318 issued
   meta: Export of services · Nov 15, 9:13
   rows:
     - label: Client
@@ -106,4 +106,4 @@ order: 3
 key: automatic-tax-invoices
 ---
 
-Every payment you receive issues the matching export nota fiscal.
+Every payment you receive issues the matching export tax invoice.

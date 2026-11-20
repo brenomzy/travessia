@@ -89,7 +89,7 @@ Travessia's equivalent of Ramp's product page order. The current feature pages a
 
 ## Site copy changes
 
-What this page changes on the site, for approval. Copy-only changes touch `src/strings/strings.json` or `src/content/**`; the rest need component work.
+What this page changes on the site. **The copy-only changes and the tax invoice sweep were applied on 2026-11-20** (the copy pass after step 4), along with a lead line in the closing call to action so the promise could become its title; the Product features block was retitled without a layout change. The component work below is still open. Copy-only changes touch `src/strings/strings.json` or `src/content/**`; the rest need component work.
 
 **Copy only:**
 
@@ -101,7 +101,7 @@ What this page changes on the site, for approval. Copy-only changes touch `src/s
 | Product features block (`pages/product.json`, `features.title` and `lead`) | Four features, one account / Invoice, balance, nota fiscal and report. Each one has its own page. | Group the four under *Paid abroad* and *Sorted at home* (needs a small layout change if the groups get their own headings). |
 | Get paid and convert hero (`features/receber-e-converter.md`, `hero.title`) | Get paid in your client's currency and convert when it makes sense | The rate and the fee, before you convert |
 | Tax invoice feature (`features/nota-fiscal-automatica.md`, `name`, `hero.title`) and the footer link (`strings.json`) | Automatic nota fiscal / The export nota fiscal issues itself | Automatic tax invoices / Your tax invoice issues itself. The slug is already `automatic-tax-invoices`, so the URL doesn't change. |
-| Every other mention (48 across 16 files in `src/content` and `strings.json`, including the blog, Home, Product, Pricing and the integrations) | "nota fiscal", "notas", "Nota fiscal #318" | "tax invoice" in copy, with "tax invoice (nota fiscal)" on first mention per page. Product UI mock-ups may keep "Nota fiscal no. 318" where a Brazilian app would show it; decide per screen in the sweep. |
+| Every other mention (48 across 16 files in `src/content` and `strings.json`, including the blog, Home, Product, Pricing and the integrations) | "nota fiscal", "notas", "Nota fiscal #318" | "tax invoice" in copy, with "tax invoice (nota fiscal)" on first mention per page. Product UI mock-ups say "Tax invoice" too, since the app UI is in English. *(Done in the copy pass, 2026-11-20.)* |
 
 **Component work:**
 

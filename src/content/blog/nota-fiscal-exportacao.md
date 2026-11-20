@@ -10,7 +10,7 @@ key: nota-fiscal-exportacao
 
 ## What it is
 
-The export nota fiscal records a service provided to someone abroad. It's issued on your city hall's portal like any service invoice, with the foreign client as the buyer.
+The export tax invoice (nota fiscal) records a service provided to someone abroad. It's issued on your city hall's portal like any service invoice, with the foreign client as the buyer.
 
 ## The fields people get wrong
 

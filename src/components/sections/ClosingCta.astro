@@ -16,7 +16,10 @@ const c = s.closingCta;
 ---
 
 <section class="closing" data-theme="dark" aria-labelledby="closing-title" style={`--hseam: url(${hseam.src});`}>
-  <h2 id="closing-title" data-reveal>{c.title}</h2>
+  <div class="heading" data-reveal>
+    <h2 id="closing-title">{c.title}</h2>
+    <p class="lead">{c.lead}</p>
+  </div>
   <div class="card" aria-hidden="true" data-reveal>
     <ConversionCard {...c.card} shadow="floating-dark" />
   </div>
@@ -42,6 +45,19 @@ const c = s.closingCta;
     background-position: center;
     image-rendering: pixelated;
     text-align: center;
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
   }
 
   h2 {

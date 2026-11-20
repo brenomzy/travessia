@@ -70,7 +70,7 @@ Rare, dry, one line, aimed at the process and never at a person.
 - Figures, not words: 1 business day, 0.6%, 2 minutes.
 - Currency as the site shows it: US$ 2,000.00, € 1,500.00, £ 900.00, R$ 10,834.60. Drop the cents in headlines when they are zero (US$ 2,000).
 - Fee before result: wherever the rate, the fee and the amount that arrives appear together (a paragraph, a list, a UI screen), the rate and the fee come first. A headline may show the result on its own if the fee and rate follow on the same screen.
-- "Up to" only with the bank's range ("up to 6%"); never with Travessia's own numbers.
+- "Up to" only with the bank's range ("up to 6%"); never with Travessia's own performance numbers. Plan limits ("Up to 10 people") are fine.
 - Time in business days for money ("1 business day"), in minutes for documents ("under 2 minutes"). Never "instant", "in seconds" or "real time" for money.
 
 ## Brazilian terms
@@ -83,7 +83,7 @@ Rule from `brand/strategy.md`: Portuguese only where English has no real equival
 | MEI | "MEI, Brazil's simplified sole-trader regime" on first mention per page, then "MEI". |
 | Simples Nacional | "Simples Nacional, the simplified tax regime for small companies" on first mention, then as is. |
 | Carnê-leão | "carnê-leão, the monthly income tax individuals pay on money from abroad" on first mention, then as is. |
-| Nota fiscal | **Tax invoice.** "tax invoice (nota fiscal)" on first mention per page, then "tax invoice". The client's document is always "invoice". Product UI mock-ups may keep "Nota fiscal no. 318" where a Brazilian app would show it. |
+| Nota fiscal | **Tax invoice.** "tax invoice (nota fiscal)" on first mention per page, then "tax invoice". The client's document is always "invoice". Product UI mock-ups say "Tax invoice no. 318" too, since Travessia's app UI is in English (decided in the site copy pass, 2026-11-20). |
 | Receita Federal | "Brazil's tax authority". Name it only when the sentence needs the institution. |
 | Reais | Plural "reais", singular "real". Never "BRL" in copy; "BRL" only in UI where currency codes appear. |
 

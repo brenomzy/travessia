@@ -2,7 +2,7 @@
   {
     "id": "mei",
     "question": "How do I get paid from abroad as an MEI?",
-    "answer": "You send an invoice in dollars, euros or pounds through Travessia. Your client pays by card or bank transfer, the money lands in your balance and you convert it to reais when you choose. The export nota fiscal is issued in your MEI's name. MEI is Brazil's simplified sole-trader regime.",
+    "answer": "You send an invoice in dollars, euros or pounds through Travessia. Your client pays by card or bank transfer, the money lands in your balance and you convert it to reais when you choose. The export tax invoice (nota fiscal) is issued in your MEI's name. MEI is Brazil's simplified sole-trader regime.",
     "topics": [
       "general",
       "taxes"
@@ -52,7 +52,7 @@
   {
     "id": "fatura-documento-fiscal",
     "question": "Does the invoice count as a tax document abroad?",
-    "answer": "It works as a commercial invoice for your client. In Brazil, the tax document is the export nota fiscal, which Travessia issues when the payment arrives.",
+    "answer": "It works as a commercial invoice for your client. In Brazil, the tax document is the export tax invoice (nota fiscal), which Travessia issues when the payment arrives.",
     "topics": [
       "product"
     ],
@@ -111,8 +111,8 @@
   },
   {
     "id": "nota-precisa",
-    "question": "Do I need a nota fiscal to get paid from abroad?",
-    "answer": "Yes. The export nota fiscal records income from services sold abroad. Check your city's rules with your accountant.",
+    "question": "Do I need a tax invoice (nota fiscal) to get paid from abroad?",
+    "answer": "Yes. The export tax invoice records income from services sold abroad. Check your city's rules with your accountant.",
     "topics": [
       "taxes"
     ],
@@ -122,7 +122,7 @@
   {
     "id": "nota-mei",
     "question": "Does it work for MEI?",
-    "answer": "It does. The nota fiscal is issued under your MEI, with the service code you chose when you signed up.",
+    "answer": "It does. The tax invoice is issued under your MEI, with the service code you chose when you signed up.",
     "topics": [
       "taxes"
     ],
@@ -131,7 +131,7 @@
   },
   {
     "id": "nota-quem-recebe",
-    "question": "Who gets the nota fiscal?",
+    "question": "Who gets the tax invoice?",
     "answer": "You, your accountant and, if you want, the client, along with the payment receipt.",
     "topics": [
       "taxes"
@@ -244,7 +244,7 @@
   {
     "id": "fc-timing",
     "question": "How long does a payment take?",
-    "answer": "Card payments clear the same day. Local transfers take one to two business days.",
+    "answer": "Card payments clear the same day. Local transfers take 1 to 2 business days.",
     "topics": [
       "clients"
     ],

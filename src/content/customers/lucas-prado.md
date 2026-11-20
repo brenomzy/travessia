@@ -25,7 +25,7 @@ metrics:
     label: to issue each tax invoice
 legalName: Lucas Prado Traduções MEI
 since: 2026-01
-features: Invoices, EUR balance, automatic nota fiscal
+features: Invoices, EUR balance, automatic tax invoices
 cover: ../../assets/textures/stories/halftone-band.png
 coverAlt: A band of halftone dots on white
 coverPosition: 50% 92%
@@ -44,4 +44,4 @@ Agencies asked for an IBAN, then a SWIFT code, then the bank's address. Every ne
 
 ## After: a link and a local account
 
-Every invoice comes with a local eurozone account. The money lands in his euro balance and the export nota fiscal is issued in under two minutes.
+Every invoice comes with a local eurozone account. The money lands in his euro balance and the export tax invoice is issued in under 2 minutes.

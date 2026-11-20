@@ -42,7 +42,7 @@
       },
       {
         "label": "Invoice and tax invoice",
-        "us": "English invoice and export nota fiscal in one flow",
+        "us": "English invoice and export tax invoice in one flow",
         "them": "You issue both separately"
       }
     ]
