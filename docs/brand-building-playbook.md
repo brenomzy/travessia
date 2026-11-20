@@ -360,6 +360,13 @@ Ramp's campaigns share a structure: the old way shown as a physical burden (a pi
 - **Typeface.** Keep Figtree, or license a face (step 7).
 - **Illustration.** Yes or no (step 10).
 
+Raised by step 1 (`brand/references.md`, "Where Travessia overlaps", 2026-11-20):
+- **Where the promise comes from.** Wise already sells BRL balances and Pix payouts in Brazil and has a freelancer segment; Nubank has multi-currency accounts. Fee and speed can't carry the strategy; the export tax invoice and the accountant's report are unclaimed (step 2).
+- **The bank-versus-Travessia bars.** Wise's green-versus-grey comparison bars are one of its signature images. Keep the comparison, find another form (step 8).
+- **The held `acai` colour.** A deep purple reads as Nubank to Brazilian readers. Drop it or move it towards wine or near-black (step 7).
+- **River photography.** Mercury's hero is a misty river valley and its 2026 campaign art is a canoe crossing. Keep river imagery to close, water-level objects (step 9).
+- **A sandy `solimoes`.** Sand is a major Nubank surface; if it arrives, keep it inside the seam (step 7).
+
 Decided on 2026-11-19: this playbook is brief Phase 1, "Brand build and consolidation" (brief §8).
 
 ---
