@@ -1,6 +1,6 @@
 # Strategy
 
-> **Status:** v1.0 · 2026-11-20 · approved by Breno in round 2 (tension A, promise 1, the recommended category word). Playbook step 2 (`docs/brand-building-playbook.md`).
+> **Status:** v1.1 · 2026-11-20 · approved by Breno in round 2 (tension A, promise 1, the recommended category word). v1.1, same day: "nota fiscal" becomes "tax invoice" in English copy (Breno, during step 3); the round 1 options below keep their original wording. Playbook step 2 (`docs/brand-building-playbook.md`).
 > **What this is:** the sentence everything else is checked against, and the edges around it. Messaging (step 3), voice (step 4) and every later step test their output against this page.
 > **Inputs:** SPEC §4.1–4.3, the site copy (`src/content/pages/home.json`, `about.json`), the step 1 teardowns (`brand/references.md`), the "crossing" meaning of the name. The options that weren't chosen are at the end.
 
@@ -10,13 +10,13 @@
 
 > Getting paid from abroad is one crossing split between a client's card, a bank wire, an exchange desk and an accountant, and the freelancer is the only one who sees all of it, usually after up to 6% has gone.
 
-The problem isn't only the price. Nobody owns the whole crossing, so the freelancer carries it: chasing the wire, guessing the spread, issuing the nota fiscal by hand at month end. Travessia owns it end to end: the invoice, the conversion, the Pix and the nota fiscal in one place. The "up to 6%" is SPEC §4.2's range for wires and bad rates.
+The problem isn't only the price. Nobody owns the whole crossing, so the freelancer carries it: chasing the wire, guessing the spread, issuing the tax invoice by hand at month end. Travessia owns it end to end: the invoice, the conversion, the Pix and the tax invoice in one place. The "up to 6%" is SPEC §4.2's range for wires and bad rates.
 
 ## Promise
 
 > **Paid abroad. Sorted at home.**
 
-- **What it means.** The client pays from abroad; everything that has to happen in Brazil (reais by Pix, the export nota fiscal, the month's tax report) is done on this side.
+- **What it means.** The client pays from abroad; everything that has to happen in Brazil (reais by Pix, the export tax invoice, the month's tax report) is done on this side.
 - **Where it goes.** It closes every page, deck and campaign, the way Ramp's "Time is money. Save both." does. It is the sign-off, not the headline.
 - **What it pairs with.** The home hero stays the product line: "Your client pays in dollars. You get paid in reais." The promise says why that matters.
 - **The river.** The line doesn't use the crossing image; the name, the seam, the colour names and the photography carry it. Copy can still use the crossing words that step 4 allows.
@@ -43,7 +43,7 @@ Things Travessia believes that a bank wouldn't say.
 **Will say:**
 - Exact numbers, each with its source in `brand/proof.md` (fictional, labelled).
 - The fee and the rate before the amount that arrives.
-- Pix, MEI, nota fiscal and carnê-leão in Portuguese, with a short explanation the first time.
+- Portuguese terms only where English has no real equivalent. Pix stays (a proper name). MEI and carnê-leão stay, each with a short explanation the first time. Nota fiscal becomes **tax invoice**: written "tax invoice (nota fiscal)" on its first mention on a page, then "tax invoice". The client's document is always just "invoice".
 - The crossing, sparingly: a small set of words (cross, the other side, arrive) with a limit set in step 4.
 - What Travessia doesn't do (credit, investments, cards), as the About page already does.
 
