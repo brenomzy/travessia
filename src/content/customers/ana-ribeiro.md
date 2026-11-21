@@ -23,7 +23,7 @@ metrics:
     label: more a month, on average
   - value: "0"
     label: international wires
-legalName: Ana Ribeiro Design MEI
+legalName: Ana Ribeiro Design Ltda
 since: 2025-11
 features: Invoices, USD balance, rate alert
 cover: ../../assets/textures/stories/dither-noite.png
@@ -43,4 +43,4 @@ Payments came in as international wires, and the bank converted them the same da
 
 ## After: a dollar balance and an alert
 
-The studio pays her invoice by local transfer in the UK, the money lands in her dollar balance, and Ana converts when the rate alert tells her to.
+The studio pays her invoice by card through the link, the money lands in her dollar balance, and Ana converts when the rate alert tells her to.

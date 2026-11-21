@@ -194,7 +194,7 @@
       "user": {
         "initials": "AR",
         "name": "Ana Ribeiro",
-        "meta": "MEI · Recife"
+        "meta": "Designer · Recife"
       },
       "balancesLabel": "Balances",
       "balances": [
@@ -419,9 +419,9 @@
             "highlight": false
           },
           {
-            "label": "MEI limit",
-            "value": "62%",
-            "note": "R$ 50,180 of R$ 81k",
+            "label": "Tax regime",
+            "value": "Simples",
+            "note": "Nacional, for exported services",
             "highlight": false
           }
         ],
@@ -442,10 +442,10 @@
             "tone": "muted"
           },
           {
-            "title": "MEI tax (DAS)",
-            "detail": "November slip generated",
+            "title": "Simples tax (DAS)",
+            "detail": "November slip, worked out for exports",
             "date": "due Nov 20",
-            "amount": "R$ 76.90",
+            "amount": "Slip ready",
             "tone": "default"
           },
           {

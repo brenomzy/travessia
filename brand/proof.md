@@ -78,7 +78,7 @@ Example rates come from `src/content/rates.json`: US$ 5.45, € 6.30, £ 7.25. O
 
 Every product mock-up (site, Paper boards, social, decks) shows the same account, so a reader who looks closely finds one consistent story. Pick names, numbers and dates from here; add to it before inventing new ones. Set in November 2026, on the real 2026 calendar: payments clear and Pix arrives on business days only.
 
-**The account:** Ana Ribeiro, product designer, MEI, Recife (her customer story is in `src/content/customers/ana-ribeiro.md`). Initials AR. Her accountant: Marta Lima (`contato@livrocaixa.example`).
+**The account:** Ana Ribeiro, product designer, Recife. Her company, Ana Ribeiro Design Ltda, is on **Simples Nacional**: her revenue (R$ 10,000 to R$ 31,000 a month) is far above the MEI's R$ 81k a year, so she is never shown as an MEI. The MEI meters on the site (62%, 72%) belong to other, smaller scenarios (her customer story is in `src/content/customers/ana-ribeiro.md`). Initials AR. Her accountant: Marta Lima (`contato@livrocaixa.example`).
 
 **Clients:** Halden & Co., London (pays in US$, by card). Studio Vik, Oslo (€, bank transfer). Northfold, Toronto (US$, card). Marlow Press, Manchester (£).
 
@@ -98,9 +98,7 @@ Every product mock-up (site, Paper boards, social, decks) shows the same account
 
 **Earlier months:** August R$ 18,924.12 (3 payments), September R$ 25,852.62 (4 payments); October is 22% up on September.
 
-**October report** (sent Mon Nov 2, the first business day): tax invoices 311 to 315, revenue R$ 31,540.20 at each payment day's rate (October is the one place other rates are allowed), Travessia fees R$ 189.24 (0.6%), MEI at 62% (R$ 50,180 of R$ 81k), DAS R$ 76.90 due Nov 20.
-
-**Open (2026-11-21):** Ana's revenue (about R$ 10,000 to R$ 31,000 a month) is far above the MEI yearly limit of R$ 81k, so she can't be an MEI as her customer story, the home showcase and this report say. Her regime needs deciding (Simples Nacional is the likely answer) before the tax figures here are final.
+**October report** (sent Mon Nov 2, the first business day): tax invoices 311 to 315, revenue R$ 31,540.20 at each payment day's rate (October is the one place other rates are allowed), Travessia fees R$ 189.24 (0.6%), the Simples Nacional DAS slip for November ready, due Fri Nov 20. Screens show the slip as ready, not its amount: the real figure depends on her last 12 months of revenue and her payroll, which the ledger doesn't model.
 
 ## Real-world facts
 

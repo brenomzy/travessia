@@ -30,9 +30,9 @@ problem:
         kind: "chips"
         primary: "October report"
         items:
-          - "6 invoices"
+          - "5 invoices"
           - "4 conversions"
-          - "6 tax invoices"
+          - "5 tax invoices"
     - label: The MEI limit
       detail: If you don't track it, you only notice you've gone over when it's too late.
       before: "MEI limit: ?"
@@ -66,14 +66,14 @@ steps:
     detail: On the first business day, the month's report comes out in your regime's format, MEI, Simples Nacional or carnê-leão.
     screen:
       kind: "status"
-      title: "October report · MEI"
+      title: "October report · Simples Nacional"
       rows:
         - label: "Month's revenue"
-          value: "R$ 10,834.60"
+          value: "R$ 31,540.20"
         - label: "Tax invoices issued"
-          value: "6"
-        - label: "MEI limit used"
-          value: "72%"
+          value: "5"
+        - label: "DAS slip"
+          value: "Ready, due Nov 20"
       total:
         label: "Ready for your accountant"
         value: "PDF"
@@ -84,7 +84,7 @@ steps:
       from: "Travessia"
       to: "to Marta Lima, accountant"
       subject: "October report · Ana Ribeiro"
-      body: "The month's revenue, conversions and tax invoices, in MEI format."
+      body: "The month's revenue, conversions and tax invoices, in Simples Nacional format."
       actions:
         - "Open report"
         - "PDF"
@@ -97,7 +97,7 @@ integrations:
 vignette:
   kind: report
   title: 2026 revenue
-  meta: MEI · R$ 81k limit
+  meta: Simples Nacional
   bars:
     - 0.4
     - 0.55
