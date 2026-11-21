@@ -1,0 +1,24 @@
+{
+  "generator": "src/lib/generators/river/still.ts",
+  "script": "scripts/build-river-stills.ts",
+  "shader": "shader lab tile 8i (docs/design/shader-lab/hero-river-8i.frag)",
+  "colors": "tokens color.river",
+  "stills": [
+    {
+      "name": "hero-river",
+      "width": 2880,
+      "height": 1620,
+      "at": 0.66,
+      "time": 40,
+      "use": "Home hero still (no-JS fallback), boards, wide formats"
+    },
+    {
+      "name": "river-portrait",
+      "width": 1080,
+      "height": 1350,
+      "at": 0.55,
+      "time": 40,
+      "use": "Social posts (4:5) and tall cards"
+    }
+  ]
+}

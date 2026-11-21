@@ -196,3 +196,45 @@ Three, plus the small one for tags: 8 px controls (`radius-s`, `radius-control`)
 - From 1024 px only. Phones and tablets keep the horizontal seam story for now.
 - The copy and the form sit on clean dark water on the left; never put text over the river.
 
+
+---
+
+## Graphic language: imagery
+
+> **Status:** playbook step 8, in progress (started 2026-11-21). Boards: Paper page "Brand · Graphic language". Still to come in step 8: the seam's own rules, product UI crops and grid, the chart rule and icons.
+
+### Five kinds of imagery, each with a job
+
+| Imagery | What it says | Use it for | Never |
+|---|---|---|---|
+| **The river** (shader, or its still from `src/assets/generated/river/`) | The crossing, live | The site's home hero and anything that moves | Behind body text |
+| **Painted clear water** (C) | Home: things sorted, reais arrived | Most product shots: feature cards, social posts, app and launch pages about balances, Pix and tax invoices | As a full-page background behind long copy |
+| **Painted meeting** (D) | The crossing itself, dollars becoming reais | Moments about conversion: the conversion feature, launches, campaign covers. At most one per page or campaign set, so it stays special | As a pattern or a repeated card background |
+| **Photography** (step 6 direction) | A real place and real proof | Outdoor and campaigns, customer stories, editorial and blog covers, the About page, the yearly data report | With product UI on top |
+| **Mist** (plain `neblina-50`) | Nothing; a neutral stage | Dense product explanations, docs, anything where the UI must be read in detail | Hero or campaign moments |
+
+Paintings are oil-paint water seen from above: loose, visible brushstrokes and canvas texture, rio-negro to igarapé, white only as light and foam, no land, boats, people or text. Every new painting is made for its layout (see "Quiet zone" below). Generate them with Magnific first, then Paper; record the prompt next to the file.
+
+### Product UI over imagery
+
+- Only over the paintings or the river, never over photographs.
+- One app window per frame, cropped by the frame edge on at least one side, so it reads as a glimpse of the product, not a screenshot.
+- Up to three floating cards (notifications) may overlap the window's edge. They are the moments: Pix received, tax invoice issued, converting.
+- UI over imagery uses `--shadow-3-on-dark`. The window's one igarapé button is the frame's one accent.
+
+### Type and logo on imagery: which approach, when
+
+All four are part of the system; the format decides.
+
+| Approach | Use it when | How |
+|---|---|---|
+| **Quiet zone** | The copy sits on the image and the image is made for it: social posts, billboards, deck covers, story cards | The painting or photo is generated or chosen with a calm, dark area of at least a third of the frame. Headline, logo and at most two lines of body sit there. No overlay |
+| **Copy outside the image** | There is a page around the image: site sections, landing pages, emails, the app store | Headline, logo and button on the page (light theme). The image is a framed panel, inset, radius `--radius-l`, with the product inside. The busiest painting works here |
+| **Soft scrim** | Fallback: the image has no quiet zone, or a photograph needs a headline | A rio-negro gradient from 85% to 0, from the copy's side, over no more than half the frame. Never an all-over tint |
+| **Frosted plate** | Not on paintings: it fights their brushwork. Only over the live river or a photograph, for a small label or caption | `rgb(15 28 36 / 0.55)`, 18 px blur, radius 16 px, a 1 px ring at 8% white. Never behind a headline |
+
+On imagery:
+
+- Headlines use the two-tone with Fog (`--color-text-second` on dark) for the second half; body text is #B6C4C9 and no more than two lines.
+- The logo goes on the darkest, calmest area, at its clear space, in the dark-ground version; never across brushstrokes, foam or the river.
+- One headline per frame.

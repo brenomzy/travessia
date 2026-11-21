@@ -290,6 +290,8 @@ Pick one territory. If the current one wins, this step costs a day and gives you
 
 **Output:** a "Graphic language" section in `brand/rules.md`.
 
+**Progress (2026-11-21):** image treatments drafted and written up in `brand/rules.md` ("Graphic language: imagery"). Five kinds of imagery with a job each: the river, painted clear water, painted meeting, photography, mist. Product UI only over paintings or the river. Four type-on-image approaches kept, chosen by format: quiet zone, copy outside the image, soft scrim, frosted plate (not on paintings). Boards on the Paper page "Brand · Graphic language". The river now also renders as stills (`scripts/build-river-stills.ts`). Still to do: seam rules, product UI crops and grid, the chart rule, icons, and a polish pass on the app window.
+
 ### 9. Direct the photography
 
 **Goal:** a photography style that is Travessia's and works within the brief's limits.
