@@ -652,7 +652,7 @@ const pricingPage = z.object({
 const calculatorPage = z.object({
   page: z.literal('calculator'),
   seo: z.object({ title: z.string(), description: z.string() }),
-  /** The calculator on the seam (Paper: /calculadora "Calculator B"). "{fee}" is replaced. */
+  /** The calculator as a crossing (FeeCalculatorCrossing). "{fee}" is replaced. */
   tool: z.object({
     title: z.string(),
     currencyLabel: z.string(),

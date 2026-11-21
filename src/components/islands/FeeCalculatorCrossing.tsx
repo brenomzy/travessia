@@ -3,15 +3,15 @@ import { NumberField } from '@base-ui/react/number-field';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { Toggle } from '@base-ui/react/toggle';
 import { MAX_AMOUNT, useFeeCalculator, type Currency } from './useFeeCalculator';
-import styles from './FeeCalculatorSeam.module.css';
+import styles from './FeeCalculatorCrossing.module.css';
 
 /**
- * The fee calculator laid across the seam (Paper: /calculadora → "Calculator B · On the seam"):
- * what the client pays on rio-negro, the fee and rate on a card riding the seam, what you receive on
- * igarapé. Same maths as FeeCalculator (useFeeCalculator). The page's <h1> is rendered here so it
+ * The fee calculator as a crossing: what the client pays on the left, the fee and rate on a card over a panel of the
+ * painted meeting in the middle (the page passes the image as --painting), what you receive on the right, with only
+ * the amount in the accent. Replaced the seam layout on 2026-11-21. Same maths as FeeCalculator (useFeeCalculator). The page's <h1> is rendered here so it
  * shares the grid; it's in the server HTML like everything else.
  */
-export interface FeeCalculatorSeamProps {
+export interface FeeCalculatorCrossingProps {
   lang: string;
   currencies: Currency[];
   feePercent: number;
@@ -34,7 +34,7 @@ export interface FeeCalculatorSeamProps {
   };
 }
 
-export default function FeeCalculatorSeam({
+export default function FeeCalculatorCrossing({
   lang,
   currencies,
   feePercent,
@@ -43,7 +43,7 @@ export default function FeeCalculatorSeam({
   headingLevel = 'h1',
   titleId = 'page-title',
   labels,
-}: FeeCalculatorSeamProps) {
+}: FeeCalculatorCrossingProps) {
   const inputId = useId();
   const Heading = headingLevel;
   const calc = useFeeCalculator({ lang, currencies, feePercent, defaultAmount, brlSymbol, resultLabel: labels.result });
@@ -111,7 +111,7 @@ export default function FeeCalculatorSeam({
         </dl>
       </div>
 
-      <div className={styles.receive} data-theme="primary">
+      <div className={styles.receive}>
         <p className={styles.label}>{labels.result}</p>
         <p className={styles.sum}>
           <span className="u-visually-hidden">

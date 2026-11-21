@@ -1,12 +1,12 @@
 ---
 /**
- * Final CTA (Paper: Home → Section · Final CTA). From 1024 px the seam is vertical: the promise on rio-negro,
- * the waitlist on igarapé. Below it the halves stack with a horizontal seam strip between them.
+ * Final CTA on the home page: the painted meeting (D), full bleed, with the promise and the waitlist in its quiet
+ * dark area ("quiet zone", brand/rules.md). From 1024 px the painting is the wide one (quiet left); below it the
+ * portrait one (quiet top), with room under the form for the meeting to show. Replaced the seam on 2026-11-21.
  */
-import seamCta from '../../assets/textures/seam-cta.png';
-import strip from '../../assets/textures/strip-tap-noite.png';
 import WaitlistForm from '../ui/WaitlistForm.astro';
 import MotionScript from '../ui/MotionScript.astro';
+import Painting from '../ui/Painting.astro';
 
 interface Props {
   title: string;
@@ -15,12 +15,11 @@ interface Props {
 const { title, lead } = Astro.props;
 ---
 
-<section class="cta" data-theme="dark" aria-labelledby="cta-title" style={`--seam: url(${seamCta.src}); --strip: url(${strip.src});`}>
-  <div class="promise" data-reveal>
+<section class="cta" data-theme="dark" aria-labelledby="cta-title">
+  <div class="art art-portrait"><Painting kind="meeting" shape="portrait" focus="50% 70%" /></div>
+  <div class="art art-wide"><Painting kind="meeting" focus="40% 50%" /></div>
+  <div class="content" data-reveal-stagger>
     <h2 id="cta-title">{title}</h2>
-  </div>
-  <div class="strip" aria-hidden="true"></div>
-  <div class="join" data-theme="primary" data-reveal-stagger>
     <p class="lead">{lead}</p>
     <WaitlistForm layout="inline" showNotice />
   </div>
@@ -30,49 +29,45 @@ const { title, lead } = Astro.props;
 
 <style>
   .cta {
-    display: grid;
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    padding: var(--space-section) var(--space-gutter) calc(var(--space-section) * 3);
     background-color: var(--color-bg-base);
   }
 
-  .promise,
-  .join {
-    padding-inline: var(--space-gutter);
-    background-color: var(--color-bg-base);
+  .art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    isolation: isolate;
   }
 
-  .promise {
-    padding-block: var(--space-section) var(--space-xl);
+  /* Phones: the painting starts under the form and fades in, so the copy sits on plain dark water. */
+  .art-portrait {
+    inset-block-start: 40%;
+    mask-image: linear-gradient(transparent, var(--color-bg-base) 25%);
+  }
+
+  .art-wide {
+    display: none;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-inline-size: 30.5rem;
   }
 
   h2 {
-    max-inline-size: 32.5rem;
     font-size: var(--text-hero);
     line-height: var(--leading-hero);
     letter-spacing: var(--tracking-hero);
   }
 
-  /* strip-tap-noite runs igarapé → rio-negro, so it is flipped to read rio-negro → igarapé. */
-  .strip {
-    block-size: clamp(7.5rem, 20vw, 15rem);
-    background-image: var(--strip);
-    background-size: cover;
-    background-position: center;
-    image-rendering: pixelated;
-    scale: 1 -1;
-  }
-
-  .join {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-m);
-    padding-block: var(--space-l) var(--space-section);
-  }
-
-  .join > * {
-    max-inline-size: 30.5rem;
-  }
-
   .lead {
+    color: var(--color-text-muted);
     font-size: var(--text-lg);
     line-height: var(--leading-lg);
   }
@@ -80,29 +75,18 @@ const { title, lead } = Astro.props;
   /* breakpoint.laptop (1024px) */
   @media (width >= 64rem) {
     .cta {
-      grid-template-columns: 1fr 1fr;
+      display: grid;
       align-items: center;
       min-block-size: 37.5rem;
-      padding-inline: var(--page-inset);
-      background-image: var(--seam);
-      background-size: cover;
-      background-position: center;
-      image-rendering: pixelated;
+      padding: var(--space-section) var(--page-inset);
     }
 
-    .promise,
-    .join {
-      padding: 0;
-      background-color: transparent;
-    }
-
-    .strip {
+    .art-portrait {
       display: none;
     }
 
-    .join {
-      justify-self: end;
-      inline-size: min(100%, 30.5rem);
+    .art-wide {
+      display: block;
     }
   }
 </style>

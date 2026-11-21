@@ -1,0 +1,60 @@
+---
+/**
+ * One of the brand's oil paintings (brand/rules.md, "Graphic language: imagery"). Decorative: it fills its parent
+ * (the parent sets the size and clips it) and sits behind whatever the parent lays on top.
+ * - clear-water (C): things sorted, reais arrived. Most product shots.
+ * - meeting (D): the crossing itself. At most one per page.
+ * Each comes wide (16:9, quiet left) and portrait (3:4, quiet top). Sources and prompts: src/assets/imagery/README.md.
+ */
+import { Image } from 'astro:assets';
+import clearWide from '../../assets/imagery/clear-water-wide.png';
+import clearPortrait from '../../assets/imagery/clear-water-portrait.png';
+import meetingWide from '../../assets/imagery/meeting-wide.png';
+import meetingPortrait from '../../assets/imagery/meeting-portrait.png';
+
+const sources = {
+  'clear-water': { wide: clearWide, portrait: clearPortrait },
+  meeting: { wide: meetingWide, portrait: meetingPortrait },
+};
+
+interface Props {
+  kind: keyof typeof sources;
+  shape?: 'wide' | 'portrait';
+  /** CSS object-position: which part of the painting stays in frame when it is cropped. */
+  focus?: string;
+  /** How wide the painting renders, for the browser's pick of file (an <img> `sizes` value). */
+  sizes?: string;
+  /** eager for a hero above the fold. */
+  loading?: 'eager' | 'lazy';
+}
+const { kind, shape = 'wide', focus = 'center', sizes = '100vw', loading = 'lazy' } = Astro.props;
+const src = sources[kind][shape];
+const widths = shape === 'wide' ? [640, 1040, 1600, 2080] : [480, 720, 960];
+---
+
+<Image
+  src={src}
+  alt=""
+  aria-hidden="true"
+  widths={widths}
+  sizes={sizes}
+  format="webp"
+  quality={82}
+  loading={loading}
+  class="painting"
+  data-kind={kind}
+  style={`--_focus: ${focus}`}
+/>
+
+<style>
+  .painting {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: var(--_focus);
+    pointer-events: none;
+  }
+</style>

@@ -39,7 +39,7 @@
 
 ## 2. Status (2026-11-18)
 
-- Built: tokens pipeline with a WCAG check, CSS layers, layout primitives, Stylelint, the page shell, every page in §6.1 (64 pages), the islands in §5.6.1, the Motion helpers, the seam shader, and `/styleguide`.
+- Built: tokens pipeline with a WCAG check, CSS layers, layout primitives, Stylelint, the page shell, every page in §6.1 (64 pages), the islands in §5.6.1, the Motion helpers, the river shader, and `/styleguide`. (The seam shader was retired on 2026-11-21; see brand/rules.md.)
 - Not built: the main nav dropdowns (the design has four flat links), the `/brand` page, the generated blog covers.
 - Live at `travessia.brenodaroz.com` since 2026-11-18; every push to `main` deploys.
 - Next: brief Phase 1.
@@ -136,7 +136,7 @@ Travessia/
 ├─ docs/
 │  ├─ brand-system-brief.md        ← the main brief
 │  ├─ journal.md                   ← build journal (§10)
-│  └─ design/texture-lab/          ← seam texture experiments
+│  └─ design/texture-lab/          ← seam texture experiments (history; the seam is retired)
 ├─ brand/                          ← the brand pack (from brief Phase 1)
 ├─ astro.config.mjs  stylelint.config.mjs
 ├─ scripts/build-tokens.ts         ← tokens.json → tokens.css + tokens.ts (§5.5.2)
@@ -158,7 +158,7 @@ Travessia/
    │  ├─ routes.ts  content.ts  format.ts  rss.ts
    │  ├─ motion/                   ← reveal, press, pill, tween (§5.6.2)
    │  ├─ sphere/                   ← logo sphere layout
-   │  ├─ generators/seam/          ← the seam shader (§9)
+   │  ├─ generators/river/         ← the river shader and its still renderer (§9)
    │  └─ brand/                    ← the brand engine (brief §5.5)
    └─ assets/
       ├─ textures/                 ← approved texture stills
@@ -248,9 +248,9 @@ Rules:
 
 All in `src/components/`, each with typed `Props` and a `/styleguide` entry.
 
-- **UI** (`ui/`): Button, Icon, Logo, Chip, Breadcrumb, Avatar, Prose, PostCover, PostCard, StoryCard, IntegrationMark, IntegrationCard, LogoSphere, SeamCanvas, WaitlistForm, TocNav, ShowMore, MotionScript.
+- **UI** (`ui/`): Button, Icon, Logo, Chip, Breadcrumb, Avatar, Prose, PostCover, PostCard, StoryCard, IntegrationMark, IntegrationCard, LogoSphere, Painting, RiverCanvas, WaitlistForm, TocNav, ShowMore, MotionScript.
 - **Product UI** (`product/`): InvoiceCard, ConversionCard, CrossingCard, PhoneMock, FeatureVignette, SyncLog, ChangeVisual and the step and problem screens.
-- **Islands** (`islands/`, §5.6.1): MobileNav, FeatureTabs, BillingToggle, PlanTooltip, IntegrationFilter, FeeCalculator, FeeCalculatorSeam, FaqTopics, SignupForm, ChipFilter.
+- **Islands** (`islands/`, §5.6.1): MobileNav, FeatureTabs, BillingToggle, PlanTooltip, IntegrationFilter, FeeCalculator, FeeCalculatorCrossing, FaqTopics, SignupForm, ChipFilter.
 - **Sections** (`sections/`): Section (wrapper with `theme`, `spacing`, `width`), SectionHeader, the heroes, FeatureGrid, FeatureBento, StatBand, ProblemList, StepCards, PricingTeaser, ComparePlans, FaqList, FaqTopicsSection, ClosingCta, CtaBand, SimpleCta, NewsletterBand, ListPanels, NoteCards, PageIntro, SeamStrip and the rest.
 - **Shell** (`shell/`): BaseLayout (head, meta, canonical, JSON-LD slot, noindex, the `no-js` → `js` swap), Header, Footer, SkipLink, DemoBanner.
 
@@ -289,7 +289,7 @@ Each library gets a job, a boundary and a verdict, so any one of them can be bac
 | PlanTooltip | Popover (opens on tap, hover and keyboard) | `client:visible` | Pricing |
 | IntegrationFilter | Input + ToggleGroup | `client:idle` | Integrations |
 | FeeCalculator | NumberField + ToggleGroup (currency) | `client:visible` | Home, Pricing |
-| FeeCalculatorSeam | Same, laid across the seam | `client:load` (it holds the page's `h1`) | Calculator |
+| FeeCalculatorCrossing | Same, laid out as a crossing over a painted panel | `client:load` (it holds the page's `h1`) | Calculator |
 | FaqTopics | Tabs, `keepMounted` | `client:visible` | Pricing |
 | SignupForm | Form, Field, Select, Combobox, Checkbox, Toast | `client:load` | Open an account |
 | ChipFilter | ToggleGroup | `client:visible` | Stories, Changelog |
@@ -351,7 +351,7 @@ English at `/`. One route map in `src/lib/routes.ts`; pages ask for a key, never
 
 **Every page:** the fictional-company banner (D18) above the header, and again in the footer.
 
-- **Home:** hero with the waitlist form and product UI on the seam; logo strip; stats (bank against Travessia); fee calculator; feature cards; product tabs; integrations bento with the logo sphere; stories; pricing teaser; FAQ with FAQPage schema; closing CTA.
+- **Home:** hero with the waitlist form and product UI over the river; logo strip; stats (bank against Travessia); fee calculator; feature cards; product tabs; integrations bento with the logo sphere; stories; pricing teaser; FAQ with FAQPage schema; closing CTA.
 - **Pricing:** plan cards from `plans` with a monthly/annual toggle (BRL with a USD reference), a comparison table, the fee calculator, the FAQ by topic, and a CTA.
 - **Fee calculator:** amount and currency in; reais out, with the rate, the fee and the arrival day. Rates come from `rates.json`, made-up values labelled as examples. A worked-examples table is computed from the same data.
 - **For clients:** for the companies abroad that pay Travessia's users: how paying works, what the invoice looks like, payment methods, security and an FAQ.
@@ -409,9 +409,9 @@ Shared by the site's generators (`src/lib/generators/`) and the brand engine (`s
 4. **Deterministic.** Seeded randomness: the same recipe always gives the same output.
 5. **Accessible.** Alt text is required before saving an image.
 
-### 9.2 The seam generator
+### 9.2 The river generator
 
-`src/lib/generators/seam` is a WebGL2 port of the seam texture: Perlin noise with a fixed seed, fbm, warp and a Bayer dither, drawn one pixel per 6 px cell. Its still frame matches `seam-40.png` cell for cell. Presets: flow, drift, breathe, shimmer and river. It never starts with reduced motion or without WebGL2; the PNG is the fallback.
+`src/lib/generators/river` is the home hero's river as a WebGL2 shader (shader lab tile 8i), with a CPU version (`still.ts`) for stills. `scripts/build-river-stills.ts` renders the stills into `src/assets/generated/river/` with a `recipe.json`. It never animates with reduced motion; without WebGL2 or JavaScript the hero stays plain rio-negro. The seam generator that stood here was retired on 2026-11-21.
 
 ### 9.3 Where output goes
 

@@ -1,11 +1,11 @@
 ---
 /** Fee calculator page at /calculator (Paper: Pages · product and sales → /calculadora). */
-import seamCta from '../../assets/textures/seam-cta.png';
-import seamMobile from '../../assets/textures/mobile-seam-v2.png';
+import { getImage } from 'astro:assets';
+import meetingWide from '../../assets/imagery/meeting-wide.png';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CalculatorExamples from '../sections/CalculatorExamples.astro';
 import NoteCards from '../sections/NoteCards.astro';
-import FeeCalculatorSeam from '../islands/FeeCalculatorSeam';
+import FeeCalculatorCrossing from '../islands/FeeCalculatorCrossing';
 import { s, lang } from '../../strings';
 import { path } from '../../lib/routes';
 import { getPage, getPlans, getRates } from '../../lib/content';
@@ -16,6 +16,8 @@ const page = await getPage('calculator');
 const [plans, rates] = await Promise.all([getPlans(), getRates()]);
 const feePercent = Math.min(...plans.map((p) => p.data.fee));
 const tool = page.tool;
+/** The painted meeting behind the result card (brand/rules.md: the conversion page gets the page's one D). */
+const painting = await getImage({ src: meetingWide, width: 1600, format: 'webp', quality: 82 });
 ---
 
 <BaseLayout
@@ -30,9 +32,9 @@ const tool = page.tool;
     class="tool"
     data-theme="dark"
     aria-labelledby="page-title"
-    style={`--seam-desktop: url(${seamCta.src}); --seam-mobile: url(${seamMobile.src});`}
+    style={`--painting: url(${painting.src});`}
   >
-    <FeeCalculatorSeam
+    <FeeCalculatorCrossing
       client:load
       lang={lang}
       currencies={rates.map(({ data }) => ({ id: data.id, name: data.name, symbol: data.symbol, rate: data.rate }))}
@@ -65,15 +67,5 @@ const tool = page.tool;
 <style>
   .tool {
     background-color: var(--color-bg-base);
-  }
-
-  /* From 1024 px the seam runs down the middle, behind the card (Paper: seam-cta, 1440 × 600). */
-  @media (width >= 64rem) {
-    .tool {
-      background-image: var(--seam-desktop);
-      background-size: cover;
-      background-position: center;
-      image-rendering: pixelated;
-    }
   }
 </style>

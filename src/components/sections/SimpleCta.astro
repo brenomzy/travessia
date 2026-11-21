@@ -1,8 +1,11 @@
 ---
-/** A dark band with a promise and one button, the seam running in on the right (Paper: /en/for-clients → closing CTA). */
-import seam from '../../assets/textures/seam-40.png';
+/**
+ * A dark band with a promise and one button (for-clients closing CTA). From 1024 px the painted meeting (D) fills
+ * the right of the band, its quiet left under the copy. Replaced the seam on 2026-11-21.
+ */
 import Button from '../ui/Button.astro';
 import MotionScript from '../ui/MotionScript.astro';
+import Painting from '../ui/Painting.astro';
 
 interface Props {
   title: string;
@@ -11,7 +14,8 @@ interface Props {
 const { title, link } = Astro.props;
 ---
 
-<section class="cta" data-theme="dark" aria-labelledby="cta-title" style={`--seam: url(${seam.src});`}>
+<section class="cta" data-theme="dark" aria-labelledby="cta-title">
+  <div class="art"><Painting kind="meeting" focus="30% 50%" sizes="(width >= 64rem) 60vw, 1px" /></div>
   <div class="l-container">
     <div class="copy" data-reveal-stagger>
       <h2 id="cta-title">{title}</h2>
@@ -25,6 +29,7 @@ const { title, link } = Astro.props;
 <style>
   .cta {
     position: relative;
+    isolation: isolate;
     overflow: clip;
     padding-block: var(--space-2xl);
     background-color: var(--color-bg-base);
@@ -44,18 +49,20 @@ const { title, link } = Astro.props;
     letter-spacing: var(--tracking-4xl);
   }
 
-  /* From 1024 px the seam shows on the right third. */
+  .art {
+    display: none;
+  }
+
+  /* breakpoint.laptop (1024px): the painting covers the band from 35%, its dark side behind the copy. */
   @media (width >= 64rem) {
-    .cta::before {
-      content: '';
+    .art {
+      display: block;
       position: absolute;
       inset-block: 0;
-      inset-inline-start: 55%;
-      inline-size: 100%;
-      background-image: var(--seam);
-      background-size: cover;
-      background-position: left center;
-      image-rendering: pixelated;
+      inset-inline: 35% 0;
+      z-index: -1;
+      isolation: isolate;
+      mask-image: linear-gradient(to right, transparent, var(--color-bg-base) 30%);
     }
   }
 </style>

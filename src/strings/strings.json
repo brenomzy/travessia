@@ -152,13 +152,12 @@
       "sphere": "Integrations sphere",
       "billing": "Billing toggle",
       "tabs": "Product screens (tabs)",
-      "strip": "Seam strip",
       "motion": "Motion",
       "calculator": "Fee calculator",
       "navigation": "Breadcrumb and chips",
       "interior": "Interior page sections",
       "integrations": "Integrations: mark, card, filter and log",
-      "calculatorSeam": "Calculator on the seam and examples",
+      "calculatorCrossing": "Calculator as a crossing, and examples",
       "content": "Content page pieces"
     },
     "sample": "You get paid in reais.",
@@ -169,16 +168,14 @@
       "link": "See the product"
     },
     "countSample": "0.6%",
-    "seamMotion": {
-      "title": "Seam motion (shader)",
-      "lead": "The same seam as the PNG, drawn with WebGL and moving. The first frame matches the PNG. With reduced motion, or without WebGL2, the PNG stays.",
-      "presets": {
-        "still": "Still: the shader with no motion, to compare against the PNG.",
-        "flow": "Flow: the shoreline’s shape travels down the seam.",
-        "drift": "Drift: the shoreline changes shape without moving along.",
-        "breathe": "Breathe: the mixing zone slowly widens and narrows.",
-        "shimmer": "Shimmer: dots in the mixing zone twinkle, one dither step at a time.",
-        "river": "River: flow, drift and breathe together, all faint. This is the one on the heroes."
+    "paintings": {
+      "title": "Paintings",
+      "lead": "The brand's oil paintings of the water, the Painting component. Clear water (C) for most product shots; the meeting (D) for the crossing itself, at most one per page. Each comes wide (quiet left) and portrait (quiet top). They replaced the dithered seam on 2026-11-21.",
+      "items": {
+        "clear-water-wide": "Clear water, wide",
+        "clear-water-portrait": "Clear water, portrait",
+        "meeting-wide": "Meeting, wide",
+        "meeting-portrait": "Meeting, portrait"
       }
     },
     "river": {

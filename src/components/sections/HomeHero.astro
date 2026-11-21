@@ -4,9 +4,11 @@
  * From 1024 px: rio-negro throughout, with the river (RiverCanvas, shader lab tile 8i, 2026-11-21) winding down the
  * right behind the product UI. The copy and the waitlist sit on clean dark water on the left, so the igarapé button
  * is the only block of igarapé next to them. The content sits in the page's content column (--page-inset).
- * Below it: the seam turns horizontal. Dollar story on rio-negro, the crossing on the seam, reais on igarapé.
+ * Below it the same story runs top to bottom on rio-negro: the dollars, the crossing card on a band of the river
+ * still, then the reais, with only the amount arriving in the accent. (Replaced the horizontal seam, 2026-11-21.)
  */
-import seamMobile from '../../assets/textures/mobile-seam-v2.png';
+import { getImage } from 'astro:assets';
+import riverPortrait from '../../assets/generated/river/river-portrait.png';
 import WaitlistForm from '../ui/WaitlistForm.astro';
 import InvoiceCard from '../product/InvoiceCard.astro';
 import ConversionCard from '../product/ConversionCard.astro';
@@ -24,6 +26,7 @@ interface Props {
 
 const { content } = Astro.props;
 const { ui } = content;
+const riverBand = await getImage({ src: riverPortrait, width: 1080, format: 'webp', quality: 82 });
 ---
 
 <section
@@ -31,7 +34,7 @@ const { ui } = content;
   data-theme="dark"
   aria-labelledby="hero-title"
   data-reveal-intro
-  style={`--seam-mobile: url(${seamMobile.src});`}
+  style={`--river-band: url(${riverBand.src});`}
 >
   <div class="river" aria-hidden="true"><RiverCanvas /></div>
 
@@ -57,24 +60,24 @@ const { ui } = content;
     </div>
   </div>
 
-  <!-- Phones and tablets: the same story told top to bottom across a horizontal seam. -->
+  <!-- Phones and tablets: the same story told top to bottom, the crossing on a band of the river. -->
   <div class="story" aria-hidden="true" data-reveal-stagger>
     <div class="summary" data-theme="dark">
       <p class="summary-title">{ui.invoice.summary}</p>
       <p class="amount"><span class="currency">{ui.invoice.summaryCurrency}</span>{ui.invoice.summaryAmount}</p>
       <p class="meta">{ui.invoice.summaryNote}</p>
     </div>
-    <div class="band" data-theme="primary">
+    <div class="band">
       <CrossingCard {...ui.crossing} layout="row" />
     </div>
-    <div class="received" data-theme="primary">
+    <div class="received" data-theme="dark">
       <p class="summary-title">{ui.received.label}</p>
       <p class="amount"><span class="currency">{ui.received.currency}</span>{ui.received.amount}</p>
       <p class="meta">{ui.received.note}</p>
     </div>
   </div>
 
-  <div class="aside" data-theme="primary" data-theme-laptop="dark" data-reveal-stagger>
+  <div class="aside" data-theme="dark" data-reveal-stagger>
     <p class="clients" lang="en">
       {content.clientsNote.text}
       <a href={path(content.clientsNote.link.route as RouteKey)}>{content.clientsNote.link.label}</a>
@@ -91,7 +94,7 @@ const { ui } = content;
 <MotionScript />
 
 <style>
-  /* ---------- Phones and tablets (horizontal seam) ---------- */
+  /* ---------- Phones and tablets (the story top to bottom) ---------- */
   .hero {
     display: grid;
     background-color: var(--color-bg-base);
@@ -161,10 +164,6 @@ const { ui } = content;
     font-size: var(--text-sm);
   }
 
-  .received .summary-title {
-    color: var(--color-text-base);
-  }
-
   .amount {
     font-size: var(--text-4xl);
     line-height: var(--leading-4xl);
@@ -180,8 +179,9 @@ const { ui } = content;
     color: var(--color-text-highlight);
   }
 
-  .received .currency {
-    color: var(--color-text-base);
+  /* The amount arriving is the one accent in the story. */
+  .received .amount {
+    color: var(--color-text-highlight);
   }
 
   .meta {
@@ -189,17 +189,18 @@ const { ui } = content;
     color: var(--color-text-base);
   }
 
-  /* The seam band: the texture's mixing zone, with the crossing card riding on it. */
+  /* The river band: a strip of the river still, faded into the page above and below, the crossing card on it. */
   .band {
     display: flex;
     align-items: center;
-    padding: var(--space-xl) var(--space-gutter);
+    padding: var(--space-3xl) var(--space-gutter);
     background-color: var(--color-bg-base);
-    background-image: var(--seam-mobile);
-    background-size: 100% auto;
-    background-position: center 30%;
+    background-image:
+      linear-gradient(var(--color-bg-base), transparent 30%, transparent 70%, var(--color-bg-base)),
+      var(--river-band);
+    background-size: cover, cover;
+    background-position: center, center 40%;
     background-repeat: no-repeat;
-    image-rendering: pixelated;
   }
 
   .band > :global(*) {

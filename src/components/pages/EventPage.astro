@@ -44,7 +44,7 @@ const jsonLd = {
   title={`${e.title} | ${s.meta.siteName}`}
   description={past ? e.leadPast : e.lead}
   canonical={canonical}
-  headerVariant="dark"
+  headerVariant="light"
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
   <InteriorHero

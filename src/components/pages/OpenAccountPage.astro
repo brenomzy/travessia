@@ -1,13 +1,12 @@
 ---
 /**
- * Waitlist at /open-account (Paper: Pages · product and sales → /abrir-conta).
- * A minimal header, the copy on rio-negro and the SignupForm on igarapé across a vertical seam.
- * Below 1024 px the seam turns horizontal and the form follows the copy.
+ * Waitlist at /open-account. A minimal header, the copy on rio-negro, and the SignupForm on a white card over painted
+ * clear water (C): from 1024 px the painting fills the right half, below it a band under the copy. The submit button
+ * is the page's one accent. Replaced the vertical seam on 2026-11-21.
  */
-import seamDesktop from '../../assets/textures/seam-50.png';
-import seamMobile from '../../assets/textures/mobile-seam-v2.png';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MotionScript from '../ui/MotionScript.astro';
+import Painting from '../ui/Painting.astro';
 import SignupForm from '../islands/SignupForm';
 import { lang } from '../../strings';
 import { path } from '../../lib/routes';
@@ -23,7 +22,7 @@ const page = await getPage('openAccount');
   title={page.seo.title}
   description={page.seo.description}
   canonical={path('openAccount')}
-  headerVariant="seam"
+  headerVariant="overlay"
   minimalHeader
 >
   <section
@@ -31,7 +30,6 @@ const page = await getPage('openAccount');
     data-theme="dark"
     aria-labelledby="page-title"
     data-reveal-intro
-    style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
   >
     <div class="copy" data-reveal-stagger>
       <h1 id="page-title">{page.title}</h1>
@@ -49,14 +47,16 @@ const page = await getPage('openAccount');
         }
       </ol>
     </div>
-    <div class="band" aria-hidden="true"></div>
-    <div class="form" data-theme="primary">
-      <SignupForm
-        client:load
-        lang={lang}
-        privacyHref={path('privacy')}
-        labels={{ ...page.form, success: page.success, toast: page.toast }}
-      />
+    <div class="form">
+      <Painting kind="clear-water" shape="portrait" focus="50% 70%" sizes="(width >= 64rem) 50vw, 100vw" loading="eager" />
+      <div class="card" data-theme="light">
+        <SignupForm
+          client:load
+          lang={lang}
+          privacyHref={path('privacy')}
+          labels={{ ...page.form, success: page.success, toast: page.toast }}
+        />
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -110,59 +110,27 @@ const page = await getPage('openAccount');
     font-weight: var(--font-weight-semibold);
   }
 
-  .band {
-    min-block-size: var(--space-3xl);
-    background-image: var(--seam-mobile);
-    background-size: 100% auto;
-    background-position: center 40%;
-    image-rendering: pixelated;
-  }
-
+  /* The painting behind the form card. */
   .form {
-    padding: var(--space-l) var(--space-gutter) var(--space-2xl);
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    padding: var(--space-2xl) var(--space-gutter);
     background-color: var(--color-bg-base);
   }
 
-  .form > :global(*) {
+  /* SignupForm draws its own card; this only sets its width and its light colours. */
+  .card {
     max-inline-size: 28.75rem;
     margin-inline: auto;
+    background: none;
   }
 
+  /* breakpoint.laptop (1024px): copy on the left in the content column, the painting fills the right half. */
   @media (width >= 64rem) {
-    /*
-     * Paper: the seam's centre line is 120 px right of the page centre; the copy is 500 px wide. The content sits in
-     * the page's content column (--page-inset) and the seam is pinned to the page centre. The texture is drawn on
-     * ::before at 16:10, never narrower than the page (up to 1440 px); the gradient continues it past its edges.
-     */
     .waitlist {
-      --seam-x: calc(50% + 7.5rem);
-
-      position: relative;
-      grid-template-columns: var(--page-inset) minmax(0, 1fr) minmax(0, 1fr) var(--page-inset);
-      background-image: linear-gradient(to right, var(--color-seam-dark) var(--seam-x), var(--color-seam-light) var(--seam-x));
-      align-items: center;
+      grid-template-columns: var(--page-inset) minmax(0, 1fr) minmax(0, 1fr);
       min-block-size: 56.25rem;
-      overflow: clip;
-    }
-
-    .waitlist::before {
-      content: '';
-      position: absolute;
-      inset-block-start: 0;
-      inset-inline-start: var(--seam-x);
-      block-size: 100%;
-      aspect-ratio: 16 / 10;
-      min-inline-size: min(100%, 90rem);
-      translate: -50% 0;
-      background-image: var(--seam-desktop);
-      background-size: cover;
-      background-position: center;
-      image-rendering: pixelated;
-    }
-
-    .copy,
-    .form {
-      position: relative;
     }
 
     .copy > :where(*) {
@@ -171,18 +139,16 @@ const page = await getPage('openAccount');
 
     .copy {
       grid-column: 2;
+      align-self: center;
       padding-block: calc(var(--size-header) + var(--space-2xl)) var(--space-2xl);
-      padding-inline: 0 var(--space-gutter);
-    }
-
-    .band {
-      display: none;
+      padding-inline: 0 var(--space-2xl);
     }
 
     .form {
       grid-column: 3;
-      padding: calc(var(--size-header) + var(--space-xl)) 0 var(--space-2xl) var(--space-gutter);
-      background: none;
+      display: grid;
+      align-items: center;
+      padding: calc(var(--size-header) + var(--space-xl)) var(--space-2xl) var(--space-2xl);
     }
   }
 </style>

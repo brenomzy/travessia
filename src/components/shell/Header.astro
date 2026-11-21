@@ -1,8 +1,7 @@
 ---
 /**
- * Site header (SPEC §5.5.4). variant="river" floats over the home hero's river, dark across the bar.
- * variant="seam" sits over a seam hero: the brand side is on rio-negro,
- * the nav side on igarapé (from the laptop breakpoint up). Below it the whole header is on rio-negro.
+ * Site header (SPEC §5.5.4). variant="overlay" floats over a dark hero with no background of its own (the home
+ * river, the open-account page); light and dark sit in the flow on their own background.
  * The full link list shows from 1280 px; below that the links live in the MobileNav drawer.
  */
 import Logo from '../ui/Logo.astro';
@@ -14,7 +13,7 @@ import { path, type RouteKey } from '../../lib/routes';
 interface Props {
   /** This page's path; the matching nav item is marked as the current page. */
   canonical: string;
-  variant?: 'seam' | 'river' | 'light' | 'dark';
+  variant?: 'overlay' | 'light' | 'dark';
   current?: RouteKey;
   /** Only the logo and a way back (Paper: the open-account page). */
   minimal?: boolean;
@@ -28,10 +27,9 @@ const items = s.nav.items.map((item) => ({
 }));
 const cta = { label: s.nav.cta.label, href: path(s.nav.cta.route as RouteKey) };
 const brandTheme = variant === 'light' ? 'light' : 'dark';
-const navTheme = variant === 'seam' ? 'primary' : brandTheme;
 ---
 
-<header class="header" data-variant={variant} data-theme={variant === 'seam' ? undefined : variant === 'river' ? 'dark' : variant}>
+<header class="header" data-variant={variant} data-theme={variant === 'overlay' ? 'dark' : variant}>
   <div class="bar">
     <div class="brand" data-theme={brandTheme}>
       <a class="home" href={path('home')} aria-label={s.a11y.homeLink}>
@@ -40,11 +38,11 @@ const navTheme = variant === 'seam' ? 'primary' : brandTheme;
     </div>
     {
       minimal ? (
-        <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
+        <div class="end" data-theme={brandTheme}>
           <a class="back" href={path('home')}>{s.a11y.backToSite}</a>
         </div>
       ) : (
-      <div class="end" data-theme={brandTheme} data-theme-laptop={navTheme}>
+      <div class="end" data-theme={brandTheme}>
         <nav class="nav" aria-label={s.a11y.mainNav} data-pill>
           <ul role="list">
             {
@@ -115,7 +113,7 @@ const navTheme = variant === 'seam' ? 'primary' : brandTheme;
     padding-inline: var(--page-inset);
   }
 
-  /* The themed groups only swap colour roles; the header itself paints no background over the seam. */
+  /* The themed groups only swap colour roles; an overlay header paints no background over the hero. */
   .brand,
   .end {
     background-color: transparent;
@@ -172,7 +170,7 @@ const navTheme = variant === 'seam' ? 'primary' : brandTheme;
     margin-inline-end: calc(var(--space-xs) * -1);
   }
 
-  /* The full nav needs 1280 px: below that its first links would land on the seam's dither. */
+  /* The full nav needs 1280 px; below that the links live in the drawer. */
   @media (width >= 80rem) {
     .end {
       gap: var(--space-l);

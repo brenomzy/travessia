@@ -1,6 +1,7 @@
 ---
-/** About at /about (Paper: Pages · company and utility → /sobre). */
-import hseam from '../../assets/textures/hseam.png';
+/** About at /about. The hero ends on the aerial photograph of two waters (photography is the About page's imagery). */
+import { Image } from 'astro:assets';
+import photo from '../../assets/imagery/photo-two-waters.png';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../sections/Section.astro';
 import ListPanels from '../sections/ListPanels.astro';
@@ -22,14 +23,24 @@ const page = await getPage('about');
   headerVariant="dark"
   current="about"
 >
-  <section class="hero" data-theme="dark" aria-labelledby="page-title" data-reveal-intro style={`--hseam: url(${hseam.src});`}>
+  <section class="hero" data-theme="dark" aria-labelledby="page-title" data-reveal-intro>
     <div class="l-container">
       <div class="head" data-reveal-stagger>
         <h1 id="page-title">{page.title}</h1>
         <p class="lead">{page.lead}</p>
       </div>
     </div>
-    <div class="seam" aria-hidden="true"></div>
+    <Image
+      src={photo}
+      alt=""
+      aria-hidden="true"
+      widths={[800, 1440, 2160, 2880]}
+      sizes="100vw"
+      format="webp"
+      quality={80}
+      loading="eager"
+      class="photo"
+    />
   </section>
 
   <Section labelledby="story-title">
@@ -108,13 +119,13 @@ const page = await getPage('about');
     line-height: var(--leading-lg);
   }
 
-  /* The bottom of the hero: the horizontal seam, rio-negro into igarapé. */
-  .seam {
-    block-size: clamp(6rem, 12vw, 10rem);
-    background-image: var(--hseam);
-    background-size: cover;
-    background-position: center 55%;
-    image-rendering: pixelated;
+  /* The bottom of the hero: the aerial of two waters, full bleed. */
+  .photo {
+    display: block;
+    inline-size: 100%;
+    block-size: clamp(16rem, 34vw, 30rem);
+    object-fit: cover;
+    object-position: center 55%;
   }
 
   .story {

@@ -15,7 +15,6 @@ import FeatureBento from '../components/sections/FeatureBento.astro';
 import FeatureGrid from '../components/sections/FeatureGrid.astro';
 import FaqList from '../components/sections/FaqList.astro';
 import LogoSphere from '../components/ui/LogoSphere.astro';
-import SeamStrip from '../components/sections/SeamStrip.astro';
 import BillingToggle from '../components/islands/BillingToggle';
 import FeeCalculator from '../components/islands/FeeCalculator';
 import FeatureTabs from '../components/islands/FeatureTabs';
@@ -46,18 +45,24 @@ import SimpleCta from '../components/sections/SimpleCta.astro';
 import NewsletterBand from '../components/sections/NewsletterBand.astro';
 import PageIntro from '../components/sections/PageIntro.astro';
 import NoteCards from '../components/sections/NoteCards.astro';
-import FeeCalculatorSeam from '../components/islands/FeeCalculatorSeam';
-import seamCta from '../assets/textures/seam-cta.png';
-import seam40 from '../assets/textures/seam-40.png';
-import SeamCanvas from '../components/ui/SeamCanvas.astro';
+import FeeCalculatorCrossing from '../components/islands/FeeCalculatorCrossing';
 import RiverCanvas from '../components/ui/RiverCanvas.astro';
-import seamMobile from '../assets/textures/mobile-seam-v2.png';
+import Painting from '../components/ui/Painting.astro';
+import { getImage } from 'astro:assets';
+import meetingWide from '../assets/imagery/meeting-wide.png';
 import { getChanges, getFaqs, getPosts, getStories } from '../lib/content';
 import { tokens } from '../tokens/tokens';
 import { s, lang } from '../strings';
 import { getFeatures, getIntegrations, getPage, getPlans, getRates } from '../lib/content';
 
 const g = s.styleguide;
+const calcPainting = await getImage({ src: meetingWide, width: 1600, format: 'webp', quality: 82 });
+const PAINTINGS = [
+  { kind: 'clear-water', shape: 'wide' },
+  { kind: 'clear-water', shape: 'portrait' },
+  { kind: 'meeting', shape: 'wide' },
+  { kind: 'meeting', shape: 'portrait' },
+] as const;
 const home = await getPage('home');
 const features = await getFeatures();
 const productPage = await getPage('product');
@@ -313,21 +318,17 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
 
   <Section>
     <div class="l-stack" style="--gap: var(--space-s)">
-      <h2 class="label">{g.seamMotion.title}</h2>
-      <p class="seam-lead">{g.seamMotion.lead}</p>
+      <h2 class="label">{g.paintings.title}</h2>
+      <p class="sg-lead">{g.paintings.lead}</p>
     </div>
-    <ul class="seam-tiles" role="list" style={`--seam-png: url(${seam40.src});`}>
+    <ul class="paintings" role="list">
       {
-        (Object.keys(g.seamMotion.presets) as (keyof typeof g.seamMotion.presets)[]).map((name) => (
+        PAINTINGS.map((p) => (
           <li>
-            <div class="seam-tile">
-              <div class="seam-plate">
-                <SeamCanvas texture="seam-40" align="top" motion={name} />
-              </div>
+            <div class="painting-frame" data-shape={p.shape}>
+              <Painting kind={p.kind} shape={p.shape} sizes="(width >= 64rem) 25vw, 100vw" />
             </div>
-            <p>
-              <code>{name}</code> {g.seamMotion.presets[name]}
-            </p>
+            <p>{g.paintings.items[`${p.kind}-${p.shape}`]}</p>
           </li>
         ))
       }
@@ -337,14 +338,12 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
   <Section theme="dark">
     <div class="l-stack" style="--gap: var(--space-s)">
       <h2 class="label">{g.river.title}</h2>
-      <p class="seam-lead">{g.river.lead}</p>
+      <p class="sg-lead">{g.river.lead}</p>
     </div>
     <div class="river-demo"><RiverCanvas /></div>
   </Section>
 
-  <SeamStrip />
-
-  <Section theme="dark" spacing="after-strip">
+  <Section theme="dark">
     <h2 class="label">{g.sections.tabs}</h2>
     <FeatureTabs client:visible label={home.showcase.tabsLabel} app={home.showcase.app} tabs={home.showcase.tabs}>
       <Logo slot="logo" label="" />
@@ -502,13 +501,13 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     />
   </div>
   <Section spacing="none">
-    <h2 class="label">{g.sections.calculatorSeam}</h2>
+    <h2 class="label">{g.sections.calculatorCrossing}</h2>
   </Section>
-  <section class="seam-demo" data-theme="dark" style={`--seam-desktop: url(${seamCta.src}); --seam-mobile: url(${seamMobile.src});`}>
-    <FeeCalculatorSeam
+  <section class="calc-demo" data-theme="dark" style={`--painting: url(${calcPainting.src});`}>
+    <FeeCalculatorCrossing
       client:visible
       headingLevel="h2"
-      titleId="seam-demo-title"
+      titleId="calc-demo-title"
       lang={lang}
       currencies={rates.map(({ data }) => ({ id: data.id, name: data.name, symbol: data.symbol, rate: data.rate }))}
       feePercent={Math.min(...plans.map((p) => p.data.fee))}
@@ -723,23 +722,24 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     background-color: var(--color-bg-base);
   }
 
-  .seam-demo {
+  .calc-demo {
     background-color: var(--color-bg-base);
   }
 
-  .seam-lead {
+  .sg-lead {
     max-inline-size: var(--size-measure-text);
     color: var(--color-text-muted);
   }
 
-  .seam-tiles {
+  .paintings {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    align-items: end;
     gap: var(--space-l);
     margin-block-start: var(--space-l);
   }
 
-  .seam-tiles li {
+  .paintings li {
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
@@ -747,34 +747,16 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
     color: var(--color-text-muted);
   }
 
-  /* A window onto the seam at its real dot size (1440 px wide), centred on the seam line. */
-  .seam-tile {
+  .painting-frame {
     position: relative;
-    block-size: 20rem;
+    isolation: isolate;
+    aspect-ratio: 16 / 9;
     overflow: clip;
     border-radius: var(--radius-m);
   }
 
-  .seam-plate {
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline-start: 50%;
-    inline-size: 90rem;
-    aspect-ratio: 16 / 10;
-    translate: -40% 0;
-    background-image: var(--seam-png);
-    background-size: cover;
-    background-position: center top;
-    image-rendering: pixelated;
-  }
-
-  @media (width >= 64rem) {
-    .seam-demo {
-      background-image: var(--seam-desktop);
-      background-size: cover;
-      background-position: center;
-      image-rendering: pixelated;
-    }
+  .painting-frame[data-shape='portrait'] {
+    aspect-ratio: 3 / 4;
   }
 
   .covers,

@@ -1,7 +1,7 @@
 @layer components {
   /*
-   * Phones and tablets: three stacked bands (rio-negro, the seam with the card, igarapé).
-   * From 1024 px: three columns over the seam texture the page section paints.
+   * Phones and tablets: three stacked bands (pay, the painting with the card, receive).
+   * From 1024 px: three columns, the middle one a framed panel of the painted meeting.
    */
   .calculator {
     display: grid;
@@ -101,8 +101,9 @@
     font-weight: var(--font-weight-semibold);
   }
 
-  .receive .symbol {
-    color: var(--color-text-base);
+  /* The amount arriving is the one accent in the result. */
+  .receive .sum {
+    color: var(--color-text-highlight);
   }
 
   /* A text input's default width would set the column's minimum width. */
@@ -148,17 +149,15 @@
     padding-block-end: var(--space-2xl);
   }
 
-  /* The seam band: the card rides on the texture. */
+  /* The painting band: the card rides on the meeting of the two waters. */
   .band {
     display: grid;
     place-items: center;
-    padding: var(--space-xl) var(--space-gutter);
+    padding: var(--space-3xl) var(--space-gutter);
     background-color: var(--color-bg-base);
-    background-image: var(--seam-mobile);
-    background-size: 100% auto;
-    background-position: center 30%;
-    background-repeat: no-repeat;
-    image-rendering: pixelated;
+    background-image: var(--painting);
+    background-size: cover;
+    background-position: 60% 50%;
   }
 
   .card {
@@ -207,15 +206,14 @@
 
   @media (width >= 64rem) {
     .calculator {
-      grid-template-columns: minmax(0, 1fr) 15rem minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) 20rem minmax(0, 1fr);
       column-gap: var(--space-xl);
       min-block-size: 37.5rem;
       padding: var(--space-2xl) var(--page-inset);
     }
 
     .pay,
-    .receive,
-    .band {
+    .receive {
       padding: 0;
       background: none;
     }
@@ -234,8 +232,10 @@
     /* Card and result sit a little below the middle, level with the amount (Paper: top 300 of 600). */
     .band {
       grid-column: 2;
-      align-self: center;
-      margin-block-start: var(--space-3xl);
+      align-self: stretch;
+      padding: var(--space-xl) var(--space-m);
+      padding-block-start: calc(var(--space-xl) + var(--space-3xl));
+      border-radius: var(--radius-l);
     }
 
     .receive {

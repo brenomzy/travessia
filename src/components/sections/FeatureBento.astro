@@ -1,19 +1,17 @@
 ---
 /**
- * Product overview bento (Paper: "Options · Product feature rows" → B4 · Bento on rio-negro). Four dark tiles, one per
- * feature, each with a piece of white product UI that fades into the seam dither at the tile's foot. The wide tiles
- * (first and last) span two columns from 720 px; three columns from 1408 px (a 1440 px window less a scrollbar). The second tile is the deep teal one.
- *
- * The dither is seam-cta.png under a radial mask, with the seam shader on top so it drifts (SeamCanvas; the PNG
- * stays with reduced motion or without WebGL2). The whole tile is the link to the feature page.
+ * Product overview bento on rio-negro. Four dark tiles, one per feature, each with a panel of painted clear water (C)
+ * at its foot and a piece of white product UI sitting whole on it. One painting, cropped differently per tile, keeps
+ * the grid calm (brand/rules.md, "Graphic language: imagery"; replaced the seam dither on 2026-11-21). The wide tiles
+ * (first and last) span two columns from 720 px; three columns from 1408 px (a 1440 px window less a scrollbar).
+ * The whole tile is the link to the feature page.
  */
 import type { CollectionEntry } from 'astro:content';
 import Section from './Section.astro';
 import SectionHeader from './SectionHeader.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import SeamCanvas from '../ui/SeamCanvas.astro';
-import seamCta from '../../assets/textures/seam-cta.png';
+import Painting from '../ui/Painting.astro';
 import { featurePath } from '../../lib/routes';
 
 interface Props {
@@ -22,10 +20,12 @@ interface Props {
   features: CollectionEntry<'features'>[];
 }
 const { title, lead, features } = Astro.props;
+/** Where each tile's crop of the painting sits, in tile order. */
+const FOCUS = ['85% 70%', '25% 45%', '60% 90%', '10% 65%'];
 ---
 
 <Section theme="dark" labelledby="bento-title">
-  <div class="stack" style={`--_texture: url(${seamCta.src});`}>
+  <div class="stack">
     <SectionHeader id="bento-title" title={title} lead={lead} />
     <ul class="bento" role="list" data-dim-siblings>
       {
@@ -36,15 +36,10 @@ const { title, lead, features } = Astro.props;
               class="tile"
               data-kind={v.kind}
               data-wide={i % 3 === 0 ? '' : undefined}
-              data-theme={v.kind === 'balances' ? 'deep' : undefined}
               data-press="card"
               data-hover-host
               data-reveal
             >
-              <div class="texture" aria-hidden="true">
-                <SeamCanvas texture="seam-cta" fit="cover" />
-              </div>
-
               <div class="text">
                 <h3>{f.name}</h3>
                 <p>{f.summary}</p>
@@ -56,6 +51,7 @@ const { title, lead, features } = Astro.props;
               </div>
 
               <div class="visual" data-theme="light">
+                <Painting kind="clear-water" focus={FOCUS[i % FOCUS.length]} sizes="(width >= 45rem) 45vw, 100vw" />
                 {v.kind === 'invoice' && (
                   <div class="ui invoice" lang="en">
                     <div class="row">
@@ -148,13 +144,6 @@ const { title, lead, features } = Astro.props;
 </Section>
 
 <style>
-  /* The mask reach grows on hover, so the dither creeps further into the tile. */
-  @property --_reach {
-    syntax: '<percentage>';
-    inherits: true;
-    initial-value: 0%;
-  }
-
   .stack {
     display: flex;
     flex-direction: column;
@@ -172,12 +161,6 @@ const { title, lead, features } = Astro.props;
   .tile {
     --_pad: var(--space-l);
     --_bg: var(--color-bg-raised);
-    --_glow: var(--color-glow);
-    --_texture-opacity: 0.85;
-    --_mask-size: 120% 110%;
-    --_mask-from: 25%;
-    --_mask-to: 80%;
-    --_reach: 0%;
     position: relative;
     isolation: isolate;
     display: grid;
@@ -187,50 +170,12 @@ const { title, lead, features } = Astro.props;
     padding: var(--_pad) var(--_pad) 0;
     overflow: clip;
     border-radius: var(--radius-l);
-    background:
-      radial-gradient(ellipse 80% 90% at 85% 100% in oklab, var(--_glow), transparent 70%),
-      var(--_bg);
+    background-color: var(--_bg);
     box-shadow: var(--shadow-1);
     color: var(--color-text-base);
     transition:
-      --_reach var(--duration-slow) var(--ease-out),
       var(--transition-press),
       var(--transition-dim);
-  }
-
-  .tile[data-theme='deep'] {
-    --_bg: var(--color-bg-base);
-    --_glow: transparent;
-    --_texture-opacity: 0.55;
-    --_mask-size: 100% 80%;
-    --_mask-from: 10%;
-    --_mask-to: 70%;
-    border-color: transparent;
-  }
-
-  .tile[data-kind='invoice'] {
-    --_texture-opacity: 0.9;
-    --_mask-size: 110% 130%;
-    --_mask-from: 30%;
-  }
-
-  .tile[data-kind='report'] {
-    --_mask-size: 90% 120%;
-  }
-
-  .texture {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--_texture) center / cover;
-    image-rendering: pixelated;
-    opacity: var(--_texture-opacity);
-    mask-image: radial-gradient(
-      var(--_mask-size) at 100% 100%,
-      currentColor calc(var(--_mask-from) + var(--_reach)),
-      transparent calc(var(--_mask-to) + var(--_reach))
-    );
-    pointer-events: none;
   }
 
   .text {
@@ -283,11 +228,17 @@ const { title, lead, features } = Astro.props;
 
   /* ---------- product UI ---------- */
 
+  /* The painting panel: cut by the tile's foot, the UI whole on it. */
   .visual {
+    position: relative;
+    isolation: isolate;
     display: flex;
     align-items: flex-end;
     justify-content: center;
     min-inline-size: 0;
+    padding: var(--space-xl) var(--space-l) 0;
+    overflow: clip;
+    border-radius: var(--radius-m) var(--radius-m) 0 0;
     background: none;
     color: var(--color-text-base);
     font-size: var(--text-sm);
@@ -318,7 +269,7 @@ const { title, lead, features } = Astro.props;
     gap: var(--space-s);
   }
 
-  /* Invoice: a tall page cut by the tile's foot; the filler under the total fades out. */
+  /* Invoice: a tall page cut by the tile's foot. */
   .invoice {
     display: flex;
     flex-direction: column;
@@ -327,8 +278,7 @@ const { title, lead, features } = Astro.props;
     margin-block-end: calc(var(--space-3xl) * -1);
     padding: var(--space-l);
     border-radius: var(--radius-m);
-    box-shadow: var(--shadow-3);
-    mask-image: linear-gradient(to bottom, currentColor 55%, transparent 92%);
+    box-shadow: var(--shadow-3-on-dark);
   }
 
   .total {
@@ -445,7 +395,7 @@ const { title, lead, features } = Astro.props;
     transition-delay: var(--duration-stagger);
   }
 
-  /* Nota fiscal: cut a little by the tile's foot and faded. */
+  /* Nota fiscal: cut a little by the tile's foot. */
   .tax {
     display: flex;
     flex-direction: column;
@@ -454,8 +404,7 @@ const { title, lead, features } = Astro.props;
     margin-block-end: calc(var(--space-l) * -1);
     padding: var(--space-m);
     border-radius: var(--radius-m);
-    box-shadow: var(--shadow-2);
-    mask-image: linear-gradient(to bottom, currentColor 50%, transparent 95%);
+    box-shadow: var(--shadow-3-on-dark);
   }
 
   .issued {
@@ -553,10 +502,6 @@ const { title, lead, features } = Astro.props;
   /* ---------- hover ---------- */
 
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .tile:hover {
-      --_reach: 12%;
-    }
-
     .tile:hover .ui {
       translate: 0 calc(var(--space-2xs) * -1);
     }

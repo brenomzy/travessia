@@ -1,30 +1,28 @@
 ---
 /**
- * Closing CTA for interior pages (Paper: "Final CTA B · Horizontal crossing"): the promise on rio-negro,
- * a conversion card riding the horizontal seam, and the waitlist on igarapé below it.
- * Home keeps its own CTA (CtaBand), with the vertical seam.
+ * Closing CTA for interior pages: the painted meeting (D), full bleed. The promise and the waitlist sit in its quiet
+ * dark area, the conversion card rides the meeting itself. From 1024 px they are side by side (wide painting, quiet
+ * left); below it they stack on the portrait painting (quiet top). Replaced the horizontal seam on 2026-11-21.
  */
-import hseam from '../../assets/textures/hseam.png';
 import ConversionCard from '../product/ConversionCard.astro';
 import WaitlistForm from '../ui/WaitlistForm.astro';
 import MotionScript from '../ui/MotionScript.astro';
+import Painting from '../ui/Painting.astro';
 import { s } from '../../strings';
 
-interface Props {
-}
 const c = s.closingCta;
 ---
 
-<section class="closing" data-theme="dark" aria-labelledby="closing-title" style={`--hseam: url(${hseam.src});`}>
-  <div class="heading" data-reveal>
+<section class="closing" data-theme="dark" aria-labelledby="closing-title">
+  <div class="art art-portrait"><Painting kind="meeting" shape="portrait" focus="50% 80%" /></div>
+  <div class="art art-wide"><Painting kind="meeting" focus="40% 50%" /></div>
+  <div class="copy" data-reveal-stagger>
     <h2 id="closing-title">{c.title}</h2>
     <p class="lead">{c.lead}</p>
+    <WaitlistForm layout="inline" withName={false} showNotice />
   </div>
   <div class="card" aria-hidden="true" data-reveal>
     <ConversionCard {...c.card} shadow="floating-dark" />
-  </div>
-  <div class="join" data-theme="primary" data-reveal>
-    <WaitlistForm layout="inline" withName={false} showNotice />
   </div>
 </section>
 
@@ -32,26 +30,43 @@ const c = s.closingCta;
 
 <style>
   .closing {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-xl);
-    min-block-size: 40rem;
-    padding: var(--space-2xl) var(--page-inset);
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    gap: var(--space-3xl);
+    overflow: clip;
+    padding: var(--space-section) var(--space-gutter);
     background-color: var(--color-bg-base);
-    background-image: var(--hseam);
-    background-size: cover;
-    background-position: center;
-    image-rendering: pixelated;
-    text-align: center;
   }
 
-  .heading {
+  .art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    isolation: isolate;
+  }
+
+  /* Phones: the painting starts under the form and fades in, so the copy sits on plain dark water. */
+  .art-portrait {
+    inset-block-start: 35%;
+    mask-image: linear-gradient(transparent, var(--color-bg-base) 25%);
+  }
+
+  .art-wide {
+    display: none;
+  }
+
+  .copy {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-s);
+    gap: var(--space-m);
+    max-inline-size: 32rem;
+  }
+
+  h2 {
+    font-size: var(--text-hero);
+    line-height: var(--leading-hero);
+    letter-spacing: var(--tracking-hero);
   }
 
   .lead {
@@ -60,20 +75,26 @@ const c = s.closingCta;
     line-height: var(--leading-lg);
   }
 
-  h2 {
-    max-inline-size: 56.25rem;
-    font-size: var(--text-hero);
-    line-height: var(--leading-hero);
-    letter-spacing: var(--tracking-hero);
-  }
-
   .card {
+    justify-self: center;
     inline-size: min(100%, 21.25rem);
-    text-align: start;
   }
 
-  .join {
-    inline-size: min(100%, 35rem);
-    background: none;
+  /* breakpoint.laptop (1024px) */
+  @media (width >= 64rem) {
+    .closing {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+      min-block-size: 40rem;
+      padding-inline: var(--page-inset);
+    }
+
+    .art-portrait {
+      display: none;
+    }
+
+    .art-wide {
+      display: block;
+    }
   }
 </style>

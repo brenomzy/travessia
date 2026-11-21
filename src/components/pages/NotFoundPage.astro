@@ -1,6 +1,7 @@
 ---
-/** 404 (Paper: Pages · company and utility → /404). */
-import seam from '../../assets/textures/seam-40.png';
+/** 404 (Paper: Pages · company and utility → /404). From 1024 px the river still runs down the right: off course. */
+import { Image } from 'astro:assets';
+import river from '../../assets/generated/river/hero-river.png';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../ui/Icon.astro';
 import { path, type RouteKey } from '../../lib/routes';
@@ -16,7 +17,16 @@ const page = await getPage('notFound');
   canonical="/404"
   headerVariant="dark"
 >
-  <section class="nf" data-theme="dark" aria-labelledby="page-title" style={`--seam: url(${seam.src});`}>
+  <section class="nf" data-theme="dark" aria-labelledby="page-title">
+    <Image
+      src={river}
+      alt=""
+      aria-hidden="true"
+      widths={[960, 1440, 2160]}
+      sizes="(width >= 64rem) 70vw, 1px"
+      format="webp"
+      class="river"
+    />
     <div class="l-container">
       <div class="copy">
         <h1 id="page-title">{page.title}</h1>
@@ -40,6 +50,7 @@ const page = await getPage('notFound');
 <style>
   .nf {
     position: relative;
+    isolation: isolate;
     overflow: clip;
     min-block-size: 40rem;
     padding-block: var(--space-3xl);
@@ -85,17 +96,23 @@ const page = await getPage('notFound');
     color: var(--color-text-highlight);
   }
 
+  .river {
+    display: none;
+  }
+
+  /* breakpoint.laptop (1024px): the river still on the right, faded in from the copy's side. */
   @media (width >= 64rem) {
-    .nf::before {
-      content: '';
+    .river {
+      display: block;
       position: absolute;
       inset-block: 0;
-      inset-inline-start: 55%;
-      inline-size: 100%;
-      background-image: var(--seam);
-      background-size: cover;
-      background-position: left center;
-      image-rendering: pixelated;
+      inset-inline: 30% 0;
+      z-index: -1;
+      inline-size: 70%;
+      block-size: 100%;
+      object-fit: cover;
+      object-position: 70% 50%;
+      mask-image: linear-gradient(to right, transparent, var(--color-bg-base) 35%);
     }
   }
 </style>

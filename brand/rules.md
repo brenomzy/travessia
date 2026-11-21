@@ -47,7 +47,7 @@ The promise, or any two-part headline, is set in two tones (Breno, 2026-11-21: p
 
 - The first half in `--color-text-base`; the second in `--color-text-second`: a solid, lighter colour, never the text colour at lower opacity. Fog (neblina-300, #A8B6BC) on rio-negro, neblina-500 (#636E75) on white and mist, rio-negro-800 on igarapé.
 - `--color-text-second` is for display text only (3:1 is checked, the large-text level). It is not a highlight for amounts; those keep `--color-text-highlight`.
-- On a photograph or the seam, the old waterline still works: the first half on the dark water in white, the second on the light water in rio-negro.
+- On a photograph, the old waterline still works: the first half on the dark water in white, the second on the light water in rio-negro.
 - Two parts at most. The split follows the sense of the line ("Paid abroad." / "Sorted at home."), never a break in the middle of a phrase.
 
 ---
@@ -64,7 +64,7 @@ Boards: Paper page "Brand · Core identity". The masters are on the "Design syst
 
 ### Clear space and size
 
-- **Clear space:** one x-height (500 units, the height of the "a") on every side. Nothing enters it, including the edge of a photo crop or a seam band.
+- **Clear space:** one x-height (500 units, the height of the "a") on every side. Nothing enters it, including the edge of a photo crop or a painting's foam.
 - **Minimum width:** 96 px on screen, where the waterline channel is still 1 px wide (`--size-logo-nav`). 25 mm in print. Below that, use the mark.
 - Common sizes: 96 px in the nav, 160 px in the footer (`--size-logo-footer`), 400 px on a deck cover.
 
@@ -77,7 +77,7 @@ Boards: Paper page "Brand · Core identity". The masters are on the "Design syst
 | Igarapé | One colour: rio-negro, both halves |
 | Urucum (launches only) | One colour: rio-negro, both halves |
 | Photograph | Two-colour (white above) on dark water or shadow, in the quietest area of the image; one colour where the area is light and busy |
-| The seam texture | On one solid side only, never across the dither |
+| A painting | Two-colour (white above) in the painting's quiet dark area; never across brushstrokes or foam |
 
 The waterline channel stays in every colourway, one-colour included.
 
@@ -86,13 +86,13 @@ The waterline channel stays in every colourway, one-colour included.
 - Recolour a half in any other colour (no urucum, no gradients), or swap the halves.
 - Move, thicken or remove the waterline, or undo the weave.
 - Stretch, outline, add shadows or effects, or rotate.
-- Place it across the seam's dither or across a busy part of a photo.
+- Place it across a painting's brushstrokes or foam, or across a busy part of a photo.
 - Set "travessia" in live text as a stand-in for the logo.
 - Put the mark next to the wordmark as a lockup.
 
 ### The mark
 
-**The woven ss on the seam** (decided by Breno, 2026-11-20). Boards: Paper page "Brand · Core identity", "Logo · the mark, A + C" and "Icon exports".
+**The woven ss on the seam** (decided by Breno, 2026-11-20). **Under review (2026-11-21):** with the seam retired from every surface, the mark is the last place the dither appears. Options on the Paper board "Logo · the mark without the dither" (Brand · Core identity): painted clear water, painted meeting, a flat split, and painted from 96 px up with the flat split below. Until one is picked, the files below stay as they are. Boards: Paper page "Brand · Core identity", "Logo · the mark, A + C" and "Icon exports".
 
 - The ss is taken out of the wordmark at the same spacing (336 units), with the same weave and waterline. Nothing is redrawn.
 - It sits on a square of the seam texture (`hseam.png`), positioned so the dither meets the solid igarapé exactly at the waterline: the top of the ss is white on the dark water and the dither, the bottom is rio-negro on the light water.
@@ -117,7 +117,7 @@ The waterline channel stays in every colourway, one-colour included.
 | White | `white` | The page | Most surfaces |
 | Urucum | `urucum` (600 #FF4A1C) | Campaigns only | Launch posters and loud-mode surfaces, never on the site's core UI |
 
-- Igarapé is named after the small, clear forest streams of the Amazon. The seam and the river are **two waters meeting** in general, not a real confluence.
+- Igarapé is named after the small, clear forest streams of the Amazon. The river and the paintings are **two waters meeting** in general, not a real confluence.
 - **One igarapé button per view.** Every other button is rio-negro or the tinted secondary. Inside an igarapé section (the `primary` theme) the main button turns rio-negro, so it never disappears into its background. Buttons read `--color-action-*` from their section's theme; nothing else should use the accent directly.
 - Error text uses `--color-error` (urucum-700, #C93A14: 5.1:1 on white, 4.8:1 on mist). It is a functional colour, not the accent.
 
@@ -136,7 +136,7 @@ The waterline channel stays in every colourway, one-colour included.
 
 ### Proportions
 
-Igarapé shows in small parts: the main button, the river or the seam, progress bars, status dots, amounts arriving. Measured on 2026-11-20 before this change, light water was about 10% of a page; the target is now under 5% outside the hero.
+Igarapé shows in small parts: the main button, the river or a painting, progress bars, status dots, amounts arriving. Measured on 2026-11-20 before this change, light water was about 10% of a page; the target is now under 5% outside the hero.
 
 - No full-width igarapé sections except one closing band per page at most.
 - Panels are mist (`neblina-50`), not mint, so colour only shows where it means something.
@@ -148,14 +148,15 @@ Sections switch colour with `data-theme`: `light` (white, the default), `tint` (
 ### Not in the palette
 
 - **Açaí** (deep purple) is dropped: it reads as Nubank to Brazilian readers.
-- **Solimões** (sand) is not added: the seam stays dark and clear, and sand is a major Nubank surface.
+- **Solimões** (sand) is not added: the meeting stays dark and clear, and sand is a major Nubank surface.
 - Other held names (`buriti`, `cupuacu`, `castanha`, `jenipapo`, `cacau`, `mate`, `jambu`) stay unused until a campaign needs a colour, like urucum now. A new one is added as a primitive with a `$description` and never becomes a second accent on the site.
-- No gradients between the waters. The meeting is always the dithered seam or the river.
+- No gradients between the waters. The meeting is always the river or the painted meeting (D).
 
 ### Assets that carry the palette
 
 Changing a palette value means regenerating these:
-- The seam textures and blog covers: `docs/design/texture-lab/gen4.mjs`, `gen5.mjs` and `gen6.mjs`, copied to `src/assets/textures/`.
+- The paintings in `src/assets/imagery/` (regenerate from the prompts in its README).
+- The blog covers: `docs/design/texture-lab/gen6.mjs`, copied to `src/assets/textures/covers/`.
 - The customer story textures in `src/assets/textures/stories/`, which have no generator (recoloured by a two-colour remap).
 - The mark and the favicon files, exported from the Paper board "Icon exports".
 - The Paper file's colour tokens (`--color-igarape-*`, `--color-urucum-*`), which the logo masters use.
@@ -176,7 +177,7 @@ Measured against the reference brands on 2026-11-21 (`brand/references.md`); boa
 ### Edges: rings and soft shadows, no borders
 
 - Cards, chips and panels have no borders. Their edge is a faint one-pixel ring inside a very soft shadow: `--shadow-1` at rest, `--shadow-2` on hover or for raised UI, `--shadow-3` for overlays. The ring colour comes from the theme (`--color-ring`: 8% rio-negro on light, 10% white on dark), so it sits inside the shadow rather than on top of it.
-- Product art floating over the river or the seam uses `--shadow-3-on-dark` or `--shadow-3-on-color`.
+- Product art floating over the river or a painting uses `--shadow-3-on-dark` or `--shadow-3-on-color`.
 - Form fields keep a real border, because their edge has to be visible at a glance and change on focus.
 - Hairlines inside cards (rows in a list, the line above a total) stay.
 
@@ -193,7 +194,7 @@ Three, plus the small one for tags: 8 px controls (`radius-s`, `radius-control`)
 - One igarapé river winds down the right of the hero, behind the product UI. Inside it: water from deep to shallow, white streaks drifting downstream, a lit crest at the banks. Around it: rio-negro land with a faint glow and clean one-pixel echo lines that follow the bank outwards. The width slowly swells and narrows.
 - Built as a WebGL2 shader: engine in `src/lib/generators/river`, runner in `src/lib/motion/river.ts`, component `RiverCanvas`. Colours come from `--color-river-*` tokens.
 - 30 frames a second, only while on screen and the tab is visible. With reduced motion it draws one still frame. Without WebGL2 or JavaScript the hero stays plain rio-negro.
-- From 1024 px only. Phones and tablets keep the horizontal seam story for now.
+- The live shader runs from 1024 px. Below that, the home hero tells the story top to bottom on rio-negro with a band of the river still (`river-portrait.png`) under the crossing card.
 - The copy and the form sit on clean dark water on the left; never put text over the river.
 
 
@@ -201,7 +202,7 @@ Three, plus the small one for tags: 8 px controls (`radius-s`, `radius-control`)
 
 ## Graphic language: imagery
 
-> **Status:** playbook step 8, in progress (started 2026-11-21). Boards: Paper page "Brand · Graphic language". Still to come in step 8: the seam's own rules, product UI crops and grid, the chart rule and icons.
+> **Status:** playbook step 8, in progress (started 2026-11-21). Boards: Paper page "Brand · Graphic language". Still to come in step 8: product UI crops and grid, the chart rule and icons.
 
 ### Five kinds of imagery, each with a job
 
@@ -238,3 +239,26 @@ On imagery:
 - Headlines use the two-tone with Fog (`--color-text-second` on dark) for the second half; body text is #B6C4C9 and no more than two lines.
 - The logo goes on the darkest, calmest area, at its clear space, in the dark-ground version; never across brushstrokes, foam or the river.
 - One headline per frame.
+
+### The seam is retired
+
+Decided by Breno, 2026-11-21 (Paper: "5 · Seam review" on Brand · Graphic language). The dithered seam was on 13 surfaces, most of them half a frame of solid igarapé, and it was a third style next to the paintings and the river. Each surface moved to the imagery its job calls for:
+
+| Surface | Now |
+|---|---|
+| Interior heroes (product, pricing, for clients, features, integrations, stories, events) | Light page, copy outside the image, a framed panel of painted clear water (C) with the product UI on it |
+| Home final CTA, interior closing CTA, for-clients CTA | Painted meeting (D), full bleed; copy and form in its quiet zone. Below 1024 px the portrait painting starts under the form |
+| Home hero below 1024 px | Rio-negro top to bottom, a band of the river still under the crossing card; only the amount arriving is igarapé |
+| Product bento tiles | One painted clear water, cropped differently per tile, as a panel at the tile's foot; the UI sits whole on it |
+| Calculator | A framed panel of painted meeting (D) behind the result card; the result on rio-negro with only the amount in the accent |
+| Open account | The form card over painted clear water (C) |
+| About hero | The aerial photograph of two waters |
+| 404 | The river still, faded in from the copy's side |
+| Exchange blog cover | Painted meeting (D) |
+| Home section strip, header "seam" variant | Removed; the header variants are now light, dark and overlay |
+
+- Don't bring the dither back as a background, band, strip or texture. The meeting of two waters is the river (in motion) or the painted meeting (in stills).
+- The painting component is `src/components/ui/Painting.astro`; the files and their prompts are in `src/assets/imagery/`. A painting crop always sits inside a frame (radius `--radius-l`, or `--radius-m` inside a card) or bleeds off the section edge; never as a small floating rectangle.
+- At most one painted meeting (D) per page.
+- Still to move: the customer story covers (`src/assets/textures/stories/`) and the other four blog-cover patterns use halftone and dither. They get their own pass; photography is the imagery for stories and editorial.
+- The seam engine, `SeamCanvas` and the seam PNGs were deleted from the site. Their scripts stay in `docs/design/texture-lab/` as history.

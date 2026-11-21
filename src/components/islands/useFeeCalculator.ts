@@ -3,7 +3,7 @@ import { tweenNumber } from '../../lib/motion/tween';
 
 /**
  * The fee calculator's state and maths, shared by the two layouts: FeeCalculator (the card on
- * Home and Pricing) and FeeCalculatorSeam (/calculator). Both stay in step by construction.
+ * Home and Pricing) and FeeCalculatorCrossing (/calculator). Both stay in step by construction.
  */
 export interface Currency {
   id: string;

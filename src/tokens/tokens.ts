@@ -136,10 +136,6 @@ export const tokens = {
       "above-inverse": "#FFFFFF",
       "below": "#00C99B"
     },
-    "seam": {
-      "dark": "#0F1C24",
-      "light": "#00C99B"
-    },
     "river": {
       "land": "#0F1C24",
       "light": "#00C99B",
