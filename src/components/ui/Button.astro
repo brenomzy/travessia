@@ -29,6 +29,7 @@ const label = roll ? await Astro.slots.render('default') : '';
   data-variant={variant}
   data-size={size}
   data-block={block ? '' : undefined}
+  data-icon={arrow ? 'end' : undefined}
   data-press
   href={href}
   type={href ? undefined : type}
@@ -41,7 +42,7 @@ const label = roll ? await Astro.slots.render('default') : '';
         <span aria-hidden="true" set:html={label} />
       </span>
     ) : (
-      <slot />
+      <span class="label"><slot /></span>
     )
   }
   {arrow && <Icon name="arrow-right" />}
@@ -59,14 +60,19 @@ const label = roll ? await Astro.slots.render('default') : '';
     --_light: var(--color-button-light);
     --_shadow: var(--shadow-action-accent);
     --_border: transparent;
+    --_pad-x: var(--space-m);
+    --_pad-y: var(--space-xs);
     --icon-size: var(--size-icon-s);
+    /* The empty margin inside an icon's 24 px grid (about 4 of 24 on each side), taken back optically. */
+    --_icon-inset: calc(var(--icon-size) / 6);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-2xs);
     min-block-size: var(--size-tap);
-    padding-block: var(--space-xs);
-    padding-inline: var(--space-m);
+    /* The label is trimmed to cap height, so the padding adds back half the line's leading to keep the height. */
+    padding-block: calc(var(--_pad-y) + (1lh - 1cap) / 2);
+    padding-inline: var(--_pad-x);
     border: var(--size-focus-ring) solid var(--_border);
     border-radius: var(--radius-control);
     background-color: var(--_bg);
@@ -87,6 +93,28 @@ const label = roll ? await Astro.slots.render('default') : '';
 
   .button:hover {
     text-decoration: none;
+  }
+
+  /* Optical centring: the label's box is its cap height, so it sits in the middle of the button, level with the icon. */
+  .label {
+    text-box: trim-both cap alphabetic;
+  }
+
+  /*
+   * Optical spacing with a trailing icon: the icon's own empty margin already reads as space, so the gap and the
+   * padding on that side give it back. The arrow then looks as far from the label, and from the edge, as the text does.
+   */
+  [data-icon='end'] {
+    gap: calc(var(--space-2xs) - var(--_icon-inset));
+  }
+
+  /* The icon is taller than the trimmed label: let it overhang so a button with an icon keeps the same height. */
+  .button:not([data-variant='link']) :global(.icon) {
+    margin-block: calc((1cap - var(--icon-size)) / 2);
+  }
+
+  [data-icon='end']:not([data-variant='link']) {
+    padding-inline-end: calc(var(--_pad-x) - var(--_icon-inset));
   }
 
   [data-variant='accent']:hover {
@@ -118,7 +146,9 @@ const label = roll ? await Astro.slots.render('default') : '';
     --_light: transparent;
     --_shadow: none;
     --_fg: var(--color-link);
-    padding-inline: 0;
+    --_pad-x: 0px;
+    /* The rolling label isn't trimmed (the roll window would clip it), so no leading to add back. */
+    padding-block: var(--_pad-y);
     min-block-size: auto;
   }
 
@@ -163,15 +193,15 @@ const label = roll ? await Astro.slots.render('default') : '';
   }
 
   [data-size='s'] {
+    --_pad-x: var(--space-s);
+    --_pad-y: var(--space-2xs);
     min-block-size: auto;
-    padding-block: var(--space-2xs);
-    padding-inline: var(--space-s);
     font-size: var(--text-sm);
   }
 
   [data-size='l'] {
-    padding-block: var(--space-s);
-    padding-inline: var(--space-l);
+    --_pad-x: var(--space-l);
+    --_pad-y: var(--space-s);
   }
 
   [data-block] {

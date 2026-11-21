@@ -246,7 +246,9 @@ const icons = [...(Object.keys(ICONS) as IconName[]), 'check-circle'] as const;
           (['light', 'dark'] as const).map((th) => (
             <div class="button-row l-cluster" data-theme={th}>
               <Button variant="accent">{g.buttonLabels.accent}</Button>
+              <Button variant="accent" arrow>{g.buttonLabels.accent}</Button>
               <Button variant="secondary">{g.buttonLabels.secondary}</Button>
+              <Button variant="secondary" size="s" arrow>{g.buttonLabels.secondary}</Button>
               <Button variant="nav" size="s">{g.buttonLabels.nav}</Button>
               <Button variant="link" href="#" arrow>{g.buttonLabels.link}</Button>
             </div>

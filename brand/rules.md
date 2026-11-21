@@ -117,6 +117,7 @@ The waterline channel stays in every colourway, one-colour included.
 | Mist | `neblina` (50 #F4F6F6 to 700) | Panels, lines and quiet text | The tint theme, secondary text, the second half of headlines |
 | White | `white` | The page | Most surfaces |
 | Urucum | `urucum` (600 #FF4A1C) | Campaigns only | Launch posters and loud-mode surfaces, never on the site's core UI |
+| Ciliar | `ciliar` (500 #D2F08C; 300 #DCEFA0, 800 #3E5A2A) | Campaigns only | The riverbank to igarapé's water: campaign grounds, campaign buttons, the second line of a campaign headline on rio-negro. Never on the site's core UI |
 
 - Igarapé is named after the small, clear forest streams of the Amazon. The river and the paintings are **two waters meeting** in general, not a real confluence.
 - **One igarapé button per view.** Every other button is rio-negro or the tinted secondary. Inside an igarapé section (the `primary` theme) the main button turns rio-negro, so it never disappears into its background. Buttons read `--color-action-*` from their section's theme; nothing else should use the accent directly.
@@ -150,6 +151,7 @@ Sections switch colour with `data-theme`: `light` (white, the default), `tint` (
 
 - **Açaí** (deep purple) is dropped: it reads as Nubank to Brazilian readers.
 - **Solimões** (sand) is not added: the meeting stays dark and clear, and sand is a major Nubank surface.
+- **Ciliar** (Breno, 2026-11-21; Paper: Brand · Graphic language → "9 · Lime study"). Named after the *mata ciliar*, the forest that lines a river. It is kept yellower and softer than Wise's green (ΔE 7.4 from #9FE870; the lime that prompted it was only 5.1 away, too close). Rules: rio-negro text on it (13.7:1), and ciliar-800 for a headline's second line on it (6.1:1); on rio-negro it can be the second line of a campaign headline (13.7:1). A campaign button in ciliar uses the "Ring, lit" style and only appears where there is no igarapé button. Never on a full dark-green ground, which is Wise's look, and never as a chart or status colour.
 - Other held names (`buriti`, `cupuacu`, `castanha`, `jenipapo`, `cacau`, `mate`, `jambu`) stay unused until a campaign needs a colour, like urucum now. A new one is added as a primitive with a `$description` and never becomes a second accent on the site.
 - No gradients between the waters. The meeting is always the river or the painted meeting (D).
 
@@ -177,6 +179,7 @@ Measured against the reference brands on 2026-11-21 (`brand/references.md`); boa
 - Edges: a 1 px highlight on the top edge, a faint ring, a very soft shadow. The section theme picks the set through `--shadow-action-accent`, `--shadow-action-secondary` and `--shadow-action-solid` (tokens `shadow.button.*`), so a button never needs a variant for its background.
 - Variants: `accent` (the theme's action colour: igarapé, or rio-negro inside an igarapé section), `secondary` (white with the ring and shadow on light grounds; 10% white with an inner ring on dark), `nav` (the solid text-colour button, lit) and `link` (no fill, no shadow).
 - Two sizes: the default and `size="s"`. An arrow (`arrow`) only on a button that takes you somewhere next, one per view.
+- **Optical alignment.** The label is trimmed to cap height (`text-box: trim-both cap alphabetic`) so it sits in the true middle of the button; the padding adds back half the leading, so heights don't change. A trailing icon gives back its own empty margin (a sixth of its size, the blank border of the 24 px grid) from the gap and from the padding on its side, so the arrow's stroke sits as far from the edge as the first letter does. The icon overhangs the label's box, so a button with an icon is the same height as one without.
 - Forms that draw their own submit button (waitlist, sign-up, the mobile menu) use the same light and `--shadow-action-accent`.
 
 ### Icons
