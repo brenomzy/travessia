@@ -267,3 +267,60 @@ All *(measured)* on 2026-11-20 from the US home page and its four CSS files (588
 - Identity and design: https://designcompass.org/en/2025/09/25/extremely-minimal-new-symbol-of-stripe, https://field.io/work/stripe-wave-brand-system, https://estudi-image.com/projects/stripe-brand-refresh/, https://www.bram.us/2021/10/13/how-to-create-the-stripe-website-gradient-effect, https://summify.io/discover/how-stripe-built-their-new-website-ypzNhw/
 - Campaign and press: https://fortune.com/2025/02/14/stripe-billing-business-500-million-fintech-collison-brothers, https://www.technologyreview.com/2015/01/26/169546/increasing-the-gdp-of-the-internet/amp/
 - Team: https://stripe.com/careers/listing/staff-brand-designer-creative-lab/8201702, https://stripe.com/careers/listing/brand-designer-stripe-identity-art-director/7673383
+
+---
+
+## Accent use and UI craft, measured 2026-11-21
+
+Asked during step 7: is one vivid accent enough, and how do these sites keep it from taking over? Measured in the browser at 1440 px with computed styles (home pages: ramp.com, mercury.com, stripe.com/br, wise.com/gb, nubank.com.br; Travessia at localhost). Screens on the Paper page "Brand · Accent and UI study".
+
+### Where the accent goes
+
+| Brand | Accent | Where it appears on the home page | What carries the rest |
+|---|---|---|---|
+| Ramp | Solar #E4F222 | The header "See a demo", the hero "Get started for free" (fused to the email field) and the section CTAs ("Switch in days", "Explore Ramp Intelligence"). Also as a soft glow of light behind product art (the Stack visual). Never as a section background, never as text. | Near-black #0C0A08 does as much work as the accent: "Get started" in the header and "View Demo" are black buttons. Warm off-white #F4F2F0 panels. Secondary text is the same black at 60% opacity, not a grey. |
+| Mercury | Indigo #5266EB | Only "Open account" (header and hero) and checked controls. | Secondary buttons are a 20% tint of a pale blue over the dark page, no border. Photography carries the mood. |
+| Stripe | #533AFD | Every primary button, links, focus. | The wave gradient is expression only and never touches a control. Slate text #061B31 to #64748D. |
+| Wise | Bright Green #9FE870 with Forest Green #163300 | The two greens swap roles: a forest button with green text on light grounds, a green button with forest text on dark. Green fills the hero surface. | Secondary buttons are a 7% olive tint with no border. |
+| Nubank | Purple #8D0DE3 | Everything: buttons, headings, bands. Not an accent but the brand. | Purple-black #1E002F for text. |
+
+**Pattern.** The calm brands (Ramp, Mercury, Stripe) have one accent, and it only ever means "act here". Ramp goes furthest: the yellow is never a surface or text, and black buttons share the primary role, so the yellow stays rare even though it is the loudest colour on the page. None of the five uses a second, competing accent in the core.
+
+### Buttons
+
+| Brand | Radius | Heights | Label | Secondary style | Shadow |
+|---|---|---|---|---|---|
+| Ramp | 6 px (8 px on the hero field) | 34 nav, 43 section, 52 hero | 14–16 px, weight 400 | Off-white fill, no border | None |
+| Mercury | Pill | 32 nav, 40 | 14–16 px, weight 420 | 20% tint fill, sometimes a 1 px tint border | None |
+| Stripe | 4 px | 40, 48 | 14–16 px, weight 400 | White or pale-brand fill, 1 px pale border | None |
+| Wise | Pill | 32 nav, 40, 48 | 18 px, weight 600 | 7% tint fill, no border | None |
+| Nubank | Pill | 48, 56 | 16–20 px, weight 600 | 1 px inset ring | None |
+| **Travessia today** | 10 px (6 px on toggles) | 38, 39, 42, 48, 52 | 15–17 px, weight 600 | 2 px rio-negro outline | None |
+
+No brand puts a shadow on a button. The calm ones use regular weight for labels; Travessia's 600 makes every button shout.
+
+### Type
+
+| Brand | Headline weight | Display size and leading | Tracking | Body |
+|---|---|---|---|---|
+| Ramp | 400 | h1 64/64, h2 40/42 and 48/50, h3 24/28 | about 0 | 14/20 and 16/22; secondary at 60% opacity |
+| Mercury | 480 | h1 49/54, h2 42/48 | about 0 | 18/24 |
+| Stripe | 300 | h1 44/51, h2 32/35, h3 26/29 | −0.02em | 16/22, slate |
+| Wise | 800 display, 600 headings | h1 104/90 | 0 to −0.03em | 16/24 |
+| Nubank | 600 | 72–156, leading 0.94–1 | −0.01 to −0.02em | 20/24 |
+| **Travessia today** | 600 | h1 58/57, h2 54/54, h3 19 and 28 | −0.045em at h1, −0.04em at h2 | 17/26 and 15/22 (leading 1.53) |
+
+Calm brands set big type light (300–480) with almost no negative tracking. Travessia sets it at 600 with heavy tracking, closer to the loud brands. Travessia's body leading (1.53) is also looser than any of the five (1.25–1.5). The page also has 11 different text sizes on the home page, including 10 px.
+
+### Shadows, radii and surfaces
+
+- **Shadows:** Ramp and Mercury use none. Wise and Nubank use 1 px rings instead of shadows. Stripe uses one floating shadow, only on product vignettes: `0 30px 45px -30px rgb(50 50 93 / 0.25), 0 18px 36px -18px rgb(0 0 0 / 0.1)`. Travessia uses stacked 4- to 8-layer shadows on cards, and one shadow token still carries the old tapajós colour (11 68 86).
+- **Radii:** Ramp has a clear set: 6 px controls, 12 px cards, 16 px panels. Mercury: 4 px, 12 px, pills. Travessia mixes 6, 10, 16, 24, 44, 54 px and pills.
+- **Panels:** Ramp's large panels are a warm off-white, not a tint of the accent. Travessia's tint theme is igarapé-50, so mint shows wherever a panel is.
+
+### What this suggests for Travessia
+
+- **One accent: igarapé.** It already means "home, reais arriving" and fills the hero's seam. Urucum leaves the core and becomes a held campaign colour.
+- **Rio-negro shares the primary role**, as Ramp's black does: most buttons are rio-negro; an igarapé button appears once or twice per page, for the main action.
+- **Quieter type:** headings at a lighter weight with less negative tracking, tighter body leading, fewer sizes.
+- **Quieter UI:** no shadows on cards, 1 px borders or rings instead; one floating shadow for product art; three radii; neutral panels instead of tinted ones.

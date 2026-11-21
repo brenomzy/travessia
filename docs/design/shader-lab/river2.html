@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Travessia · River lab 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+<!--
+  Design-time study for playbook step 7/8 (2026-11-21): ways to show the seam, the river and the crossing
+  as live, animated effects. Plain WebGL 1, no libraries. Not part of the site build.
+  Run: python3 -m http.server 4330 --directory docs/design/shader-lab
+-->
+<style>
+  :root {
+    --dark: #0f1c24; --light: #00c99b; --mist: #f4f6f6; --muted: #4d5a61; --text: #0f1c24;
+    --ring: 0 0 0 1px rgb(15 28 36 / 0.06), 0 1px 2px rgb(15 28 36 / 0.04), 0 4px 12px rgb(15 28 36 / 0.04);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Figtree, system-ui, sans-serif; color: var(--text); background: #fff; }
+  header { padding: 56px 56px 32px; display: flex; justify-content: space-between; gap: 48px; align-items: flex-end; flex-wrap: wrap; }
+  h1 { font-size: 56px; line-height: 1; font-weight: 500; letter-spacing: -0.02em; }
+  h1 span { color: rgb(15 28 36 / 0.6); }
+  .intro { max-width: 640px; font-size: 16px; line-height: 24px; color: var(--muted); }
+  .controls { display: flex; gap: 8px; padding: 0 56px 24px; flex-wrap: wrap; }
+  button.ctl { height: 36px; padding: 0 14px; border: 0; border-radius: 8px; background: #edeff0; font: 500 15px/20px Figtree, sans-serif; color: var(--text); cursor: pointer; }
+  button.ctl[aria-pressed='true'] { background: var(--dark); color: #fff; }
+  .ctl-label { align-self: center; margin-left: 16px; font-size: 15px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 24px; padding: 0 56px 64px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+  figure { display: flex; flex-direction: column; gap: 14px; }
+  .stage { position: relative; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: var(--dark); box-shadow: var(--ring); cursor: zoom-in; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  figcaption h2 { font-size: 22px; line-height: 28px; font-weight: 500; letter-spacing: -0.01em; }
+  figcaption p { margin-top: 4px; font-size: 15px; line-height: 22px; color: var(--muted); max-width: 720px; }
+  figcaption .ref { margin-top: 6px; font-size: 13px; line-height: 18px; color: #8fa3ab; }
+  /* Hero copy laid over a stage, to judge the effect behind real content. */
+  .hero { position: absolute; left: 5%; top: 50%; translate: 0 -50%; width: 38%; display: none; flex-direction: column; gap: 3.2cqw; pointer-events: none; }
+  .stage { container-type: inline-size; }
+  body.show-hero .hero { display: flex; }
+  .hero .h { font-size: 4.6cqw; line-height: 1.02; font-weight: 500; letter-spacing: -0.02em; color: #fff; }
+  .hero .h span { color: var(--second, #A8B6BC); }
+  .hero .p { font-size: 1.35cqw; line-height: 1.5; color: #b6c4c9; }
+  .hero .f { display: flex; align-items: center; padding: 0.35cqw; border-radius: 1cqw; background: rgb(30 47 56 / 0.92); box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06); }
+  .hero .f i { flex: 1; font-style: normal; font-size: 1.25cqw; color: #8fa3ab; padding: 0 1cqw; }
+  .hero .f b { font-weight: 500; font-size: 1.3cqw; padding: 1.1cqw 1.5cqw; border-radius: 0.7cqw; background: var(--light); color: var(--dark); }
+  .stage.full { position: fixed; inset: 0; z-index: 10; border-radius: 0; aspect-ratio: auto; cursor: zoom-out; }
+  .notes { padding: 0 56px 80px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 1100px) { .notes { grid-template-columns: 1fr; } }
+  .notes section { padding: 24px; border-radius: 12px; background: var(--mist); }
+  .notes h3 { font-size: 18px; line-height: 24px; font-weight: 500; margin-bottom: 8px; }
+  .notes p, .notes li { font-size: 15px; line-height: 22px; color: var(--muted); }
+  .notes ul { padding-left: 18px; display: grid; gap: 6px; }
+  .err { position: absolute; inset: 0; display: grid; place-items: center; color: #ff8a6b; font: 13px/18px monospace; padding: 24px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<header><a href="river.html" style="position:absolute;top:20px;left:56px;font-size:14px;color:#4d5a61">← River lab 1</a>
+  <h1>River lab 2. <span>Between 4c and 4e.</span></h1>
+  <p class="intro">One parametric river: a shape (the original course, or a polished one that widens towards you), a water style (no white bubbles any more, fine flow lines instead), a glow from none (4c) to strong (4e), and an edge treatment that blends the banks into the background. Each tile lists its settings.</p>
+</header>
+<div class="controls">
+  <button class="ctl" id="play" aria-pressed="true">Playing</button>
+  <button class="ctl" id="hero" aria-pressed="false">Hero copy</button>
+  <button class="ctl" id="speed" aria-pressed="false">Speed ×1</button>
+  <a class="ctl" href="river3.html" style="display:inline-flex;align-items:center;text-decoration:none;height:36px;padding:0 14px;border-radius:8px;background:#00c99b;color:#0f1c24;font-weight:500">River lab 3 →</a>
+</div>
+<div class="grid" id="grid"></div>
+<script>
+window.SHADERS = [
+  { id: "ra", title: "5a \u00b7 Original course, no bubbles", note: 'The original river exactly as it was, with the white blobs swapped for fine flow lines.', ref: "Shape: original \u00b7 water: original colours \u00b7 glow: none \u00b7 edge: hard bank, soft shadow",
+    frag: `#define SHAPE 0
+#define WATER 0
+#define LINES 1.00
+#define GLOW 0.00
+#define EDGE 0
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rb", title: "5b \u00b7 Polished course, original water", note: 'Smoother bends, rougher small-scale banks, and a river that widens towards the bottom of the page, like a river seen in perspective.', ref: "Shape: polished \u00b7 water: original colours \u00b7 glow: none \u00b7 edge: hard bank, soft shadow",
+    frag: `#define SHAPE 1
+#define WATER 0
+#define LINES 1.00
+#define GLOW 0.00
+#define EDGE 0
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rc", title: "5c \u00b7 Painted lines", note: '4c\u2019s white lines on the polished course: deep in the middle, light at the banks.', ref: "Shape: polished \u00b7 water: painted (4c) \u00b7 glow: none \u00b7 edge: hard bank, soft shadow",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.00
+#define EDGE 0
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rd", title: "5d \u00b7 Painted lines, faint glow", note: 'Halfway between 4c and 4e: the lines stay crisp, the land picks up a little light.', ref: "Shape: polished \u00b7 water: painted (4c) \u00b7 glow: 0.12 \u00b7 edge: hard bank, soft shadow",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.12
+#define EDGE 0
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "re", title: "5e \u00b7 Painted lines, glow", note: 'Closer to 4e: a clear halo around the river, the lines still visible.', ref: "Shape: polished \u00b7 water: painted (4c) \u00b7 glow: 0.28 \u00b7 edge: hard bank, soft shadow",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.28
+#define EDGE 0
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rf", title: "5f \u00b7 Deep water, bright lines", note: 'Darker water so the white lines carry the river, with a light glow. From the two-currents photo.', ref: "Shape: polished \u00b7 water: deep, bright lines \u00b7 glow: 0.18 \u00b7 edge: hard bank, soft shadow",
+    frag: `#define SHAPE 1
+#define WATER 2
+#define LINES 1.00
+#define GLOW 0.18
+#define EDGE 0
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rg", title: "5g \u00b7 Luminous", note: 'The river as light: pale core, igarap\u00e9 at the edges, strong glow.', ref: "Shape: polished \u00b7 water: luminous \u00b7 glow: 0.34 \u00b7 edge: hard bank, soft shadow",
+    frag: `#define SHAPE 1
+#define WATER 3
+#define LINES 0.80
+#define GLOW 0.34
+#define EDGE 0
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rh", title: "5h \u00b7 Feathered banks", note: 'The bank softens into the dark over a few pixels, unevenly, so the river sits in the background instead of on top of it.', ref: "Shape: polished \u00b7 water: painted (4c) \u00b7 glow: 0.12 \u00b7 edge: feathered bank",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.12
+#define EDGE 1
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "ri", title: "5i \u00b7 Dithered banks", note: 'The water breaks into the seam\u2019s dither at the banks. Links the river to the seam texture.', ref: "Shape: polished \u00b7 water: painted (4c) \u00b7 glow: 0.08 \u00b7 edge: dithered bank",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.08
+#define EDGE 2
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rj", title: "5j \u00b7 Bank echoes", note: 'Thin lines repeat the bank outwards and fade, like ripples or a depth chart around the river.', ref: "Shape: polished \u00b7 water: painted (4c) \u00b7 glow: 0.10 \u00b7 edge: bank echoes",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.10
+#define EDGE 3
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rk", title: "5k \u00b7 Wet shore line", note: 'A dark wet band along the bank with one thin light line at the waterline.', ref: "Shape: polished \u00b7 water: painted (4c) \u00b7 glow: 0.06 \u00b7 edge: wet shore line",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.06
+#define EDGE 4
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "rl", title: "5l \u00b7 Light grains", note: 'Sparse light grains drift around the banks and thin out with distance, like spray or mist catching the light.', ref: "Shape: polished \u00b7 water: painted (4c) \u00b7 glow: 0.10 \u00b7 edge: light grains",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.10
+#define EDGE 5
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+];
+</script>
+<script src="lab.js"></script>
+</body>
+</html>

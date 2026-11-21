@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Travessia · River lab 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+<!--
+  Design-time study for playbook step 7/8 (2026-11-21): ways to show the seam, the river and the crossing
+  as live, animated effects. Plain WebGL 1, no libraries. Not part of the site build.
+  Run: python3 -m http.server 4330 --directory docs/design/shader-lab
+-->
+<style>
+  :root {
+    --dark: #0f1c24; --light: #00c99b; --mist: #f4f6f6; --muted: #4d5a61; --text: #0f1c24;
+    --ring: 0 0 0 1px rgb(15 28 36 / 0.06), 0 1px 2px rgb(15 28 36 / 0.04), 0 4px 12px rgb(15 28 36 / 0.04);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Figtree, system-ui, sans-serif; color: var(--text); background: #fff; }
+  header { padding: 56px 56px 32px; display: flex; justify-content: space-between; gap: 48px; align-items: flex-end; flex-wrap: wrap; }
+  h1 { font-size: 56px; line-height: 1; font-weight: 500; letter-spacing: -0.02em; }
+  h1 span { color: rgb(15 28 36 / 0.6); }
+  .intro { max-width: 640px; font-size: 16px; line-height: 24px; color: var(--muted); }
+  .controls { display: flex; gap: 8px; padding: 0 56px 24px; flex-wrap: wrap; }
+  button.ctl { height: 36px; padding: 0 14px; border: 0; border-radius: 8px; background: #edeff0; font: 500 15px/20px Figtree, sans-serif; color: var(--text); cursor: pointer; }
+  button.ctl[aria-pressed='true'] { background: var(--dark); color: #fff; }
+  .ctl-label { align-self: center; margin-left: 16px; font-size: 15px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 24px; padding: 0 56px 64px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+  figure { display: flex; flex-direction: column; gap: 14px; }
+  .stage { position: relative; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: var(--dark); box-shadow: var(--ring); cursor: zoom-in; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  figcaption h2 { font-size: 22px; line-height: 28px; font-weight: 500; letter-spacing: -0.01em; }
+  figcaption p { margin-top: 4px; font-size: 15px; line-height: 22px; color: var(--muted); max-width: 720px; }
+  figcaption .ref { margin-top: 6px; font-size: 13px; line-height: 18px; color: #8fa3ab; }
+  /* Hero copy laid over a stage, to judge the effect behind real content. */
+  .hero { position: absolute; left: 5%; top: 50%; translate: 0 -50%; width: 38%; display: none; flex-direction: column; gap: 3.2cqw; pointer-events: none; }
+  .stage { container-type: inline-size; }
+  body.show-hero .hero { display: flex; }
+  .hero .h { font-size: 4.6cqw; line-height: 1.02; font-weight: 500; letter-spacing: -0.02em; color: #fff; }
+  .hero .h span { color: var(--second, #A8B6BC); }
+  .hero .p { font-size: 1.35cqw; line-height: 1.5; color: #b6c4c9; }
+  .hero .f { display: flex; align-items: center; padding: 0.35cqw; border-radius: 1cqw; background: rgb(30 47 56 / 0.92); box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06); }
+  .hero .f i { flex: 1; font-style: normal; font-size: 1.25cqw; color: #8fa3ab; padding: 0 1cqw; }
+  .hero .f b { font-weight: 500; font-size: 1.3cqw; padding: 1.1cqw 1.5cqw; border-radius: 0.7cqw; background: var(--light); color: var(--dark); }
+  .stage.full { position: fixed; inset: 0; z-index: 10; border-radius: 0; aspect-ratio: auto; cursor: zoom-out; }
+  .notes { padding: 0 56px 80px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 1100px) { .notes { grid-template-columns: 1fr; } }
+  .notes section { padding: 24px; border-radius: 12px; background: var(--mist); }
+  .notes h3 { font-size: 18px; line-height: 24px; font-weight: 500; margin-bottom: 8px; }
+  .notes p, .notes li { font-size: 15px; line-height: 22px; color: var(--muted); }
+  .notes ul { padding-left: 18px; display: grid; gap: 6px; }
+  .err { position: absolute; inset: 0; display: grid; place-items: center; color: #ff8a6b; font: 13px/18px monospace; padding: 24px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<header><a href="river3.html" style="position:absolute;top:20px;left:56px;font-size:14px;color:#4d5a61">← River lab 3</a>
+  <h1>River lab 4. <span>5j, designed.</span></h1>
+  <p class="intro">Back to 5j: the same water, glow and echo idea. The stream and the echoes are each redrawn a few ways and paired up. Streams: thin tapered streaks that follow the banks, ribbons with a bright core, lit shallows, woven streaks. Echoes: drawn from a smoothed bank, clean, spreading like ripples, stronger on the outside of each bend, or dotted like a chart. First tile is 5j as it was.</p>
+</header>
+<div class="controls">
+  <button class="ctl" id="play" aria-pressed="true">Playing</button>
+  <button class="ctl" id="hero" aria-pressed="false">Hero copy</button>
+  <button class="ctl" id="speed" aria-pressed="false">Speed ×1</button>
+  <a class="ctl" href="river5.html" style="display:inline-flex;align-items:center;text-decoration:none;height:36px;padding:0 14px;border-radius:8px;background:#00c99b;color:#0f1c24;font-weight:500">River lab 5 →</a>
+</div>
+<div class="grid" id="grid"></div>
+<script>
+window.SHADERS = [
+  { id: "m7", title: "7 \u00b7 5j as it was", note: 'The starting point, unchanged.', ref: "River lab 2, tile 5j",
+    frag: `#define SHAPE 1
+#define WATER 1
+#define LINES 1.00
+#define GLOW 0.10
+#define EDGE 3
+
+float rcx(float y, float t) {
+#if SHAPE == 0
+  return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+#else
+  return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02));
+#endif
+}
+float rw(float y, float t) {
+#if SHAPE == 0
+  return .05 + .022 * snoise(vec3(y * 4., 2., t * .02));
+#else
+  return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015)));
+#endif
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float d = abs(dn) - w + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.));
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+#if WATER == 0
+  vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  water = mix(water, L200, clamp(l1 * .5 + l2 * .3, 0., 1.) * LINES);
+#elif WATER == 1
+  vec3 water = mix(L300, DEEP, depth * .75);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.) * LINES);
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif WATER == 2
+  vec3 water = mix(DEEP, D800, depth * .55);
+  water = mix(water, mix(L200, WHITE, .5), clamp(l1 * .9 + l2 * .6, 0., 1.) * LINES);
+  water = mix(water, L300, smoothstep(.8, 1., abs(s)) * .5);
+#else
+  vec3 water = mix(L200, LIGHT, smoothstep(0., 1., abs(s)));
+  water = mix(water, WHITE, clamp(l1 * .6 + l2 * .4, 0., 1.) * LINES);
+#endif
+  float od = max(d, 0.);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+#if EDGE == 0
+  land *= 1. - .35 * exp(-od * 55.);
+#endif
+  land += LIGHT * GLOW * exp(-od * 14.) + DEEP * GLOW * .9 * exp(-od * 4.);
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+#if EDGE == 1
+  inside = 1. - smoothstep(-.014, .018 + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 9., t * .05)), d);
+#elif EDGE == 2
+  vec2 cc = floor(fc / (4. * uDpr));
+  float band = smoothstep(.07, 0., d + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 7., t * .04)));
+  if (d > 0. && band > bayer4(cc)) { land = mix(L300, LIGHT, .5); }
+#elif EDGE == 3
+  float k = od * 55.;
+  float ring = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring * .45 * exp(-od * 9.) * step(.004, od));
+#elif EDGE == 4
+  land *= 1. - .5 * exp(-od * 35.);
+  land += mix(L300, WHITE, .3) * exp(-abs(d) * 420.) * .7;
+#elif EDGE == 5
+  float g = grain(floor(fc / (2. * uDpr)) + floor(uTime * 3.) * 17.);
+  land += mix(LIGHT, L300, .5) * .6 * step(g, exp(-od * 10.) * .5);
+#endif
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7a", title: "7a \u00b7 Fine streaks, clean echoes", note: 'Seven thin streaks that follow the banks, taper in and out and travel downstream. Echoes drawn from a smoothed bank, evenly spaced, one pixel, fading out.', ref: "Stream: fine streaks \u00b7 echoes: clean",
+    frag: `#define STREAM 1
+#define ECHO 1
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7b", title: "7b \u00b7 Fine streaks, ripples", note: 'The same streaks. The echoes spread further apart and get thinner as they move away, like ripples.', ref: "Stream: fine streaks \u00b7 echoes: ripples",
+    frag: `#define STREAM 1
+#define ECHO 2
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7c", title: "7c \u00b7 Ribbons, clean echoes", note: 'Fewer, wider soft ribbons with a bright core line, like current lines in a drawing.', ref: "Stream: ribbons \u00b7 echoes: clean",
+    frag: `#define STREAM 2
+#define ECHO 1
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7d", title: "7d \u00b7 Ribbons, outer bends", note: 'Echoes reach far on the outside of each bend and only a ring or two on the inside, as a real river pushes its outer bank.', ref: "Stream: ribbons \u00b7 echoes: outer bends",
+    frag: `#define STREAM 2
+#define ECHO 3
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7e", title: "7e \u00b7 Lit shallows, ripples", note: 'Streaks plus a smooth light band where the water is shallow at the banks, in place of 5j\u2019s noisy crest.', ref: "Stream: lit shallows \u00b7 echoes: ripples",
+    frag: `#define STREAM 3
+#define ECHO 2
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7f", title: "7f \u00b7 Lit shallows, outer bends", note: 'The lit shallows with the bend-driven echoes.', ref: "Stream: lit shallows \u00b7 echoes: outer bends",
+    frag: `#define STREAM 3
+#define ECHO 3
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7g", title: "7g \u00b7 Woven streaks, clean echoes", note: 'Two families of streaks drifting past each other, so the current looks braided.', ref: "Stream: woven \u00b7 echoes: clean",
+    frag: `#define STREAM 4
+#define ECHO 1
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7h", title: "7h \u00b7 Fine streaks, dotted echoes", note: 'The echoes as dotted lines, like depth lines on a chart.', ref: "Stream: fine streaks \u00b7 echoes: dotted",
+    frag: `#define STREAM 1
+#define ECHO 4
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7i", title: "7i \u00b7 5j water, clean echoes", note: '5j\u2019s own water with only the echoes redrawn, to show what the echoes alone change.', ref: "Stream: 5j \u00b7 echoes: clean",
+    frag: `#define STREAM 0
+#define ECHO 1
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+  { id: "m7j", title: "7j \u00b7 5j water, outer bends", note: '5j\u2019s water with the bend-driven echoes.', ref: "Stream: 5j \u00b7 echoes: outer bends",
+    frag: `#define STREAM 0
+#define ECHO 3
+
+float rcx(float y, float t) { return .66 + .13 * sin(y * 4.2 + .6) + .05 * sin(y * 9.1 + 2.3) + .015 * sin(y * 17. + 1.) + .022 * snoise(vec3(y * 2.5, 0., t * .02)); }
+float rw(float y, float t) { return mix(.074, .026, smoothstep(0., 1., y)) * (1. + .2 * snoise(vec3(y * 5., 3., t * .015))); }
+// A line about px pixels wide wherever k crosses a whole number.
+float lineAA(float k, float px) {
+  float fw = max(fwidth(k), 1e-4);
+  float l = abs(fract(k - .5) - .5) / fw;
+  return 1. - smoothstep(px * .5 - .5, px * .5 + .5, l);
+}
+// One soft line across the river at s0, never thinner than a pixel (sw = one pixel in s units).
+float streak(float s, float sw, float s0, float wid) {
+  float ww = max(wid, sw * .8);
+  return exp(-pow((s - s0) / ww, 2.)) * (wid / ww);
+}
+// Ten streaks that follow the banks, wander slowly, taper in and out and travel downstream.
+float streaks(float s, float sw, float y, float t, float spread, float wmin, float wmax, float seed) {
+  float acc = 0.;
+  for (int i = 0; i < 10; i++) {
+    float fi = float(i);
+    float s0 = -.78 + 1.56 * fract(fi * .618 + .13 + seed) + spread * snoise(vec3(y * .9 + fi * 3.1, fi + seed * 10., t * .03));
+    float wid = mix(wmin, wmax, fract(fi * .37 + .2 + seed));
+    float seg = smoothstep(-.15, .5, snoise(vec3(fi * 7.3 + seed * 13., y * 1.6 + t * .22, t * .04)));
+    acc += streak(s, sw, s0, wid) * seg * mix(.55, 1., fract(fi * .73 + seed));
+  }
+  return clamp(acc, 0., 1.);
+}
+void main() {
+  vec2 fc = gl_FragCoord.xy; vec2 uv = fc / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = rcx(y, t); float sl = (rcx(y + e, t) - rcx(y - e, t)) / (2. * e) * asp;
+  float w = rw(y, t);
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float dsm = abs(dn) - w;                                          // smooth bank, for the echoes
+  float d = dsm + .0035 * fbm3(vec3(uv * vec2(asp, 1.) * 26., 1.)); // rough bank, for the water edge
+  float s = clamp(dn / w, -1., 1.);
+  float sw = fwidth(dn / w);
+  float depth = 1. - s * s;
+  float od = max(d, 0.), ods = max(dsm, 0.);
+
+  vec3 water = mix(L300, DEEP, depth * .75);
+#if STREAM == 0
+  float flow = y * 3. + t * .1;
+  float l1 = pow(1. - abs(snoise(vec3(s * 1.6, flow, t * .03))), 16.);
+  float l2 = pow(1. - abs(snoise(vec3(s * 3.2, flow * 2.2 + 4., t * .05 + 2.))), 24.);
+  water = mix(water, WHITE, clamp(l1 * .75 + l2 * .5, 0., 1.));
+  float crest = smoothstep(.75, 1., abs(s)) * smoothstep(-.2, .6, snoise(vec3(s, y * 22. + t * .35, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .6);
+#elif STREAM == 1
+  water = mix(water, WHITE, streaks(s, sw, y, t, .22, .022, .06, 0.) * .9);
+#elif STREAM == 2
+  float rb = streaks(s, sw, y * .6, t * .7, .3, .05, .11, .41);
+  float core = streaks(s, sw, y * .6, t * .7, .3, .016, .026, .41);
+  water = mix(water, mix(L200, WHITE, .3), rb * .45);
+  water = mix(water, WHITE, core * .8);
+#elif STREAM == 3
+  water = mix(water, mix(L200, WHITE, .35), smoothstep(.62, 1., abs(s)) * .5);
+  water = mix(water, WHITE, streaks(s, sw, y, t, .2, .022, .055, 0.) * .9);
+#else
+  float st1 = streaks(s, sw, y, t, .22, .02, .05, 0.);
+  float st2 = streaks(-s, sw, y * 1.3 + 5., t, .3, .016, .04, .27);
+  water = mix(water, WHITE, clamp(st1 * .85 + st2 * .55, 0., 1.));
+#endif
+
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += LIGHT * .1 * exp(-od * 14.) + DEEP * .09 * exp(-od * 4.);
+#if ECHO == 0
+  float k0 = od * 55.;
+  float ring0 = 1. - smoothstep(0., fwidth(k0) * 1.1, abs(fract(k0) - .5));
+  land = mix(land, mix(L300, vec3(.75, .82, .85), smoothstep(0., .15, od)), ring0 * .45 * exp(-od * 9.) * step(.004, od));
+#else
+  float wt = 1., fade = 7., px = 1., k;
+#if ECHO == 1
+  k = ods * 46. - t * .04;
+#elif ECHO == 2
+  k = sqrt(ods) * 19. - t * .035;
+  px = mix(1.5, .8, smoothstep(0., .2, ods));
+#elif ECHO == 3
+  k = ods * 46. - t * .04;
+  float c2 = (rcx(y + e, t) - 2. * cx + rcx(y - e, t)) / (e * e);
+  float outer = smoothstep(-.2, .8, -sign(dn) * c2 * .35);
+  fade = mix(18., 5., outer); wt = .3 + .7 * outer;
+#else
+  k = ods * 40. - t * .04;
+#endif
+  float ring = lineAA(k, px) * smoothstep(.006, .012, ods) * exp(-ods * fade) * wt;
+#if ECHO == 4
+  ring *= 1. - smoothstep(.16, .28, abs(fract(fc.y / (6. * uDpr)) - .5));
+#endif
+  vec3 ec = mix(L300, vec3(.72, .8, .83), smoothstep(0., .18, ods));
+  land = mix(land, ec, clamp(ring, 0., 1.) * .6);
+#endif
+  float aa = fwidth(d) * 1.2;
+  float inside = 1. - smoothstep(-aa, aa, d);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}
+` },
+];
+</script>
+<script src="lab.js"></script>
+</body>
+</html>

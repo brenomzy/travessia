@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Travessia · River lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+<!--
+  Design-time study for playbook step 7/8 (2026-11-21): ways to show the seam, the river and the crossing
+  as live, animated effects. Plain WebGL 1, no libraries. Not part of the site build.
+  Run: python3 -m http.server 4330 --directory docs/design/shader-lab
+-->
+<style>
+  :root {
+    --dark: #0f1c24; --light: #00c99b; --mist: #f4f6f6; --muted: #4d5a61; --text: #0f1c24;
+    --ring: 0 0 0 1px rgb(15 28 36 / 0.06), 0 1px 2px rgb(15 28 36 / 0.04), 0 4px 12px rgb(15 28 36 / 0.04);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Figtree, system-ui, sans-serif; color: var(--text); background: #fff; }
+  header { padding: 56px 56px 32px; display: flex; justify-content: space-between; gap: 48px; align-items: flex-end; flex-wrap: wrap; }
+  h1 { font-size: 56px; line-height: 1; font-weight: 500; letter-spacing: -0.02em; }
+  h1 span { color: rgb(15 28 36 / 0.6); }
+  .intro { max-width: 640px; font-size: 16px; line-height: 24px; color: var(--muted); }
+  .controls { display: flex; gap: 8px; padding: 0 56px 24px; flex-wrap: wrap; }
+  button.ctl { height: 36px; padding: 0 14px; border: 0; border-radius: 8px; background: #edeff0; font: 500 15px/20px Figtree, sans-serif; color: var(--text); cursor: pointer; }
+  button.ctl[aria-pressed='true'] { background: var(--dark); color: #fff; }
+  .ctl-label { align-self: center; margin-left: 16px; font-size: 15px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 24px; padding: 0 56px 64px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+  figure { display: flex; flex-direction: column; gap: 14px; }
+  .stage { position: relative; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: var(--dark); box-shadow: var(--ring); cursor: zoom-in; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  figcaption h2 { font-size: 22px; line-height: 28px; font-weight: 500; letter-spacing: -0.01em; }
+  figcaption p { margin-top: 4px; font-size: 15px; line-height: 22px; color: var(--muted); max-width: 720px; }
+  figcaption .ref { margin-top: 6px; font-size: 13px; line-height: 18px; color: #8fa3ab; }
+  /* Hero copy laid over a stage, to judge the effect behind real content. */
+  .hero { position: absolute; left: 5%; top: 50%; translate: 0 -50%; width: 38%; display: none; flex-direction: column; gap: 3.2cqw; pointer-events: none; }
+  .stage { container-type: inline-size; }
+  body.show-hero .hero { display: flex; }
+  .hero .h { font-size: 4.6cqw; line-height: 1.02; font-weight: 500; letter-spacing: -0.02em; color: #fff; }
+  .hero .h span { color: var(--second, #A8B6BC); }
+  .hero .p { font-size: 1.35cqw; line-height: 1.5; color: #b6c4c9; }
+  .hero .f { display: flex; align-items: center; padding: 0.35cqw; border-radius: 1cqw; background: rgb(30 47 56 / 0.92); box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06); }
+  .hero .f i { flex: 1; font-style: normal; font-size: 1.25cqw; color: #8fa3ab; padding: 0 1cqw; }
+  .hero .f b { font-weight: 500; font-size: 1.3cqw; padding: 1.1cqw 1.5cqw; border-radius: 0.7cqw; background: var(--light); color: var(--dark); }
+  .stage.full { position: fixed; inset: 0; z-index: 10; border-radius: 0; aspect-ratio: auto; cursor: zoom-out; }
+  .notes { padding: 0 56px 80px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 1100px) { .notes { grid-template-columns: 1fr; } }
+  .notes section { padding: 24px; border-radius: 12px; background: var(--mist); }
+  .notes h3 { font-size: 18px; line-height: 24px; font-weight: 500; margin-bottom: 8px; }
+  .notes p, .notes li { font-size: 15px; line-height: 22px; color: var(--muted); }
+  .notes ul { padding-left: 18px; display: grid; gap: 6px; }
+  .err { position: absolute; inset: 0; display: grid; place-items: center; color: #ff8a6b; font: 13px/18px monospace; padding: 24px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<header><a href="index.html" style="position:absolute;top:20px;left:56px;font-size:14px;color:#4d5a61">← Shader lab</a>
+  <h1>River lab. <span>Variations on number 4.</span></h1>
+  <p class="intro">Number 4 from the shader lab, kept exactly as it was (first tile), and eight variations on it: different shapes, water and land, and one where the two waters meet inside the river. Same palette and controls; the "Second line" buttons try solid colours for the headline's second half.</p>
+</header>
+<div class="controls">
+  <button class="ctl" id="play" aria-pressed="true">Playing</button>
+  <button class="ctl" id="hero" aria-pressed="false">Hero copy</button>
+  <button class="ctl" id="speed" aria-pressed="false">Speed ×1</button>
+  <a class="ctl" href="river2.html" style="display:inline-flex;align-items:center;text-decoration:none;height:36px;padding:0 14px;border-radius:8px;background:#00c99b;color:#0f1c24;font-weight:500">River lab 2 →</a>
+</div>
+<div class="grid" id="grid"></div>
+<script>
+window.SHADERS = [
+  { id: "orig", title: "4 \u00b7 The river, cut out (kept as is)", note: 'The original from the shader lab, unchanged, so we don\u2019t lose it.', ref: "Baseline",
+    frag: `void main() {
+      vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime;
+      float y = uv.y;
+      float cx = .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+      float w = .05 + .022 * snoise(vec3(y * 4., 2., t * .02)) + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 14., 3.));
+      float dx = (uv.x - cx) * asp;
+      float d = abs(dx) - w;
+      float aa = fwidth(d) * 1.2;
+      float inside = 1. - smoothstep(-aa, aa, d);
+      vec2 wp = vec2(dx / w, y * 9. + t * .32);
+      float foam = smoothstep(-.05, .55, fbm(vec3(wp.x * 1.4, wp.y * 2.4, t * .12))) * .8 + smoothstep(.15, .5, snoise(vec3(wp.x * 4., wp.y * 9., t * .2))) * .35;
+      float edgeFoam = smoothstep(-.012, 0., d) * .6;
+      vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(dx) / w));
+      water = mix(water, mix(L200, WHITE, .5), clamp(foam * .75 + edgeFoam, 0., 1.));
+      float ter = fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.));
+      vec3 land = DARK + ter * .018;
+      land *= 1. - .4 * exp(-max(d, 0.) * 55.);
+      gl_FragColor = vec4(mix(land, water, inside), 1.);
+    }` },
+  { id: "meander", title: "4a \u00b7 Meanders", note: 'Tighter loops, a thinner river, width kept even through the bends. Closer to the Amazon from above.', ref: "Reference: meanders from the satellite",
+    frag: `float mc(float y, float t) { return .7 + .1 * sin(y * 13. + .5 + .4 * sin(y * 3.)) + .04 * sin(y * 29. + 2.) + .03 * snoise(vec3(y * 3., 0., t * .03)); }
+vec3 flowWater(float s, float along, float t) {
+  float foam = smoothstep(-.05, .55, fbm(vec3(s * 1.4, along * 2.4, t * .12))) * .8 + smoothstep(.15, .5, snoise(vec3(s * 4., along * 9. / 2.4, t * .2))) * .35;
+  vec3 w = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  return mix(w, mix(L200, WHITE, .5), clamp(foam * .8, 0., 1.));
+}
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = mc(y, t); float sl = (mc(y + e, t) - mc(y - e, t)) / (2. * e) * asp;
+  float w = .026 + .008 * snoise(vec3(y * 5., 2., t * .02));
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl); float d = abs(dn) - w;
+  float aa = fwidth(d) * 1.2; float inside = 1. - smoothstep(-aa, aa, d);
+  vec3 water = flowWater(dn / w, y * 14. + t * .32, t);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .018;
+  land *= 1. - .4 * exp(-max(d, 0.) * 70.);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}` },
+  { id: "bars", title: "4b \u00b7 Sandbars", note: 'A wider riverbed with dark sandbars the water flows around, from the braided-river photo. More texture inside the river, same calm land.', ref: "Reference: braided glacial river",
+    frag: `float c4(float y, float t) { return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03)); }
+vec3 flowWater(float s, float along, float t) {
+  float foam = smoothstep(-.05, .55, fbm(vec3(s * 1.4, along * 2.4, t * .12))) * .8 + smoothstep(.15, .5, snoise(vec3(s * 4., along * 9. / 2.4, t * .2))) * .35;
+  vec3 w = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  return mix(w, mix(L200, WHITE, .5), clamp(foam * .8, 0., 1.));
+}
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = c4(y, t); float sl = (c4(y + e, t) - c4(y - e, t)) / (2. * e) * asp;
+  float w = .085 + .02 * snoise(vec3(y * 4., 2., t * .02));
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl); float d = abs(dn) - w;
+  float aa = fwidth(d) * 1.2; float inside = 1. - smoothstep(-aa, aa, d);
+  float f = fbm(vec3(dn / w * 1.3, y * 7., 3.));
+  float bars = smoothstep(.14, .3, f) * smoothstep(1., .5, abs(dn) / w);
+  float rim = (smoothstep(.06, .12, f) - smoothstep(.12, .2, f)) * smoothstep(1., .5, abs(dn) / w);
+  vec3 water = flowWater(dn / w, y * 9. + t * .32, t);
+  water = mix(water, mix(D800, DARK, .35), bars);
+  water += L200 * rim * .35;
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .018;
+  land *= 1. - .4 * exp(-max(d, 0.) * 55.);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}` },
+  { id: "painted", title: "4c \u00b7 Painted water", note: 'Deeper in the middle, shallow and light at the banks, long highlights drifting downstream and a white crest along the edges. From the painted-water reference.', ref: "Reference: painted water",
+    frag: `float c4(float y, float t) { return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03)); }
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = c4(y, t); float sl = (c4(y + e, t) - c4(y - e, t)) / (2. * e) * asp;
+  float w = .062 + .02 * snoise(vec3(y * 4., 2., t * .02)) + .01 * fbm3(vec3(uv * vec2(asp, 1.) * 12., 3.));
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl); float d = abs(dn) - w;
+  float aa = fwidth(d) * 1.2; float inside = 1. - smoothstep(-aa, aa, d);
+  float s = clamp(dn / w, -1., 1.);
+  float depth = 1. - s * s;
+  vec3 water = mix(L300, DEEP, depth * .75);
+  float st = pow(1. - abs(snoise(vec3(s * 1.5, y * 2.5 + t * .15, t * .04))), 14.);
+  float st2 = pow(1. - abs(snoise(vec3(s * 3., y * 6. + t * .3, t * .06 + 4.))), 22.);
+  water = mix(water, WHITE, clamp(st * .75 + st2 * .5, 0., 1.));
+  float crest = smoothstep(.72, 1., abs(s)) * smoothstep(-.3, .6, snoise(vec3(s, y * 22. + t * .4, 1.)));
+  water = mix(water, mix(L200, WHITE, .6), crest * .8);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .018;
+  land *= 1. - .45 * exp(-max(d, 0.) * 50.);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}` },
+  { id: "dither", title: "4d \u00b7 Dithered river", note: 'The river drawn with the seam\u2019s own dither: solid water in the middle, dissolving into the dark at the banks. Ties the river to the texture we already have.', ref: "The seam texture, as a river",
+    frag: `float c4(float y, float t) { return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03)); }
+void main() {
+  float cell = 4. * uDpr; vec2 c = floor(gl_FragCoord.xy / cell);
+  vec2 uv = (c * cell + cell * .5) / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = c4(y, t); float sl = (c4(y + e, t) - c4(y - e, t)) / (2. * e) * asp;
+  float w = .05 + .02 * snoise(vec3(y * 4., 2., t * .02));
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl);
+  float edge = fbm(vec3(uv * vec2(asp, 1.) * 5., t * .04)) * .05;
+  float cov = smoothstep(w + .07, w - .015, abs(dn) + edge);
+  gl_FragColor = vec4(cov > bayer4(c) ? LIGHT : DARK, 1.);
+}` },
+  { id: "glow", title: "4e \u00b7 River of light", note: 'A thinner, brighter river that lights the land around it. Ramp\u2019s light behind product art, shaped as the river.', ref: "Reference: glowing sphere through waves",
+    frag: `float c4(float y, float t) { return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03)); }
+vec3 flowWater(float s, float along, float t) {
+  float foam = smoothstep(-.05, .55, fbm(vec3(s * 1.4, along * 2.4, t * .12))) * .8 + smoothstep(.15, .5, snoise(vec3(s * 4., along * 9. / 2.4, t * .2))) * .35;
+  vec3 w = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  return mix(w, mix(L200, WHITE, .5), clamp(foam * .8, 0., 1.));
+}
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float e = .002; float cx = c4(y, t); float sl = (c4(y + e, t) - c4(y - e, t)) / (2. * e) * asp;
+  float w = .032 + .012 * snoise(vec3(y * 4., 2., t * .02));
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl); float d = abs(dn) - w;
+  float aa = fwidth(d) * 1.2; float inside = 1. - smoothstep(-aa, aa, d);
+  vec3 water = mix(flowWater(dn / w, y * 9. + t * .32, t), L300, .25);
+  vec3 land = DARK + LIGHT * .32 * exp(-max(d, 0.) * 16.) + DEEP * .3 * exp(-max(d, 0.) * 4.5);
+  land += (grain(gl_FragCoord.xy + fract(uTime * 7.) * 91.) - .5) * .04;
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}` },
+  { id: "across", title: "4f \u00b7 The crossing, sideways", note: 'The river runs left to right across the bottom of the page, so the copy sits above it and the product can sit on the far bank.', ref: "Layout variation",
+    frag: `float hc(float x, float t) { return .2 + .07 * sin(x * 4. + .3) + .035 * sin(x * 9.7 + 1.2) + .02 * snoise(vec3(x * 3., 5., t * .03)); }
+vec3 flowWater(float s, float along, float t) {
+  float foam = smoothstep(-.05, .55, fbm(vec3(s * 1.4, along * 2.4, t * .12))) * .8 + smoothstep(.15, .5, snoise(vec3(s * 4., along * 9. / 2.4, t * .2))) * .35;
+  vec3 w = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  return mix(w, mix(L200, WHITE, .5), clamp(foam * .8, 0., 1.));
+}
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime; float u = uv.x;
+  float e = .002; float cy = hc(u, t); float sl = (hc(u + e, t) - hc(u - e, t)) / (2. * e) / asp;
+  float w = .055 + .02 * snoise(vec3(u * 4., 2., t * .02));
+  float dn = (uv.y - cy) / sqrt(1. + sl * sl); float d = abs(dn) - w;
+  float aa = fwidth(d) * 1.2; float inside = 1. - smoothstep(-aa, aa, d);
+  vec3 water = flowWater(dn / w, u * asp * 9. - t * .32, t);
+  vec3 land = DARK + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .018;
+  land *= 1. - .4 * exp(-max(d, 0.) * 55.);
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}` },
+  { id: "topo", title: "4g \u00b7 River on a map", note: 'The land becomes contour lines that bend around the river, like a nautical chart. Combines number 2 with number 4.', ref: "Reference: flow-field lines",
+    frag: `float c4(float y, float t) { return .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03)); }
+vec3 flowWater(float s, float along, float t) {
+  float foam = smoothstep(-.05, .55, fbm(vec3(s * 1.4, along * 2.4, t * .12))) * .8 + smoothstep(.15, .5, snoise(vec3(s * 4., along * 9. / 2.4, t * .2))) * .35;
+  vec3 w = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  return mix(w, mix(L200, WHITE, .5), clamp(foam * .8, 0., 1.));
+}
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y; vec2 p = vec2(uv.x * asp, uv.y);
+  float e = .002; float cx = c4(y, t); float sl = (c4(y + e, t) - c4(y - e, t)) / (2. * e) * asp;
+  float w = .05 + .02 * snoise(vec3(y * 4., 2., t * .02));
+  float dn = (uv.x - cx) * asp / sqrt(1. + sl * sl); float d = abs(dn) - w;
+  float aa = fwidth(d) * 1.2; float inside = 1. - smoothstep(-aa, aa, d);
+  vec3 water = flowWater(dn / w, y * 9. + t * .32, t);
+  float f = fbm3(vec3(p * vec2(.8, .6), t * .015)) * .6 + max(d, 0.) * 2.2;
+  float k = f * 16.;
+  float line = 1. - smoothstep(0., fwidth(k) * 1.1, abs(fract(k) - .5));
+  vec3 lc = mix(vec3(.75, .81, .84), L300, exp(-max(d, 0.) * 9.));
+  vec3 land = mix(DARK, lc, line * (.1 + .3 * exp(-max(d, 0.) * 3.)));
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}` },
+  { id: "encontro", title: "4h \u00b7 Where two rivers meet", note: 'A dark river and a light one join and keep flowing side by side in one bed, with foam where they touch. The Encontro das \u00c1guas, the seam inside the river.', ref: "Reference: two currents from above",
+    frag: `vec3 flowWater(float s, float along, float t) {
+  float foam = smoothstep(-.05, .55, fbm(vec3(s * 1.4, along * 2.4, t * .12))) * .8 + smoothstep(.15, .5, snoise(vec3(s * 4., along * 9. / 2.4, t * .2))) * .35;
+  vec3 w = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(s)));
+  return mix(w, mix(L200, WHITE, .5), clamp(foam * .8, 0., 1.));
+}
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime; float y = uv.y;
+  float split = smoothstep(.4, .95, y);
+  float base = .66 + .05 * sin(y * 6. + .4) + .02 * snoise(vec3(y * 3., 0., t * .03));
+  float cA = base - .18 * split, cB = base + .15 * split + .03 * sin(y * 9.) * split;
+  float w = .034 + .036 * (1. - split);
+  float dxA = (uv.x - cA) * asp, dxB = (uv.x - cB) * asp;
+  float dA = abs(dxA) - w, dB = abs(dxB) - w; float d = min(dA, dB);
+  float aa = fwidth(d) * 1.2; float inside = 1. - smoothstep(-aa, aa, d);
+  float warp = fbm(vec3(uv.x * asp * 7., y * 3. + t * .25, t * .05));
+  float side = smoothstep(-.15, .15, (uv.x - base) * asp / w * .9 + warp * .9);
+  float which = mix(side, 1. - step(dA, dB), split);
+  float s = mix((uv.x - base) * asp / w, which > .5 ? dxB / w : dxA / w, split);
+  vec3 lightW = flowWater(s, y * 9. + t * .32, t);
+  float df = smoothstep(-.05, .6, fbm(vec3(s * 1.4 + 7., (y * 9. + t * .32) * 2.4, t * .12)));
+  vec3 darkW = mix(mix(D600, D800, .45), vec3(.5, .6, .64), df * .45);
+  vec3 water = mix(darkW, lightW, which);
+  water += mix(L200, WHITE, .6) * exp(-abs(which - .5) * 10.) * (1. - split) * .35;
+  vec3 land = DARK * .82 + fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.)) * .015;
+  land += vec3(.75, .82, .85) * exp(-abs(d) * 320.) * .18;
+  gl_FragColor = vec4(mix(land, water, inside), 1.);
+}` },
+];
+</script>
+<script src="lab.js"></script>
+</body>
+</html>

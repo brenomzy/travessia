@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Travessia · Shader lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+<!--
+  Design-time study for playbook step 7/8 (2026-11-21): ways to show the seam, the river and the crossing
+  as live, animated effects. Plain WebGL 1, no libraries. Not part of the site build.
+  Run: python3 -m http.server 4330 --directory docs/design/shader-lab
+-->
+<style>
+  :root {
+    --dark: #0f1c24; --light: #00c99b; --mist: #f4f6f6; --muted: #4d5a61; --text: #0f1c24;
+    --ring: 0 0 0 1px rgb(15 28 36 / 0.06), 0 1px 2px rgb(15 28 36 / 0.04), 0 4px 12px rgb(15 28 36 / 0.04);
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Figtree, system-ui, sans-serif; color: var(--text); background: #fff; }
+  header { padding: 56px 56px 32px; display: flex; justify-content: space-between; gap: 48px; align-items: flex-end; flex-wrap: wrap; }
+  h1 { font-size: 56px; line-height: 1; font-weight: 500; letter-spacing: -0.02em; }
+  h1 span { color: rgb(15 28 36 / 0.6); }
+  .intro { max-width: 640px; font-size: 16px; line-height: 24px; color: var(--muted); }
+  .controls { display: flex; gap: 8px; padding: 0 56px 24px; flex-wrap: wrap; }
+  button.ctl { height: 36px; padding: 0 14px; border: 0; border-radius: 8px; background: #edeff0; font: 500 15px/20px Figtree, sans-serif; color: var(--text); cursor: pointer; }
+  button.ctl[aria-pressed='true'] { background: var(--dark); color: #fff; }
+  .ctl-label { align-self: center; margin-left: 16px; font-size: 15px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 24px; padding: 0 56px 64px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+  figure { display: flex; flex-direction: column; gap: 14px; }
+  .stage { position: relative; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; background: var(--dark); box-shadow: var(--ring); cursor: zoom-in; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  figcaption h2 { font-size: 22px; line-height: 28px; font-weight: 500; letter-spacing: -0.01em; }
+  figcaption p { margin-top: 4px; font-size: 15px; line-height: 22px; color: var(--muted); max-width: 720px; }
+  figcaption .ref { margin-top: 6px; font-size: 13px; line-height: 18px; color: #8fa3ab; }
+  /* Hero copy laid over a stage, to judge the effect behind real content. */
+  .hero { position: absolute; left: 5%; top: 50%; translate: 0 -50%; width: 38%; display: none; flex-direction: column; gap: 3.2cqw; pointer-events: none; }
+  .stage { container-type: inline-size; }
+  body.show-hero .hero { display: flex; }
+  .hero .h { font-size: 4.6cqw; line-height: 1.02; font-weight: 500; letter-spacing: -0.02em; color: #fff; }
+  .hero .h span { color: var(--second, #A8B6BC); }
+  .hero .p { font-size: 1.35cqw; line-height: 1.5; color: #b6c4c9; }
+  .hero .f { display: flex; align-items: center; padding: 0.35cqw; border-radius: 1cqw; background: rgb(30 47 56 / 0.92); box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06); }
+  .hero .f i { flex: 1; font-style: normal; font-size: 1.25cqw; color: #8fa3ab; padding: 0 1cqw; }
+  .hero .f b { font-weight: 500; font-size: 1.3cqw; padding: 1.1cqw 1.5cqw; border-radius: 0.7cqw; background: var(--light); color: var(--dark); }
+  .stage.full { position: fixed; inset: 0; z-index: 10; border-radius: 0; aspect-ratio: auto; cursor: zoom-out; }
+  .notes { padding: 0 56px 80px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 1100px) { .notes { grid-template-columns: 1fr; } }
+  .notes section { padding: 24px; border-radius: 12px; background: var(--mist); }
+  .notes h3 { font-size: 18px; line-height: 24px; font-weight: 500; margin-bottom: 8px; }
+  .notes p, .notes li { font-size: 15px; line-height: 22px; color: var(--muted); }
+  .notes ul { padding-left: 18px; display: grid; gap: 6px; }
+  .err { position: absolute; inset: 0; display: grid; place-items: center; color: #ff8a6b; font: 13px/18px monospace; padding: 24px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Shader lab. <span>The crossing, in motion.</span></h1>
+  <p class="intro">Eight ways to show the seam, the river and the crossing as live effects, all in the brand palette (rio-negro, igarapé, white). Each runs as a WebGL fragment shader, the same technology as the seam engine already on the site. Click a tile for full screen; turn on the hero copy to judge it behind real content.</p>
+</header>
+<div class="controls">
+  <button class="ctl" id="play" aria-pressed="true">Playing</button>
+  <button class="ctl" id="hero" aria-pressed="false">Hero copy</button>
+  <button class="ctl" id="speed" aria-pressed="false">Speed ×1</button>
+  <a class="ctl" href="river.html" style="display:inline-flex;align-items:center;text-decoration:none;height:36px;padding:0 14px;border-radius:8px;background:#00c99b;color:#0f1c24;font-weight:500">River variations →</a>
+</div>
+<div class="grid" id="grid"></div>
+
+<div class="notes">
+  <section>
+    <h3>How the reference brands build effects</h3>
+    <ul>
+      <li>Stripe: the wave is a live WebGL canvas behind the hero, kept away from every control.</li>
+      <li>Mercury: a pre-rendered video that pushes from a landscape into the product, plus monochrome renders with film grain.</li>
+      <li>Ramp: rendered stills and video, with the yellow used as light behind product art.</li>
+      <li>Common thread: one effect per page, behind the product, never under body text.</li>
+    </ul>
+  </section>
+  <section>
+    <h3>What would ship</h3>
+    <p>The site already has a WebGL2 seam engine (<code>src/lib/generators/seam</code>) with flow, drift, breathe and shimmer, a PNG still for reduced motion and no-JS, and one canvas per page. A chosen effect here becomes a second recipe in that engine, not a new library.</p>
+  </section>
+  <section>
+    <h3>Rules any pick has to keep</h3>
+    <ul>
+      <li>Two waters: a dark side and a light side, or a dark field and a light river.</li>
+      <li>Clean, clear water: no murky browns.</li>
+      <li>Still frame under <code>prefers-reduced-motion</code>.</li>
+      <li>Calm speed: one full change takes tens of seconds, not seconds.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+window.SHADERS = [
+  {
+    id: 'dither', title: '1 · Dither seam, moving',
+    note: 'Today’s seam as a live shader: the boundary between the two waters keeps re-forming. The baseline to beat.',
+    ref: 'Existing seam texture',
+    frag: `void main() {
+      float cell = 4. * uDpr; vec2 c = floor(gl_FragCoord.xy / cell);
+      vec2 uv = (c * cell + cell * .5) / uRes; float asp = uRes.x / uRes.y;
+      vec2 p = vec2(uv.x * asp, uv.y) * 1.4; float t = uTime * .035;
+      float qx = fbm3(vec3(p, t)), qy = fbm3(vec3(p + vec2(5.2, 1.3), t));
+      float w = fbm(vec3(p + 3. * vec2(qx, qy), t * 1.5));
+      float b = (uv.x - .6) + w * .24;
+      float cov = clamp(.5 + b * 7. + w * .2, 0., 1.);
+      gl_FragColor = vec4(cov > bayer4(c) ? LIGHT : DARK, 1.);
+    }`,
+  },
+  {
+    id: 'contour', title: '2 · Contour lines',
+    note: 'Hundreds of thin lines follow the current, like depth contours on a chart. White on the dark side, igarapé where the light water begins. Very quiet behind text.',
+    ref: 'Reference: flow-field lines',
+    frag: `void main() {
+      vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; vec2 p = vec2(uv.x * asp, uv.y);
+      float t = uTime * .025;
+      vec2 q = vec2(fbm3(vec3(p * .7, t)), fbm3(vec3(p * .7 + vec2(3.1, 7.7), t)));
+      float f = fbm3(vec3(p * vec2(.9, .55) + q * 1.1, t * .6)) + p.y * .35;
+      float k = f * 14.;
+      float l = abs(fract(k) - .5);
+      float aa = fwidth(k) * 1.1;
+      float line = 1. - smoothstep(0., aa, l);
+      float light = smoothstep(-.35, .55, fbm3(vec3(p * .9 + 5., t * .4)));
+      float s = smoothstep(.45, .8, uv.x + q.x * .35);
+      vec3 lc = mix(vec3(.82, .87, .89), L300, s);
+      vec3 col = DARK + D800 * .35 * s * light;
+      col = mix(col, lc, line * (.14 + .8 * light));
+      gl_FragColor = vec4(col, 1.);
+    }`,
+  },
+  {
+    id: 'waves', title: '3 · Light through water',
+    note: 'A disc of light water seen through slow horizontal ripples, with film grain. The reais arriving as a glow under the surface. Ramp’s light behind product art, made wet.',
+    ref: 'Reference: glowing sphere through waves',
+    frag: `void main() {
+      vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime * .22;
+      float N = 11.;
+      float y = uv.y + .07 * sin(uv.x * 2.6 + t * .7 + uv.y * 2.) + .04 * snoise(vec3(uv * vec2(1.6, 1.), t * .2));
+      float band = y * N; float i = floor(band); float f = fract(band);
+      float off = .045 * sin(i * 1.7 + t * .9) + .03 * snoise(vec3(i * .35, t * .3, 0.));
+      vec2 c = vec2(.7 * asp, .5);
+      vec2 sp = vec2(uv.x * asp + off, uv.y + .05 * (f - .5) + .02 * sin(i * 2.3 + t));
+      float d = length(sp - c);
+      float r = .27;
+      float disc = smoothstep(r, r - .01, d);
+      float halo = exp(-max(d - r, 0.) * 6.) * .3;
+      float ridge = smoothstep(0., .22, f) * smoothstep(1., .72, f);
+      vec3 lit = mix(LIGHT, mix(L300, DEEP, .55), smoothstep(.0, r, d) * .9);
+      vec3 col = mix(DARK, D600, .18 * ridge);
+      col = mix(col, lit, disc * (.35 + .65 * ridge));
+      col += mix(DEEP, LIGHT, .5) * halo * (.35 + .65 * ridge);
+      col *= .78 + .22 * smoothstep(0., .3, f);
+      col += (grain(gl_FragCoord.xy + fract(uTime * 7.) * 91.) - .5) * .07;
+      gl_FragColor = vec4(col, 1.);
+    }`,
+  },
+  {
+    id: 'meander', title: '4 · The river, cut out',
+    note: 'A single river winds through the dark, with clear water and foam moving downstream inside it. The crossing as a path across the page; it can run behind a scroll.',
+    ref: 'Reference: river cut-out, meander from above',
+    frag: `void main() {
+      vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; float t = uTime;
+      float y = uv.y;
+      float cx = .68 + .12 * sin(y * 5. + .6) + .06 * sin(y * 11.3 + 1.9) + .03 * snoise(vec3(y * 3., 0., t * .03));
+      float w = .05 + .022 * snoise(vec3(y * 4., 2., t * .02)) + .012 * fbm3(vec3(uv * vec2(asp, 1.) * 14., 3.));
+      float dx = (uv.x - cx) * asp;
+      float d = abs(dx) - w;
+      float aa = fwidth(d) * 1.2;
+      float inside = 1. - smoothstep(-aa, aa, d);
+      vec2 wp = vec2(dx / w, y * 9. + t * .32);
+      float foam = smoothstep(-.05, .55, fbm(vec3(wp.x * 1.4, wp.y * 2.4, t * .12))) * .8 + smoothstep(.15, .5, snoise(vec3(wp.x * 4., wp.y * 9., t * .2))) * .35;
+      float edgeFoam = smoothstep(-.012, 0., d) * .6;
+      vec3 water = mix(LIGHT, DEEP, .45 * smoothstep(0., 1., abs(dx) / w));
+      water = mix(water, mix(L200, WHITE, .5), clamp(foam * .75 + edgeFoam, 0., 1.));
+      float ter = fbm3(vec3(uv * vec2(asp, 1.) * 3., 7.));
+      vec3 land = DARK + ter * .018;
+      land *= 1. - .4 * exp(-max(d, 0.) * 55.);
+      gl_FragColor = vec4(mix(land, water, inside), 1.);
+    }`,
+  },
+  {
+    id: 'foam', title: '5 · Where the waters meet',
+    note: 'Dark water on one side, deep green water on the other, and a line of white foam where they collide, with veins spreading out. The most literal crossing; dramatic, best for campaigns.',
+    ref: 'Reference: two currents from above',
+    frag: `void main() {
+      vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; vec2 p = vec2(uv.x * asp, uv.y); float t = uTime * .05;
+      float w = fbm(vec3(p * vec2(1.1, .8), t));
+      float b = (uv.x - .62) * asp + w * .28;
+      float d = abs(b);
+      vec3 col = mix(DARK, mix(DARK, D800, .85), smoothstep(-.06, .06, b));
+      float brk = fbm(vec3(p * vec2(3., 8.) + vec2(0., t * 5.), t * 2.));
+      float core = exp(-d * 16.) * smoothstep(-.35, .45, brk);
+      float v = 1. - abs(snoise(vec3(p * 4.5 + vec2(w * 1.5), t * 1.4)));
+      float veins = pow(v, 22.) * exp(-d * 6.5) * .9;
+      col += (core * 1.05 + veins) * mix(L200, WHITE, .65);
+      col += LIGHT * .07 * exp(-d * 5.);
+      col += (grain(gl_FragCoord.xy + fract(uTime) * 100.) - .5) * .035;
+      gl_FragColor = vec4(col, 1.);
+    }`,
+  },
+  {
+    id: 'braid', title: '6 · Braided channels',
+    note: 'Many small channels split and rejoin inside one riverbed, glowing from deep green to igarapé. Rich and organic; works as a large band, too busy behind body text.',
+    ref: 'Reference: braided glacial river',
+    frag: `void main() {
+      vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; vec2 p = vec2(uv.x * asp, uv.y); float t = uTime * .02;
+      vec2 q = p * vec2(2.2, .9) + vec2(0., t * 2.);
+      float warp = fbm3(vec3(q * .7, t));
+      float r = 1. - abs(snoise(vec3(q.x * 1.6 + warp * 1.2, q.y, t)));
+      float r2 = 1. - abs(snoise(vec3(q.x * 3.1 + warp, q.y * 1.4 + 4., t * 1.3)));
+      float ch = max(pow(r, 6.), pow(r2, 9.) * .8);
+      float band = smoothstep(.26, .02, abs(uv.x - .68 - .08 * sin(uv.y * 4. + warp)));
+      ch *= band;
+      vec3 col = DARK + fbm3(vec3(p * 4., 1.)) * .015;
+      vec3 water = mix(D800, LIGHT, smoothstep(.2, .9, ch));
+      water = mix(water, L200, smoothstep(.88, 1., ch));
+      col = mix(col, water, smoothstep(.12, .4, ch));
+      gl_FragColor = vec4(col, 1.);
+    }`,
+  },
+  {
+    id: 'dots', title: '7 · Dot field',
+    note: 'A grid of dots that swell into igarapé where the light water is, and shrink to grey on the dark side. Reads as data and as water at once; the calmest, most product-like option.',
+    ref: 'Seam as halftone',
+    frag: `void main() {
+      float cell = 12. * uDpr; vec2 fc = gl_FragCoord.xy; vec2 c = floor(fc / cell); vec2 cc = (c + .5) * cell;
+      vec2 uv = cc / uRes; float asp = uRes.x / uRes.y; vec2 p = vec2(uv.x * asp, uv.y); float t = uTime * .05;
+      float w = fbm(vec3(p * 1.3, t));
+      float s = smoothstep(.4, .85, uv.x + w * .35);
+      float sz = mix(.1, .4, s) * (.75 + .5 * (.5 + .5 * snoise(vec3(p * 3., t * 2.))));
+      float d = length(fc - cc) / cell;
+      float px = 1. / cell;
+      float dt = 1. - smoothstep(sz - px, sz + px, d);
+      vec3 dc = mix(vec3(.3, .37, .41), LIGHT, s);
+      gl_FragColor = vec4(mix(DARK, dc, dt), 1.);
+    }`,
+  },
+  {
+    id: 'caustic', title: '8 · Light on clear water',
+    note: 'The light side becomes clear water with sunlight caustics moving across it; the dark side stays still. Matches the clean, clear water of the photography.',
+    ref: 'Reference: clear water close-ups',
+    frag: `
+    float caustic(vec2 uv, float time) {
+      vec2 p = mod(uv * 6.28318530718, 6.28318530718) - 250.0;
+      vec2 i = vec2(p); float c = 1.0; float inten = .005;
+      for (int n = 0; n < 5; n++) {
+        float t = time * (1.0 - (3.5 / float(n + 1)));
+        i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+        c += 1.0 / length(vec2(p.x / (sin(i.x + t) / inten), p.y / (cos(i.y + t) / inten)));
+      }
+      c /= 5.0; c = 1.17 - pow(c, 1.4);
+      return pow(abs(c), 8.0);
+    }
+    void main() {
+      vec2 uv = gl_FragCoord.xy / uRes; float asp = uRes.x / uRes.y; vec2 p = vec2(uv.x * asp, uv.y);
+      float t = uTime * .3 + 23.;
+      float c = caustic(p * 1.5, t);
+      float m = smoothstep(.42, .72, uv.x + .16 * fbm3(vec3(p * 1.4, uTime * .03)));
+      vec3 water = mix(DEEP, LIGHT, smoothstep(0., 1., uv.y * .5 + .45));
+      vec3 col = mix(DARK, water, m);
+      col += c * mix(.04, .7, m) * mix(L300, WHITE, .6);
+      gl_FragColor = vec4(col, 1.);
+    }`,
+  },
+];
+</script>
+<script src="lab.js"></script>
+</body>
+</html>
