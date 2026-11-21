@@ -1,0 +1,49 @@
+# Photography
+
+> Playbook step 9, in progress (started 2026-11-21). Draft: the direction and the recipe are proposals until the first batch is reviewed. Boards: Paper page "Brand · Photography". Where photography sits among the brand's imagery (river, paintings, photography, mist) is in `brand/rules.md`, "Graphic language: imagery".
+
+Photography is Travessia's proof that the crossing is real: a river, a boat, a bridge. The paintings say how it feels; the photos say where it happens: the rivers the crossing is named after. Uses: customer stories, editorial and blog covers, the About page, campaigns and outdoor, the yearly data report. Never with product UI on top.
+
+## The direction
+
+**One register: the river and its crossings** (Breno, 2026-11-21, after the first reference board: the object and people references felt like stock photography; the crossings, boats, rivers and trees did not). Brazilian rivers and what crosses them: aerials of water meeting water, wooden boats and ferries, bridges seen from below, docks running into still water, and the forest that lines the banks (*mata ciliar*) and stands in flooded water (*igapó*). People only far away, at the scale of the landscape. No still lifes of objects, no desks, no hands.
+
+**Light.** Overcast, soft and even, or window light on a grey day. No golden hour, no hard sun, no flash, no HDR.
+
+**Colour.** Natural and slightly muted. Shadows lean toward rio-negro (blue-black, never brown); greens and water lean toward igarapé. Whites stay neutral. Water is always clean and clear: dark and transparent, or green-teal; never brown, muddy or littered.
+
+**Framing.** One subject. At least a third of the frame calm and dark enough for a headline (the quiet zone). Aerials straight down or oblique; from the bank at eye level; bridges from below. Shot for 4:5 and 16:9 crops.
+
+**Texture.** Fine film grain, real depth of field, nothing glossy.
+
+**Never.**
+- Faces presented as customers. People appear as hands, backs, silhouettes or far away.
+- Banknotes, coins, cards, bank or card logos, and anything that reads as a currency symbol.
+- Readable screens: a laptop shows its back, its keyboard or a blank glow.
+- Stereotypes of Brazil (beach, caipirinha, carnival, favela) or of "global work" (airport lounges, passports, world maps).
+- Brown or dirty water, sunsets, tropical turquoise, stock smiles.
+
+## The prompt recipe
+
+One recipe for every photo, with a subject slot and a quiet-zone slot. It goes to Magnific (Nano Banana 2.1), with the cost of each batch stated first.
+
+> [SUBJECT]. Documentary photograph, overcast soft daylight, natural slightly muted colour, deep blue-black shadows, any water clean and clear dark green-teal, fine film grain, real depth of field. Calm, uncluttered composition with one subject and a quiet dark area across the [SIDE] of the frame. No people except tiny distant figures, no text, no logos, no money, no screens showing content, no brown water.
+
+## The first shot list
+
+Ten subjects, two takes each (20 images, 1,000 credits):
+
+| # | Subject |
+|---|---|
+| 1 | Aerial straight down: a dark river meeting a clear green-teal one, one small wooden boat crossing the line between them (to replace the About photo's muddy version) |
+| 2 | Aerial: a small wooden canoe on dark, clear, still water, the forest edge along one side |
+| 3 | A river ferry crossing a wide calm river, seen small from the far bank, overcast |
+| 4 | An old iron bridge seen from below, its underside and reflection in calm clear water, light fog |
+| 5 | Low bridges over the Capibaribe in Recife, calm dark water, overcast |
+| 6 | A flooded forest (igapó): trees standing in dark, clear, mirror-still water |
+| 7 | Oblique aerial of a winding river lined with dense forest on both banks (mata ciliar) |
+| 8 | A long wooden dock running into still dark water, mist, the far bank faint |
+| 9 | Aerial straight down: a single boat's wake drawing a pale line across still dark water |
+| 10 | Two small boats passing each other far apart on a wide river in morning mist |
+
+Then: pick the strongest, adjust the recipe, run a second batch until most of a batch are yeses. Check every pick on white and on rio-negro.
