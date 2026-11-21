@@ -108,8 +108,9 @@
         "label": "Fee",
         "detail": "Fees and exchange rate together",
         "bank": {
-          "value": "up to 6%",
-          "share": 1
+          "value": "2% to 6%",
+          "share": 1,
+          "from": 0.3333
         },
         "travessia": {
           "value": "0.6%",
@@ -123,7 +124,8 @@
         "detail": "From your client's payment to reais in Pix",
         "bank": {
           "value": "2 to 5 business days",
-          "share": 1
+          "share": 1,
+          "from": 0.4
         },
         "travessia": {
           "value": "1 business day",

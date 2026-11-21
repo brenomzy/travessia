@@ -1,8 +1,9 @@
 ---
 /**
- * The bank against Travessia, measured (Paper: Options · Feature page and Home stats → "Stats A"). One row per
- * comparison: what it is, two bars (the bank's in grey, hatched when it has no fixed size; Travessia's in teal), and
- * the difference set large. The bars grow in as each row is revealed.
+ * The bank against Travessia, measured: the brand's comparison chart (brand/rules.md, "Graphic language: charts").
+ * One row per measure: what it is, two bars on one scale from zero (the bank's in grey, solid to the low end of its
+ * range and hatched to its worst case, or hatched all along when it has no fixed size; Travessia's in igarapé), each
+ * with its value at the tip, and the difference set large in the text colour. Bars grow in as each row is revealed.
  */
 import Section from './Section.astro';
 import MotionScript from '../ui/MotionScript.astro';
@@ -14,7 +15,7 @@ interface Props {
   stats: {
     label: string;
     detail: string;
-    bank: { value: string; share: number; open: boolean };
+    bank: { value: string; share: number; from?: number; open: boolean };
     travessia: { value: string; share: number };
     gain: string;
     gainLabel: string;
@@ -45,10 +46,14 @@ const { title, lead, legend, stats } = Astro.props;
               <p>{s.detail}</p>
             </div>
             <dl class="bars">
-              <div data-series="bank" data-open={s.bank.open ? '' : undefined}>
+              <div data-series="bank" data-open={s.bank.open ? '' : undefined} data-range={s.bank.from !== undefined ? '' : undefined}>
                 <dt class="u-visually-hidden">{legend.bank}</dt>
                 <dd>
-                  <span class="bar" style={`--share: ${s.bank.share}`} aria-hidden="true" />
+                  <span
+                    class="bar"
+                    style={`--share: ${s.bank.share}; --from: ${(s.bank.from ?? s.bank.share) / s.bank.share}`}
+                    aria-hidden="true"
+                  />
                   <span class="value">{s.bank.value}</span>
                 </dd>
               </div>
@@ -109,11 +114,12 @@ const { title, lead, legend, stats } = Astro.props;
     gap: var(--space-2xs);
   }
 
+  /* The legend key is a short bar, the same shape as the marks. */
   .legend li::before {
     content: '';
-    inline-size: var(--space-xs);
+    inline-size: var(--space-s);
     block-size: var(--space-xs);
-    border-radius: var(--radius-xs);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
     background: var(--_fill);
   }
 
@@ -180,18 +186,30 @@ const { title, lead, legend, stats } = Astro.props;
     inline-size: calc(var(--share) * (100% - 9rem));
     min-inline-size: var(--space-xs);
     block-size: var(--space-xs);
-    border-radius: var(--radius-xs);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
     background: var(--_fill);
     transform-origin: left center;
     transition: scale var(--duration-story) var(--ease-expo);
   }
 
-  [data-open] .bar {
+  /* Hatching is the uncertain part: the whole bar when there's no fixed size, or the range above its low end. */
+  [data-open] .bar,
+  [data-range] .bar {
     background: repeating-linear-gradient(
       135deg,
       var(--_fill) 0 var(--space-2xs),
       transparent var(--space-2xs) calc(var(--space-2xs) * 2)
     );
+  }
+
+  [data-range] .bar {
+    background:
+      linear-gradient(to right, var(--_fill) calc(var(--from) * 100%), transparent calc(var(--from) * 100%)),
+      repeating-linear-gradient(
+        135deg,
+        var(--_fill) 0 var(--space-2xs),
+        transparent var(--space-2xs) calc(var(--space-2xs) * 2)
+      );
   }
 
   .value {
@@ -202,7 +220,7 @@ const { title, lead, legend, stats } = Astro.props;
 
   [data-series='travessia'] .value {
     color: var(--color-text-base);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   .gain {
@@ -211,13 +229,13 @@ const { title, lead, legend, stats } = Astro.props;
     gap: var(--space-xs);
   }
 
+  /* The difference is text, so it wears the text colour; the igarapé bar beside it carries the identity. */
   .gain strong {
-    color: var(--color-accent-data-strong);
+    color: var(--color-text-base);
     font-size: var(--text-4xl);
     line-height: var(--leading-4xl);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     letter-spacing: var(--tracking-4xl);
-    font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
 

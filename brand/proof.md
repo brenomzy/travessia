@@ -96,7 +96,11 @@ Every product mock-up (site, Paper boards, social, decks) shows the same account
 
 **Balances on Nov 13:** US$ 4,212.40 (≈ R$ 22,819.83 after the fee), € 1,380.00 (≈ R$ 8,641.84), £ 320.00 from an earlier payment (≈ R$ 2,306.08). The "≈ R$" notes are what she would receive today: amount × rate − 0.6%.
 
+**Earlier months:** August R$ 18,924.12 (3 payments), September R$ 25,852.62 (4 payments); October is 22% up on September.
+
 **October report** (sent Mon Nov 2, the first business day): tax invoices 311 to 315, revenue R$ 31,540.20 at each payment day's rate (October is the one place other rates are allowed), Travessia fees R$ 189.24 (0.6%), MEI at 62% (R$ 50,180 of R$ 81k), DAS R$ 76.90 due Nov 20.
+
+**Open (2026-11-21):** Ana's revenue (about R$ 10,000 to R$ 31,000 a month) is far above the MEI yearly limit of R$ 81k, so she can't be an MEI as her customer story, the home showcase and this report say. Her regime needs deciding (Simples Nacional is the likely answer) before the tax figures here are final.
 
 ## Real-world facts
 

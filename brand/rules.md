@@ -314,3 +314,35 @@ The product overview is a bento on rio-negro (`FeatureBento`), Travessia's versi
 - One column on phones; two from 720 px, where the first and last tiles span both; three from 1408 px.
 - At the foot of each tile, a panel of painted clear water (radius `--radius-m` on top, cut by the tile's foot) with one part on it: a card or a cut-off invoice page. One painting, cropped differently per tile.
 - Tiles are `--color-bg-raised` with `--radius-l` and `--shadow-1`. No glow, no texture, no second accent colour.
+
+---
+
+## Graphic language: charts
+
+> Playbook step 8 (2026-11-21). Board: Paper page "Brand · Graphic language", "6 · Charts". On the site: `StatBand` (the comparison bars), the report columns in `FeatureBento` and `FeatureVignette`, the meter in `ProblemFix`.
+
+Travessia's charts do two jobs: compare Travessia with the bank, or show one account over time. Every number in them comes from `brand/proof.md` (claims, the bank example, the product ledger).
+
+### Colour follows the entity
+
+- **Travessia is igarapé.** In the comparison, the bank is neutral: neblina-100 on light grounds, rio-negro-600 on dark. Never a second hue.
+- **One account over time is all Travessia**, so its chart is igarapé tints: past months igarapé-200 (igarapé-800 on dark or over a painting), the month the story is about igarapé-700 (igarapé-500 on dark).
+- Text never wears the data colour. Values, labels and the big difference use the text colours; the igarapé mark beside them carries the identity.
+- Checked with the data-viz palette validator (2026-11-21): igarapé-500 against neblina-100 on white separates under colour blindness (ΔE 14.7 protan, 23.1 normal), and so does igarapé-500 against rio-negro-600 on rio-negro (ΔE 39.5). Neblina-300 against igarapé-500 does not (ΔE 4.1): don't use it for the bank. Both bar colours are under 3:1 against the ground, which is why every bar carries its value as text.
+
+### The four forms
+
+| Form | Use it for | Marks |
+|---|---|---|
+| **Comparison bars** | Travessia against a wire received at a Brazilian bank: fee, time, tax invoice, what arrives | Two horizontal bars per row on one scale from zero. 12 px thick, square at the start, `--radius-xs` at the end. The bank's bar is solid up to its best case and hatched (135°) to its worst; hatched all along when it has no fixed size. A value too small to see keeps a 12 px stub. Value at the tip; the difference set large at the end of the row, in the text colour, weight 500 |
+| **Monthly columns** | One account's revenue, conversions or tax invoices over up to twelve months | Columns no wider than `--size-bar-max` (24 px), square on the baseline, `--radius-xs` on top, never faded. One label: the highlighted month's value. First and last month on the axis; no gridlines, no y-axis |
+| **Meter** | One value against a limit (the MEI yearly cap) | 8 px, round at both ends. Fill igarapé-500 on an igarapé-100 track. Percentage first, then the amounts. From 80% a note with an icon; the colour doesn't change, because colour alone never carries a warning |
+| **Number with trend** | When one number is the point | The number at weight 500, proportional figures. A 2 px line with no axes: past in igarapé-200, the last step and an 8 px end dot (2 px ring in the surface colour) in igarapé-700. The change as signed text against a named period |
+
+### Never
+
+- Cut the axis or use a log scale to make a gap look bigger. When the gap is small (what arrives: R$ 10,834.60 against R$ 10,228.56), the bars stay honest and the big number tells it.
+- Name a bank or a competitor. The comparison is always with "a Brazilian bank".
+- Show the bank's best case alone, or Travessia's worst. "At worst" claims compare worst with worst.
+- Use pie or donut charts, 3D, gradients inside marks, a second y-axis, or more than two series in one chart.
+- Animate a chart beyond growing its marks in once, from the baseline, when it scrolls into view (none with reduced motion).

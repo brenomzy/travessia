@@ -421,6 +421,7 @@ export const tokens = {
     "dot": 8,
     "dot-s": 6,
     "tag": 20,
+    "bar-max": 24,
     "tag-s": 16,
     "bar": 6,
     "phone": {

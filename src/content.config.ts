@@ -401,7 +401,16 @@ const legal = defineCollection({
 const stat = z.object({
   label: z.string(),
   detail: z.string(),
-  bank: z.object({ value: z.string(), share: z.number().min(0).max(1).default(1), open: z.boolean().default(false) }),
+  /**
+   * The bank's bar. share: where it ends (its worst case, usually 1). from: where a range starts; the bar is solid
+   * up to `from` and hatched from there to `share`. open: no fixed size at all, the whole bar hatched.
+   */
+  bank: z.object({
+    value: z.string(),
+    share: z.number().min(0).max(1).default(1),
+    from: z.number().min(0).max(1).optional(),
+    open: z.boolean().default(false),
+  }),
   travessia: z.object({ value: z.string(), share: z.number().min(0).max(1) }),
   /** The difference, set large, and what it means. */
   gain: z.string(),
