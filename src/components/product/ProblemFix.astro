@@ -89,7 +89,7 @@ const { fix, lang } = Astro.props;
   .figure {
     font-size: var(--text-xl);
     line-height: var(--leading-xl);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     font-variant-numeric: tabular-nums;
   }
 
@@ -105,11 +105,13 @@ const { fix, lang } = Astro.props;
     border-radius: var(--radius-control);
     background-color: var(--color-bg-raised);
     font-size: var(--text-xs);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   .segmented span {
-    padding-inline: var(--space-2xs);
+    padding: calc((var(--leading-xs) * 1em - 1cap) / 2) var(--space-2xs);
+    line-height: var(--leading-xs);
+    text-box: trim-both cap alphabetic;
     border-radius: calc(var(--radius-control) - var(--space-3xs));
   }
 
@@ -120,7 +122,8 @@ const { fix, lang } = Astro.props;
   }
 
   .chip {
-    padding: var(--space-2xs) var(--space-s);
+    padding: calc(var(--space-2xs) + (1lh - 1cap) / 2) var(--space-s);
+    text-box: trim-both cap alphabetic;
     box-shadow: var(--shadow-1);
     border-radius: var(--radius-control);
     background-color: var(--color-bg-raised);
@@ -130,7 +133,7 @@ const { fix, lang } = Astro.props;
 
   .chip[data-primary] {
     border-color: transparent;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   .state {
@@ -154,7 +157,7 @@ const { fix, lang } = Astro.props;
     border-radius: var(--radius-tag);
     background-color: var(--color-accent-data);
     color: var(--color-on-data);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     white-space: nowrap;
   }
 

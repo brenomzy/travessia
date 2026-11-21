@@ -36,7 +36,7 @@ const { vignette: v, frame = 'card' } = Astro.props;
         </div>
         <div class="row split">
           <strong class="big">{v.amount}</strong>
-          <span class="pill">{v.action}</span>
+          <span class="send-tag">{v.action}</span>
         </div>
       </div>
     )
@@ -166,7 +166,7 @@ const { vignette: v, frame = 'card' } = Astro.props;
 
   strong {
     font-size: var(--text-base);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
   }
 
   .big {
@@ -186,7 +186,7 @@ const { vignette: v, frame = 'card' } = Astro.props;
 
   .highlight {
     color: var(--color-text-highlight);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   /* Two equal segments with one sliding thumb under them. */
@@ -199,7 +199,7 @@ const { vignette: v, frame = 'card' } = Astro.props;
     border-radius: var(--radius-control);
     background-color: var(--color-chip-bg);
     font-size: var(--text-xs);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   .toggle::before {
@@ -215,25 +215,27 @@ const { vignette: v, frame = 'card' } = Astro.props;
 
   .toggle span {
     position: relative;
-    padding-inline: var(--space-2xs);
+    padding: calc((var(--leading-xs) * 1em - 1cap) / 2) var(--space-2xs);
+    line-height: var(--leading-xs);
+    text-box: trim-both cap alphabetic;
     text-align: center;
     transition: color var(--duration-base) var(--ease-hover);
   }
 
   .toggle [data-selected],
-  .pill {
+  .send-tag {
     color: var(--color-bg-raised);
   }
 
-  .pill {
-    background-color: var(--color-text-base);
-  }
-
-  .pill {
-    padding: var(--space-2xs) var(--space-s);
+  /* Not ".pill": that name is the global hover pill in styles/base.css. */
+  .send-tag {
+    padding: calc(var(--space-2xs) + (1lh - 1cap) / 2) var(--space-s);
+    text-box: trim-both cap alphabetic;
     border-radius: var(--radius-tag);
+    background-color: var(--color-text-base);
     font-size: var(--text-xs);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
   }
 
   .lines {
@@ -318,7 +320,7 @@ const { vignette: v, frame = 'card' } = Astro.props;
 
   dd {
     margin: 0;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   [data-highlight] dd {

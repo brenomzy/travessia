@@ -12,7 +12,7 @@ const { title, status, rows, action } = Astro.props;
 <div class="log" data-theme="light">
   <div class="head">
     <strong>{title}</strong>
-    <span class="status">{status}</span>
+    <span class="status"><span class="status-label">{status}</span></span>
   </div>
   <ul role="list">
     {
@@ -60,6 +60,12 @@ const { title, status, rows, action } = Astro.props;
     white-space: nowrap;
   }
 
+  /* Trimmed to cap height so the dot centres on the capitals, not the line box. */
+  .status-label {
+    display: block;
+    text-box: trim-both cap alphabetic;
+  }
+
   .status::before {
     content: '';
     inline-size: var(--size-dot);
@@ -84,7 +90,7 @@ const { title, status, rows, action } = Astro.props;
 
   .title {
     font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   .meta,
@@ -104,7 +110,7 @@ const { title, status, rows, action } = Astro.props;
     box-shadow: var(--shadow-1);
     border-radius: var(--radius-control);
     font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     text-align: center;
   }
 </style>

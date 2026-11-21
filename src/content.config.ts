@@ -482,8 +482,13 @@ const home = z.object({
     lead: z.string(),
     tabsLabel: z.string(),
     app: z.object({
+      /** Shown in the window's address bar. */
+      address: z.string(),
       nav: z.array(z.string()),
       user: z.object({ initials: z.string(), name: z.string(), meta: z.string() }),
+      balancesLabel: z.string(),
+      /** Sidebar balances: currency code and amount, in the same order as the Balance tab. */
+      balances: z.array(z.object({ code: z.string(), amount: z.string() })),
     }),
     tabs: z.array(
       z.object({

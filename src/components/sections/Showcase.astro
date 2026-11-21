@@ -11,7 +11,7 @@ interface Props {
   title: string;
   lead: string;
   tabsLabel: string;
-  app: { nav: string[]; user: FeatureTabsProps['user'] };
+  app: FeatureTabsProps['app'];
   tabs: FeatureTabsProps['tabs'];
 }
 const { title, lead, tabsLabel, app, tabs } = Astro.props;
@@ -21,7 +21,7 @@ const { title, lead, tabsLabel, app, tabs } = Astro.props;
   <div class="l-stack" style="--gap: var(--space-2xl)">
     <SectionHeader id="showcase-title" title={title} lead={lead} />
     <div data-reveal>
-      <FeatureTabs client:visible label={tabsLabel} nav={app.nav} user={app.user} tabs={tabs}>
+      <FeatureTabs client:visible label={tabsLabel} app={app} tabs={tabs}>
         <Logo slot="logo" label="" />
       </FeatureTabs>
     </div>

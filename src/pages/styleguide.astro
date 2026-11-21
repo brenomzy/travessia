@@ -346,7 +346,7 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
 
   <Section theme="dark" spacing="after-strip">
     <h2 class="label">{g.sections.tabs}</h2>
-    <FeatureTabs client:visible label={home.showcase.tabsLabel} nav={home.showcase.app.nav} user={home.showcase.app.user} tabs={home.showcase.tabs}>
+    <FeatureTabs client:visible label={home.showcase.tabsLabel} app={home.showcase.app} tabs={home.showcase.tabs}>
       <Logo slot="logo" label="" />
     </FeatureTabs>
   </Section>

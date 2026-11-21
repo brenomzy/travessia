@@ -22,7 +22,7 @@ const { number, from, status, billToLabel, billTo, lines, totalLabel, total, met
       <p class="number">{number}</p>
       <p class="from">{from}</p>
     </div>
-    <span class="chip">{status}</span>
+    <span class="chip"><span class="chip-label">{status}</span></span>
   </div>
   <div class="bill">
     <p class="label">{billToLabel}</p>
@@ -68,7 +68,7 @@ const { number, from, status, billToLabel, billTo, lines, totalLabel, total, met
 
   .head {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: var(--space-s);
   }
@@ -76,7 +76,7 @@ const { number, from, status, billToLabel, billTo, lines, totalLabel, total, met
   .number {
     font-size: var(--text-xl);
     line-height: var(--leading-xl);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     letter-spacing: var(--tracking-xl);
   }
 
@@ -89,23 +89,44 @@ const { number, from, status, billToLabel, billTo, lines, totalLabel, total, met
     font-size: var(--text-xs);
   }
 
+  /* A status tag: fixed height, dot, and a label trimmed to cap height so it sits optically centred. */
   .chip {
-    padding: var(--space-3xs) var(--space-2xs);
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-3xs);
+    block-size: var(--size-tag);
+    padding-inline: var(--space-2xs);
     border-radius: var(--radius-tag);
     background-color: var(--color-chip-bg);
     color: var(--color-chip-text);
     font-size: var(--text-xs);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
     white-space: nowrap;
+  }
+
+  /* Trimmed to cap height, so the flex centring centres the capitals, not the line box. */
+  .chip-label {
+    display: block;
+    text-box: trim-both cap alphabetic;
+  }
+
+  .chip::before {
+    content: '';
+    inline-size: var(--size-dot-s);
+    block-size: var(--size-dot-s);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-accent-data);
   }
 
   .bill {
     padding-block: var(--space-xs);
-    border-block: var(--size-hairline) solid var(--color-border-base);
+    border-block: var(--size-hairline) solid var(--color-ring);
   }
 
   .client {
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   .lines {
@@ -131,13 +152,13 @@ const { number, from, status, billToLabel, billTo, lines, totalLabel, total, met
     align-items: baseline;
     padding-block-start: var(--space-xs);
     border-block-start: var(--size-hairline) solid var(--color-border-strong);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
   }
 
   .sum {
     font-size: var(--text-2xl);
     line-height: var(--leading-2xl);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-medium);
     letter-spacing: var(--tracking-2xl);
   }
 

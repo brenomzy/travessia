@@ -17,7 +17,7 @@ const { status, time, from, to, note, progress = 0.72, shadow = 'floating-dark' 
 
 <div class="conversion" data-theme="light" data-shadow={shadow} style={`--progress: ${progress}`}>
   <div class="head">
-    <span class="status">{status}</span>
+    <span class="status"><span class="status-label">{status}</span></span>
     <span class="time">{time}</span>
   </div>
   <div class="amounts">
@@ -61,7 +61,13 @@ const { status, time, from, to, note, progress = 0.72, shadow = 'floating-dark' 
     align-items: center;
     gap: var(--space-2xs);
     font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* Trimmed to cap height so the dot centres on the capitals, not the line box. */
+  .status-label {
+    display: block;
+    text-box: trim-both cap alphabetic;
   }
 
   .status::before {
@@ -81,7 +87,7 @@ const { status, time, from, to, note, progress = 0.72, shadow = 'floating-dark' 
 
   .amounts {
     font-size: var(--text-lg);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     letter-spacing: var(--tracking-lg);
     font-variant-numeric: tabular-nums;
     color: var(--color-text-base);

@@ -423,6 +423,9 @@ export const tokens = {
     "header": 80,
     "tap": 44,
     "dot": 8,
+    "dot-s": 6,
+    "tag": 20,
+    "tag-s": 16,
     "bar": 6,
     "phone": {
       "width": 300,

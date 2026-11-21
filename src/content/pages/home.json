@@ -180,6 +180,7 @@
     "lead": "All in one account: open invoices, balances, conversions, tax invoices and the monthly report.",
     "tabsLabel": "Product screens",
     "app": {
+      "address": "app.travessia.com",
       "nav": [
         "Balance",
         "Invoices",
@@ -192,7 +193,22 @@
         "initials": "AR",
         "name": "Ana Ribeiro",
         "meta": "MEI · Recife"
-      }
+      },
+      "balancesLabel": "Balances",
+      "balances": [
+        {
+          "code": "USD",
+          "amount": "4,212.40"
+        },
+        {
+          "code": "EUR",
+          "amount": "1,380.00"
+        },
+        {
+          "code": "GBP",
+          "amount": "640.00"
+        }
+      ]
     },
     "tabs": [
       {
