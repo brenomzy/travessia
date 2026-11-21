@@ -27,7 +27,7 @@ Photography is Travessia's proof that the crossing is real: a river, a boat, a b
 
 One recipe for every photo, with a subject slot and a quiet-zone slot. It goes to Magnific (Nano Banana 2.1), with the cost of each batch stated first.
 
-> [SUBJECT]. Documentary photograph, overcast soft daylight, natural slightly muted colour, deep blue-black shadows, any water clean and clear dark green-teal, fine film grain, real depth of field. Calm, uncluttered composition with one subject and a quiet dark area across the [SIDE] of the frame, at least a third of the image. Keep the sky low in the frame or out of it: no bright white sky. No people except tiny distant figures, no text, no logos, no money, no brown or muddy water.
+> [SUBJECT]. A Brazilian tropical setting: rainforest vegetation and palms along the banks; no pines, conifers or maple leaves. Documentary photograph, overcast soft daylight, natural slightly muted colour, deep blue-black shadows, any water clean and clear dark green-teal, fine film grain, real depth of field. Calm, uncluttered composition with one subject and a quiet dark area across the [SIDE] of the frame, at least a third of the image. Keep the sky low in the frame or out of it: no bright white sky. When there is more than one boat, each is different in size, shape and colour, never copies. No people except tiny distant figures, no text, no logos, no money, no brown or muddy water.
 
 ## Approved so far
 
@@ -46,7 +46,9 @@ Batch 1 (2026-11-21, picked by Breno): 10 of 20, one take per subject. Files in 
 | 5b | Bridges over the Capibaribe, Recife | Recife stories (Ana) |
 | 3b | A ferry crossing, from the far bank | Stories |
 
-What batch 1 taught the recipe: the strongest frames are aerials straight down and scenes at water level with no sky. Overcast skies came out nearly white in 3, 4, 5, 8 and 10, brightening the area meant for headlines, so the recipe now keeps the sky low or out and asks for the quiet area to be at least a third of the frame.
+Batch 2 (2026-11-21, picked by Breno): 11a and 11b (two waters, wide; **11b is the About hero**), 12a and 12b (a footbridge over a forest creek from above), 14a and 14b (a suspension footbridge from below). Out: 13 (a maple leaf, not Brazilian) and 15 (copied boats). Files in `docs/design/photography/batch-2/`; board "3 · Batch 2".
+
+What batch 1 taught the recipe: the strongest frames are aerials straight down and scenes at water level with no sky. Overcast skies came out nearly white in 3, 4, 5, 8 and 10, brightening the area meant for headlines, so the recipe now keeps the sky low or out and asks for the quiet area to be at least a third of the frame. Batch 2 fixed the skies but drifted north when no place was named (a maple leaf, conifers) and repeated identical boats, so the recipe now names a Brazilian tropical setting and asks for boats that differ.
 
 ## The first shot list
 
