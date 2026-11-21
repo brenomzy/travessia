@@ -92,14 +92,15 @@ The waterline channel stays in every colourway, one-colour included.
 
 ### The mark
 
-**The woven ss on the seam** (decided by Breno, 2026-11-20). **Under review (2026-11-21):** with the seam retired from every surface, the mark is the last place the dither appears. Options on the Paper board "Logo · the mark without the dither" (Brand · Core identity): painted clear water, painted meeting, a flat split, and painted from 96 px up with the flat split below. Until one is picked, the files below stay as they are. Boards: Paper page "Brand · Core identity", "Logo · the mark, A + C" and "Icon exports".
+**The woven ss on painted water** (Breno, 2026-11-21, option A1). It replaced the woven ss on the dithered seam (2026-11-20) when the seam was retired. Boards: Paper page "Brand · Core identity", "Logo · the mark without the dither" (the options) and "Icon exports" (the files; the seam version is kept beside it as "Icon exports (seam, retired 2026-11-21)").
 
 - The ss is taken out of the wordmark at the same spacing (336 units), with the same weave and waterline. Nothing is redrawn.
-- It sits on a square of the seam texture (`hseam.png`), positioned so the dither meets the solid igarapé exactly at the waterline: the top of the ss is white on the dark water and the dither, the bottom is rio-negro on the light water.
-- It is used **only in this seam version**, at every size, favicon included. There is no flat or single-colour mark.
+- **From 96 px up** (app icon, apple-touch icon, manifest icons, social avatar): it sits on painted clear water, portrait (`src/assets/imagery/clear-water-portrait.png`), cropped so the dark water is above the waterline and the igarapé below. A rio-negro tint fades down from the top (60% at the top, gone by 72% of the height) so the white top of the ss holds; there is no hard edge to the tint.
+- **At 48 px and below** (favicons): a flat split, rio-negro above and igarapé below, cut straight at the waterline (54.6% of the height). Brushwork can't show at these sizes, and the flat split stays sharp at 16 px.
+- The top half of the ss is white, the bottom rio-negro, at every size. There is no single-colour mark.
 - Files in `public/`: `favicon.ico` (16, 32 and 48 px), `favicon-32.png`, `apple-touch-icon.png` (180 px), `icon-192.png` and `icon-512.png` for the web manifest (`src/pages/site.webmanifest.ts`). App icons are square; the operating system rounds the corners. The favicon tile has a 22% corner radius.
 - Use it for the favicon, app icon and social avatar, and anywhere under the wordmark's 96 px minimum. Never next to the wordmark: the word already contains it.
-- Because the seam is a pixel texture, the mark is always a rendered image, exported from the Paper board, never rebuilt as vector.
+- The mark is always a rendered image, exported from the Paper board "Icon exports", never rebuilt as vector. `favicon.ico` packs the 16, 32 and 48 px exports as PNG entries.
 
 ---
 
@@ -260,5 +261,6 @@ Decided by Breno, 2026-11-21 (Paper: "5 · Seam review" on Brand · Graphic lang
 - Don't bring the dither back as a background, band, strip or texture. The meeting of two waters is the river (in motion) or the painted meeting (in stills).
 - The painting component is `src/components/ui/Painting.astro`; the files and their prompts are in `src/assets/imagery/`. A painting crop always sits inside a frame (radius `--radius-l`, or `--radius-m` inside a card) or bleeds off the section edge; never as a small floating rectangle.
 - At most one painted meeting (D) per page.
+- The mark moved off the seam on the same day ("The mark" above).
 - Still to move: the customer story covers (`src/assets/textures/stories/`) and the other four blog-cover patterns use halftone and dither. They get their own pass; photography is the imagery for stories and editorial.
 - The seam engine, `SeamCanvas` and the seam PNGs were deleted from the site. Their scripts stay in `docs/design/texture-lab/` as history.

@@ -2,7 +2,7 @@
 
 Pattern stills from the Paper design. They are design assets, not generator output, so they live here and not in `src/assets/generated/`.
 
-The dithered seam textures (`seam-40`, `seam-50`, `seam-cta`, `hseam`, `mobile-seam-v2`, `strip-tap-noite`) and the seam shader were retired on 2026-11-21 (playbook step 8): the paintings in `src/assets/imagery/` and the river replaced them. The scripts that made them are still in `docs/design/texture-lab/`, and the logo mark keeps its own exported seam square until the mark is redrawn.
+The dithered seam textures (`seam-40`, `seam-50`, `seam-cta`, `hseam`, `mobile-seam-v2`, `strip-tap-noite`) and the seam shader were retired on 2026-11-21 (playbook step 8): the paintings in `src/assets/imagery/` and the river replaced them. The scripts that made them are still in `docs/design/texture-lab/`.
 
 ## Blog covers (`covers/`)
 
