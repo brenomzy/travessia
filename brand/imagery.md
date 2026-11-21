@@ -27,7 +27,26 @@ Photography is Travessia's proof that the crossing is real: a river, a boat, a b
 
 One recipe for every photo, with a subject slot and a quiet-zone slot. It goes to Magnific (Nano Banana 2.1), with the cost of each batch stated first.
 
-> [SUBJECT]. Documentary photograph, overcast soft daylight, natural slightly muted colour, deep blue-black shadows, any water clean and clear dark green-teal, fine film grain, real depth of field. Calm, uncluttered composition with one subject and a quiet dark area across the [SIDE] of the frame. No people except tiny distant figures, no text, no logos, no money, no screens showing content, no brown water.
+> [SUBJECT]. Documentary photograph, overcast soft daylight, natural slightly muted colour, deep blue-black shadows, any water clean and clear dark green-teal, fine film grain, real depth of field. Calm, uncluttered composition with one subject and a quiet dark area across the [SIDE] of the frame, at least a third of the image. Keep the sky low in the frame or out of it: no bright white sky. No people except tiny distant figures, no text, no logos, no money, no brown or muddy water.
+
+## Approved so far
+
+Batch 1 (2026-11-21, picked by Breno): 10 of 20, one take per subject. Files in `docs/design/photography/batch-1/`; board "2 · Batch 1".
+
+| Pick | What it is | Best use |
+|---|---|---|
+| 1b | Two waters meeting from above, one boat on the line, forest on both edges | The About hero (replacing the muddy aerial); the mark's story told as a photo |
+| 9a | One boat's wake drawing a pale line across dark water, from above | Covers and posters: a large quiet area for a headline |
+| 2a | A canoe on dark water with clouds reflected in it | Stories, social |
+| 4b | An iron bridge from below in fog | Campaigns about the crossing |
+| 6b | Flooded forest standing in clear dark water | Editorial, the data report |
+| 7a | A river lined with forest, from the air | Ciliar campaigns |
+| 10b | Two boats passing in morning mist | Stories |
+| 8b | A wooden dock into mist | Editorial; the closest to a postcard cliché, use sparingly |
+| 5b | Bridges over the Capibaribe, Recife | Recife stories (Ana) |
+| 3b | A ferry crossing, from the far bank | Stories |
+
+What batch 1 taught the recipe: the strongest frames are aerials straight down and scenes at water level with no sky. Overcast skies came out nearly white in 3, 4, 5, 8 and 10, brightening the area meant for headlines, so the recipe now keeps the sky low or out and asks for the quiet area to be at least a third of the frame.
 
 ## The first shot list
 
