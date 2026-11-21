@@ -38,7 +38,7 @@
   .chip {
     flex-shrink: 0;
     padding: var(--space-2xs) var(--space-s);
-    border: var(--size-hairline) solid var(--color-border-base);
+    box-shadow: var(--shadow-1);
     border-radius: var(--radius-control);
     background: none;
     color: var(--color-text-base);

@@ -75,11 +75,11 @@
   }
 
   .input[data-invalid] {
-    border-color: var(--color-accent-primary);
+    border-color: var(--color-error);
   }
 
   .error {
-    color: var(--color-accent-primary);
+    color: var(--color-error);
     font-size: var(--text-sm);
   }
 
@@ -228,7 +228,7 @@
     border: var(--size-focus-ring) solid var(--color-border-strong);
     border-radius: var(--radius-s);
     background: none;
-    color: var(--color-on-accent);
+    color: var(--color-on-data-strong);
   }
 
   .checkbox[data-checked] {
@@ -250,15 +250,15 @@
     padding: var(--space-s) var(--space-l);
     border: 0;
     border-radius: var(--radius-control);
-    background-color: var(--color-accent-primary);
-    color: var(--color-on-accent);
+    background-color: var(--color-action-bg);
+    color: var(--color-action-text);
     font: inherit;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     transition: background-color var(--duration-fast) var(--ease-hover), var(--transition-press);
   }
 
   .submit:hover {
-    background-color: var(--color-accent-primary-hover);
+    background-color: var(--color-action-hover);
   }
 
   .submit:focus-visible {

@@ -117,12 +117,13 @@ Renamed on 2026-11-20 (same hex values; the generated CSS was checked to be iden
 | `noite` | #2A3E48 to #0F1C24, blue-black | `rio-negro` | The Rio Negro's dark water, one side of the *Encontro das Águas*. |
 | `agua` | #EAF8F8 to #0B4456, teal | `tapajos` | The Tapajós is known for its clear blue-green water. Token names drop the accent; labels keep "tapajós". |
 | `urucum` | #F2542D, #D63F1A | `urucum` | Annatto seed, the red dye used in body paint and in *colorau*. Unchanged. |
+| `tapajos` | #13A7B5 and its ramp | `igarape` (2026-11-21) | Not a rename: a new colour, #00C99B, picked in step 7 because tapajós read muted. An *igarapé* is a small, clear forest stream. Urucum moved to #FF4A1C at the same time. |
 | `cinza` | #E1E7E8 to #2E3B42, cool grey | `neblina` | The mist over the river in the morning. |
 | `white` | #FFFFFF | `white` | Pure white stays plain. If a warm off-white is added later, it becomes `algodao` (cotton) or `tabatinga` (the pale riverbank clay used to paint houses in the Amazon). |
 
-CSS variables follow the names: `--rio-negro-900`, `--tapajos-500`, `--neblina-600`, `--urucum-600`. Texture file names (`strip-tap-noite.png`, `dither-noite.png`) keep their old names so they still match the texture-lab archive. The Paper file's "Design system" page still shows the old names.
+CSS variables follow the names: `--rio-negro-900`, `--igarape-500`, `--neblina-600`, `--urucum-600`. Texture file names (`strip-tap-noite.png`, `dither-noite.png`) keep their old names so they still match the texture-lab archive. The Paper file's "Design system" page still shows the old names.
 
-**One thing to decide:** the seam pairs the dark with the teal, so with these names it reads as Rio Negro meeting Tapajós, and those two rivers don't meet. The *Encontro das Águas* is Rio Negro and Solimões (dark and sandy) at Manaus; the Tapajós meets the Amazonas at Santarém. Either the story becomes "two waters meeting" in general, or the seam's light side shifts toward a sandy `solimoes`. Brazilian readers will notice, so decide it on purpose.
+**Decided 2026-11-21: "two waters meeting" in general.** The seam now pairs rio-negro with igarapé and doesn't depict a real confluence. Original note: the seam pairs the dark with the teal, so with these names it reads as Rio Negro meeting Tapajós, and those two rivers don't meet. The *Encontro das Águas* is Rio Negro and Solimões (dark and sandy) at Manaus; the Tapajós meets the Amazonas at Santarém. Either the story becomes "two waters meeting" in general, or the seam's light side shifts toward a sandy `solimoes`. Brazilian readers will notice, so decide it on purpose.
 
 **Names held for campaign colours** (loud mode), used only if a colour is added: `acai` (deep purple), `buriti` (orange-red), `cupuacu` (cream), `castanha` (Brazil nut brown), `jenipapo` (the blue-black fruit dye), `cacau`, `mate` (green), `jambu` (yellow flower), `solimoes` (sand).
 
@@ -268,6 +269,14 @@ Pick one territory. If the current one wins, this step costs a day and gives you
 
 **Output:** a "Core identity" page in Paper, token changes in `tokens.json`, and `brand/rules.md` (logo and colour rules).
 
+**Decided (2026-11-20 to 2026-11-21, approved by Breno):**
+- **Type:** Figtree only; each size carries its own leading and tracking (`--leading-*`, `--tracking-*`). Headline device: the waterline.
+- **Logo:** the woven ss wordmark cut by the waterline; clear space one x-height; 96 px minimum. The mark is the woven ss on the seam, seam version only, at every size.
+- **Colour:** rio-negro and igarapé (#00C99B, new), with igarapé as the one accent for "act here" (one igarapé button per view, rio-negro text on it). Urucum left the core for campaigns after the accent study. Açaí dropped, no solimões, the seam is "two waters meeting". Picked from five palettes on the Paper page "Brand · Colour options".
+- **Interface parts:** headings and button labels at 500; two-tone headlines with a solid lighter second line; tinted secondary buttons; rings inside soft shadows instead of borders; mist panels; radii 8, 12 and 20 px. Studied on the Paper page "Brand · Accent and UI study".
+- **Hero:** the animated river from the shader lab (tile 8i), replacing the half-and-half seam from 1024 px.
+- All in `brand/rules.md` and the tokens.
+
 ### 8. Write the graphic language rules
 
 **Goal:** the parts that make a layout recognisable without the logo.
@@ -366,16 +375,18 @@ Ramp's campaigns share a structure: the old way shown as a physical burden (a pi
 
 ## Open decisions
 
-- **The seam story.** Rio Negro doesn't meet the Tapajós. Treat the seam as "two waters meeting" in general, or move its light side toward a sandy `solimoes` (step 7).
-- **Typeface.** Keep Figtree, or license a face (step 7).
+- ~~**The seam story.**~~ Decided 2026-11-21: "two waters meeting" in general (rio-negro and igarapé); no `solimoes`.
+- ~~**Typeface.**~~ Decided 2026-11-20: Figtree stays.
 - **Illustration.** Yes or no (step 10).
+- ~~**Step 7 accent and UI direction**~~ (Breno, 2026-11-21, done: from the Paper page "Brand · Accent and UI study" and `brand/references.md` "Accent use and UI craft"). Agreed: one accent, igarapé, for "act here", with rio-negro sharing the primary buttons; urucum leaves the core for campaigns. Headlines use the two-tone (second half in 60% rio-negro) at weight 500, −0.02em. Button labels 500. No borders: a faint 1 px ring inside a very soft shadow. Neutral panels instead of mint. Hero, decided for now (2026-11-21): the river from the shader lab, tile 8i in `docs/design/shader-lab/river5.html` (shader saved as `docs/design/shader-lab/hero-river-8i.frag`). A single igarapé river with drifting white streaks on a dark field, clean one-pixel echo lines along its banks, and a width that slowly swells and narrows. It replaces the half-and-half seam, so the igarapé button no longer sits next to a wall of igarapé. Reached in six lab rounds (shader lab, then river labs 1 to 5). The headline's second line still needs a solid colour instead of 55% white (lab buttons: fog, silver, igarapé-100, igarapé-300). Built into the site on 2026-11-21.
+- **Button styling experiment.** Breno likes some of Cloudflare's and Nucleo Icons' buttons. Try them as a variant once the core parts are in code (step 8 or a UI polish pass).
 
 Raised by step 1 (`brand/references.md`, "Where Travessia overlaps", 2026-11-20). These are notes, not blockers: Travessia is fictional, and the outputs and the system behind them are what the project is for (Breno, 2026-11-20). Act on one when it's cheap or when it makes the work better, not to avoid a competitor.
 - **Where the promise comes from.** Wise already sells BRL balances and Pix payouts in Brazil and has a freelancer segment; Nubank has multi-currency accounts. Fee and speed can't carry the strategy; the export tax invoice and the accountant's report are unclaimed (step 2).
 - **The bank-versus-Travessia bars.** Wise's green-versus-grey comparison bars are one of its signature images. Keep the comparison, find another form (step 8).
-- **The held `acai` colour.** A deep purple reads as Nubank to Brazilian readers. Drop it or move it towards wine or near-black (step 7).
+- ~~**The held `acai` colour.**~~ Dropped 2026-11-21 (step 7): a deep purple reads as Nubank to Brazilian readers.
 - **River photography.** Mercury's hero is a misty river valley and its 2026 campaign art is a canoe crossing. Keep river imagery to close, water-level objects (step 9).
-- **A sandy `solimoes`.** Sand is a major Nubank surface; if it arrives, keep it inside the seam (step 7).
+- ~~**A sandy `solimoes`.**~~ Not added 2026-11-21 (step 7): the seam stays dark and clear.
 
 Decided on 2026-11-19: this playbook is brief Phase 1, "Brand build and consolidation" (brief §8).
 

@@ -42,7 +42,7 @@ All the textures share one pipeline, which maps directly to a fragment shader:
 4. **Boundary.** A signed distance from the seam position plus `warp × amp`. Vertical seams use `u − at`; horizontal ones use `Y − Y0`. It's turned into coverage with `clamp(0.5 + boundary × gain + warp × 0.2)`. Gain is 9 for seams, 8 for hseam, 2.2 for the strip and 1.7 for mobile. A higher gain gives a sharper edge.
 5. **Pixelation.** Samples are snapped to 6 px cells (5 px on the covers, 4 px for the calm mask). That's what makes the dots read as dither and not as blur.
 6. **Ordered dither.** A 4×4 Bayer matrix, `(n + 0.5) / 16`. Coverage above the threshold gets the first colour, otherwise the second.
-7. **Colours.** Two flat colours only: `#13A7B5` (tapajós 500) and `#0F1C24` (noite). Covers also use `#EAF8F8`, `#FFFFFF`, `#CDEFF0`, `#9FE0E3` and `#0B5E73`.
+7. **Colours.** Two flat colours only: `#00C99B` (igarapé 500) and `#0F1C24` (noite). Covers also use `#ECFBF5`, `#FFFFFF`, `#CCF7E5`, `#95F1CF` and `#0E6B52`. Recoloured from tapajós to igarapé on 2026-11-21 (playbook step 7); the shapes are unchanged.
 
 Seam values:
 

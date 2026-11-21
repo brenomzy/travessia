@@ -3,6 +3,7 @@
  * "Compare os planos lado a lado" (Paper: /precos → Compare). A real <table>, so screen readers get
  * row and column headers. Prices follow the billing toggle through the [data-billing] scope around
  * it. On narrow screens the table scrolls sideways inside a labelled region.
+ * The table's buttons are all secondary: the plan cards above it already carry the urucum button (one per view).
  */
 import type { CollectionEntry } from 'astro:content';
 import Section from './Section.astro';
@@ -86,7 +87,7 @@ const periods = [
             {
               plans.map(({ data: plan }) => (
                 <td data-highlight={plan.highlight ? '' : undefined}>
-                  <Button variant={plan.highlight ? 'accent' : 'secondary'} size="s" href={ctaHref} block>
+                  <Button variant="secondary" size="s" href={ctaHref} block>
                     {plan.cta}
                   </Button>
                 </td>

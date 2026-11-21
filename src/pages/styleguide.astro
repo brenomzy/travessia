@@ -50,6 +50,7 @@ import FeeCalculatorSeam from '../components/islands/FeeCalculatorSeam';
 import seamCta from '../assets/textures/seam-cta.png';
 import seam40 from '../assets/textures/seam-40.png';
 import SeamCanvas from '../components/ui/SeamCanvas.astro';
+import RiverCanvas from '../components/ui/RiverCanvas.astro';
 import seamMobile from '../assets/textures/mobile-seam-v2.png';
 import { getChanges, getFaqs, getPosts, getStories } from '../lib/content';
 import { tokens } from '../tokens/tokens';
@@ -331,6 +332,14 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
         ))
       }
     </ul>
+  </Section>
+
+  <Section theme="dark">
+    <div class="l-stack" style="--gap: var(--space-s)">
+      <h2 class="label">{g.river.title}</h2>
+      <p class="seam-lead">{g.river.lead}</p>
+    </div>
+    <div class="river-demo"><RiverCanvas /></div>
   </Section>
 
   <SeamStrip />
@@ -704,6 +713,14 @@ const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'cl
 
   .log-slot {
     max-inline-size: 25rem;
+  }
+
+  .river-demo {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-l);
+    background-color: var(--color-bg-base);
   }
 
   .seam-demo {

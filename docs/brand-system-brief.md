@@ -116,7 +116,7 @@ Each mode is a short list of rules the system can choose and check: background t
 
 | Mode | Used for | Visual | Voice | Imagery | Defined in |
 |---|---|---|---|---|---|
-| Quiet | Decks, investor updates, sales and support one-pagers | White background, text first, one small tapajós accent, no seam texture, no illustration | Headlines state facts; every number has a source; no exclamation marks | Product UI, charts from `proof.md`. No photography. | Phase 2 |
+| Quiet | Decks, investor updates, sales and support one-pagers | White background, text first, one small igarapé accent, no seam texture, no illustration | Headlines state facts; every number has a source; no exclamation marks | Product UI, charts from `proof.md`. No photography. | Phase 2 |
 | Standard | Feature one-pagers, landing pages, product graphics | Close to the site: seam texture band, one accent per surface, product UI vignettes | To be defined | Product UI, seam textures | Phase 3 |
 | Loud | Launches, campaigns, social | Rio-negro or urucum fields, large type, illustration scenes, motion allowed | Short imperative headlines allowed; one claim per surface | AI photography of places, objects, hands and work settings. Never a face presented as a customer. | Phase 4 |
 
@@ -226,8 +226,8 @@ The case study and `/brand` page are updated after each phase from 4 on.
 - **[verify]** Paper → template: how close `get_jsx` and computed styles get to a token-only template.
 - **[verify]** Claude API credits and cost per request, before Phase 6.
 - **[decide]** Agent SDK vs direct API, at Phase 6.
-- **[decide]** The seam story: Rio Negro doesn't meet the Tapajós. Treat the seam as "two waters meeting" in general, or move its light side toward a sandy `solimoes` to match the real *Encontro das Águas* (playbook step 7).
-- **[decide]** Typeface: keep Figtree, or license a more distinctive face (playbook step 7).
+- **[decided 2026-11-21]** The seam story: "two waters meeting" in general, rio-negro and igarapé. No sandy `solimoes` (playbook step 7, `brand/rules.md` Colour).
+- **[decided 2026-11-20]** Typeface: Figtree stays, tuned to one scale (playbook step 6 and 7).
 - **[decide]** Illustration and 3D: yes or no (playbook step 10).
 
 ---
@@ -275,4 +275,5 @@ The case study and `/brand` page are updated after each phase from 4 on.
 | Topic | Decision |
 |---|---|
 | Colour names | Renamed in code: noite → rio-negro, agua → tapajos, cinza → neblina; urucum and white unchanged. Values unchanged. Texture file names keep their old names to match the texture-lab archive. |
+| Palette | 2026-11-21, playbook step 7: the light water changed from tapajós (#13A7B5) to igarapé (#00C99B), and urucum got hotter (#FF4A1C) with rio-negro button text. Picked from five options on the Paper page "Brand · Colour options". Rules in `brand/rules.md`. |
 | How Phase 1 is done | About 95% by directing agents (Paper, Magnific, Markdown, code), not by hand. Each step is brief → batch → pick and mark up → iterate → approve. `docs/direction-log.md` records rounds, time and what had to be done by hand, as evidence for the case study. |

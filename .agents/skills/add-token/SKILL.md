@@ -11,7 +11,7 @@ Tokens are the only source of colours, type, spacing, sizes, radii, shadows and 
 
 | File | Who writes it |
 |---|---|
-| `src/tokens/tokens.json` | You. DTCG style: `$type`, `$value`, `$description`, aliases like `{tapajos.500}`. |
+| `src/tokens/tokens.json` | You. DTCG style: `$type`, `$value`, `$description`, aliases like `{igarape.500}`. |
 | `src/styles/tokens.css` | `npm run tokens`. Never edit by hand. |
 | `src/tokens/tokens.ts` | `npm run tokens`. Never edit by hand. Motion is also exported on its own as `motion`. |
 | `scripts/build-tokens.ts` | The generator. Change it only when a new token *type* needs new output. |
@@ -27,7 +27,7 @@ Names map one to one: `color.text.muted` ↔ `--color-text-muted` ↔ `tokens.co
 
 ## 2. Edit `tokens.json`
 
-- Colours alias the palette: `"$value": "{tapajos.300}"`. Add a palette step only when no existing step works, and note why in `$description`.
+- Colours alias the palette: `"$value": "{igarape.300}"`. Add a palette step only when no existing step works, and note why in `$description`.
 - Type sizes use `{ "min": 17, "max": 19 }` in px plus `leading`. The script writes a fluid `clamp()` between 390 px and 1440 px.
 - Space can be fixed or `{ "min", "max" }` fluid, same as type.
 - Durations are in ms in JSON; the TS output is in seconds for Motion.

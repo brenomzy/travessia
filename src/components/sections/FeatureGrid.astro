@@ -53,9 +53,9 @@ const { title, link, features } = Astro.props;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border: var(--size-hairline) solid var(--color-border-base);
     border-radius: var(--radius-l);
     background-color: var(--color-bg-base);
+    box-shadow: var(--shadow-1);
     transition:
       box-shadow var(--duration-fast) var(--ease-hover),
       var(--transition-press),
@@ -63,7 +63,7 @@ const { title, link, features } = Astro.props;
   }
 
   .card:hover {
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--shadow-2);
   }
 
   .text {

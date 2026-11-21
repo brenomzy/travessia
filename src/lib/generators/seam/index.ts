@@ -51,7 +51,7 @@ export type HorizontalShape = {
   at: number;
   amp: number;
   gain: number;
-  /** true when the colour above the threshold is the dark one (the strip: tapajós on top). */
+  /** true when the colour above the threshold is the dark one (the strip: igarapé on top). */
   invert: boolean;
 };
 
@@ -62,7 +62,7 @@ export type SeamRecipe = {
   /** Dither cell in texture pixels (6 for every seam). */
   cell: number;
   shape: VerticalShape | HorizontalShape;
-  /** Two flat colours as [r, g, b] 0–255: dark (rio-negro) and light (tapajós). */
+  /** Two flat colours as [r, g, b] 0–255: dark (rio-negro) and light (igarapé). */
   dark: [number, number, number];
   light: [number, number, number];
   motion: SeamMotion;

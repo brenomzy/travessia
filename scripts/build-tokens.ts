@@ -22,7 +22,7 @@ function walk(node: Json, path: string[], fn: (path: string[], token: Json) => v
   }
 }
 
-/** "{palette.tapajos.500}" → node in the JSON */
+/** "{palette.igarape.500}" → node in the JSON */
 function lookup(ref: string): Json {
   const node = ref.slice(1, -1).split('.').reduce((n: Json, k) => n?.[k], src);
   if (!isToken(node)) throw new Error(`Unknown token reference ${ref}`);
@@ -31,7 +31,7 @@ function lookup(ref: string): Json {
 const isRef = (v: unknown): v is string => typeof v === 'string' && /^\{.+\}$/.test(v);
 /** Resolves aliases to a raw value (for tokens.ts and contrast checks). */
 const resolve = (v: any): any => (isRef(v) ? resolve(lookup(v).$value) : v);
-/** "{palette.tapajos.500}" → "var(--tapajos-500)" (palette names drop the "palette" prefix). */
+/** "{palette.igarape.500}" → "var(--igarape-500)" (palette names drop the "palette" prefix). */
 const refVar = (ref: string) => {
   const parts = ref.slice(1, -1).split('.');
   return `var(--${kebab(parts[0] === 'palette' ? parts.slice(1) : parts)})`;
@@ -174,8 +174,16 @@ for (const th of themeNames) {
   }
   check(`${th} placeholder on field`, t['color.field.placeholder'], t['color.field.bg']);
   check(`${th} chip text on chip`, t['color.chip.text'], t['color.chip.bg']);
+  check(`${th} action text on action`, t['color.action.text'], t['color.action.bg']);
+  check(`${th} action text on action hover`, t['color.action.text'], t['color.action.hover']);
+  // The second half of a two-tone headline is display text only: 3:1, WCAG AA for large text.
+  check(`${th} second line on bg`, t['color.text.second'], t['color.bg.base'], 3);
 }
 check('on-accent on accent.primary', ts.color['on-accent'], ts.color.accent.primary);
+check('on-accent on accent.primary-hover', ts.color['on-accent'], ts.color.accent['primary-hover']);
+check('on-data-strong on accent.data-strong', ts.color['on-data-strong'], ts.color.accent['data-strong']);
+check('error on light bg', ts.color.error, themes.light['color.bg.base']);
+check('error on tint bg', ts.color.error, themes.tint['color.bg.base']);
 check('banner text on banner bg', ts.color.banner.text, ts.color.banner.bg);
 
 if (failures.length) {

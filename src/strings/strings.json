@@ -181,6 +181,10 @@
         "river": "River: flow, drift and breathe together, all faint. This is the one on the heroes."
       }
     },
+    "river": {
+      "title": "Hero river (shader)",
+      "lead": "The home hero from 1024 px: one igarapé river with drifting streaks and one-pixel echo lines along its banks, its width slowly breathing (shader lab tile 8i, 2026-11-21). With reduced motion it shows one still frame; without WebGL2 or JavaScript the section stays plain rio-negro."
+    },
     "hover": {
       "title": "Hover",
       "lead": "Mouse and trackpad only, and nothing moves with reduced motion. The pill slides between nav links and rests on the current page. In card grids, the other cards fall back. On a card that's a link, the link's label rolls and one part of the picture moves: the invoice switches to PT, the balances wave, the tax invoice's tick pops, the bars grow. In the FAQ, the row under the pointer fills in and the others fall back.",

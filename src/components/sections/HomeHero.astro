@@ -1,12 +1,11 @@
 ---
 /**
  * Home hero (Paper: Home → "Hero C v3 · Animated product UI").
- * From 1024 px: a vertical seam, rio-negro on the left with the copy, tapajós on the right with the product UI.
- * The content sits in the page's content column (--page-inset), and the seam is pinned to that column, not to the
- * viewport, so the copy and the logo strip always land on the side whose colour they're written for.
- * Below it: the seam turns horizontal. Dollar story on rio-negro, the crossing on the seam, reais on tapajós.
+ * From 1024 px: rio-negro throughout, with the river (RiverCanvas, shader lab tile 8i, 2026-11-21) winding down the
+ * right behind the product UI. The copy and the waitlist sit on clean dark water on the left, so the igarapé button
+ * is the only block of igarapé next to them. The content sits in the page's content column (--page-inset).
+ * Below it: the seam turns horizontal. Dollar story on rio-negro, the crossing on the seam, reais on igarapé.
  */
-import seamDesktop from '../../assets/textures/seam-40.png';
 import seamMobile from '../../assets/textures/mobile-seam-v2.png';
 import WaitlistForm from '../ui/WaitlistForm.astro';
 import InvoiceCard from '../product/InvoiceCard.astro';
@@ -16,7 +15,7 @@ import PhoneMock from '../product/PhoneMock.astro';
 import { path, type RouteKey } from '../../lib/routes';
 import type { getPage } from '../../lib/content';
 import MotionScript from '../ui/MotionScript.astro';
-import SeamCanvas from '../ui/SeamCanvas.astro';
+import RiverCanvas from '../ui/RiverCanvas.astro';
 
 type Home = Awaited<ReturnType<typeof getPage<'home'>>>;
 interface Props {
@@ -32,9 +31,9 @@ const { ui } = content;
   data-theme="dark"
   aria-labelledby="hero-title"
   data-reveal-intro
-  style={`--seam-desktop: url(${seamDesktop.src}); --seam-mobile: url(${seamMobile.src});`}
+  style={`--seam-mobile: url(${seamMobile.src});`}
 >
-  <div class="seam" aria-hidden="true"><SeamCanvas texture="seam-40" align="center" /></div>
+  <div class="river" aria-hidden="true"><RiverCanvas /></div>
 
   <div class="copy" data-theme="dark" data-reveal-stagger>
     <h1 id="hero-title">
@@ -44,7 +43,7 @@ const { ui } = content;
     <WaitlistForm layout="stacked" />
   </div>
 
-  <!-- Desktop illustration: the product on the tapajós side. -->
+  <!-- Desktop illustration: the product, floating over the river. -->
   <div class="stage" aria-hidden="true">
     <div class="canvas" data-reveal-stagger>
       <div class="piece invoice"><InvoiceCard {...ui.invoice} /></div>
@@ -75,7 +74,7 @@ const { ui } = content;
     </div>
   </div>
 
-  <div class="aside" data-theme="primary" data-theme-laptop="dark" data-theme-desktop="primary" data-reveal-stagger>
+  <div class="aside" data-theme="primary" data-theme-laptop="dark" data-reveal-stagger>
     <p class="clients" lang="en">
       {content.clientsNote.text}
       <a href={path(content.clientsNote.link.route as RouteKey)}>{content.clientsNote.link.label}</a>
@@ -123,9 +122,10 @@ const { ui } = content;
     letter-spacing: var(--tracking-hero);
   }
 
+  /* The second half of the two-tone headline: a solid lighter colour, not lower opacity (2026-11-21). */
   .highlight {
     display: block;
-    color: var(--color-text-highlight);
+    color: var(--color-text-second);
   }
 
   .lead {
@@ -135,7 +135,7 @@ const { ui } = content;
   }
 
   .stage,
-  .seam {
+  .river {
     display: none;
   }
 
@@ -320,40 +320,21 @@ const { ui } = content;
     }
   }
 
-  /* ---------- From 1024 px, breakpoint.laptop (vertical seam) ---------- */
+  /* ---------- From 1024 px, breakpoint.laptop (the river) ---------- */
   @media (width >= 64rem) {
-    /*
-     * --seam-x is where the seam's centre line (40% across seam-40.png) falls: 31.5 rem into the content column,
-     * as in Paper at 1440. The texture is drawn on .seam at 16:10, never narrower than the hero (up to 1440 px),
-     * so its dots keep Paper's size on wide screens. Past its edges the gradient continues the two flat colours.
-     * SeamCanvas animates it over the PNG.
-     */
     .hero {
-      --seam-x: calc(var(--page-inset) + 31.5rem);
-
       position: relative;
       overflow: clip;
       grid-template-columns: var(--page-inset) 26.875rem 1fr var(--page-inset);
       grid-template-rows: auto auto;
       min-block-size: 54rem;
       padding-block: calc(var(--size-header) + var(--space-l)) var(--space-xl);
-      background-image: linear-gradient(to right, var(--color-seam-dark) var(--seam-x), var(--color-seam-light) var(--seam-x));
     }
 
-    .seam {
+    .river {
       display: block;
       position: absolute;
-      inset-block-start: 0;
-      inset-inline-start: var(--seam-x);
-      block-size: 100%;
-      aspect-ratio: 16 / 10;
-      min-inline-size: min(100%, 90rem);
-      translate: -40% 0;
-      background-image: var(--seam-desktop);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      image-rendering: pixelated;
+      inset: 0;
     }
 
     .copy,
@@ -431,7 +412,7 @@ const { ui } = content;
       inset-block-start: 11.875rem;
       inset-inline-start: 6.25rem;
       inline-size: 26.25rem;
-      stroke: var(--color-on-accent);
+      stroke: var(--color-text-base);
       stroke-width: 1.5;
       stroke-linecap: round;
       stroke-dasharray: 3 6;
@@ -439,11 +420,11 @@ const { ui } = content;
     }
 
     .path circle {
-      fill: var(--color-on-accent);
+      fill: var(--color-text-base);
       stroke: none;
     }
 
-    /* 1024–1439 px: the logo strip sits under the form, on rio-negro. There's no room for it right of the dither. */
+    /* 1024–1439 px: the logo strip sits under the form. There's no room for it beside the product. */
     .aside {
       grid-column: 2;
       grid-row: 2;
@@ -456,17 +437,13 @@ const { ui } = content;
     }
   }
 
-  /* From 1440 px: under the product, on tapajós, as in Paper. It starts 11.5 rem past the seam line. */
+  /* From 1440 px: under the product, on the right. */
   @media (width >= 90rem) {
     .aside {
       grid-column: 3;
       justify-self: end;
       inline-size: min(100%, 38rem);
       padding-block: var(--space-s) 0;
-    }
-
-    .logos {
-      border-block-start-color: var(--color-border-base);
     }
 
     .logos ul {

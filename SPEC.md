@@ -109,7 +109,7 @@ Numbers are kept from earlier versions; gaps are retired decisions.
   - **Geography as the generator.** Its alphabet was built from real river curves. Travessia's seam texture does something similar: two colours meeting, after the *Encontro das Águas* near Manaus, where the dark Rio Negro and the sandy Solimões run side by side before they mix.
   - **An elastic system.** Colours and illustrations change with the context: a fixed core palette plus one accent per surface, all from tokens.
   - **Don't take:** its wordmark, typeface, seal or palette, or anything that suggests a link to Embratur, RAI or a government.
-- **Palette:** the built palette is in `src/tokens/tokens.json`: rio-negro, tapajos, neblina, urucum and white. Primitives are named after Brazilian rivers and natural products (brief §11; reasons in `docs/brand-building-playbook.md`, "Colour names").
+- **Palette:** the built palette is in `src/tokens/tokens.json`: rio-negro, igarape, neblina, urucum and white (light water changed from tapajos to igarape on 2026-11-21; rules in `brand/rules.md`). Primitives are named after Brazilian rivers and natural products (brief §11; reasons in `docs/brand-building-playbook.md`, "Colour names").
 - **Illustration:** flat, layered product UI (invoice, balance, rate, phone), route arcs and river segments, checks, clocks and arrows. No real banknotes, and no bank, card-network or Pix logos.
 
 ---

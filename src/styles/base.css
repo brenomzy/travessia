@@ -18,7 +18,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   text-wrap: balance;
 }
 
@@ -64,7 +64,7 @@ a:hover {
 }
 
 ::selection {
-  background-color: var(--tapajos-200);
+  background-color: var(--igarape-200);
   color: var(--rio-negro-900);
 }
 

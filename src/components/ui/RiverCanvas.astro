@@ -1,0 +1,39 @@
+---
+/**
+ * The hero river: a WebGL canvas that fills its positioned parent (src/lib/motion/river.ts, engine in
+ * src/lib/generators/river). The parent's rio-negro background shows until the first frame and without WebGL2 or
+ * JavaScript. With reduced motion it shows one still frame. Decorative.
+ *
+ * Chosen in the shader lab, tile 8i (docs/design/shader-lab/river5.html, 2026-11-21).
+ */
+interface Props {
+  /** Where the river's centre line sits, 0–1 across the canvas. */
+  at?: number;
+}
+
+const { at = 0.66 } = Astro.props;
+---
+
+<canvas class="river-canvas" data-river data-at={at} aria-hidden="true"></canvas>
+
+<script>
+  import { initRivers } from '../../lib/motion/river';
+
+  initRivers();
+</script>
+
+<style>
+  .river-canvas {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-slow) var(--ease-base);
+  }
+
+  .river-canvas[data-ready] {
+    opacity: 1;
+  }
+</style>

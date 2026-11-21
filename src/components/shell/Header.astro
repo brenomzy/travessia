@@ -1,7 +1,8 @@
 ---
 /**
- * Site header (SPEC §5.5.4). variant="seam" sits over a seam hero: the brand side is on rio-negro,
- * the nav side on tapajós (from the laptop breakpoint up). Below it the whole header is on rio-negro.
+ * Site header (SPEC §5.5.4). variant="river" floats over the home hero's river, dark across the bar.
+ * variant="seam" sits over a seam hero: the brand side is on rio-negro,
+ * the nav side on igarapé (from the laptop breakpoint up). Below it the whole header is on rio-negro.
  * The full link list shows from 1280 px; below that the links live in the MobileNav drawer.
  */
 import Logo from '../ui/Logo.astro';
@@ -13,7 +14,7 @@ import { path, type RouteKey } from '../../lib/routes';
 interface Props {
   /** This page's path; the matching nav item is marked as the current page. */
   canonical: string;
-  variant?: 'seam' | 'light' | 'dark';
+  variant?: 'seam' | 'river' | 'light' | 'dark';
   current?: RouteKey;
   /** Only the logo and a way back (Paper: the open-account page). */
   minimal?: boolean;
@@ -30,7 +31,7 @@ const brandTheme = variant === 'light' ? 'light' : 'dark';
 const navTheme = variant === 'seam' ? 'primary' : brandTheme;
 ---
 
-<header class="header" data-variant={variant} data-theme={variant === 'seam' ? undefined : variant}>
+<header class="header" data-variant={variant} data-theme={variant === 'seam' ? undefined : variant === 'river' ? 'dark' : variant}>
   <div class="bar">
     <div class="brand" data-theme={brandTheme}>
       <a class="home" href={path('home')} aria-label={s.a11y.homeLink}>

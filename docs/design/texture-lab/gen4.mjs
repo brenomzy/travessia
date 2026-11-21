@@ -91,11 +91,11 @@ function encontroField(u, v) {
   return { boundary, warp, mixAmt, rx };
 }
 
-// ---------- Tapajós palette ----------
+// ---------- Igarapé palette ----------
 const P = {
-  branco: hex("#FFFFFF"), nevoa: hex("#EAF8F8"), a100: hex("#CDEFF0"), a200: hex("#9FE0E3"),
-  a300: hex("#5FCAD0"), a400: hex("#2DB6BF"), a500: hex("#13A7B5"), a600: hex("#0E8A99"),
-  a700: hex("#0B5E73"), a800: hex("#0B4456"), noite: hex("#0F1C24"),
+  branco: hex("#FFFFFF"), nevoa: hex("#ECFBF5"), a100: hex("#CCF7E5"), a200: hex("#95F1CF"),
+  a300: hex("#53E4B7"), a400: hex("#25D5A6"), a500: hex("#00C99B"), a600: hex("#029773"),
+  a700: hex("#0E6B52"), a800: hex("#0E4837"), noite: hex("#0F1C24"),
 };
 const ramp = (stops, t) => { t = clamp(t) * (stops.length - 1); const i = Math.min(stops.length - 2, Math.floor(t)); return mix(stops[i], stops[i + 1], t - i); };
 const bayer = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map((n) => (n + 0.5) / 16);

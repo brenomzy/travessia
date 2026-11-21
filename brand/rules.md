@@ -1,6 +1,6 @@
 # Rules
 
-> **Status:** in progress · playbook step 7 (core identity), started 2026-11-20. Type, the wordmark and the mark are done; colour and the graphic language (step 8) follow.
+> **Status:** playbook step 7 (core identity), 2026-11-20 to 2026-11-21: type, the wordmark, the mark, colour, the interface parts and the hero river are done. The graphic language (step 8) comes next.
 > **What this is:** the small, strict core of the identity, in rules an agent can follow and a check can test. Values live in `src/tokens/tokens.json`; this page says how to use them.
 
 ---
@@ -11,19 +11,19 @@
 
 ### One setting per size
 
-Every heading is **Figtree 600**. Each text size carries its own leading and tracking, and both tighten as size grows, so big text holds together as a block while small text stays open (the method Nubank and Wise use). Use the size's own `--leading-*` and `--tracking-*` with its `--text-*`; never mix steps.
+Every heading is **Figtree 500** (was 600 until 2026-11-21; lighter weight is what keeps Ramp, Mercury and Stripe calm, measured in `brand/references.md`). Each text size carries its own leading and tracking, and both tighten as size grows, so big text holds together as a block while small text stays open (the method Nubank and Wise use). Use the size's own `--leading-*` and `--tracking-*` with its `--text-*`; never mix steps.
 
 | Token | Max size | Leading | Tracking | Used for |
 |---|---|---|---|---|
-| `6xl` | 88 px | 0.94 | −0.05em | Largest site display |
-| `5xl` | 76 px | 0.96 | −0.045em | `h1` |
-| `hero` | 60 px | 0.98 | −0.045em | Hero headlines |
-| `4xl` | 56 px | 1.0 | −0.04em | `h2`, section titles |
-| `3xl` | 40 px | 1.06 | −0.03em | Section titles, big figures |
-| `2xl` | 28 px | 1.16 | −0.02em | Card titles |
-| `xl` | 22 px | 1.36 | −0.01em | Leads, `h3` |
-| `lg` | 19 px | 1.53 | 0 | Large body |
-| `base` | 17 px | 1.53 | 0 | Body |
+| `6xl` | 88 px | 0.94 | −0.03em | Largest site display |
+| `5xl` | 76 px | 0.96 | −0.028em | `h1` |
+| `hero` | 60 px | 0.98 | −0.025em | Hero headlines |
+| `4xl` | 56 px | 1.0 | −0.022em | `h2`, section titles |
+| `3xl` | 40 px | 1.06 | −0.018em | Section titles, big figures |
+| `2xl` | 28 px | 1.16 | −0.012em | Card titles |
+| `xl` | 22 px | 1.36 | −0.006em | Leads, `h3` |
+| `lg` | 19 px | 1.5 | 0 | Large body |
+| `base` | 17 px | 1.5 | 0 | Body |
 | `sm` | 15 px | 1.47 | 0 | Small body |
 | `xs` | 13 px | 1.38 | +0.01em | Captions, labels |
 
@@ -31,7 +31,7 @@ Campaign sizes beyond the site, for billboards and deck covers: 128 px at 0.9 an
 
 ### Weights
 
-- 600 for every heading, at every size. Size sets hierarchy, not weight.
+- 500 for every heading and every button label, at every size. Size sets hierarchy, not weight.
 - 400 for reading text.
 - 500 for amounts, labels and captions.
 - 700 only inside product UI where the app itself would use it.
@@ -41,12 +41,13 @@ Campaign sizes beyond the site, for billboards and deck covers: 128 px at 0.9 an
 - Amounts always use tabular figures (`font-variant-numeric: tabular-nums`) so columns line up.
 - Geist Mono stays for code-like detail only (IDs, raw values), not for amounts in marketing.
 
-### The headline device: the waterline
+### The headline device: two tones
 
-The promise, or any two-part headline, is split across dark and light water.
+The promise, or any two-part headline, is set in two tones (Breno, 2026-11-21: proposal B on the Paper page "Brand · Accent and UI study").
 
-- On a photograph or the seam: the first half sits on the dark water in white; the second on the light water in rio-negro.
-- On a flat surface: the first half in `--color-text-base`; the second in `--color-text-highlight`, which each theme resolves to the right tapajós (700 on white and tint, 300 on rio-negro). The Home hero already does this.
+- The first half in `--color-text-base`; the second in `--color-text-second`: a solid, lighter colour, never the text colour at lower opacity. Fog (neblina-300, #A8B6BC) on rio-negro, neblina-500 (#636E75) on white and mist, rio-negro-800 on igarapé.
+- `--color-text-second` is for display text only (3:1 is checked, the large-text level). It is not a highlight for amounts; those keep `--color-text-highlight`.
+- On a photograph or the seam, the old waterline still works: the first half on the dark water in white, the second on the light water in rio-negro.
 - Two parts at most. The split follows the sense of the line ("Paid abroad." / "Sorted at home."), never a break in the middle of a phrase.
 
 ---
@@ -59,7 +60,7 @@ Boards: Paper page "Brand · Core identity". The masters are on the "Design syst
 
 - Lowercase "travessia" in Figtree 600 outlines, kerned by hand. The two s are woven: each passes over the other once (the first at the top crossing, the second at the bottom).
 - The whole word is cut by **the waterline**: a 38-unit channel from y −223 to −185 (Figtree's 1000-unit em), just under the e's crossbar.
-- Above the waterline: rio-negro (`--color-logo-above`), or white on rio-negro (`--color-logo-above-inverse`). Below: tapajós-500 (`--color-logo-below`).
+- Above the waterline: rio-negro (`--color-logo-above`), or white on rio-negro (`--color-logo-above-inverse`). Below: igarapé-500 (`--color-logo-below`).
 
 ### Clear space and size
 
@@ -71,9 +72,9 @@ Boards: Paper page "Brand · Core identity". The masters are on the "Design syst
 
 | Background | Wordmark |
 |---|---|
-| White, tint | Two-colour: rio-negro above, tapajós below |
-| Rio-negro | Two-colour: white above, tapajós below |
-| Tapajós | One colour: rio-negro, both halves |
+| White, tint | Two-colour: rio-negro above, igarapé below |
+| Rio-negro | Two-colour: white above, igarapé below |
+| Igarapé | One colour: rio-negro, both halves |
 | Urucum (launches only) | One colour: rio-negro, both halves |
 | Photograph | Two-colour (white above) on dark water or shadow, in the quietest area of the image; one colour where the area is light and busy |
 | The seam texture | On one solid side only, never across the dither |
@@ -94,8 +95,104 @@ The waterline channel stays in every colourway, one-colour included.
 **The woven ss on the seam** (decided by Breno, 2026-11-20). Boards: Paper page "Brand · Core identity", "Logo · the mark, A + C" and "Icon exports".
 
 - The ss is taken out of the wordmark at the same spacing (336 units), with the same weave and waterline. Nothing is redrawn.
-- It sits on a square of the seam texture (`hseam.png`), positioned so the dither meets the solid tapajós exactly at the waterline: the top of the ss is white on the dark water and the dither, the bottom is rio-negro on the light water.
+- It sits on a square of the seam texture (`hseam.png`), positioned so the dither meets the solid igarapé exactly at the waterline: the top of the ss is white on the dark water and the dither, the bottom is rio-negro on the light water.
 - It is used **only in this seam version**, at every size, favicon included. There is no flat or single-colour mark.
 - Files in `public/`: `favicon.ico` (16, 32 and 48 px), `favicon-32.png`, `apple-touch-icon.png` (180 px), `icon-192.png` and `icon-512.png` for the web manifest (`src/pages/site.webmanifest.ts`). App icons are square; the operating system rounds the corners. The favicon tile has a 22% corner radius.
 - Use it for the favicon, app icon and social avatar, and anywhere under the wordmark's 96 px minimum. Never next to the wordmark: the word already contains it.
 - Because the seam is a pixel texture, the mark is always a rendered image, exported from the Paper board, never rebuilt as vector.
+
+---
+
+## Colour
+
+**Rio-negro and igarapé, one accent** (Breno, 2026-11-21). Igarapé (#00C99B) replaced tapajós (#13A7B5) as the light water, picked from five palettes on the Paper page "Brand · Colour options". The same day, after measuring how Ramp, Mercury, Stripe, Wise and Nubank use their accents (`brand/references.md`, "Accent use and UI craft"), urucum left the core: one vivid accent that means "act here" is what keeps those brands calm, and two accents competed.
+
+### What each colour means
+
+| Colour | Primitive | Means | Where |
+|---|---|---|---|
+| Dark water | `rio-negro` (900 #0F1C24) | The far side: dollars, the client abroad. Also the default button | Dark sections, the hero, text, most buttons |
+| Light water | `igarape` (500 #00C99B) | Home, reais arriving, and **act here** | The one main button per view, the river, progress and data marks |
+| Mist | `neblina` (50 #F4F6F6 to 700) | Panels, lines and quiet text | The tint theme, secondary text, the second half of headlines |
+| White | `white` | The page | Most surfaces |
+| Urucum | `urucum` (600 #FF4A1C) | Campaigns only | Launch posters and loud-mode surfaces, never on the site's core UI |
+
+- Igarapé is named after the small, clear forest streams of the Amazon. The seam and the river are **two waters meeting** in general, not a real confluence.
+- **One igarapé button per view.** Every other button is rio-negro or the tinted secondary. Inside an igarapé section (the `primary` theme) the main button turns rio-negro, so it never disappears into its background. Buttons read `--color-action-*` from their section's theme; nothing else should use the accent directly.
+- Error text uses `--color-error` (urucum-700, #C93A14: 5.1:1 on white, 4.8:1 on mist). It is a functional colour, not the accent.
+
+### Contrast rules
+
+| Pair | Ratio | Rule |
+|---|---|---|
+| Rio-negro on igarapé-500 | 8.1:1 | Text on the igarapé button and on light water is rio-negro, never white (2.1:1). |
+| Rio-negro on igarapé-400 | 9.2:1 | The button's hover. |
+| White on rio-negro | 17.3:1 | The main button inside an igarapé section. |
+| Igarapé-700 on white | 6.5:1 | The only igarapé step for text on white and mist: links, amounts. |
+| Fog on rio-negro | 8.3:1 | The second half of a headline on dark. |
+| Neblina-500 on white | 5.2:1 | The second half of a headline on light. |
+
+`npm run tokens` checks every theme (text, links, chips, button text on its background and hover, the headline second line at 3:1), the error colour and the data-strong pair, and fails on anything below the level.
+
+### Proportions
+
+Igarapé shows in small parts: the main button, the river or the seam, progress bars, status dots, amounts arriving. Measured on 2026-11-20 before this change, light water was about 10% of a page; the target is now under 5% outside the hero.
+
+- No full-width igarapé sections except one closing band per page at most.
+- Panels are mist (`neblina-50`), not mint, so colour only shows where it means something.
+
+### Themes
+
+Sections switch colour with `data-theme`: `light` (white, the default), `tint` (mist, neblina-50), `primary` (igarapé-500), `dark` (rio-negro-900) and `deep` (igarapé-700). Components use semantic tokens only (`--color-text-base`, `--color-action-bg`…), never a primitive.
+
+### Not in the palette
+
+- **Açaí** (deep purple) is dropped: it reads as Nubank to Brazilian readers.
+- **Solimões** (sand) is not added: the seam stays dark and clear, and sand is a major Nubank surface.
+- Other held names (`buriti`, `cupuacu`, `castanha`, `jenipapo`, `cacau`, `mate`, `jambu`) stay unused until a campaign needs a colour, like urucum now. A new one is added as a primitive with a `$description` and never becomes a second accent on the site.
+- No gradients between the waters. The meeting is always the dithered seam or the river.
+
+### Assets that carry the palette
+
+Changing a palette value means regenerating these:
+- The seam textures and blog covers: `docs/design/texture-lab/gen4.mjs`, `gen5.mjs` and `gen6.mjs`, copied to `src/assets/textures/`.
+- The customer story textures in `src/assets/textures/stories/`, which have no generator (recoloured by a two-colour remap).
+- The mark and the favicon files, exported from the Paper board "Icon exports".
+- The Paper file's colour tokens (`--color-igarape-*`, `--color-urucum-*`), which the logo masters use.
+
+---
+
+## Interface parts
+
+Measured against the reference brands on 2026-11-21 (`brand/references.md`); boards on the Paper page "Brand · Accent and UI study".
+
+### Buttons
+
+- Labels at weight 500. Corner radius 8 px (`--radius-control`).
+- Two sizes: the default and `size="s"`.
+- Variants: `accent` (the theme's action colour: igarapé, or rio-negro inside an igarapé section), `secondary` (a faint tint of the text colour, 6% on light and 10% white on dark, no outline), `nav` and `link`.
+- No shadows on buttons. Later: an experiment with button styling inspired by Cloudflare and Nucleo Icons (playbook, open decisions).
+
+### Edges: rings and soft shadows, no borders
+
+- Cards, chips and panels have no borders. Their edge is a faint one-pixel ring inside a very soft shadow: `--shadow-1` at rest, `--shadow-2` on hover or for raised UI, `--shadow-3` for overlays. The ring colour comes from the theme (`--color-ring`: 8% rio-negro on light, 10% white on dark), so it sits inside the shadow rather than on top of it.
+- Product art floating over the river or the seam uses `--shadow-3-on-dark` or `--shadow-3-on-color`.
+- Form fields keep a real border, because their edge has to be visible at a glance and change on focus.
+- Hairlines inside cards (rows in a list, the line above a total) stay.
+
+### Radii
+
+Three, plus the small one for tags: 8 px controls (`radius-s`, `radius-control`), 12 px cards (`radius-m`), 20 px large panels (`radius-l`), 6 px tags (`radius-xs`).
+
+---
+
+## The hero river
+
+**The home hero is a river** (Breno, 2026-11-21, "for now"), replacing the half-and-half seam so the igarapé button is no longer next to a wall of igarapé. It came from six rounds in the shader lab (`docs/design/shader-lab/`, tile 8i in `river5.html`; the shader is saved as `hero-river-8i.frag`).
+
+- One igarapé river winds down the right of the hero, behind the product UI. Inside it: water from deep to shallow, white streaks drifting downstream, a lit crest at the banks. Around it: rio-negro land with a faint glow and clean one-pixel echo lines that follow the bank outwards. The width slowly swells and narrows.
+- Built as a WebGL2 shader: engine in `src/lib/generators/river`, runner in `src/lib/motion/river.ts`, component `RiverCanvas`. Colours come from `--color-river-*` tokens.
+- 30 frames a second, only while on screen and the tab is visible. With reduced motion it draws one still frame. Without WebGL2 or JavaScript the hero stays plain rio-negro.
+- From 1024 px only. Phones and tablets keep the horizontal seam story for now.
+- The copy and the form sit on clean dark water on the left; never put text over the river.
+

@@ -168,7 +168,7 @@ const integrations = defineCollection({
     setupSteps: z.array(step),
     docsUrl: z.url().optional(),
     featured: z.boolean().default(false),
-    /** Logo sphere settings. tone: plain (white), primary (tapajós), inverse (rio-negro). */
+    /** Logo sphere settings. tone: plain (white), primary (igarapé), inverse (rio-negro). */
     sphere: z.object({
       include: z.boolean().default(true),
       weight: z.number().min(1).max(3).default(2),

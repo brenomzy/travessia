@@ -17,8 +17,8 @@ interface Props {
   description: string;
   /** This page's path, for the canonical link and the current nav item. */
   canonical: string;
-  /** "seam" when the page opens with a seam hero that the header sits on. */
-  headerVariant?: 'seam' | 'light' | 'dark';
+  /** "seam" or "river" when the page opens with a hero that the header floats over. */
+  headerVariant?: 'seam' | 'river' | 'light' | 'dark';
   current?: RouteKey;
   /** A header with only the logo and a link back (the waitlist page). */
   minimalHeader?: boolean;
@@ -73,17 +73,17 @@ const site = Astro.site ?? new URL('https://travessia.example');
 </html>
 
 <style>
-  /* On a seam page the header floats over the hero, which runs up underneath it. */
-  .page[data-header='seam'] {
+  /* On a seam or river page the header floats over the hero, which runs up underneath it. */
+  .page:is([data-header='seam'], [data-header='river']) {
     display: grid;
     grid-template-areas: 'stack';
   }
 
-  .page[data-header='seam'] > :global(*) {
+  .page:is([data-header='seam'], [data-header='river']) > :global(*) {
     grid-area: stack;
   }
 
-  .page[data-header='seam'] > :global(header) {
+  .page:is([data-header='seam'], [data-header='river']) > :global(header) {
     align-self: start;
   }
 

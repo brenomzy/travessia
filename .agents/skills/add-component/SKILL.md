@@ -35,7 +35,7 @@ Read `SPEC.md` §5.5 first if you haven't in this session. There is no CSS frame
 
 - Styles go in the component's scoped `<style>` block.
 - **Semantic tokens only:** `--color-text-base`, `--color-bg-raised`, `--color-border-base`, `--space-m`, `--text-lg` with `--leading-lg`, `--radius-m`, `--shadow-2`, `--duration-fast`. Easings by job: `--ease-hover` for hover and press, `--ease-fade` for opacity, `--ease-base` for other state changes, `--spring-crit` for things that slide into place. Never palette primitives (`--agua-500`, `--noite-900`) or raw hex, rgb or px. If no semantic token fits, add one with the `add-token` skill.
-- Colours come from the section theme. A component never sets its own `data-theme` unless it is a deliberately different surface (like the hero's tapajós side).
+- Colours come from the section theme. A component never sets its own `data-theme` unless it is a deliberately different surface (like the hero's igarapé side).
 - Responsive: intrinsic layout first, then container queries (every `Section` is an inline-size container). Media queries are only for the nav and page shell.
 - Specificity trap: scoped styles add an attribute selector. For broad child rules use `:where()`, e.g. `.copy > :where(*)`, so a child's own rules still win.
 - Hover, focus and simple transitions are CSS. For scroll reveals use the attributes in "Motion" below, not new JS.

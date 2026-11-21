@@ -190,7 +190,7 @@ const { title, lead, features } = Astro.props;
     background:
       radial-gradient(ellipse 80% 90% at 85% 100% in oklab, var(--_glow), transparent 70%),
       var(--_bg);
-    border: var(--size-hairline) solid var(--color-border-base);
+    box-shadow: var(--shadow-1);
     color: var(--color-text-base);
     transition:
       --_reach var(--duration-slow) var(--ease-out),
@@ -403,7 +403,7 @@ const { title, lead, features } = Astro.props;
   .methods span {
     flex: 1 1 0;
     block-size: var(--size-tap);
-    border: var(--size-hairline) solid var(--color-border-base);
+    box-shadow: var(--shadow-1);
     border-radius: var(--radius-control);
   }
 

@@ -84,7 +84,7 @@ const { size = 'default' } = Astro.props;
   /* A callout: a paragraph that starts with "Nota:" style emphasis uses an aside in Markdown via HTML. */
   .prose :global(aside) {
     padding: var(--space-m) var(--space-l);
-    border: var(--size-hairline) solid var(--color-border-base);
+    box-shadow: var(--shadow-1);
     border-inline-start: var(--size-focus-ring) solid var(--color-accent-data);
     border-radius: var(--radius-m);
     color: var(--color-text-base);

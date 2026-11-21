@@ -49,8 +49,8 @@ const label = roll ? await Astro.slots.render('default') : '';
 
 <style>
   .button {
-    --_bg: var(--color-accent-primary);
-    --_fg: var(--color-on-accent);
+    --_bg: var(--color-action-bg);
+    --_fg: var(--color-action-text);
     --_border: transparent;
     --icon-size: var(--size-icon-s);
     display: inline-flex;
@@ -66,7 +66,7 @@ const label = roll ? await Astro.slots.render('default') : '';
     color: var(--_fg);
     font-family: var(--font-sans);
     font-size: var(--text-base);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     line-height: 1.2;
     text-decoration: none;
     white-space: nowrap;
@@ -81,18 +81,17 @@ const label = roll ? await Astro.slots.render('default') : '';
   }
 
   [data-variant='accent']:hover {
-    --_bg: var(--color-accent-primary-hover);
+    --_bg: var(--color-action-hover);
   }
 
+  /* Secondary: a faint tint of the text colour, no outline (2026-11-21). */
   [data-variant='secondary'] {
-    --_bg: transparent;
+    --_bg: var(--color-action-secondary);
     --_fg: var(--color-text-base);
-    --_border: var(--color-border-strong);
   }
 
   [data-variant='secondary']:hover {
-    --_bg: var(--color-text-base);
-    --_fg: var(--color-bg-base);
+    --_bg: var(--color-action-secondary-hover);
   }
 
   [data-variant='nav'] {
