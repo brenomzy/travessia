@@ -269,7 +269,7 @@ Pick one territory. If the current one wins, this step costs a day and gives you
 
 **Output:** a "Core identity" page in Paper, token changes in `tokens.json`, and `brand/rules.md` (logo and colour rules).
 
-**Decided (2026-11-20 to 2026-11-21, approved by Breno):**
+**Decided (2026-11-20 to 2026-11-21, approved by Breno on 2026-11-21 as a base to keep refining):**
 - **Type:** Figtree only; each size carries its own leading and tracking (`--leading-*`, `--tracking-*`). Headline device: the waterline.
 - **Logo:** the woven ss wordmark cut by the waterline; clear space one x-height; 96 px minimum. The mark is the woven ss on the seam, seam version only, at every size.
 - **Colour:** rio-negro and igarapé (#00C99B, new), with igarapé as the one accent for "act here" (one igarapé button per view, rio-negro text on it). Urucum left the core for campaigns after the accent study. Açaí dropped, no solimões, the seam is "two waters meeting". Picked from five palettes on the Paper page "Brand · Colour options".
@@ -286,7 +286,7 @@ Pick one territory. If the current one wins, this step costs a day and gives you
 - **Data visualisation:** the bank-versus-Travessia bars from the Home stats are already a signature; write them up as a reusable chart rule.
 - **Icons:** pick a set or draw one, and write sizes and stroke.
 
-- **Image treatments:** Ramp uses a lot of effects around its imagery: gradients, solid fields of light and textures behind product and photography. Research how Ramp (and the other references) build these, then define Travessia's own set (for example light across the waterline, seam-derived textures, solid fields in rio-negro or tapajós) and when each is allowed. Requested by Breno, 2026-11-20.
+- **Image treatments:** Ramp uses a lot of effects around its imagery: gradients, solid fields of light and textures behind product and photography. Research how Ramp (and the other references) build these, then define Travessia's own set (for example light across the waterline, seam-derived textures, solid fields in rio-negro or tapajós) and when each is allowed. Requested by Breno, 2026-11-20. Also (2026-11-21): **product UI over imagery**, as Notion does: an app window or cards floating over a painterly or photographic background, so the product sits inside the brand's world instead of on a flat colour. Candidates: the river shader, the step 6 photography, the seam.
 
 **Output:** a "Graphic language" section in `brand/rules.md`.
 
