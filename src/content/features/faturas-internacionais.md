@@ -19,7 +19,7 @@ heroCard:
   kind: invoice
   number: "Invoice #0042"
   from: Ana Ribeiro · Product design
-  status: Paid · Nov 14
+  status: Paid · Nov 12
   billToLabel: Bill to
   billTo: Halden & Co., London
   lines:
@@ -65,7 +65,7 @@ problem:
         items:
           - "Sent"
           - "Viewed"
-        done: "Paid · Nov 14, 9:11"
+        done: "Paid · Nov 12, 9:11"
 steps:
   - title: Build the invoice
     detail: Pick the client, currency and language. Services you've invoiced before come up as suggestions.
@@ -101,11 +101,11 @@ steps:
       title: "Invoice #0042"
       rows:
         - label: "Sent"
-          value: "Nov 12, 4:40 pm"
+          value: "Nov 10, 4:40 pm"
         - label: "Viewed"
-          value: "Nov 13, 10:02 am"
+          value: "Nov 11, 10:02 am"
         - label: "Paid"
-          value: "Nov 14, 9:11 am"
+          value: "Nov 12, 9:11 am"
           highlight: true
       total:
         label: "Dollar balance"
@@ -118,7 +118,7 @@ integrations:
   - agenda-brasa
 vignette:
   kind: invoice
-  title: "Invoice #0043"
+  title: "Invoice #0045"
   from: Ana Ribeiro · Product design
   languages:
     - EN

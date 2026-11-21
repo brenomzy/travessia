@@ -29,7 +29,7 @@
       "invoice": {
         "number": "Invoice #0042",
         "from": "Ana Ribeiro · Product design",
-        "status": "Paid · Nov 14",
+        "status": "Paid · Nov 12",
         "billToLabel": "Bill to",
         "billTo": "Halden & Co., London",
         "lines": [
@@ -51,7 +51,7 @@
         "summary": "Invoice #0042 · Halden & Co., London",
         "summaryCurrency": "US$",
         "summaryAmount": "2,000.00",
-        "summaryNote": "Paid by card through the invoice link · Nov 14"
+        "summaryNote": "Paid by card through the invoice link · Nov 12"
       },
       "crossing": {
         "title": "The crossing",
@@ -73,13 +73,13 @@
       },
       "conversion": {
         "status": "Converting",
-        "time": "Nov 15, 9:11",
+        "time": "Nov 12, 9:20",
         "from": "US$ 1,988.00",
         "to": "R$ 10,834.60",
         "note": "0.6% fee already taken · rate R$ 5.45"
       },
       "phone": {
-        "date": "Friday, November 15",
+        "date": "Friday, November 13",
         "time": "9:12",
         "appTime": "now",
         "notificationTitle": "Pix received",
@@ -91,7 +91,7 @@
       "received": {
         "label": "Pix received · your account",
         "amount": "10,834.60",
-        "note": "In your account in 1 business day · Nov 15",
+        "note": "In your account in 1 business day · Nov 13",
         "currency": "R$"
       }
     }
@@ -206,7 +206,7 @@
         },
         {
           "code": "GBP",
-          "amount": "640.00"
+          "amount": "320.00"
         }
       ]
     },
@@ -230,13 +230,13 @@
           {
             "label": "Euro",
             "value": "€ 1,380.00",
-            "note": "≈ R$ 8,640.72 today",
+            "note": "≈ R$ 8,641.84 today",
             "highlight": false
           },
           {
             "label": "Pound",
-            "value": "£ 640.00",
-            "note": "≈ R$ 4,732.13 today",
+            "value": "£ 320.00",
+            "note": "≈ R$ 2,306.08 today",
             "highlight": false
           }
         ],
@@ -245,21 +245,21 @@
           {
             "title": "Pix sent to you",
             "detail": "Conversion of invoice #0042",
-            "date": "Nov 15",
+            "date": "Nov 13",
             "amount": "+ R$ 10,834.60",
             "tone": "highlight"
           },
           {
             "title": "Invoice paid",
             "detail": "Halden & Co., London · card",
-            "date": "Nov 14",
+            "date": "Nov 12",
             "amount": "+ US$ 2,000.00",
             "tone": "default"
           },
           {
             "title": "Invoice paid",
             "detail": "Studio Vik, Oslo · transfer",
-            "date": "Nov 8",
+            "date": "Nov 9",
             "amount": "+ € 1,380.00",
             "tone": "default"
           },
@@ -290,7 +290,7 @@
           },
           {
             "label": "Paid in November",
-            "value": "US$ 2,000.00",
+            "value": "US$ 2,850.00",
             "note": "and € 1,380.00",
             "highlight": false
           },
@@ -313,14 +313,14 @@
           {
             "title": "#0043 · Studio Vik",
             "detail": "Oslo · paid by transfer",
-            "date": "Nov 8",
+            "date": "Nov 9",
             "amount": "€ 1,380.00",
             "tone": "default"
           },
           {
             "title": "#0042 · Halden & Co.",
             "detail": "London · paid by card",
-            "date": "Nov 14",
+            "date": "Nov 12",
             "amount": "US$ 2,000.00",
             "tone": "default"
           },
@@ -352,7 +352,7 @@
           {
             "label": "This month",
             "value": "3",
-            "note": "the latest on Nov 15",
+            "note": "the latest on Nov 12",
             "highlight": false
           },
           {
@@ -367,22 +367,22 @@
           {
             "title": "No. 318 · Halden & Co.",
             "detail": "Export of services",
-            "date": "Nov 15",
-            "amount": "R$ 10,834.60",
+            "date": "Nov 12",
+            "amount": "R$ 10,900.00",
             "tone": "highlight"
           },
           {
             "title": "No. 317 · Studio Vik",
             "detail": "Export of services",
             "date": "Nov 9",
-            "amount": "R$ 8,501.40",
+            "amount": "R$ 8,694.00",
             "tone": "default"
           },
           {
             "title": "No. 316 · Northfold",
             "detail": "Export of services",
-            "date": "Nov 3",
-            "amount": "R$ 4,611.25",
+            "date": "Nov 2",
+            "amount": "R$ 4,632.50",
             "tone": "default"
           },
           {
@@ -436,7 +436,7 @@
             "title": "Travessia fees",
             "detail": "0.6% of conversions",
             "date": "Oct",
-            "amount": "− R$ 190.38",
+            "amount": "− R$ 189.24",
             "tone": "muted"
           },
           {
@@ -449,7 +449,7 @@
           {
             "title": "Report sent",
             "detail": "To contato@livrocaixa.example",
-            "date": "Nov 1",
+            "date": "Nov 2",
             "amount": "Sent",
             "tone": "highlight"
           }

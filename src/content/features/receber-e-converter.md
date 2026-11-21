@@ -18,7 +18,7 @@ hero:
 heroCard:
   kind: conversion
   status: Converting
-  time: Nov 15, 9:11
+  time: Nov 12, 9:20
   from: US$ 1,988.00
   to: R$ 10,834.60
   note: 0.6% fee already taken · rate R$ 5.45
@@ -29,7 +29,7 @@ problem:
   points:
     - label: Hidden rate
       detail: The bank converts on arrival and you only see the amount in reais afterwards, without knowing the rate.
-      before: "Credit: R$ 10,412.00 · rate not shown"
+      before: "Credit: R$ 10,228.56 · rate not shown"
       after:
         kind: "figure"
         value: "R$ 5.45"
@@ -87,7 +87,7 @@ steps:
         - label: "From"
           value: "Travessia"
         - label: "Arrived"
-          value: "Nov 15, 9:20 am"
+          value: "Nov 13, 9:12 am"
           highlight: true
       total:
         label: "Amount"

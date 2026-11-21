@@ -19,7 +19,7 @@
   "invoice": {
     "number": "Invoice #0042",
     "from": "Ana Ribeiro · Product design",
-    "status": "Paid · Nov 14",
+    "status": "Paid · Nov 12",
     "billToLabel": "Bill to",
     "billTo": "Halden & Co., London",
     "lines": [
@@ -88,7 +88,7 @@
             },
             {
               "label": "Paid",
-              "value": "Nov 14, 9:11 am",
+              "value": "Nov 12, 9:11 am",
               "highlight": true
             }
           ],

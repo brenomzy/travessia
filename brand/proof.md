@@ -74,6 +74,30 @@ The canonical example, used across Home, Product, the closing section and the co
 
 Example rates come from `src/content/rates.json`: US$ 5.45, € 6.30, £ 7.25. Other examples on the site (balances, MEI meters at 62% and 72%, the carnê-leão table) are separate scenarios and don't need to match each other, only to add up.
 
+## The product ledger
+
+Every product mock-up (site, Paper boards, social, decks) shows the same account, so a reader who looks closely finds one consistent story. Pick names, numbers and dates from here; add to it before inventing new ones. Set in November 2026, on the real 2026 calendar: payments clear and Pix arrives on business days only.
+
+**The account:** Ana Ribeiro, product designer, MEI, Recife (her customer story is in `src/content/customers/ana-ribeiro.md`). Initials AR. Her accountant: Marta Lima (`contato@livrocaixa.example`).
+
+**Clients:** Halden & Co., London (pays in US$, by card). Studio Vik, Oslo (€, bank transfer). Northfold, Toronto (US$, card). Marlow Press, Manchester (£).
+
+**Invoices, November 2026** (example rates from `rates.json`; tax invoice amounts are the invoice at the rate, before Travessia's fee):
+
+| Invoice | Client | Amount | What happened | Tax invoice |
+|---|---|---|---|---|
+| #0041 | Northfold | US$ 850.00 | Paid by card, Mon Nov 2 | No. 316, Nov 2, R$ 4,632.50 |
+| #0042 | Halden & Co. | US$ 2,000.00 | Sent Tue Nov 10, 4:40 pm; viewed Wed Nov 11, 10:02 am; paid by card Thu Nov 12, 9:11 am; due Nov 14 | No. 318, Nov 12, 9:13 am (1 min 48 s), R$ 10,900.00 |
+| #0043 | Studio Vik | € 1,380.00 | Paid by bank transfer, Mon Nov 9; still in the euro balance | No. 317, Nov 9, R$ 8,694.00 |
+| #0044 | Marlow Press | £ 640.00 | Sent Thu Nov 5, due Mon Nov 30; open | none yet |
+| #0045 | Studio Vik | € 1,500.00 | Draft, ready to send | none yet |
+
+**The canonical crossing:** #0042's US$ 2,000.00, converted Thu Nov 12 at 9:20 am: − US$ 12.00 fee, US$ 1,988.00 at R$ 5.45 = R$ 10,834.60, which arrives by Pix on Fri Nov 13 at 9:12 am. "Paid in November": US$ 2,850.00 and € 1,380.00.
+
+**Balances on Nov 13:** US$ 4,212.40 (≈ R$ 22,819.83 after the fee), € 1,380.00 (≈ R$ 8,641.84), £ 320.00 from an earlier payment (≈ R$ 2,306.08). The "≈ R$" notes are what she would receive today: amount × rate − 0.6%.
+
+**October report** (sent Mon Nov 2, the first business day): tax invoices 311 to 315, revenue R$ 31,540.20 at each payment day's rate (October is the one place other rates are allowed), Travessia fees R$ 189.24 (0.6%), MEI at 62% (R$ 50,180 of R$ 81k), DAS R$ 76.90 due Nov 20.
+
 ## Real-world facts
 
 | Fact | Value used | Check |

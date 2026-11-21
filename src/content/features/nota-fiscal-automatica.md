@@ -30,7 +30,7 @@ problem:
         items:
           - "Code 1.07"
           - "United Kingdom"
-          - "Nov 14 rate"
+          - "Nov 12 rate"
     - label: Lost time
       detail: Each one takes 15 to 30 minutes on the city hall portal.
       before: "15 to 30 min each"
@@ -55,7 +55,7 @@ steps:
       title: "Invoice #0042"
       rows:
         - label: "Paid by card"
-          value: "Nov 14, 9:11 am"
+          value: "Nov 12, 9:11 am"
           highlight: true
       total:
         label: "Received"
@@ -71,7 +71,7 @@ steps:
         - label: "Service code"
           value: "1.07"
         - label: "Amount"
-          value: "R$ 10,834.60"
+          value: "R$ 10,900.00"
         - label: "Issued"
           value: "9:13 am"
           highlight: true
@@ -82,7 +82,7 @@ steps:
       from: "Travessia"
       to: "to you and Marta Lima, accountant"
       subject: "Tax invoice #318 issued"
-      body: "Export of services to Halden & Co., at the Nov 14 rate. PDF and XML attached."
+      body: "Export of services to Halden & Co., at the Nov 12 rate. PDF and XML attached."
       actions:
         - "View tax invoice"
         - "XML"
@@ -95,7 +95,7 @@ integrations:
 vignette:
   kind: taxInvoice
   title: Tax invoice no. 318 issued
-  meta: Export of services · Nov 15, 9:13
+  meta: Export of services · Nov 12, 9:13
   rows:
     - label: Client
       value: Halden & Co.

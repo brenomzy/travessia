@@ -55,11 +55,11 @@ steps:
       kind: "status"
       title: "October"
       rows:
-        - label: "Invoice #0041 paid"
+        - label: "Invoice #0040 paid"
           value: "US$ 1,500.00"
         - label: "Converted to reais"
           value: "R$ 8,120.40"
-        - label: "Tax invoice #318"
+        - label: "Tax invoice #315"
           value: "Issued"
           highlight: true
   - title: The report closes the month

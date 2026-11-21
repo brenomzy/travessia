@@ -57,7 +57,7 @@
     "accounting": {
       "label": "Accounting",
       "relatedTitle": "Other accounting integrations",
-      "lead": "On the 1st of every month, {name} gets the previous month's payments, already in reais and with the rate for each one.",
+      "lead": "On the first business day of every month, {name} gets the previous month's payments, already in reais and with the rate for each one.",
       "card": {
         "title": "Monthly sends",
         "status": "Connected",
@@ -65,7 +65,7 @@
           {
             "title": "October 2026",
             "meta": "14 payments · R$ 48,212.30",
-            "time": "Nov 1, 8:00"
+            "time": "Nov 2, 8:00"
           },
           {
             "title": "September 2026",
@@ -116,7 +116,7 @@
           },
           {
             "label": "Tax invoice number",
-            "value": "NFS-e 2026/0142",
+            "value": "No. 318",
             "highlight": false
           }
         ]
@@ -131,19 +131,19 @@
         "status": "Connected",
         "rows": [
           {
-            "title": "Invoice #0043 · Halden & Co.",
+            "title": "Invoice #0045 · Studio Vik",
             "meta": "€ 1,500.00 · draft ready",
             "time": "today, 10:12"
           },
           {
-            "title": "Invoice #0042 · Northwind Studio",
+            "title": "Invoice #0042 · Halden & Co.",
             "meta": "US$ 2,000.00 · paid",
             "time": "Nov 12"
           },
           {
-            "title": "Invoice #0041 · Bergen & Lund",
-            "meta": "£ 900.00 · sent",
-            "time": "Nov 8"
+            "title": "Invoice #0044 · Marlow Press",
+            "meta": "£ 640.00 · sent",
+            "time": "Nov 5"
           }
         ],
         "action": "Import invoices now"
@@ -204,12 +204,12 @@
             "time": "this week"
           },
           {
-            "title": "Northwind Studio",
+            "title": "Northfold",
             "meta": "8h · US$ 720.00",
             "time": "last week"
           },
           {
-            "title": "Bergen & Lund",
+            "title": "Marlow Press",
             "meta": "5h15 · £ 420.00",
             "time": "2 weeks ago"
           }
@@ -327,17 +327,17 @@
           {
             "title": "Invoice #0042",
             "meta": "US$ 2,000.00 · card",
-            "time": "Nov 14"
+            "time": "Nov 12"
           },
           {
-            "title": "Invoice #0039",
-            "meta": "€ 950.00 · bank transfer",
-            "time": "Nov 6"
+            "title": "Invoice #0043",
+            "meta": "€ 1,380.00 · bank transfer",
+            "time": "Nov 9"
           },
           {
-            "title": "Invoice #0037",
-            "meta": "£ 600.00 · card",
-            "time": "Oct 29"
+            "title": "Invoice #0041",
+            "meta": "US$ 850.00 · card",
+            "time": "Nov 2"
           }
         ],
         "action": "See all payments"
@@ -373,7 +373,7 @@
           },
           {
             "label": "Date",
-            "value": "11/14/2026",
+            "value": "11/12/2026",
             "highlight": false
           }
         ]
@@ -388,19 +388,19 @@
         "status": "Connected",
         "rows": [
           {
-            "title": "Chase Halden & Co.",
-            "meta": "Invoice #0043 · due Nov 30",
+            "title": "Chase Marlow Press",
+            "meta": "Invoice #0044 · due Nov 30",
             "time": "scheduled"
           },
           {
             "title": "Payment received",
-            "meta": "Northwind Studio · US$ 2,000.00",
-            "time": "Nov 14"
+            "meta": "Halden & Co. · US$ 2,000.00",
+            "time": "Nov 12"
           },
           {
             "title": "Tax invoice issued",
-            "meta": "NFS-e 2026/0142",
-            "time": "Nov 14"
+            "meta": "Tax invoice no. 318",
+            "time": "Nov 12"
           }
         ],
         "action": "Choose reminders"

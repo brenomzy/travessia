@@ -264,3 +264,53 @@ Decided by Breno, 2026-11-21 (Paper: "5 · Seam review" on Brand · Graphic lang
 - The mark moved off the seam on the same day ("The mark" above).
 - Still to move: the customer story covers (`src/assets/textures/stories/`) and the other four blog-cover patterns use halftone and dither. They get their own pass; photography is the imagery for stories and editorial.
 - The seam engine, `SeamCanvas` and the seam PNGs were deleted from the site. Their scripts stay in `docs/design/texture-lab/` as history.
+
+---
+
+## Graphic language: product UI
+
+> Playbook step 8 (2026-11-21). Reference boards: Paper page "Brand · Graphic language", "1c · App window v3 (master)" for the parts and "4 · App v3 on paintings" for the crops. On the site the parts are live HTML in `src/components/product/` and the `FeatureTabs` island.
+
+Travessia has no card to photograph; the product is its object, the way Ramp's card is Ramp's. Every screen shows the same account (Ana Ribeiro) on the same days, so the product reads as one real thing across the site, social and decks.
+
+### What goes on a screen
+
+- **Names, amounts and dates come from the product ledger** in `brand/proof.md`. New screens reuse it; a new invoice, client or date goes into the ledger first. No real company names, no lorem ipsum, no "John Doe".
+- Amounts add up: amount × the example rate (`src/content/rates.json`) − the 0.6% fee where a conversion is shown. "≈ R$" notes on balances are what would arrive today, fee included. Tax invoices show the invoice at the rate, before the fee.
+- Dates sit on the real 2026 calendar. Payments by transfer and Pix arrivals fall on business days; a Pix lands 1 business day after the conversion.
+- Money is written `US$ 2,000.00`, `€ 1,380.00`, `£ 640.00`, `R$ 10,834.60`: symbol, a space, two decimals, tabular figures. Currency codes (`USD`, `EUR`, `GBP`, `BRL`) appear only in tags and pickers.
+- The UI copy is English, sentence case, in the voice of `brand/voice.md`: "Pix received", "Tax invoice no. 318 issued", never "Transaction successful".
+
+### The parts
+
+| Part | What it is | Use it for |
+|---|---|---|
+| App window | Browser bar with the address, mist sidebar (brand, nav with line icons, balances, the user), the main area with a title, actions, up to three stat cards and one list card | The product as a whole: hero images, the home showcase, launch pages |
+| Sheet | One task in a modal card: convert, send an invoice | One feature, in focus |
+| Floats | Notification cards: Pix received, tax invoice issued, converting | The moments; they ride on top of a window or alone on a painting |
+| Single cards | Invoice, conversion, crossing, phone (`src/components/product/`) | Heroes and tiles where one fact is the story |
+
+### Cropping
+
+- **One app window per frame**, cropped by the frame edge on at least one side (usually the right or the bottom), so it reads as a glimpse of a real app, not a screenshot pasted in. Show the sidebar and the first row of stats; at least 60% of the window's width stays in frame.
+- **Never shrink a whole window to fit** with margin all round. If the window would render below 60% of its size, use a sheet or a single card instead.
+- **Cards and sheets stay whole.** The exception is a tall card (an invoice page, a tax invoice) cut by the foot of its frame or tile; it is cut, never faded or dissolved.
+- **Floats:** up to three, stacked with `--space-s` between them, overlapping the window's edge by about a third of their width. They never cover the window's primary button, the highlighted number or a headline.
+- On imagery, all UI uses `--shadow-3-on-dark`; on white or mist it uses `--shadow-3`. Edges are the ring inside the shadow, never a border.
+
+### Density
+
+- **One idea per screen, and one accent:** the primary button, or the highlighted number, or a progress bar, never two. Status dots use `--color-accent-data`; urucum-700 only for an error.
+- Up to three stat cards in a row and four rows in a list. A second list or a chart means a second screen.
+- Skeleton lines may suggest that a page goes on (three at most, under the real content); they never stand in for a value the screen is about.
+- Smallest UI text: 11 px rendered in images, `--text-xs` on the site. Labels and values at weight 500, metadata at 400.
+- Tags and chips trim their label to cap height (`text-box: trim-both cap alphabetic`) and take their height from `--size-tag` (20 px) or `--size-tag-s` (16 px), so the text sits optically centred.
+
+### The grid: bento tiles
+
+The product overview is a bento on rio-negro (`FeatureBento`), Travessia's version of Ramp's grid.
+
+- One tile per feature: title, a two-line summary, a link; the whole tile is the link.
+- One column on phones; two from 720 px, where the first and last tiles span both; three from 1408 px.
+- At the foot of each tile, a panel of painted clear water (radius `--radius-m` on top, cut by the tile's foot) with one part on it: a card or a cut-off invoice page. One painting, cropped differently per tile.
+- Tiles are `--color-bg-raised` with `--radius-l` and `--shadow-1`. No glow, no texture, no second accent colour.
