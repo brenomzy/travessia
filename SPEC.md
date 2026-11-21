@@ -271,6 +271,7 @@ Each library gets a job, a boundary and a verdict, so any one of them can be bac
 |---|---|---|---|---|
 | Base UI (`@base-ui/react`) | 1.9.0 | Accessible interactive primitives | `src/components/islands/` only | Kept |
 | Motion (`motion`) | 14.12.0 | Scroll reveals and island animation; `motion/mini` and `inView` where that's enough | `src/lib/motion/` and islands | Kept |
+| Hugeicons free (`@hugeicons/core-free-icons`) | 4.4.0 | Icon drawings, stroke rounded, MIT | `src/lib/icons/` only; components use `ui/Icon.astro` or `islands/Icon.tsx` | Kept (2026-11-21, brand/rules.md "Icons"). Build-time data only: named imports are tree-shaken, so only the mapped icons ship |
 | *next library* | | | | Add a row before installing |
 
 **Trial checklist (every library):**

@@ -48,9 +48,16 @@ const label = roll ? await Astro.slots.render('default') : '';
 </Tag>
 
 <style>
+  /*
+   * Ring, lit (Paper: Brand · Graphic language → 8 · Buttons, row 3; Breno 2026-11-21): a faint ring inside a very
+   * soft shadow, and light from above, a white gradient fading down the top of the fill. The section theme picks
+   * the shadow (shadow.action.*), so the same button reads on white, mist, rio-negro and igarapé.
+   */
   .button {
     --_bg: var(--color-action-bg);
     --_fg: var(--color-action-text);
+    --_light: var(--color-button-light);
+    --_shadow: var(--shadow-action-accent);
     --_border: transparent;
     --icon-size: var(--size-icon-s);
     display: inline-flex;
@@ -63,6 +70,8 @@ const label = roll ? await Astro.slots.render('default') : '';
     border: var(--size-focus-ring) solid var(--_border);
     border-radius: var(--radius-control);
     background-color: var(--_bg);
+    background-image: linear-gradient(to top, transparent 40%, var(--_light));
+    box-shadow: var(--_shadow);
     color: var(--_fg);
     font-family: var(--font-sans);
     font-size: var(--text-base);
@@ -85,9 +94,12 @@ const label = roll ? await Astro.slots.render('default') : '';
   }
 
   /* Secondary: a faint tint of the text colour, no outline (2026-11-21). */
+  /* Secondary: white with the ring and shadow on light grounds, a faint tint on dark ones; no light. */
   [data-variant='secondary'] {
     --_bg: var(--color-action-secondary);
     --_fg: var(--color-text-base);
+    --_light: transparent;
+    --_shadow: var(--shadow-action-secondary);
   }
 
   [data-variant='secondary']:hover {
@@ -97,10 +109,14 @@ const label = roll ? await Astro.slots.render('default') : '';
   [data-variant='nav'] {
     --_bg: var(--color-text-base);
     --_fg: var(--color-bg-base);
+    --_light: var(--color-button-light-soft);
+    --_shadow: var(--shadow-action-solid);
   }
 
   [data-variant='link'] {
     --_bg: transparent;
+    --_light: transparent;
+    --_shadow: none;
     --_fg: var(--color-link);
     padding-inline: 0;
     min-block-size: auto;

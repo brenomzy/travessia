@@ -2,6 +2,8 @@ import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { Tabs } from '@base-ui/react/tabs';
 import styles from './FeatureTabs.module.css';
+import Icon from './Icon';
+import type { IconName } from '../../lib/icons';
 
 /**
  * Product showcase (SPEC §5.6.1): one app window, four screens. Every panel stays in the server HTML.
@@ -31,15 +33,8 @@ export interface FeatureTabsProps {
   logo?: ReactNode;
 }
 
-/** Line icons for the sidebar, in nav order: balance, invoices, convert, tax invoices, reports, clients. */
-const ICONS: ReactNode[] = [
-  <path key="0" d="M2 6.5L7.5 2 13 6.5V13H9.5V9.5h-4V13H2V6.5z" />,
-  <g key="1"><path d="M3.5 1.5h5l3 3v9h-8v-12z" /><path d="M5.5 8h4M5.5 10.5h4" /></g>,
-  <path key="2" d="M2 5h10l-2.5-2.5M13 10H3l2.5 2.5" />,
-  <g key="3"><path d="M3 1.5h9v12l-2-1.2-1.5 1.2-1.5-1.2-1.5 1.2L4 12.3 3 13.5v-12z" /><path d="M5.5 5h4M5.5 7.5h4" /></g>,
-  <path key="4" d="M2 13V8M6 13V4M10 13V7M13.5 13H1.5" />,
-  <g key="5"><circle cx="5.5" cy="5" r="2.3" /><path d="M1.5 12.5c.5-2 2-3.2 4-3.2s3.5 1.2 4 3.2M10 3a2.2 2.2 0 0 1 0 4.2M11.5 9.6c1 .5 1.7 1.5 2 2.9" /></g>,
-];
+/** Sidebar icons, in nav order: balance, invoices, convert, tax invoices, reports, clients. */
+const NAV_ICONS: IconName[] = ['balance', 'invoice', 'convert', 'tax-invoice', 'report', 'clients'];
 
 export default function FeatureTabs({ label, app, tabs, logo }: FeatureTabsProps) {
   const [value, setValue] = useState(tabs[0]?.id ?? '');
@@ -71,9 +66,7 @@ export default function FeatureTabs({ label, app, tabs, logo }: FeatureTabsProps
             <ul className={styles.nav} role="list">
               {app.nav.map((item, i) => (
                 <li key={item} data-current={i === current.nav ? '' : undefined}>
-                  <svg viewBox="0 0 15 15" fill="none" aria-hidden="true">
-                    {ICONS[i % ICONS.length]}
-                  </svg>
+                  <Icon name={NAV_ICONS[i % NAV_ICONS.length]} />
                   {item}
                 </li>
               ))}

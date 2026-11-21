@@ -1,5 +1,6 @@
 import { Drawer } from '@base-ui/react/drawer';
 import styles from './MobileNav.module.css';
+import Icon from './Icon';
 
 /** Mirrors the props Header.astro passes; copy comes in as props, never hardcoded (SPEC §5.6.1). */
 export interface MobileNavProps {
@@ -10,11 +11,7 @@ export interface MobileNavProps {
 }
 
 function MenuIcon({ name }: { name: 'menu' | 'close' }) {
-  return (
-    <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d={name === 'menu' ? 'M4 8h16M4 16h16' : 'M6 6l12 12M18 6L6 18'} />
-    </svg>
-  );
+  return <Icon name={name} className={styles.icon} />;
 }
 
 export default function MobileNav({ items, cta, labels, bannerNote }: MobileNavProps) {

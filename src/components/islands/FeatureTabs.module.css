@@ -169,12 +169,16 @@
     padding-inline: var(--space-s);
     border-radius: var(--radius-control);
     background-color: var(--color-action-secondary);
+    box-shadow: var(--shadow-action-secondary);
     line-height: 1;
     text-box: trim-both cap alphabetic;
   }
 
+  /* The app's own buttons follow the site's: ring, lit (brand/rules.md, "Buttons"). */
   .actions [data-variant='primary'] {
     background-color: var(--color-text-base);
+    background-image: linear-gradient(to top, transparent 40%, var(--color-button-light-soft));
+    box-shadow: var(--shadow-action-solid);
     color: var(--color-bg-raised);
   }
 
@@ -344,14 +348,12 @@
       inline-size: var(--size-icon-s);
       block-size: var(--size-icon-s);
       flex-shrink: 0;
-      stroke: currentColor;
-      stroke-width: 1.4;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      stroke-width: 1.5;
     }
 
     .nav li[data-current] {
       background-color: var(--color-action-secondary);
+      box-shadow: var(--shadow-1);
       color: var(--color-text-base);
       font-weight: var(--font-weight-medium);
     }

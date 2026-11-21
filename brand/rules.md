@@ -170,10 +170,24 @@ Measured against the reference brands on 2026-11-21 (`brand/references.md`); boa
 
 ### Buttons
 
-- Labels at weight 500. Corner radius 8 px (`--radius-control`).
-- Two sizes: the default and `size="s"`.
-- Variants: `accent` (the theme's action colour: igarapé, or rio-negro inside an igarapé section), `secondary` (a faint tint of the text colour, 6% on light and 10% white on dark, no outline), `nav` and `link`.
-- No shadows on buttons. Later: an experiment with button styling inspired by Cloudflare and Nucleo Icons (playbook, open decisions).
+**Ring, lit** (Breno, 2026-11-21; Paper: Brand · Graphic language → "8 · Buttons", row 3). It took Nucleo's light from above and kept our edge rule.
+
+- Labels at weight 500. Corner radius 10 px (`--radius-control`, shared with inputs and chips).
+- Light from above: a white gradient fading down the top 60% of the fill (`--color-button-light`, 22%; `--color-button-light-soft`, 12%, on dark solid fills). Never on secondary or link buttons.
+- Edges: a 1 px highlight on the top edge, a faint ring, a very soft shadow. The section theme picks the set through `--shadow-action-accent`, `--shadow-action-secondary` and `--shadow-action-solid` (tokens `shadow.button.*`), so a button never needs a variant for its background.
+- Variants: `accent` (the theme's action colour: igarapé, or rio-negro inside an igarapé section), `secondary` (white with the ring and shadow on light grounds; 10% white with an inner ring on dark), `nav` (the solid text-colour button, lit) and `link` (no fill, no shadow).
+- Two sizes: the default and `size="s"`. An arrow (`arrow`) only on a button that takes you somewhere next, one per view.
+- Forms that draw their own submit button (waitlist, sign-up, the mobile menu) use the same light and `--shadow-action-accent`.
+
+### Icons
+
+**Hugeicons, the free "stroke rounded" set** (Breno, 2026-11-21; Paper: "7 · Icons"). MIT, from `@hugeicons/core-free-icons`; picked over Lucide, Phosphor, Tabler and Iconoir for its generous curves and soft corners, which sit well with Figtree.
+
+- One map, `src/lib/icons`, names the icons the site uses (`home`, `invoice`, `convert`, `tax-invoice`, `report`, `clients`, `balance`, `bank`, …). Astro uses `ui/Icon.astro`, islands `islands/Icon.tsx`; nothing imports the package directly. Add a name to the map before using a new icon.
+- 24 px grid, stroke 1.5, round caps and joins, `currentColor`. Never filled, never two-tone, never a second set alongside.
+- Sizes: `--size-icon-s` (16 px) beside text at `--text-sm` and below and in buttons; `--size-icon-m` (22 px) for navigation and standalone controls. Larger only in illustration, never as decoration beside a headline.
+- An icon takes the colour of its text. Igarapé only when the icon is itself the status (the `check-circle` done mark).
+- Decorative icons are hidden from screen readers; an icon that is the only content of a control gets a `label`.
 
 ### Edges: rings and soft shadows, no borders
 

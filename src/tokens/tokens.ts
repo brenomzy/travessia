@@ -154,7 +154,11 @@ export const tokens = {
     "on-data": "#0F1C24",
     "glow": "#0E4837",
     "on-data-strong": "#FFFFFF",
-    "error": "#C93A14"
+    "error": "#C93A14",
+    "button": {
+      "light": "rgb(255 255 255 / 0.22)",
+      "light-soft": "rgb(255 255 255 / 0.12)"
+    }
   },
   "themes": {
     "light": {
@@ -177,8 +181,11 @@ export const tokens = {
       "color.action.bg": "#00C99B",
       "color.action.hover": "#25D5A6",
       "color.action.text": "#0F1C24",
-      "color.action.secondary": "rgb(15 28 36 / 0.06)",
-      "color.action.secondary-hover": "rgb(15 28 36 / 0.12)"
+      "color.action.secondary": "#FFFFFF",
+      "color.action.secondary-hover": "#F4F6F6",
+      "shadow.action.accent": "inset 0 1px 0 rgb(255 255 255 / 0.35), inset 0 0 0 1px rgb(14 72 55 / 0.14), 0 1px 2px rgb(14 72 55 / 0.16), 0 8px 16px -8px rgb(14 72 55 / 0.35)",
+      "shadow.action.secondary": "inset 0 0 0 1px rgb(15 28 36 / 0.08), 0 1px 2px rgb(15 28 36 / 0.05), 0 8px 16px -8px rgb(15 28 36 / 0.14)",
+      "shadow.action.solid": "inset 0 1px 0 rgb(255 255 255 / 0.14), 0 1px 2px rgb(15 28 36 / 0.2), 0 8px 16px -8px rgb(15 28 36 / 0.4)"
     },
     "tint": {
       "color.bg.base": "#F4F6F6",
@@ -200,8 +207,11 @@ export const tokens = {
       "color.action.bg": "#00C99B",
       "color.action.hover": "#25D5A6",
       "color.action.text": "#0F1C24",
-      "color.action.secondary": "rgb(15 28 36 / 0.06)",
-      "color.action.secondary-hover": "rgb(15 28 36 / 0.12)"
+      "color.action.secondary": "#FFFFFF",
+      "color.action.secondary-hover": "#F4F6F6",
+      "shadow.action.accent": "inset 0 1px 0 rgb(255 255 255 / 0.35), inset 0 0 0 1px rgb(14 72 55 / 0.14), 0 1px 2px rgb(14 72 55 / 0.16), 0 8px 16px -8px rgb(14 72 55 / 0.35)",
+      "shadow.action.secondary": "inset 0 0 0 1px rgb(15 28 36 / 0.08), 0 1px 2px rgb(15 28 36 / 0.05), 0 8px 16px -8px rgb(15 28 36 / 0.14)",
+      "shadow.action.solid": "inset 0 1px 0 rgb(255 255 255 / 0.14), 0 1px 2px rgb(15 28 36 / 0.2), 0 8px 16px -8px rgb(15 28 36 / 0.4)"
     },
     "primary": {
       "color.bg.base": "#00C99B",
@@ -224,7 +234,10 @@ export const tokens = {
       "color.action.hover": "#1E2F38",
       "color.action.text": "#FFFFFF",
       "color.action.secondary": "rgb(15 28 36 / 0.06)",
-      "color.action.secondary-hover": "rgb(15 28 36 / 0.12)"
+      "color.action.secondary-hover": "rgb(15 28 36 / 0.12)",
+      "shadow.action.accent": "inset 0 1px 0 rgb(255 255 255 / 0.14), 0 1px 2px rgb(15 28 36 / 0.2), 0 8px 16px -8px rgb(15 28 36 / 0.4)",
+      "shadow.action.secondary": "inset 0 0 0 1px rgb(15 28 36 / 0.08), 0 1px 2px rgb(15 28 36 / 0.05), 0 8px 16px -8px rgb(15 28 36 / 0.14)",
+      "shadow.action.solid": "inset 0 1px 0 rgb(255 255 255 / 0.14), 0 1px 2px rgb(15 28 36 / 0.2), 0 8px 16px -8px rgb(15 28 36 / 0.4)"
     },
     "dark": {
       "color.bg.base": "#0F1C24",
@@ -247,7 +260,10 @@ export const tokens = {
       "color.action.hover": "#25D5A6",
       "color.action.text": "#0F1C24",
       "color.action.secondary": "rgb(255 255 255 / 0.1)",
-      "color.action.secondary-hover": "rgb(255 255 255 / 0.16)"
+      "color.action.secondary-hover": "rgb(255 255 255 / 0.16)",
+      "shadow.action.accent": "inset 0 1px 0 rgb(255 255 255 / 0.35), 0 0 0 1px rgb(0 201 155 / 0.3), 0 10px 24px -10px rgb(0 201 155 / 0.45)",
+      "shadow.action.secondary": "inset 0 1px 0 rgb(255 255 255 / 0.08), inset 0 0 0 1px rgb(255 255 255 / 0.1)",
+      "shadow.action.solid": "inset 0 -1px 0 rgb(15 28 36 / 0.08), 0 8px 16px -8px rgb(0 0 0 / 0.5)"
     },
     "deep": {
       "color.bg.base": "#0E6B52",
@@ -270,7 +286,10 @@ export const tokens = {
       "color.action.hover": "#25D5A6",
       "color.action.text": "#0F1C24",
       "color.action.secondary": "rgb(255 255 255 / 0.1)",
-      "color.action.secondary-hover": "rgb(255 255 255 / 0.16)"
+      "color.action.secondary-hover": "rgb(255 255 255 / 0.16)",
+      "shadow.action.accent": "inset 0 1px 0 rgb(255 255 255 / 0.35), 0 0 0 1px rgb(0 201 155 / 0.3), 0 10px 24px -10px rgb(0 201 155 / 0.45)",
+      "shadow.action.secondary": "inset 0 1px 0 rgb(255 255 255 / 0.08), inset 0 0 0 1px rgb(255 255 255 / 0.1)",
+      "shadow.action.solid": "inset 0 -1px 0 rgb(15 28 36 / 0.08), 0 8px 16px -8px rgb(0 0 0 / 0.5)"
     }
   },
   "font": {
@@ -447,7 +466,7 @@ export const tokens = {
     "l": 20,
     "pill": 999,
     "device": 54,
-    "control": 8,
+    "control": 10,
     "tag": 6
   },
   "shadow": {
@@ -455,7 +474,15 @@ export const tokens = {
     "2": "0 0 0 1px var(--color-ring), 0 1px 2px rgb(15 28 36 / 0.04), 0 4px 12px rgb(15 28 36 / 0.05)",
     "3": "0 0 0 1px var(--color-ring), 0 2px 4px rgb(15 28 36 / 0.05), 0 16px 32px -8px rgb(15 28 36 / 0.14)",
     "3-on-color": "0 0 0 1px rgb(15 28 36 / 0.08), 0 2px 4px rgb(15 28 36 / 0.08), 0 20px 40px -12px rgb(15 28 36 / 0.28)",
-    "3-on-dark": "0 0 0 1px rgb(255 255 255 / 0.06), 0 2px 4px rgb(0 0 0 / 0.2), 0 24px 48px -12px rgb(0 0 0 / 0.5)"
+    "3-on-dark": "0 0 0 1px rgb(255 255 255 / 0.06), 0 2px 4px rgb(0 0 0 / 0.2), 0 24px 48px -12px rgb(0 0 0 / 0.5)",
+    "button": {
+      "accent-light": "inset 0 1px 0 rgb(255 255 255 / 0.35), inset 0 0 0 1px rgb(14 72 55 / 0.14), 0 1px 2px rgb(14 72 55 / 0.16), 0 8px 16px -8px rgb(14 72 55 / 0.35)",
+      "accent-dark": "inset 0 1px 0 rgb(255 255 255 / 0.35), 0 0 0 1px rgb(0 201 155 / 0.3), 0 10px 24px -10px rgb(0 201 155 / 0.45)",
+      "secondary-light": "inset 0 0 0 1px rgb(15 28 36 / 0.08), 0 1px 2px rgb(15 28 36 / 0.05), 0 8px 16px -8px rgb(15 28 36 / 0.14)",
+      "secondary-dark": "inset 0 1px 0 rgb(255 255 255 / 0.08), inset 0 0 0 1px rgb(255 255 255 / 0.1)",
+      "solid-light": "inset 0 1px 0 rgb(255 255 255 / 0.14), 0 1px 2px rgb(15 28 36 / 0.2), 0 8px 16px -8px rgb(15 28 36 / 0.4)",
+      "solid-dark": "inset 0 -1px 0 rgb(15 28 36 / 0.08), 0 8px 16px -8px rgb(0 0 0 / 0.5)"
+    }
   },
   "opacity": {
     "dim": 0.6

@@ -19,10 +19,7 @@
   .icon {
     inline-size: var(--size-icon-m);
     block-size: var(--size-icon-m);
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
+    stroke-width: 1.5;
   }
 
   /* Above the header (z-index 10) and anything positioned in a hero. */
@@ -124,6 +121,8 @@
     padding: var(--space-xs) var(--space-m);
     border-radius: var(--radius-control);
     background-color: var(--color-action-bg);
+    background-image: linear-gradient(to top, transparent 40%, var(--color-button-light));
+    box-shadow: var(--shadow-action-accent);
     color: var(--color-action-text);
     font-weight: var(--font-weight-medium);
     text-decoration: none;

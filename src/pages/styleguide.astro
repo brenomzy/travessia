@@ -5,6 +5,7 @@ import Section from '../components/sections/Section.astro';
 import Logo from '../components/ui/Logo.astro';
 import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
+import { ICONS, type IconName } from '../lib/icons';
 import WaitlistForm from '../components/ui/WaitlistForm.astro';
 import InvoiceCard from '../components/product/InvoiceCard.astro';
 import ConversionCard from '../components/product/ConversionCard.astro';
@@ -108,7 +109,7 @@ const easings = [
   ...Object.keys(tokens.motion.ease).map((k) => `ease-${k}`),
   ...Object.keys(tokens.motion.spring).filter((k) => k !== 'notification').map((k) => `spring-${k}`),
 ];
-const icons = ['arrow-right', 'arrow-down', 'check', 'check-circle', 'menu', 'close'] as const;
+const icons = [...(Object.keys(ICONS) as IconName[]), 'check-circle'] as const;
 ---
 
 <BaseLayout title={g.title} description={g.lead} canonical="/styleguide">
