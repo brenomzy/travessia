@@ -282,7 +282,7 @@ const blog = defineCollection({
     slug: z.string(),
     /** The dek under the title and the meta description. */
     description: z.string().max(160),
-    /** Picks the cover pattern (src/assets/textures/covers) until the brand system generates per-post covers. */
+    /** Picks the cover image (src/assets/imagery/blog-covers.ts) until the brand system generates per-post covers. */
     category: blogCategory,
     /** id in authors.json. */
     author: z.string(),

@@ -26,8 +26,9 @@ metrics:
 legalName: Okabe Desenvolvimento Ltda.
 since: 2025-09
 features: Invoices, monthly report, accountant access
-cover: ../../assets/textures/stories/dither-noite.png
-coverAlt: Dotted texture in dark blue and teal
+cover: ../../assets/imagery/photo-footbridge.jpg
+coverAlt: Seen from above, a narrow wooden footbridge crossing a clear forest creek
+coverPosition: 50% 60%
 featured: false
 spotlight: false
 order: 4

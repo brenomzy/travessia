@@ -26,9 +26,9 @@ metrics:
 legalName: Lucas Prado Traduções MEI
 since: 2026-01
 features: Invoices, EUR balance, automatic tax invoices
-cover: ../../assets/textures/stories/halftone-band.png
-coverAlt: A band of halftone dots on white
-coverPosition: 50% 92%
+cover: ../../assets/imagery/photo-suspension-bridge.jpg
+coverAlt: A suspension footbridge seen from below, crossing a dark river between forested banks
+coverPosition: 50% 45%
 featured: true
 spotlight: false
 order: 3

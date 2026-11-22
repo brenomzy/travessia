@@ -52,6 +52,36 @@ Batch 3 (2026-11-21, a test of the tightened recipe, picked by Breno): 16a and 1
 
 What batch 1 taught the recipe: the strongest frames are aerials straight down and scenes at water level with no sky. Overcast skies came out nearly white in 3, 4, 5, 8 and 10, brightening the area meant for headlines, so the recipe now keeps the sky low or out and asks for the quiet area to be at least a third of the frame. Batch 2 fixed the skies but drifted north when no place was named (a maple leaf, conifers) and repeated identical boats, so the recipe now names a Brazilian tropical setting and asks for boats that differ. Batch 3 held both: all six takes are rainforest and palms, and every boat differs from its neighbours. Two things the recipe still doesn't control: the quiet side (18 put open water on the left when asked for the right) and a quiet top at eye level, where the canopy fills the frame (17).
 
+## On white and on rio-negro
+
+Checked 2026-11-21 on Paper board "5 · Picks on white and rio-negro": all 21 picks at one size on both grounds. The set holds as one register (dark water, green, grey light). Without an edge, the darkest frames (09a, 11a, 11b, 01b, 12a) dissolve into rio-negro and the misty ones (10b, 05b, 03b, 04b) lose their top edge into white.
+
+**Rule: every photo carries the theme ring inside its edge** (`--color-ring`: 8% rio-negro on light, 10% white on dark), the same ring cards use. In code it is an outline drawn over the image (`outline: var(--size-hairline) solid var(--color-ring); outline-offset: calc(var(--size-hairline) * -1)`), or the card's `--shadow-1` when the photo sits at the top of a card. Never a border that grows the image.
+
+## Where the photos are used
+
+Files in `src/assets/imagery/` (sources and prompts in its README). Blog covers are mapped in `src/assets/imagery/blog-covers.ts`; story covers are set in each story's front matter.
+
+| Where | Photo | Pick |
+|---|---|---|
+| About hero | `photo-two-waters.jpg` | 11b |
+| Blog, Taxes (the featured cover) | `photo-dock.jpg` | 8b |
+| Blog, Invoices | `photo-river-forest.jpg` | 7a |
+| Blog, Guides | `photo-canoe.jpg` | 2a |
+| Blog, News | `photo-ferry.jpg` | 3b |
+| Blog, Exchange | the painted meeting (D), not a photo | |
+| Story, Moita Filmes (spotlight) | `photo-igapo.jpg` | 6b |
+| Story, Ana Ribeiro (Recife) | `photo-recife-bridges.jpg` | 5b |
+| Story, Lucas Prado (Porto Alegre) | `photo-suspension-bridge.jpg` | 14b |
+| Story, Renata Okabe | `photo-footbridge.jpg` | 12a |
+| Story, Estúdio Caju | `photo-landing.jpg` | 16a |
+| Story, Diego Ramos | `photo-wake.jpg` | 9a |
+| Story, Paula Nery | `photo-igarape.jpg` | 17a |
+
+- Blog cover titles sit on the photo's left with the soft scrim (`--color-scrim-image`, rio-negro 85% to 0 over half the frame), white text. The iron bridge (4b) was tried for Invoices and dropped: its bright fog sat behind the title.
+- Blog category heroes use "copy outside the image": the category's photo as a framed panel beside the copy, from 1024 px.
+- Unused picks, kept for campaigns and future stories: 1b, 4b, 10b, 11a, 12b, 14a, 16b, 18a, 18b.
+
 ## The first shot list
 
 Ten subjects, two takes each (20 images, 1,000 credits):

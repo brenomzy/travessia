@@ -53,6 +53,7 @@
   --color-banner-border: var(--rio-negro-700);
   --color-focus: var(--igarape-500);
   --color-scrim: rgb(15 28 36 / 0.5);
+  --color-scrim-image: rgb(15 28 36 / 0.85);
   --color-on-data: var(--rio-negro-900);
   --color-glow: var(--igarape-800);
   --color-on-data-strong: var(--white);

@@ -9,6 +9,10 @@ The brand's paintings and photographs (brand/rules.md, "Graphic language: imager
 | `meeting-wide.png` | same board → "D2 · meeting, quiet left" | Home final CTA, interior closing CTA, for-clients CTA, calculator, Exchange blog cover |
 | `meeting-portrait.png` | same board → "D2 · meeting, portrait" | Final and closing CTAs below 1024 px |
 | `photo-two-waters.jpg` | Brand · Photography → "3 · Batch 2", take 11b (3168 × 1344, Nano Banana 2.1 at 2k via Magnific); replaced the step 6 aerial, whose meeting line had muddy brown water | About hero |
+| `photo-dock.jpg`, `photo-river-forest.jpg`, `photo-canoe.jpg`, `photo-ferry.jpg` | Brand · Photography → "2 · Batch 1", picks 8b, 7a, 2a, 3b (Nano Banana 2.1 via Magnific; copied from `docs/design/photography/batch-1/`) | Blog covers for Taxes, Invoices, Guides and News (`blog-covers.ts`), and those categories' hero panels |
+| `photo-igapo.jpg`, `photo-recife-bridges.jpg`, `photo-wake.jpg` | "2 · Batch 1", picks 6b, 5b, 9a | Story covers: Moita Filmes, Ana Ribeiro, Diego Ramos |
+| `photo-suspension-bridge.jpg`, `photo-footbridge.jpg` | "3 · Batch 2", picks 14b, 12a | Story covers: Lucas Prado, Renata Okabe |
+| `photo-landing.jpg`, `photo-igarape.jpg` | "4 · Batch 3", picks 16a, 17a | Story covers: Estúdio Caju, Paula Nery |
 
 ## Prompts
 
@@ -25,5 +29,7 @@ Each painting was made in two passes: a first image, then a "repaint" pass on it
 **Meeting, wide (D2):** Repaint this same oil painting of two waters meeting, same brushwork and palette, but recompose it: the dark blue-black water fills the left 60% and is calm, smooth and low contrast with long gentle strokes, quiet enough for white headline text in the top-left. The meeting line of white foam runs in a soft curve down the right third, with the glowing green-turquoise water beyond it. No text, no objects.
 
 **Meeting, portrait (D2):** Loose expressive oil painting seen from above, portrait format: two rivers meeting. The top half is calm dark blue-black water (close to #0F1C24) with long gentle low-contrast strokes, quiet enough for white headline text. A soft winding seam of white foam crosses the lower half diagonally, with glowing clear green-turquoise water (close to #00C99B) beyond it. Thick brushstrokes, canvas texture. No land, no boats, no people, no text.
+
+The photographs' prompts are the recipe in `brand/imagery.md` with each subject from that file's shot lists and the batch READMEs in `docs/design/photography/`.
 
 **Photograph, two waters (batch 2, 11b):** Aerial photograph straight down where a wide dark blue-black river meets a clear green-teal river, a soft natural line between the two waters running across the frame, one small wooden boat crossing that line, dense forest along the outer edges. Documentary photograph, overcast soft daylight, natural slightly muted colour, deep blue-black shadows, both waters clean and clear, fine film grain. Calm, uncluttered composition with one subject and a quiet dark area across the left of the frame, at least a third of the image. No sky. No people except tiny distant figures, no text, no logos, no brown or muddy water. (The recipe for new photos is in `brand/imagery.md`.)

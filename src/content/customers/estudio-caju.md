@@ -26,8 +26,9 @@ metrics:
 legalName: Caju Ilustração Ltda.
 since: 2026-02
 features: Studio plan, three-currency balance, accountant access
-cover: ../../assets/textures/stories/halftone-dots.png
-coverAlt: Halftone dots forming waves in teal
+cover: ../../assets/imagery/photo-landing.jpg
+coverAlt: A blue canoe and a thatch-roofed boat tied at a wooden landing on a forest river
+coverPosition: 50% 72%
 featured: false
 spotlight: false
 order: 5

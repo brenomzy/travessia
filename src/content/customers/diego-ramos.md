@@ -26,9 +26,9 @@ metrics:
 legalName: Diego Ramos Motion MEI
 since: 2026-04
 features: Invoices, GBP balance, conversion by Pix
-cover: ../../assets/textures/stories/halftone-band.png
-coverAlt: A band of halftone dots on white
-coverPosition: 50% 92%
+cover: ../../assets/imagery/photo-wake.jpg
+coverAlt: Seen from above, a small boat draws a pale wake across still, dark green water
+coverPosition: 50% 40%
 featured: false
 spotlight: false
 order: 6

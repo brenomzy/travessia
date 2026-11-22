@@ -156,6 +156,7 @@ export const tokens = {
     },
     "focus": "#00C99B",
     "scrim": "rgb(15 28 36 / 0.5)",
+    "scrim-image": "rgb(15 28 36 / 0.85)",
     "on-data": "#0F1C24",
     "glow": "#0E4837",
     "on-data-strong": "#FFFFFF",

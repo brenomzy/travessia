@@ -7,7 +7,7 @@ import Breadcrumb from '../ui/Breadcrumb.astro';
 import PostCard from '../ui/PostCard.astro';
 import ShowMore from '../ui/ShowMore.astro';
 import MotionScript from '../ui/MotionScript.astro';
-import taxesPattern from '../../assets/textures/covers/taxes.png';
+import { BLOG_COVERS } from '../../assets/imagery/blog-covers';
 import { s } from '../../strings';
 import { blogCategoryPath, path, postPath } from '../../lib/routes';
 import { getPage, getPosts } from '../../lib/content';
@@ -19,6 +19,7 @@ const { category } = Astro.props;
 const page = await getPage('blog');
 const posts = (await getPosts()).filter((p) => p.data.category === category);
 const c = page.categories[category];
+const cover = BLOG_COVERS[category];
 const categoryIds = Object.keys(page.categories) as (keyof typeof page.categories)[];
 ---
 
@@ -31,8 +32,7 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
   current="blog"
 >
   <section class="hero" data-theme="tint" aria-labelledby="page-title" data-reveal-intro>
-    <Image src={taxesPattern} alt="" widths={[800, 1600]} sizes="60vw" format="webp" quality={80} class="pattern" />
-    <div class="l-container">
+    <div class="l-container inner">
       <div class="copy" data-reveal-stagger>
         <Breadcrumb
           label={s.a11y.breadcrumb}
@@ -44,6 +44,16 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
         <h1 id="page-title">{c.label}</h1>
         <p class="lead">{c.lead}</p>
       </div>
+      <Image
+        src={cover.src}
+        alt=""
+        widths={[640, 960, 1280]}
+        sizes="(width >= 64rem) 45vw, 1px"
+        format="webp"
+        quality={85}
+        class="panel"
+        style={`object-position: ${cover.position}`}
+      />
     </div>
   </section>
 
@@ -100,7 +110,7 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
     background-color: var(--color-bg-base);
   }
 
-  .hero :global(.pattern) {
+  .hero :global(.panel) {
     display: none;
   }
 
@@ -130,15 +140,23 @@ const categoryIds = Object.keys(page.categories) as (keyof typeof page.categorie
       padding-block: var(--space-3xl);
     }
 
-    .hero :global(.pattern) {
+    /* Copy outside the image: the category's photo as a framed panel beside the copy (brand/rules.md). */
+    .inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-2xl);
+      align-items: center;
+    }
+
+    .hero :global(.panel) {
       display: block;
-      position: absolute;
-      inset-block: 0;
-      inset-inline-end: 0;
-      inline-size: 60%;
-      block-size: 100%;
+      inline-size: 100%;
+      block-size: auto;
+      aspect-ratio: 1.6;
       object-fit: cover;
-      object-position: right center;
+      border-radius: var(--radius-l);
+      outline: var(--size-hairline) solid var(--color-ring);
+      outline-offset: calc(var(--size-hairline) * -1);
     }
   }
 

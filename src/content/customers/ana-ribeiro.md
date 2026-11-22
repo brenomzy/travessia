@@ -26,8 +26,9 @@ metrics:
 legalName: Ana Ribeiro Design Ltda
 since: 2025-11
 features: Invoices, USD balance, rate alert
-cover: ../../assets/textures/stories/dither-noite.png
-coverAlt: Dotted texture in dark blue and teal
+cover: ../../assets/imagery/photo-recife-bridges.jpg
+coverAlt: Low stone bridges over a calm, dark river in Recife on an overcast day
+coverPosition: 50% 40%
 featured: true
 spotlight: false
 order: 2

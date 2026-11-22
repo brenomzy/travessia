@@ -159,8 +159,7 @@ Sections switch colour with `data-theme`: `light` (white, the default), `tint` (
 
 Changing a palette value means regenerating these:
 - The paintings in `src/assets/imagery/` (regenerate from the prompts in its README).
-- The blog covers: `docs/design/texture-lab/gen6.mjs`, copied to `src/assets/textures/covers/`.
-- The customer story textures in `src/assets/textures/stories/`, which have no generator (recoloured by a two-colour remap).
+- The photographs in `src/assets/imagery/` only if the change moves rio-negro or igarapé far enough that the photos stop matching: regenerate from the recipe in `brand/imagery.md`.
 - The mark and the favicon files, exported from the Paper board "Icon exports".
 - The Paper file's colour tokens (`--color-igarape-*`, `--color-urucum-*`), which the logo masters use.
 
@@ -273,13 +272,14 @@ Decided by Breno, 2026-11-21 (Paper: "5 · Seam review" on Brand · Graphic lang
 | About hero | The aerial photograph of two waters |
 | 404 | The river still, faded in from the copy's side |
 | Exchange blog cover | Painted meeting (D) |
+| Other blog covers, blog category heroes, customer story covers | Photographs (step 9): see `brand/imagery.md`, "Where the photos are used" |
 | Home section strip, header "seam" variant | Removed; the header variants are now light, dark and overlay |
 
 - Don't bring the dither back as a background, band, strip or texture. The meeting of two waters is the river (in motion) or the painted meeting (in stills).
 - The painting component is `src/components/ui/Painting.astro`; the files and their prompts are in `src/assets/imagery/`. A painting crop always sits inside a frame (radius `--radius-l`, or `--radius-m` inside a card) or bleeds off the section edge; never as a small floating rectangle.
 - At most one painted meeting (D) per page.
 - The mark moved off the seam on the same day ("The mark" above).
-- Still to move: the customer story covers (`src/assets/textures/stories/`) and the other four blog-cover patterns use halftone and dither. They get their own pass; photography is the imagery for stories and editorial.
+- The halftone and dither story and blog covers moved to photographs on 2026-11-21 (step 9), and `src/assets/textures/` was deleted. Nothing on the site uses halftone or dither any more.
 - The seam engine, `SeamCanvas` and the seam PNGs were deleted from the site. Their scripts stay in `docs/design/texture-lab/` as history.
 
 ---

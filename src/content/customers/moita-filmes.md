@@ -26,8 +26,9 @@ metrics:
 legalName: Moita Filmes Ltda.
 since: 2026-03
 features: Invoices, automatic tax invoices, USD and GBP balances
-cover: ../../assets/textures/stories/halftone-dots.png
-coverAlt: Halftone dots forming waves in igarapé
+cover: ../../assets/imagery/photo-igapo.jpg
+coverAlt: A flooded forest, tall trees standing in clear, still, dark water
+coverPosition: 50% 55%
 featured: true
 spotlight: true
 order: 1

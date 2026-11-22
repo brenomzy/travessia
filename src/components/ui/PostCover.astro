@@ -1,48 +1,43 @@
 ---
 /**
- * A blog cover (Paper: Blog covers → Covers by category): the category's pattern, the title on the
- * calm left side, the wordmark and the category at the bottom. HTML for now, so titles stay real
- * text; the brand system will replace the pattern with a generated image per post.
+ * A blog cover: the category's image, the title on its calm left side, the wordmark and the category at the bottom.
+ * Exchange uses the painted meeting; the other categories use photographs (step 9), which take the soft rio-negro
+ * scrim behind the title. Titles stay real HTML text. The ring sits inside the edge so dark photos keep their shape
+ * on dark grounds and misty ones on white (Paper: Brand · Photography → "5 · Picks on white and rio-negro").
  */
 import { Image } from 'astro:assets';
 import Logo from './Logo.astro';
-import exchange from '../../assets/imagery/meeting-wide.png';
-import taxes from '../../assets/textures/covers/taxes.png';
-import invoices from '../../assets/textures/covers/invoices.png';
-import guides from '../../assets/textures/covers/guides.png';
-import news from '../../assets/textures/covers/news.png';
-
-const patterns = { exchange, taxes, invoices, guides, news };
-/** Dark covers take white text; light ones take rio-negro. */
-const tones = { exchange: 'dark', taxes: 'tint', invoices: 'light', guides: 'light', news: 'dark' } as const;
+import { BLOG_COVERS, type BlogCoverCategory } from '../../assets/imagery/blog-covers';
 
 interface Props {
-  category: keyof typeof patterns;
+  category: BlogCoverCategory;
   categoryLabel: string;
   title?: string;
   /** card: grid cards. feature: the big one on the blog index. banner: a post's header image, no text. */
   size?: 'card' | 'feature' | 'banner';
 }
 const { category, categoryLabel, title, size = 'card' } = Astro.props;
-const tone = tones[category];
+const cover = BLOG_COVERS[category];
 ---
 
-<div class="cover" data-size={size} data-theme={tone}>
+<div class="cover" data-size={size} data-theme="dark">
   <Image
-    src={patterns[category]}
+    src={cover.src}
     alt=""
     widths={size === 'card' ? [480, 800] : [800, 1200, 1600]}
     sizes={size === 'card' ? '(width >= 64rem) 26rem, 100vw' : '(width >= 64rem) 60vw, 100vw'}
     format="webp"
     quality={85}
-    class="pattern"
+    class="image"
+    style={`object-position: ${cover.position}`}
   />
+  {cover.scrim && size !== 'banner' && <span class="scrim" aria-hidden="true" />}
   {
     size !== 'banner' && (
       <>
         {title && <span class="title">{title}</span>}
         <span class="brand">
-          <Logo tone={tone === 'dark' ? 'dark' : 'light'} label="" class="logo" />
+          <Logo tone="dark" label="" class="logo" />
           <span class="sep" aria-hidden="true" />
           <span class="category">{categoryLabel}</span>
         </span>
@@ -65,17 +60,24 @@ const tone = tones[category];
     color: var(--color-text-base);
   }
 
-  [data-theme='light'] {
-    box-shadow: var(--shadow-1);
+  /* The ring inside the edge, drawn over the image. */
+  .cover {
+    outline: var(--size-hairline) solid var(--color-ring);
+    outline-offset: calc(var(--size-hairline) * -1);
   }
 
-  .pattern {
+  .image {
     position: absolute;
     inset: 0;
     inline-size: 100%;
     block-size: 100%;
     object-fit: cover;
-    object-position: right center;
+  }
+
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(to right, var(--color-scrim-image), transparent 50%);
   }
 
   .title {
@@ -110,11 +112,6 @@ const tone = tones[category];
 
   .category {
     color: var(--color-text-highlight);
-  }
-
-  [data-theme='light'] .category,
-  [data-theme='tint'] .category {
-    color: var(--color-link);
   }
 
   [data-size='feature'] {

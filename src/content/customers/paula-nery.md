@@ -26,8 +26,9 @@ metrics:
 legalName: Paula Nery Textos
 since: 2025-10
 features: Invoices, monthly report, CSV export
-cover: ../../assets/textures/stories/dither-noite.png
-coverAlt: Dotted texture in dark blue and teal
+cover: ../../assets/imagery/photo-igarape.jpg
+coverAlt: A narrow forest creek under palms, with one wooden canoe moored at the bank
+coverPosition: 50% 62%
 featured: false
 spotlight: false
 order: 7
