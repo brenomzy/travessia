@@ -305,6 +305,8 @@ Pick one territory. If the current one wins, this step costs a day and gives you
 
 **Output:** `brand/imagery.md` with the direction, references, the prompt recipe and the 10 approved images.
 
+**Decided (2026-11-21, approved by Breno):** one register, not two: Brazilian rivers and what crosses them (aerials of two waters meeting, boats and ferries, bridges from below, docks, flooded and riverbank forest), with people only far away. The still-life and work-setting references were dropped as stock photography. One prompt recipe (overcast, clean dark green-teal water, a quiet dark third, the sky low or out, a named Brazilian tropical setting, boats that differ). Three batches with Nano Banana 2.1 through Magnific (36 images, 1,830 credits); 21 approved, and the last batch gave five yeses out of six. The white and rio-negro check led to one rule: every photo carries the theme ring inside its edge. Photographs now carry the About hero, seven story covers, four blog categories and their hero panels; the halftone and dither covers are gone. Everything is in `brand/imagery.md` and live on the site.
+
 ### 10. Decide illustration and 3D
 
 **Goal:** a clear yes or no on each.
@@ -389,7 +391,7 @@ Raised by step 1 (`brand/references.md`, "Where Travessia overlaps", 2026-11-20)
 - **Where the promise comes from.** Wise already sells BRL balances and Pix payouts in Brazil and has a freelancer segment; Nubank has multi-currency accounts. Fee and speed can't carry the strategy; the export tax invoice and the accountant's report are unclaimed (step 2).
 - **The bank-versus-Travessia bars.** Wise's green-versus-grey comparison bars are one of its signature images. Keep the comparison, find another form (step 8).
 - ~~**The held `acai` colour.**~~ Dropped 2026-11-21 (step 7): a deep purple reads as Nubank to Brazilian readers.
-- **River photography.** Mercury's hero is a misty river valley and its 2026 campaign art is a canoe crossing. Keep river imagery to close, water-level objects (step 9).
+- **River photography.** Mercury's hero is a misty river valley and its 2026 campaign art is a canoe crossing. Keep river imagery to close, water-level objects (step 9). Step 9 went further than this note (aerials and wide river views too), on the view that Travessia is fictional and the system matters more than the overlap; the quiet-third framing and the Brazilian setting keep it apart from Mercury's misty valleys.
 - ~~**A sandy `solimoes`.**~~ Not added 2026-11-21 (step 7): the seam stays dark and clear.
 
 Decided on 2026-11-19: this playbook is brief Phase 1, "Brand build and consolidation" (brief §8).

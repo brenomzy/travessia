@@ -1,6 +1,6 @@
 # Photography
 
-> Playbook step 9, in progress (started 2026-11-21). Draft: the direction and the recipe are proposals until the first batch is reviewed. Boards: Paper page "Brand · Photography". Where photography sits among the brand's imagery (river, paintings, photography, mist) is in `brand/rules.md`, "Graphic language: imagery".
+> Playbook step 9, approved by Breno on 2026-11-21. Boards: Paper page "Brand · Photography" (references, three batches, the white and rio-negro check). Where photography sits among the brand's imagery (river, paintings, photography, mist) is in `brand/rules.md`, "Graphic language: imagery".
 
 Photography is Travessia's proof that the crossing is real: a river, a boat, a bridge. The paintings say how it feels; the photos say where it happens: the rivers the crossing is named after. Uses: customer stories, editorial and blog covers, the About page, campaigns and outdoor, the yearly data report. Never with product UI on top.
 
@@ -99,4 +99,4 @@ Ten subjects, two takes each (20 images, 1,000 credits):
 | 9 | Aerial straight down: a single boat's wake drawing a pale line across still dark water |
 | 10 | Two small boats passing each other far apart on a wide river in morning mist |
 
-Then: pick the strongest, adjust the recipe, run a second batch until most of a batch are yeses. Check every pick on white and on rio-negro.
+Then: pick the strongest, adjust the recipe, run a second batch until most of a batch are yeses. Check every pick on white and on rio-negro. (Done: batch 3 gave five of six; the check is above.)
