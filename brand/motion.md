@@ -54,6 +54,19 @@ Breno: C "looks amazing"; he asked for variations, even more polished. All three
 | **C2 · Through the painting** | Starts inside the icon: the hairline crosses the whole frame, the frame opens into painted water and the ss unfolds out of the line at full size. One continuous pull back shows it's the icon and carries on to the word. | 5.2 s |
 | **C3 · Water into the word** | The dark water drains down to the waterline first and the white halves of the word open out of it with nothing below. Then the igarapé water closes up into the ss and runs out along the waterline into the lower halves of the other letters, both ways, before the glint sets it flat. | 5.4 s |
 
+**C1 is the direction** (Breno, 2026-11-24), with an easing pass on top. `docs/design/motion/v2/graph.html?s=c1` plots the on-screen speed of every moving part, like an After Effects speed graph. The first version had three faults: every move started at full speed on its first frame (the hairline, the window, the ss and each letter snapped instead of moving); the window closing, the camera's peak and all five letter rings hit top speed together between 1.6 and 1.8 s; and the camera's move to the word was a narrow spike of about 0.3 s. The fix:
+
+| Move | Curve | When |
+|---|---|---|
+| Hairline drawing on | `cubic-bezier(0.35, 0, 0.1, 1)` | 0.06–0.72 s |
+| Window opening, ss unfolding | `cubic-bezier(0.3, 0, 0.05, 1)` | 0.32–1.15 s, 0.5–1.55 s |
+| Window closing into the line | `cubic-bezier(0.55, 0, 0.3, 1)` | 1.15–1.75 s |
+| Camera to the word | `cubic-bezier(0.45, 0, 0.12, 1)` | 1.15–2.75 s |
+| Letters opening, 50 ms apart by ring | `motion.ease.base` (0.2, 0, 0, 1) | from 1.67 s, 1.1 s each |
+| Glint | `cubic-bezier(0.45, 0, 0.25, 1)` | 2.05–2.85 s |
+
+Every move now eases in over a few frames and lands on a long tail, and peak speeds roughly halved (camera 765 → 475 px/s, letters about 1,600 → 760 px/s). The peaks run in order: the window closes (1.4 s), the camera moves (1.6 s), the letters open as it slows (1.8–2.0 s), the glint runs (2.3 s), and the camera and the last letters land together. A short beat where only the ss sits on the waterline, between the window closing and the letters opening, falls out of this.
+
 Note on C2: the painting is a 960 px file, so at the opening zoom (about 2.4×) the brushwork is soft. An upscaled copy of `clear-water-portrait.png` would sharpen it.
 
 ### Round 2 (2026-11-24): C rebuilt, and two river stings

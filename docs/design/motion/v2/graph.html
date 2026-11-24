@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Speed graph</title>
+<style>
+  body { margin: 0; padding: 32px 40px; background: #fff; color: #0F1C24; font-family: Figtree, system-ui, sans-serif; }
+  h1 { font-weight: 500; font-size: 28px; margin: 0 0 4px; }
+  p { margin: 0 0 20px; color: #4D5A61; font-size: 15px; }
+  canvas { display: block; }
+</style></head><body>
+<h1 id="h"></h1>
+<p>Speed of each moving part on screen (px per second at 1920 × 1080), like an After Effects speed graph. Each row has its own scale. Red ticks: a jump of more than 15% of that row's peak between two 60 fps frames (a pop). Grey bands: the hold.</p>
+<canvas id="c"></canvas>
+<script type="module">
+// Usage: graph.html?s=c1 (the sting module must export `cfg`).
+import { TILE, SS_CX } from './from-mark.js';
+import { buildLogo } from './engine.js';
+const id = new URLSearchParams(location.search).get('s') || 'c1';
+const { cfg } = await import(`./sting-${id}.js`);
+document.getElementById('h').textContent = `Speed graph · ${id.toUpperCase()}`;
+const logo = buildLogo();
+const W = 1920, H = 1080, D = cfg.duration, dt = 1 / 240;
+const RING = { e: 1, v: 2, a: 3, r: 4, t: 5 };
+function state(t) {
+  const c = cfg.camera(t); const s = c.s;
+  const sx = W / 2 + (SS_CX - c.ax) * s, sy = H / 2 + (-250 - c.ay) * s;
+  const [up, down] = cfg.band(t);
+  const out = {
+    'camera pan (ss centre)': [sx, sy],
+    'camera zoom (tile width)': [1000 * s],
+    'window height': [(up * 546 + down * 454) * s],
+    'hairline tip': [cfg.hairline(t)[0] * 1000 * s],
+    'ss unfold (white half)': [600 * s * (1 - cfg.ss(t))],
+  };
+  for (const [k, ring] of Object.entries(RING)) {
+    const el = logo.byKey[k], kk = cfg.letter(t, ring);
+    out[`letter ${k} (ring ${ring})`] = [(logo.byKey.ss.cx - el.cx) * cfg.spread * s * (1 - kk), 600 * s * (1 - kk)];
+  }
+  const [g0, g1] = cfg.glint; const gk = cfg.glintEase ? cfg.glintEase(Math.min(1, Math.max(0, (t - g0) / (g1 - g0)))) : 0;
+  out['glint (along the waterline)'] = [W / 2 + (logo.x0 - 700 + gk * (logo.x1 - logo.x0 + 1400) - c.ax) * s];
+  return out;
+}
+const names = Object.keys(state(0));
+const series = Object.fromEntries(names.map((n) => [n, []]));
+let prev = state(0);
+for (let t = dt; t <= D; t += dt) {
+  const cur = state(t);
+  for (const n of names) { const a = cur[n], b = prev[n]; series[n].push([t, Math.hypot(...a.map((v, i) => v - b[i])) / dt]); }
+  prev = cur;
+}
+const rowH = 64, left = 220, w = 1300, cv = document.getElementById('c');
+cv.width = left + w + 20; cv.height = names.length * rowH + 40;
+const g = cv.getContext('2d'); g.font = '14px Figtree, system-ui'; g.textBaseline = 'middle';
+const X = (t) => left + (t / D) * w;
+names.forEach((n, i) => {
+  const y0 = 10 + i * rowH, pts = series[n].filter((p) => isFinite(p[1]));
+  const peak = Math.max(1, ...pts.map((p) => p[1]));
+  g.fillStyle = '#F4F6F6'; g.fillRect(left, y0, w, rowH - 10);
+  g.fillStyle = '#0F1C24'; g.fillText(n, 8, y0 + 18);
+  g.fillStyle = '#636E75'; g.fillText(`peak ${Math.round(peak)} px/s`, 8, y0 + 38);
+  g.beginPath(); pts.forEach(([t, v], k) => { const x = X(t), y = y0 + rowH - 10 - (v / peak) * (rowH - 16); k ? g.lineTo(x, y) : g.moveTo(x, y); });
+  g.strokeStyle = '#029773'; g.lineWidth = 1.5; g.stroke();
+  // pops: compare 60 fps frames
+  const f = pts.filter((_, k) => k % 4 === 0);
+  g.fillStyle = '#C93A14';
+  for (let k = 1; k < f.length; k++) if (Math.abs(f[k][1] - f[k - 1][1]) > 0.15 * peak) g.fillRect(X(f[k][0]) - 1, y0, 2, 8);
+});
+g.fillStyle = '#636E75';
+for (let s = 0; s <= D; s += 0.5) { g.fillRect(X(s), 10, 1, names.length * rowH - 10); g.fillText(s.toFixed(1) + ' s', X(s) - 12, names.length * rowH + 22); }
+window.ready = true;
+</script>
+</body></html>

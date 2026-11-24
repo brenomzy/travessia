@@ -85,7 +85,7 @@ export function fromMark(cfg) {
       const [up, down] = cfg.band(t);
       const [hp, ha] = cfg.hairline(t);
       const [g0, g1] = cfg.glint;
-      const g = seg(t, g0, g1, bez(0.45, 0, 0.25, 1));
+      const g = seg(t, g0, g1, cfg.glintEase || bez(0.45, 0, 0.25, 1));
       const gx = X(logo.x0 - 700 + g * (logo.x1 - logo.x0 + 1400));
       const fill = cfg.fill ? cfg.fill(t) : 1e5;
       return [
