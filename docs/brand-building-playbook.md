@@ -315,6 +315,8 @@ Ramp uses 3D renders of its card. Travessia has no card; its object is the invoi
 
 **Output:** a decision in `brand/imagery.md`; assets in `src/assets/illustration-kit/` only if the answer is yes.
 
+**Decided (2026-11-24, approved by Breno):** no to both. One test of each option on the same three jobs (an app empty state, a three-step explainer, a launch post; Paper "Brand · Illustration and 3D"). The 3D invoice and phone read as stock and fought a white app screen; flat illustration said less than the product UI with real ledger numbers, and would have been a fifth style. Empty states use an icon on an igarapé-50 disc, explainers use product UI, posts use the paintings or photographs. The paper-boat render (an invoice folded into a boat, crossing the two waters) is parked for step 13 as a campaign idea. No `src/assets/illustration-kit/`. Written up in `brand/imagery.md`.
+
 ### 11. Set motion and sound
 
 **Goal:** how the brand moves.
@@ -354,6 +356,8 @@ Review the wall for one question at a time: is the promise there, is the accent 
 
 Ramp's campaigns share a structure: the old way shown as a physical burden (a pile of receipts, a glass box), the product shown removing it, and a live element. Write one concept for Travessia on the same structure, for example a bank wire and a Travessia payment racing in real time, with the wire's fees and days counted on a public screen. Deliver the line, three out-of-home executions, the film storyboard from step 12, a social plan and the live element's mechanics.
 
+One idea is waiting from step 10: the paper boat, an invoice folded into a boat crossing from dark water into clear igarapé (`docs/design/illustration/3d/`). Consider it as the campaign's single image; it is not a system style.
+
 **Output:** `brand/campaigns/launch.md` and a Paper page. This is art direction, not a system mode: loud mode's rules are still written in brief Phase 4, from this campaign.
 
 ### 14. Write it all down
@@ -383,7 +387,7 @@ Ramp's campaigns share a structure: the old way shown as a physical burden (a pi
 
 - ~~**The seam story.**~~ Decided 2026-11-21: "two waters meeting" in general (rio-negro and igarapé); no `solimoes`.
 - ~~**Typeface.**~~ Decided 2026-11-20: Figtree stays.
-- **Illustration.** Yes or no (step 10).
+- ~~**Illustration.**~~ Decided 2026-11-24 (step 10): no illustration style and no 3D.
 - ~~**Step 7 accent and UI direction**~~ (Breno, 2026-11-21, done: from the Paper page "Brand · Accent and UI study" and `brand/references.md` "Accent use and UI craft"). Agreed: one accent, igarapé, for "act here", with rio-negro sharing the primary buttons; urucum leaves the core for campaigns. Headlines use the two-tone (second half in 60% rio-negro) at weight 500, −0.02em. Button labels 500. No borders: a faint 1 px ring inside a very soft shadow. Neutral panels instead of mint. Hero, decided for now (2026-11-21): the river from the shader lab, tile 8i in `docs/design/shader-lab/river5.html` (shader saved as `docs/design/shader-lab/hero-river-8i.frag`). A single igarapé river with drifting white streaks on a dark field, clean one-pixel echo lines along its banks, and a width that slowly swells and narrows. It replaces the half-and-half seam, so the igarapé button no longer sits next to a wall of igarapé. Reached in six lab rounds (shader lab, then river labs 1 to 5). The headline's second line still needs a solid colour instead of 55% white (lab buttons: fog, silver, igarapé-100, igarapé-300). Built into the site on 2026-11-21.
 - **Button styling experiment.** Breno likes some of Cloudflare's and Nucleo Icons' buttons. Try them as a variant once the core parts are in code (step 8 or a UI polish pass).
 

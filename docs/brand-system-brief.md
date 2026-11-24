@@ -118,7 +118,7 @@ Each mode is a short list of rules the system can choose and check: background t
 |---|---|---|---|---|---|
 | Quiet | Decks, investor updates, sales and support one-pagers | White background, text first, one small igarapé accent, no seam texture, no illustration | Headlines state facts; every number has a source; no exclamation marks | Product UI, charts from `proof.md`. No photography. | Phase 2 |
 | Standard | Feature one-pagers, landing pages, product graphics | Close to the site: seam texture band, one accent per surface, product UI vignettes | To be defined | Product UI, seam textures | Phase 3 |
-| Loud | Launches, campaigns, social | Rio-negro or urucum fields, large type, illustration scenes, motion allowed | Short imperative headlines allowed; one claim per surface | AI photography of places, objects, hands and work settings. Never a face presented as a customer. | Phase 4 |
+| Loud | Launches, campaigns, social | Rio-negro or urucum fields, large type, the paintings and photographs (no illustration or 3D, step 10), motion allowed | Short imperative headlines allowed; one claim per surface | AI photography of Brazilian rivers and their crossings (step 9, `brand/imagery.md`). Never a face presented as a customer. | Phase 4 |
 
 ### 5.4 Templates and approved examples
 
@@ -228,7 +228,7 @@ The case study and `/brand` page are updated after each phase from 4 on.
 - **[decide]** Agent SDK vs direct API, at Phase 6.
 - **[decided 2026-11-21]** The seam story: "two waters meeting" in general, rio-negro and igarapé. No sandy `solimoes` (playbook step 7, `brand/rules.md` Colour).
 - **[decided 2026-11-20]** Typeface: Figtree stays, tuned to one scale (playbook step 6 and 7).
-- **[decide]** Illustration and 3D: yes or no (playbook step 10).
+- **[decided 2026-11-24]** Illustration and 3D: no to both. Empty states use an icon, explainers use product UI, posts use the paintings or photographs; the paper-boat render is parked for the launch campaign (playbook step 10, `brand/imagery.md`).
 
 ---
 

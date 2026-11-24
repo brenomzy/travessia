@@ -110,7 +110,7 @@ Numbers are kept from earlier versions; gaps are retired decisions.
   - **An elastic system.** Colours and illustrations change with the context: a fixed core palette plus one accent per surface, all from tokens.
   - **Don't take:** its wordmark, typeface, seal or palette, or anything that suggests a link to Embratur, RAI or a government.
 - **Palette:** the built palette is in `src/tokens/tokens.json`: rio-negro, igarape, neblina, urucum and white (light water changed from tapajos to igarape on 2026-11-21; rules in `brand/rules.md`). Primitives are named after Brazilian rivers and natural products (brief §11; reasons in `docs/brand-building-playbook.md`, "Colour names").
-- **Illustration:** flat, layered product UI (invoice, balance, rate, phone), route arcs and river segments, checks, clocks and arrows. No real banknotes, and no bank, card-network or Pix logos.
+- **Illustration:** none (playbook step 10, decided 2026-11-24). Product UI carries explainers (invoice, balance, rate, phone), empty states use an icon on a disc, and posts use the paintings or photographs (`brand/imagery.md`). No real banknotes, and no bank, card-network or Pix logos.
 
 ---
 

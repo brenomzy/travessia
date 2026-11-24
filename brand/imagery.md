@@ -100,3 +100,30 @@ Ten subjects, two takes each (20 images, 1,000 credits):
 | 10 | Two small boats passing each other far apart on a wide river in morning mist |
 
 Then: pick the strongest, adjust the recipe, run a second batch until most of a batch are yeses. Check every pick on white and on rio-negro. (Done: batch 3 gave five of six; the check is above.)
+
+---
+
+# Illustration and 3D
+
+> Playbook step 10, decided by Breno on 2026-11-24. Board: Paper page "Brand · Illustration and 3D" → "1 · Three options, three jobs". Test files and prompts: `docs/design/illustration/`.
+
+**No illustration style and no 3D style.** The brand already has four kinds of imagery (the river, painted clear water, the painted meeting, photography) plus mist; a fifth style would be one more thing to keep consistent, and neither option said more than the product UI does.
+
+The test put each option on the same three jobs: an app empty state, a three-step "how it works", and a 4:5 launch post.
+
+- **3D renders** (an invoice sheet, a phone, an invoice folded into a paper boat; Magnific, 300 credits). The invoice and phone read as stock 3D any fintech could use, and they arrive as dark tiles that fight a white app screen. No.
+- **Flat illustration** (SPEC 4.3's invoice cards, route arcs, river segments, checks and clocks, drawn in the palette). Clean and cheap to draw in code, but a drawn invoice with grey lines says less than the real one with a client, an amount and a status. No.
+- **Neither.** Yes: what each job uses instead is below.
+
+## What each job uses instead
+
+| Job | Use | How |
+|---|---|---|
+| Empty states in the app | One Hugeicons icon on a disc | The icon at 28 px in igarapé-700 on an igarapé-50 disc of 56 px, then the title, one line of body and one button |
+| Explainers ("how it works", feature steps) | Product UI | One card per step with real numbers from the product ledger (`brand/proof.md`), on mist or on a painting crop |
+| Posts, covers, campaigns | Paintings or photographs | The quiet zone rules in `brand/rules.md`; the wordmark on calm water, never across brushstrokes or foam |
+
+## Parked for step 13
+
+**The paper boat.** An invoice folded into a paper boat, crossing from dark water into clear igarapé (`docs/design/illustration/3d/3a-paper-boat.jpg`, `3b-paper-boat.jpg`). It is the one image in the test no other brand could use. It goes to the launch campaign (playbook step 13) as a candidate idea, a single campaign image, not a system style: it doesn't come back as a recurring 3D object on the site or in templates.
+

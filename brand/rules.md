@@ -187,7 +187,7 @@ Measured against the reference brands on 2026-11-21 (`brand/references.md`); boa
 
 - One map, `src/lib/icons`, names the icons the site uses (`home`, `invoice`, `convert`, `tax-invoice`, `report`, `clients`, `balance`, `bank`, …). Astro uses `ui/Icon.astro`, islands `islands/Icon.tsx`; nothing imports the package directly. Add a name to the map before using a new icon.
 - 24 px grid, stroke 1.5, round caps and joins, `currentColor`. Never filled, never two-tone, never a second set alongside.
-- Sizes: `--size-icon-s` (16 px) beside text at `--text-sm` and below and in buttons; `--size-icon-m` (22 px) for navigation and standalone controls. Larger only in illustration, never as decoration beside a headline.
+- Sizes: `--size-icon-s` (16 px) beside text at `--text-sm` and below and in buttons; `--size-icon-m` (22 px) for navigation and standalone controls. Larger only in an empty state's disc (28 px, `brand/imagery.md` "Illustration and 3D"), never as decoration beside a headline.
 - An icon takes the colour of its text. Igarapé only when the icon is itself the status (the `check-circle` done mark).
 - Decorative icons are hidden from screen readers; an icon that is the only content of a control gets a `label`.
 
@@ -230,6 +230,8 @@ Three, plus the small one for tags: 8 px controls (`radius-s`, `radius-control`)
 | **Painted meeting** (D) | The crossing itself, dollars becoming reais | Moments about conversion: the conversion feature, launches, campaign covers. At most one per page or campaign set, so it stays special | As a pattern or a repeated card background |
 | **Photography** (step 9, `brand/imagery.md`: Brazilian rivers and their crossings, always with the theme ring) | A real place and real proof | Outdoor and campaigns, customer stories, editorial and blog covers, the About page, the yearly data report | With product UI on top |
 | **Mist** (plain `neblina-50`) | Nothing; a neutral stage | Dense product explanations, docs, anything where the UI must be read in detail | Hero or campaign moments |
+
+There is no illustration style and no 3D (step 10, decided 2026-11-24): empty states use an icon on a disc, explainers use product UI, posts use the paintings or photographs (`brand/imagery.md`, "Illustration and 3D").
 
 Paintings are oil-paint water seen from above: loose, visible brushstrokes and canvas texture, rio-negro to igarapé, white only as light and foam, no land, boats, people or text. Every new painting is made for its layout (see "Quiet zone" below). Generate them with Magnific first, then Paper; record the prompt next to the file.
 
