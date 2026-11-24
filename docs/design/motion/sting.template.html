@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo sting test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 48px; background: #fff; color: #0F1C24; font-family: Figtree, system-ui, sans-serif; }
+  h1 { font-weight: 500; font-size: 40px; letter-spacing: -0.02em; margin: 0 0 8px; }
+  h1 span { color: #636E75; }
+  p.lead { max-width: 880px; font-size: 17px; line-height: 26px; color: #2E3B42; margin: 0 0 32px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 24px; }
+  figure { margin: 0; width: 640px; }
+  .panel { width: 640px; height: 360px; background: #0F1C24; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .panel > svg { width: 380px; height: auto; overflow: visible; }
+  [data-part=above] { fill: #FFFFFF; }
+  [data-part=below] { fill: #00C99B; }
+  figcaption { display: flex; justify-content: space-between; gap: 16px; margin-top: 12px; font-size: 15px; line-height: 22px; color: #4D5A61; }
+  figcaption b { color: #0F1C24; font-weight: 500; }
+  button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 10px; border: 0; background: #F4F6F6; box-shadow: 0 0 0 1px rgba(15,28,36,.08); cursor: pointer; flex-shrink: 0; height: fit-content; }
+  .lockup { display: flex; align-items: center; gap: 22px; }
+  .tile { width: 88px; height: 88px; border-radius: 20px; overflow: hidden; box-shadow: 0 0 0 1px rgba(255,255,255,.1); }
+  .tile img { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .lockup svg { width: 300px; height: auto; overflow: visible; }
+  .note-rm { display: none; color: #0E6B52; }
+  @media (prefers-reduced-motion: reduce) { .note-rm { display: inline; } }
+</style></head><body>
+<h1>Logo sting <span>· three 4-second tests</span></h1>
+<p class="lead">Playbook step 11. Each sting runs 4 seconds on rio-negro, then holds and loops. Timing and easing come from the motion tokens (ease.in-out, ease.expo, ease.fade, spring.crit). With reduced motion every sting shows its last frame. <span class="note-rm">Reduced motion is on: these are the end frames.</span></p>
+<div class="grid">
+
+<figure><div class="panel"><svg id="A" {VB} role="img" aria-label="Travessia">{dA}
+  <clipPath id="a-cut-top"><rect x="-300" y="-1400" width="4200" height="1196"/></clipPath>
+  <clipPath id="a-cut-bottom"><rect x="-300" y="-204" width="4200" height="900"/></clipPath>
+  <g clip-path="url(#a-cut-top)"><g id="a-rise">{hA0}</g></g>
+  <g clip-path="url(#a-cut-bottom)"><g id="a-fall">{hA1}</g></g>
+  <rect id="a-line" x="-30" y="-214" width="3615" height="20" fill="#00C99B"/>
+</svg></div><figcaption><span><b>A · Waterline.</b> The waterline draws across, the word rises out of it and its igarapé half settles below.</span><button data-replay="A">Replay</button></figcaption></figure>
+
+<figure><div class="panel"><svg id="B" {VB} role="img" aria-label="Travessia">{dB}
+  <clipPath id="b-rev"><rect id="b-rev-rect" x="-30" y="-1400" width="0" height="2200"/></clipPath>
+  <g clip-path="url(#b-rev)">{hB0}{hB1}</g>
+  <circle id="b-dot" cx="-30" cy="-204" r="66" fill="#00C99B"/>
+</svg></div><figcaption><span><b>B · The crossing.</b> A dot crosses on the waterline and the word appears behind it. It lands as the dot of the i.</span><button data-replay="B">Replay</button></figcaption></figure>
+
+<figure><div class="panel"><div class="lockup"><div class="tile" id="c-tile"><img id="c-img" src="icon-512.png" alt=""></div><svg id="C" {VB} role="img" aria-label="Travessia">{dC}{hC0}{hC1}</svg></div></div><figcaption><span><b>C · Mark first.</b> The mark on painted water settles, then the wordmark slides out beside it.</span><button data-replay="C">Replay</button></figcaption></figure>
+
+</div>
+<script>
+// Easing from src/tokens/tokens.json (motion.ease.*, motion.spring.crit).
+function bez(x1, y1, x2, y2) {
+  const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+  const sx = (t) => ((ax * t + bx) * t + cx) * t, sy = (t) => ((ay * t + by) * t + cy) * t, dx = (t) => (3 * ax * t + 2 * bx) * t + cx;
+  return (x) => { let t = x; for (let i = 0; i < 8; i++) { const e = sx(t) - x, d = dx(t); if (Math.abs(e) < 1e-5 || !d) break; t -= e / d; } return sy(Math.min(1, Math.max(0, t))); };
+}
+const E = { inout: bez(.65, 0, .35, 1), expo: bez(.19, 1, .22, 1), fade: bez(0, 0, .58, 1), base: bez(.2, 0, 0, 1), crit: (t) => 1 - (1 + 8 * t) * Math.exp(-8 * t) };
+const seg = (t, a, b, e) => e(Math.min(1, Math.max(0, (t - a) / (b - a))));
+const mix = (a, b, k) => a.map((v, i) => Math.round(v + (b[i] - v) * k));
+const $ = (id) => document.getElementById(id);
+const R = {
+  A(t) {
+    const s = seg(t, 0, .8, E.inout);
+    $('a-line').setAttribute('transform', `translate(-30 0) scale(${s} 1) translate(30 0)`);
+    $('a-line').setAttribute('opacity', 1 - seg(t, 1.6, 2.2, E.fade));
+    $('a-rise').setAttribute('transform', `translate(0 ${620 * (1 - seg(t, .7, 1.8, E.crit))})`);
+    $('a-fall').setAttribute('transform', `translate(0 ${-300 * (1 - seg(t, .9, 2, E.crit))})`);
+  },
+  B(t) {
+    const p = seg(t, .2, 1.6, E.inout), x = -30 + p * (2964 + 30);
+    // After the dot leaves the line for the i, the reveal runs on to the end of the word.
+    const rest = seg(t, 1.6, 2.3, E.expo), w = x + 30;
+    $('b-rev-rect').setAttribute('width', Math.max(0, w + rest * (3615 - w)));
+    const h = seg(t, 1.6, 2.2, E.crit), y = -204 + h * (-661 + 204);
+    const d = $('b-dot'); d.setAttribute('cx', x); d.setAttribute('cy', y);
+    d.setAttribute('fill', `rgb(${mix([0, 201, 155], [255, 255, 255], seg(t, 2.2, 2.6, E.fade))})`);
+  },
+  C(t) {
+    const tile = $('c-tile');
+    tile.style.opacity = seg(t, 0, .5, E.fade);
+    tile.style.transform = `scale(${.86 + .14 * seg(t, 0, .9, E.crit)})`;
+    $('c-img').style.transform = `scale(${1.2 - .2 * seg(t, 0, 4, E.base)})`;
+    const w = seg(t, .6, 1.5, E.expo), s = $('C');
+    s.style.clipPath = `inset(-10% ${100 - 100 * w}% -10% 0)`;
+    s.style.transform = `translateX(${-16 * (1 - w)}px)`;
+  },
+};
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fixed = new URLSearchParams(location.search).get('t');
+const LEN = 4, LOOP = 5.5, start = {};
+const now = () => performance.now() / 1000;
+for (const k in R) start[k] = now();
+function frame() {
+  for (const k in R) R[k](reduce ? LEN : Math.min((now() - start[k]) % LOOP, LEN));
+  if (!reduce) requestAnimationFrame(frame);
+}
+document.querySelectorAll('[data-replay]').forEach((b) => (b.onclick = () => (start[b.dataset.replay] = now())));
+if (fixed !== null) for (const k in R) R[k](+fixed); else frame();
+</script>
+</body></html>
