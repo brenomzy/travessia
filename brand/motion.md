@@ -1,6 +1,6 @@
 # Motion and sound
 
-> Playbook step 11, draft (started 2026-11-24). Not approved yet. Timing values are tokens in `src/tokens/tokens.json` (`motion.*`); the helpers are in `src/lib/motion/`; the river is `src/lib/generators/river`. Tests: `docs/design/motion/`.
+> Playbook step 11, in progress (started 2026-11-24). The logo sting is decided (C1); product UI in demos and sound are still open. Timing values are tokens in `src/tokens/tokens.json` (`motion.*`); the helpers are in `src/lib/motion/`; the river is `src/lib/generators/river`. Tests: `docs/design/motion/`.
 
 Travessia moves the way its subject does: money crossing from one side to the other and arriving. Most of the time the interface is still. Motion marks the moments that matter: a page arriving, a state changing, a number arriving, and the river behind the hero.
 
@@ -36,6 +36,17 @@ Travessia moves the way its subject does: money crossing from one side to the ot
 | The sting, in video and at the start of a presentation | Anything that loops, except the river |
 
 ## The logo sting
+
+**Decided: C1 · From the mark** (Breno, 2026-11-24). File: `docs/design/motion/v2/sting-C1.mp4` (1920 × 1080, 60 fps, 5.0 s); source `sting-c1.js` with `from-mark.js`. The story: the app icon opens out of a hairline on the waterline, the ss unfolds inside it, and the icon closes back into the waterline while its water stays in the lower halves of the letters, so the mark becomes the word's ss. The rest of the word opens outward from it, a glint along the waterline sets the paint into flat igarapé, and the logo holds.
+
+How it's used:
+
+- Opens and closes films, campaign videos and social videos, and opens presentations. At the end of a film it runs as is and holds on the last frame.
+- On rio-negro only. Never over a photograph, painting or the river.
+- Not on the website or in the product: the site keeps its still logo, and the app never plays it.
+- With reduced motion, or where video can't play, show the last frame: the logo.
+- Don't retime, recolour or cut it. Shorter edits start later (from the hold) rather than speeding it up.
+- D (surfacing), E (the river), C2 and C3 stay as tests, not alternatives.
 
 ### Round 3 (2026-11-24): three versions of C
 
@@ -91,7 +102,7 @@ The waterline is where everything starts: the letters open out of it (white halv
 
 Files: `docs/design/motion/v2/` (`index.html?s=c|d|e` plays them live on the motion-lab server; `render.mjs` renders the MP4s, 1920 × 1080 at 60 fps; `engine.js` holds the letter masks, compositor and motion blur). With reduced motion the page shows the last frame.
 
-To pick: one sting, or a pair (for example E for films and campaign openers, D for short social cuts).
+Not chosen; C1 (round 3) is the sting.
 
 ### Round 1 (2026-11-24)
 
