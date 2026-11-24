@@ -1,6 +1,6 @@
 # Motion and sound
 
-> Playbook step 11, in progress (started 2026-11-24). The logo sting is decided (C1); product UI in demos and sound are still open. Timing values are tokens in `src/tokens/tokens.json` (`motion.*`); the helpers are in `src/lib/motion/`; the river is `src/lib/generators/river`. Tests: `docs/design/motion/`.
+> Playbook step 11, in progress (started 2026-11-24). The logo sting is decided (C1); product UI in demos is in test (`docs/design/motion/ui-demo/`); sound is still open. Timing values are tokens in `src/tokens/tokens.json` (`motion.*`); the helpers are in `src/lib/motion/`; the river is `src/lib/generators/river`. Tests: `docs/design/motion/`.
 
 Travessia moves the way its subject does: money crossing from one side to the other and arriving. Most of the time the interface is still. Motion marks the moments that matter: a page arriving, a state changing, a number arriving, and the river behind the hero.
 
@@ -118,13 +118,31 @@ The seam animation this step originally asked for is done: the seam was retired 
 
 ## Product UI in demos
 
-To be tested: how the app window animates in a demo (Ramp's hero is a UI demo with a cursor and live counters). Draft rules:
+To decide. First test (2026-11-24): `docs/design/motion/ui-demo/ui-demo.mp4`, 12.6 s at 1920 × 1080, 60 fps. Source: `docs/design/motion/ui-demo/` (React on the Stageshow kit in `.agents/skills/stageshow/kit`, with the site's tokens, Figtree, icons and wordmark).
 
-- One window, one task, told in three to five beats: invoice sent → paid → converted → Pix lands → tax invoice issued.
-- Numbers come from the product ledger (`brand/proof.md`) and count up with `duration.count`.
-- A cursor only when a person would act (pressing Convert). The cursor moves in straight, eased lines, never wanders.
-- Notifications enter with `spring.notification` from the top right and leave with `ease.in`.
-- 8 to 12 seconds per loop with a 2-second hold on the last state. With reduced motion, the last state only.
+What it shows: the site's Balance screen (the app window from `FeatureTabs`) on painted clear water, playing the canonical crossing from `brand/proof.md`.
+
+| Time | Beat |
+|---|---|
+| 0–0.9 s | The Balance screen as it was on Thu Nov 12 before 9:11 am: US$ 4,212.40 |
+| 0.9 s | Halden & Co. pays invoice #0042: the row drops into Recent activity, the dollar balance rolls to US$ 6,212.40 |
+| 2.4 s | "Tax invoice no. 318 issued" arrives over the sidebar |
+| 3.5 s | The cursor comes in and presses Convert (4.7 s); the sheet opens under it with the quote (US$ 2,000.00, fee − US$ 12.00, R$ 5.45, you receive R$ 10,834.60) |
+| 6.9 s | After a second of reading time the cursor presses the igarapé button: Converting, then Converted (8.0 s) |
+| 8.5 s | The sheet closes, the balance rolls back to US$ 4,212.40, the cursor leaves the frame |
+| 9.3 s | "Pix received" arrives and the Pix row drops in: the last frame is the state the site's Balance tab shows |
+
+Rules the test suggests (still drafts):
+
+- **Order follows the ledger, not the pitch.** The tax invoice comes before the conversion (it's issued 1 min 48 s after payment; the conversion is Ana's choice, later). The earlier draft order (paid → converted → Pix → tax invoice) was wrong.
+- One window, one task, three to five beats. Numbers come from the product ledger and roll with `duration.count`, last digit first; a balance only changes when something on screen caused it.
+- The cursor appears only for the step a person takes (Convert, then confirm), aims off the label, and leaves the frame when done. Nothing else is pointed at.
+- Floats (tax invoice, Pix) straddle the window's left edge over the sidebar, a third outside, stacked 16 px apart: chrome, never content. They enter with `spring.notification` and don't leave.
+- The sheet opens at the app's own speed (about 0.25 s). Only storytelling waits are slow: about a second of reading time on the quote, about 3 s on the result.
+- **It plays once and holds.** A loop would have to take the payment back out of the balance; for a repeat, cut back to the start. With reduced motion, the last frame.
+- The window keeps the 108 px gutter on every edge the frame shows and runs off the bottom; the activity list runs on past the foot with placeholder rows.
+
+Open: whether to keep the sheet as an anchored popover (it covers the euro and pound cards, edges aligned) or make it a modal; a vertical cut for social; whether the site's hero uses the same demo.
 
 ## Sound
 

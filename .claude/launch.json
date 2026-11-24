@@ -35,6 +35,15 @@
         "docs/design/motion"
       ],
       "port": 4331
+    },
+    {
+      "name": "ui-demo",
+      "runtimeExecutable": "node_modules/.bin/vite",
+      "runtimeArgs": [
+        "--config",
+        "docs/design/motion/ui-demo/vite.config.mjs"
+      ],
+      "port": 4332
     }
   ]
 }

@@ -1,0 +1,7 @@
+# Rehearsal: product UI demo
+
+- **Started from:** the Stageshow gold examples `hero-demo` (a cursor gesture, named targets) and `payout-flow` (overlapping arrivals, a payoff that holds). Layout: "stage with gutters" on a painting, floats straddling the hero's edge over chrome.
+- **Changed:** everything visible is Travessia's: the Balance screen from `src/components/islands/FeatureTabs.tsx`, the site's tokens, Figtree, Hugeicons and wordmark, the ledger in `brand/proof.md`. The sheet covers exactly the euro and pound cards so no number is cut mid-figure. The kit's digit-roll curve was replaced (`demo.css`): its long tail left a changed digit creeping 4 px low for half a second.
+- **Checked:** `film.mjs` contact sheets at 1440; every key beat as a 1920 × 1080 still; frame-by-frame tiles of the count landing, the float arrival, the sheet opening and closing, and the last frame.
+- **Film findings left on purpose:** "tight inset" on the list title (the title's own padding is measured as zero); "touching" between the rolling digit strips and their neighbours (the strips' hidden digits, not visible); the button height (the checker ignores `text-box` trimming); the last placeholder row cut by the list (the list runs off the frame); the count strip "settle snap" (the kit re-centres its strip invisibly).
+- **Not checked:** a compact (phone-column) design, since this is a film asset; dark theme (the app has none); real-time playback in a browser other than Chrome.
