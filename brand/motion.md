@@ -37,6 +37,25 @@ Travessia moves the way its subject does: money crossing from one side to the ot
 
 ## The logo sting
 
+### Round 3 (2026-11-24): three versions of C
+
+Breno: C "looks amazing"; he asked for variations, even more polished. All three share one build (`docs/design/motion/v2/from-mark.js`) and these refinements over round 2's C:
+
+- The window onto the water opens out of a hairline and closes back into a straight slit, cut by the tile's rounded corners, instead of shrinking into a pill.
+- The camera never stops: a slow pull back while the icon forms, then the move to the word.
+- Letters slide out from behind the ss as they open (12% of their distance to it), not only up and down out of the line.
+- The glint changes the paint: wherever it has passed, the painted water inside the letters is flat igarapé, so the paint settles left to right.
+- The water inside the letters is pulled 15–22% towards igarapé, so no dark patches of the painting show in the far letters.
+- A faint igarapé light spills from the open window onto the dark around it and goes when the window closes.
+
+| Sting | What's different | Length |
+|---|---|---|
+| **C1 · Refined** | Round 2's C with the refinements above. | 5.0 s |
+| **C2 · Through the painting** | Starts inside the icon: the hairline crosses the whole frame, the frame opens into painted water and the ss unfolds out of the line at full size. One continuous pull back shows it's the icon and carries on to the word. | 5.2 s |
+| **C3 · Water into the word** | The dark water drains down to the waterline first and the white halves of the word open out of it with nothing below. Then the igarapé water closes up into the ss and runs out along the waterline into the lower halves of the other letters, both ways, before the glint sets it flat. | 5.4 s |
+
+Note on C2: the painting is a 960 px file, so at the opening zoom (about 2.4×) the brushwork is soft. An upscaled copy of `clear-water-portrait.png` would sharpen it.
+
 ### Round 2 (2026-11-24): C rebuilt, and two river stings
 
 Breno on round 1: C "looks ok", but the motion needs to be far more polished, and he wants stings that lean into the river and the crossing. Round 2 is built on what studio logo animation actually does, timed frame by frame from official uploads (Netflix 2019, Max 2023, Wise 2023, Nubank 2021) plus School of Motion and IBM Carbon. The rules taken from it:
