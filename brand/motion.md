@@ -41,12 +41,12 @@ Travessia moves the way its subject does: money crossing from one side to the ot
 
 Breno: C "looks amazing"; he asked for variations, even more polished. All three share one build (`docs/design/motion/v2/from-mark.js`) and these refinements over round 2's C:
 
-- The window onto the water opens out of a hairline and closes back into a straight slit, cut by the tile's rounded corners, instead of shrinking into a pill.
+- The window onto the water is one shape from start to end: a capsule on the hairline that grows into the icon and shrinks back into the line. Its corners are always round: circular while it's a capsule, easing into the icon's continuous (superellipse) corner as it opens. (An earlier version cut the rounded tile with two straight edges, so the corners went square mid-move and the rounded ones popped in at the end; Breno found it clashed with the radius, 2026-11-24.)
 - The camera never stops: a slow pull back while the icon forms, then the move to the word.
 - Letters slide out from behind the ss as they open (12% of their distance to it), not only up and down out of the line.
 - The glint changes the paint: wherever it has passed, the painted water inside the letters is flat igarapé, so the paint settles left to right.
 - The water inside the letters is pulled 15–22% towards igarapé, so no dark patches of the painting show in the far letters.
-- A faint igarapé light spills from the open window onto the dark around it and goes when the window closes.
+- A faint igarapé light spills from the open window onto the dark around it, falling off in a round shape, and goes when the window closes.
 
 | Sting | What's different | Length |
 |---|---|---|

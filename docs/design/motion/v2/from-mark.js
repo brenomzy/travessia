@@ -16,17 +16,25 @@ export const WORD = { ax: 1760, ay: -330, s: 0.28 };
 const RING = { e: 1, i: 1, v: 2, a2: 2, a: 3, r: 4, t: 5 };
 
 const FRAG = `
-float rbox(vec2 p, vec2 c, vec2 h, float r) { vec2 q = abs(p - c) - h + r; return length(max(q, 0.)) + min(max(q.x, q.y), 0.) - r; }
+// A rounded box whose corners are superellipses of exponent n: n = 2 is a circular corner, n = 4 the smoother,
+// continuous corner of an app icon. Not an exact distance, so callers antialias with fwidth.
+float sbox(vec2 p, vec2 c, vec2 h, float r, float n) {
+  vec2 q = abs(p - c) - h + r; vec2 m = max(q, 0.) / max(r, 1e-3);
+  return pow(pow(m.x, n) + pow(m.y, n), 1. / n) * r + min(max(q.x, q.y), 0.) - r;
+}
 vec3 scene(vec2 px) {
   vec2 t0 = vec2(u_p[0], u_p[1]), t1 = vec2(u_p[2], u_p[3]);
   vec2 tuv = (px - t0) / (t1 - t0);
   vec2 puv = (tuv - .5) / u_p[7] + .5 + vec2(u_t * .004, 0.);
   vec3 raw = texture(u_img0, vec2(puv.x, .07 + puv.y * .75)).rgb;
   vec3 paint = mix(raw, RIO, .6 * clamp(1. - tuv.y / .72, 0., 1.));
-  float sdT = rbox(px, (t0 + t1) * .5, (t1 - t0) * .5, u_p[6]);
-  float inTile = 1. - smoothstep(-.7, .7, sdT);
-  float band = smoothstep(u_p[4] - .7, u_p[4] + .7, px.y) * (1. - smoothstep(u_p[5] - .7, u_p[5] + .7, px.y));
-  float win = inTile * band;
+  // The window is one shape from start to end: a capsule on the waterline that grows into the tile and shrinks
+  // back. Its corners are always round: circular while it is a capsule, the icon's continuous corner once open.
+  float hh = max((u_p[5] - u_p[4]) * .5, 0.), rFull = u_p[6] * 1.4;
+  float rr = min(rFull, hh), n = 2. + 2. * pow(clamp(hh / rFull, 0., 1.), 2.);
+  float sdW = sbox(px, vec2((t0.x + t1.x) * .5, (u_p[4] + u_p[5]) * .5), vec2((t1.x - t0.x) * .5, hh), rr, n);
+  float aaW = max(fwidth(sdW), .5);
+  float win = hh > .25 ? 1. - smoothstep(-aaW, aaW, sdW) : 0.;
   float bot = A(u_bot, px), top = A(u_top, px);
   // The water inside the letters: the painting pulled towards igarapé, flat wherever the glint has passed.
   vec3 water = mix(raw, IGA, u_p[17]);
@@ -35,8 +43,9 @@ vec3 scene(vec2 px) {
   float filled = smoothstep(u_p[16] + 4., u_p[16] - 4., fr);
   vec3 c = RIO;
   // Light from the open window spills onto the dark around it.
-  float sdW = max(sdT, max(u_p[4] - px.y, px.y - u_p[5]));
-  c += mix(hex(0x0E6B52), IGA, .4) * u_p[19] * .09 * exp(-max(sdW, 0.) / (.16 * (t1.x - t0.x))) * smoothstep(0., 1., (u_p[5] - u_p[4]) / (t1.y - t0.y));
+  vec2 gc = vec2((t0.x + t1.x) * .5, (u_p[4] + u_p[5]) * .5), gh = vec2((t1.x - t0.x) * .5, hh);
+  float gd = length(max(abs(px - gc) - gh * .55, 0.)) / (t1.x - t0.x);
+  c += mix(hex(0x0E6B52), IGA, .4) * u_p[19] * .075 * exp(-gd * gd * 9.) * smoothstep(0., 1., (u_p[5] - u_p[4]) / (t1.y - t0.y));
   c = mix(c, water, bot * filled);
   c = mix(c, mix(paint, RIO, bot), win);
   c = mix(c, WHITE, top);
