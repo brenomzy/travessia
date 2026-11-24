@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo stings, second round</title>
+<style>
+  html, body { margin: 0; background: #0F1C24; color: #fff; font-family: Figtree, system-ui, sans-serif; }
+  canvas { display: block; width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; margin: auto; }
+  nav { position: fixed; left: 16px; bottom: 16px; display: flex; gap: 8px; }
+  nav a, nav button { font: inherit; font-size: 14px; color: #fff; background: rgb(255 255 255 / 0.1); border: 0; border-radius: 10px; padding: 6px 12px; text-decoration: none; cursor: pointer; }
+  nav a[aria-current] { background: #00C99B; color: #0F1C24; }
+  body.render nav { display: none; }
+  body.render canvas { width: 1920px; height: 1080px; max-width: none; max-height: none; }
+</style></head><body>
+<canvas id="c" aria-label="Travessia logo sting"></canvas>
+<nav><a href="?s=c">C · From the mark</a><a href="?s=d">D · Surfacing</a><a href="?s=e">E · The river</a><button id="replay">Replay</button></nav>
+<script type="module">
+import { mount } from './engine.js';
+const q = new URLSearchParams(location.search);
+const id = q.get('s') || 'c';
+document.querySelector(`nav a[href="?s=${id}"]`)?.setAttribute('aria-current', 'page');
+const sting = (await import(`./sting-${id}.js`)).default;
+const player = await mount(sting, document.getElementById('c'));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+window.player = player;
+if (q.has('render')) { document.body.classList.add('render'); window.ready = true; }
+else if (q.has('t')) player.frame(+q.get('t'), +(q.get('n') || 8));
+else if (reduce) player.frame(sting.duration);
+else {
+  let start = performance.now();
+  document.getElementById('replay').onclick = () => (start = performance.now());
+  const loop = () => { const t = (performance.now() - start) / 1000; player.frame(Math.min(t % (sting.duration + 1), sting.duration), 1); requestAnimationFrame(loop); };
+  loop();
+}
+</script>
+</body></html>

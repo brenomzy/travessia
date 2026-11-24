@@ -37,13 +37,33 @@ Travessia moves the way its subject does: money crossing from one side to the ot
 
 ## The logo sting
 
-Three 4-second tests on rio-negro, built from the real wordmark (`docs/design/motion/sting.html`, recordings `sting-A.mp4`, `sting-B.mp4`, `sting-C.mp4`, 1280 × 720):
+### Round 2 (2026-11-24): C rebuilt, and two river stings
 
-- **A · Waterline.** The waterline draws across (`ease.in-out`, 0.8 s), the word rises out of it (`spring.crit`) and its igarapé half settles below.
-- **B · The crossing.** An igarapé dot crosses on the waterline and the word appears behind it. The dot lifts and lands as the dot of the i, turning white. Tells the brand's story in one move: something crosses and arrives.
-- **C · Mark first.** The mark on painted water settles, then the wordmark slides out beside it.
+Breno on round 1: C "looks ok", but the motion needs to be far more polished, and he wants stings that lean into the river and the crossing. Round 2 is built on what studio logo animation actually does, timed frame by frame from official uploads (Netflix 2019, Max 2023, Wise 2023, Nubank 2021) plus School of Motion and IBM Carbon. The rules taken from it:
 
-To pick: one sting. Draft recommendation: **B**. It is the only one that couldn't be any other wordmark's animation, and its end frame is the logo exactly as it is.
+- **Asymmetric curves only.** Arrivals use expo-out `cubic-bezier(0.16, 1, 0.3, 1)`; moves between two rests use `cubic-bezier(0.7, 0, 0.15, 1)`. Symmetric easing (After Effects' default Easy Ease) is what makes logo motion look amateur.
+- **Letters 4 frames apart at 60 fps** (2 at 30), left to right, so the whole word lands within about half a second.
+- **Real motion blur:** a 180° shutter, 12 sub-frames per frame, blended in linear light.
+- **Readable by 2 s, then held for at least 2 s,** with a 1.6% push-in across the whole sting (Netflix and Wise keep moving through the hold; nothing else does).
+- **Effects reach exactly zero before the hold.** Refraction, ripples and the river's light are gone; the last frame is the logo as it is, with no glow or gradient on it.
+- **One accent at the lock:** a soft glint that runs along the waterline once.
+- Start from near-black; never open on the logo.
+
+The waterline is where everything starts: the letters open out of it (white halves rising, igarapé halves dropping), rise through it, or are drawn by a river that becomes it.
+
+| Sting | What happens | Length |
+|---|---|---|
+| **C · From the mark** | The app icon opens out of a hairline on the waterline and the ss unfolds inside it. The camera pulls back; the window closes back into the waterline, but its painted water stays inside the lower halves of the letters, so the ss turns from a cut-out into the logo's ss. The rest of the word unfolds from the line outward on both sides, and the paint settles into flat igarapé. The mark is never shown next to the wordmark (brand/rules.md): it becomes the word's ss. | 5.0 s |
+| **D · Surfacing** | A surface line draws across. The letters rise through it one after another, igarapé, blurred and refracted under the water, white and sharp above it, each sending a ripple along the surface. The water clears, a glint runs along the line, and the line goes. | 4.6 s |
+| **E · The river** | The hero river flows into the frame from the left, then straightens and narrows until it is the waterline. The word opens out of it, letter by letter. A glint runs along it, the river drains out of the channel, and the logo holds. | 4.8 s |
+
+Files: `docs/design/motion/v2/` (`index.html?s=c|d|e` plays them live on the motion-lab server; `render.mjs` renders the MP4s, 1920 × 1080 at 60 fps; `engine.js` holds the letter masks, compositor and motion blur). With reduced motion the page shows the last frame.
+
+To pick: one sting, or a pair (for example E for films and campaign openers, D for short social cuts).
+
+### Round 1 (2026-11-24)
+
+Three 4-second tests on rio-negro (`docs/design/motion/sting.html`, `sting-A.mp4`, `sting-B.mp4`, `sting-C.mp4`, 1280 × 720): A · Waterline, B · The crossing (a dot crosses and lands as the dot of the i), C · Mark first (the icon settles, the wordmark slides out beside it). Superseded by round 2: their motion used plain eases and no motion blur, and C ended on a mark-and-wordmark lockup, which the rules don't allow.
 
 ## The river in motion
 
