@@ -352,6 +352,8 @@ Review the wall for one question at a time: is the promise there, is the accent 
 
 **Output:** a Paper page "Touchpoints". Approved pieces become the first approved examples (brief §5.4).
 
+**Before starting (2026-11-25):** every fixed-size touchpoint is laid out on the format grid (`brand/rules.md`, "Graphic language: format grid"), approved after step 11. The billboard still needs a higher-resolution photograph than the board's test crop.
+
 ### 13. Make one launch campaign
 
 **Goal:** the brand at full volume, which is how Ramp's became known.

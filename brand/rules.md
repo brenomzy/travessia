@@ -338,7 +338,7 @@ The product overview is a bento on rio-negro (`FeatureBento`), Travessia's versi
 
 ## Graphic language: format grid
 
-> **Status:** draft, in test (2026-11-25). Board: Paper page "Brand · Format grid" (six formats laid out, then the same six with the grid drawn on). Not approved yet.
+> Approved by Breno on 2026-11-25, between playbook steps 11 and 12. Board: Paper page "Brand · Format grid" (six formats laid out, then the same six with the grid drawn on). Step 12's touchpoints are laid out on it.
 
 One grid for fixed formats: posts, stories, slides, posters, billboards, emails. The site keeps its own layout primitives (`l-` classes); this is for everything with a set size. It takes the mark's waterline: in the app icon the line sits at 54.6% of the tile's height, and every format puts its line at the same place.
 
