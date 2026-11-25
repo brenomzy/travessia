@@ -1,6 +1,6 @@
 # Motion and sound
 
-> Playbook step 11, in progress (started 2026-11-24). The logo sting is decided (C1); product UI in demos is in test (`docs/design/motion/ui-demo/`); sound is still open. Timing values are tokens in `src/tokens/tokens.json` (`motion.*`); the helpers are in `src/lib/motion/`; the river is `src/lib/generators/river`. Tests: `docs/design/motion/`.
+> Playbook step 11, in progress (started 2026-11-24). The logo sting (C1) and the product UI demo are decided; sound is still open. Timing values are tokens in `src/tokens/tokens.json` (`motion.*`); the helpers are in `src/lib/motion/`; the river is `src/lib/generators/river`. Tests: `docs/design/motion/`.
 
 Travessia moves the way its subject does: money crossing from one side to the other and arriving. Most of the time the interface is still. Motion marks the moments that matter: a page arriving, a state changing, a number arriving, and the river behind the hero.
 
@@ -118,7 +118,7 @@ The seam animation this step originally asked for is done: the seam was retired 
 
 ## Product UI in demos
 
-To decide. First test (2026-11-24): `docs/design/motion/ui-demo/ui-demo.mp4`, 12.9 s at 1920 × 1080, 60 fps. Source: `docs/design/motion/ui-demo/` (React on the Stageshow kit in `.agents/skills/stageshow/kit`, with the site's tokens, Figtree, icons and wordmark).
+**Decided: the Balance demo** (Breno, 2026-11-25). File: `docs/design/motion/ui-demo/ui-demo.mp4`, 12.9 s at 1920 × 1080, 60 fps. It is the pattern for every product demo: new demos follow the rules below and change only the screen and the task. Source: `docs/design/motion/ui-demo/` (React on the Stageshow kit in `.agents/skills/stageshow/kit`, with the site's tokens, Figtree, icons and wordmark).
 
 What it shows: the site's Balance screen (the app window from `FeatureTabs`) on painted clear water, playing the canonical crossing from `brand/proof.md`.
 
@@ -132,7 +132,7 @@ What it shows: the site's Balance screen (the app window from `FeatureTabs`) on 
 | 8.8 s | The sheet closes, the balance rolls back to US$ 4,212.40, the cursor leaves the frame |
 | 9.5 s | "Pix received" arrives and the Pix row drops in: the last frame is the state the site's Balance tab shows |
 
-Rules the test suggests (still drafts):
+The rules:
 
 - **Order follows the ledger, not the pitch.** The tax invoice comes before the conversion (it's issued 1 min 48 s after payment; the conversion is Ana's choice, later). The earlier draft order (paid → converted → Pix → tax invoice) was wrong.
 - One window, one task, three to five beats. Numbers come from the product ledger and roll with `duration.count`, last digit first; a balance only changes when something on screen caused it.
@@ -142,7 +142,10 @@ Rules the test suggests (still drafts):
 - **It plays once and holds.** A loop would have to take the payment back out of the balance; for a repeat, cut back to the start. With reduced motion, the last frame.
 - The window keeps the 108 px gutter on every edge the frame shows and runs off the bottom; the activity list runs on past the foot with placeholder rows.
 
-Open: whether to keep the sheet as an anchored popover (it covers the euro and pound cards, edges aligned) or make it a modal; a vertical cut for social; whether the site's hero uses the same demo.
+- A confirm button's progress is one dark mark: an arc turning while it works, drawing into a tick when done. Never a coloured disc on the igarapé button (Breno's one change, 2026-11-25).
+- Sheets open attached to the button that opened them, their edges on the structure underneath (here, exactly the euro and pound cards); no number is cut mid-figure.
+
+Where it's used: product films, launch and feature videos, decks, and social posts cut from it. Not yet decided: a vertical cut for social, and whether the site's hero plays a demo.
 
 ## Sound
 
