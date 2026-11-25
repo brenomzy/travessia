@@ -141,7 +141,6 @@ The rules:
 - The sheet opens at the app's own speed (about 0.25 s). Only storytelling waits are slow: about a second of reading time on the quote, about 3 s on the result.
 - **It plays once and holds.** A loop would have to take the payment back out of the balance; for a repeat, cut back to the start. With reduced motion, the last frame.
 - The window keeps the 108 px gutter on every edge the frame shows and runs off the bottom; the activity list runs on past the foot with placeholder rows.
-
 - A confirm button's progress is one dark mark: an arc turning while it works, drawing into a tick when done. Never a coloured disc on the igarapé button (Breno's one change, 2026-11-25).
 - Sheets open attached to the button that opened them, their edges on the structure underneath (here, exactly the euro and pound cards); no number is cut mid-figure.
 
