@@ -504,8 +504,29 @@ html[data-record] .replay {
   white-space: nowrap;
 }
 
-.tv .tv-confirm .ss-check {
-  --ss-accent: var(--rio-negro-900);
+.tv .tv-confirm .ss-check__ring {
+  stroke: rgb(15 28 36 / 0.22);
+}
+
+.tv .tv-confirm .ss-check__arc,
+.tv .tv-confirm .ss-check__tick {
+  stroke: var(--rio-negro-900);
+}
+
+/* No disc: the button is already igarapé. Done is the dark tick alone, the ring fading as it draws. */
+.tv .tv-confirm .ss-check__fill {
+  display: none;
+}
+
+.tv .tv-confirm .ss-check[data-on] .ss-check__ring {
+  opacity: 0;
+}
+
+/* Without its disc the kit's tick reads small: grow it to fill the ring it replaces. */
+.tv .tv-confirm .ss-check__tick {
+  transform: scale(1.4);
+  transform-origin: 8px 8px;
+  stroke-width: 1.4;
 }
 
 /* ---------- Floats: the moments, over the sidebar ---------- */

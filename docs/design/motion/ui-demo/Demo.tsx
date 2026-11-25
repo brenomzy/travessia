@@ -4,7 +4,7 @@
 // Fri Nov 13. The window is the site's Balance screen (FeatureTabs, app window v3), and the last frame is the
 // state the site shows. The cursor appears once, for Convert, the only thing a person does.
 import type { CSSProperties, ReactNode } from 'react';
-import { Bar, Collapse, Count, Popover, Spinner, Stage, States, Check, type Act } from '../../../../.agents/skills/stageshow/kit';
+import { Bar, Collapse, Count, Popover, Stage, States, Swap, Check, type Act } from '../../../../.agents/skills/stageshow/kit';
 import Icon from '../../../../src/components/islands/Icon';
 import type { IconName } from '../../../../src/lib/icons';
 import painting from '../../../../src/assets/imagery/clear-water-wide.png';
@@ -73,7 +73,7 @@ async function script(a: Act<S>) {
   await a.set({ phase: 'converting' });
   await a.wait(900);
   await a.set({ phase: 'done' });
-  await a.wait(550);
+  await a.wait(800);
   a.mark('converted');
   await a.set({ sheet: false, converted: true });
   a.move({ x: W + 60, y: H - 30 }, { duration: 900 }); // clear the way: out of the frame
@@ -230,11 +230,16 @@ function ConvertSheet({ phase }: { phase: S['phase'] }) {
       </div>
       <span className="tv-confirm" data-target="confirm" data-phase={phase}>
         <States
-          value={phase}
+          value={phase === 'ready' ? 'ready' : 'working'}
           states={{
             ready: <span className="tv-confirm-label">Convert US$ 2,000.00</span>,
-            converting: <span className="tv-confirm-label"><Spinner size={16} />Converting</span>,
-            done: <span className="tv-confirm-label"><Check on size={16} />Converted</span>,
+            // One mark from pending to done: the arc turning while it converts draws into the tick.
+            working: (
+              <span className="tv-confirm-label">
+                <Check pending={phase === 'converting'} on={phase === 'done'} size={16} />
+                <Swap id={phase}>{phase === 'done' ? 'Converted' : 'Converting'}</Swap>
+              </span>
+            ),
           }}
         />
       </span>

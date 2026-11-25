@@ -118,7 +118,7 @@ The seam animation this step originally asked for is done: the seam was retired 
 
 ## Product UI in demos
 
-To decide. First test (2026-11-24): `docs/design/motion/ui-demo/ui-demo.mp4`, 12.6 s at 1920 × 1080, 60 fps. Source: `docs/design/motion/ui-demo/` (React on the Stageshow kit in `.agents/skills/stageshow/kit`, with the site's tokens, Figtree, icons and wordmark).
+To decide. First test (2026-11-24): `docs/design/motion/ui-demo/ui-demo.mp4`, 12.9 s at 1920 × 1080, 60 fps. Source: `docs/design/motion/ui-demo/` (React on the Stageshow kit in `.agents/skills/stageshow/kit`, with the site's tokens, Figtree, icons and wordmark).
 
 What it shows: the site's Balance screen (the app window from `FeatureTabs`) on painted clear water, playing the canonical crossing from `brand/proof.md`.
 
@@ -128,9 +128,9 @@ What it shows: the site's Balance screen (the app window from `FeatureTabs`) on 
 | 0.9 s | Halden & Co. pays invoice #0042: the row drops into Recent activity, the dollar balance rolls to US$ 6,212.40 |
 | 2.4 s | "Tax invoice no. 318 issued" arrives over the sidebar |
 | 3.5 s | The cursor comes in and presses Convert (4.7 s); the sheet opens under it with the quote (US$ 2,000.00, fee − US$ 12.00, R$ 5.45, you receive R$ 10,834.60) |
-| 6.9 s | After a second of reading time the cursor presses the igarapé button: Converting, then Converted (8.0 s) |
-| 8.5 s | The sheet closes, the balance rolls back to US$ 4,212.40, the cursor leaves the frame |
-| 9.3 s | "Pix received" arrives and the Pix row drops in: the last frame is the state the site's Balance tab shows |
+| 6.9 s | After a second of reading time the cursor presses the igarapé button: Converting (a dark arc turning), then Converted (8.0 s) with a dark tick: no green disc on the igarapé button |
+| 8.8 s | The sheet closes, the balance rolls back to US$ 4,212.40, the cursor leaves the frame |
+| 9.5 s | "Pix received" arrives and the Pix row drops in: the last frame is the state the site's Balance tab shows |
 
 Rules the test suggests (still drafts):
 
