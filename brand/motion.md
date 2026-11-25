@@ -1,6 +1,6 @@
 # Motion and sound
 
-> Playbook step 11, in progress (started 2026-11-24). The logo sting (C1) and the product UI demo are decided; sound is still open. Timing values are tokens in `src/tokens/tokens.json` (`motion.*`); the helpers are in `src/lib/motion/`; the river is `src/lib/generators/river`. Tests: `docs/design/motion/`.
+> Playbook step 11, done (2026-11-24 to 2026-11-25). The logo sting (C1) and the product UI demo are decided; sound was skipped. Timing values are tokens in `src/tokens/tokens.json` (`motion.*`); the helpers are in `src/lib/motion/`; the river is `src/lib/generators/river`. Tests: `docs/design/motion/`.
 
 Travessia moves the way its subject does: money crossing from one side to the other and arriving. Most of the time the interface is still. Motion marks the moments that matter: a page arriving, a state changing, a number arriving, and the river behind the hero.
 
@@ -148,7 +148,5 @@ Where it's used: product films, launch and feature videos, decks, and social pos
 
 ## Sound
 
-To decide. Draft position:
+**Skipped** (Breno, 2026-11-25). Travessia has no sonic mark: the sting and the demos carry no brand sound, and the product and the site make no sound (payments arriving on the phone use the system's own haptics). Revisit only if a film or campaign needs one.
 
-- **No sound in the product or on the site.** Payments arriving are visual and haptic on the phone (system haptics only).
-- **A sonic mark for video only**, under the sting and at the end of films: water (a single, short, clean ripple) and one soft note, under 2 seconds, never a jingle.

@@ -328,7 +328,7 @@ Ramp uses 3D renders of its card. Travessia has no card; its object is the invoi
 
 **Output:** `brand/motion.md`, the sting, one seam animation test.
 
-**Progress (2026-11-24):** the sting is decided: C1 · From the mark (`docs/design/motion/v2/sting-C1.mp4`), after three rounds and an easing pass read off a speed graph. The seam animation test is replaced by the river, since the seam was retired in step 8. On 2026-11-25 the product UI demo was decided too: the Balance screen playing invoice #0042 (`docs/design/motion/ui-demo/ui-demo.mp4`). Still open: sound.
+**Progress (2026-11-24):** the sting is decided: C1 · From the mark (`docs/design/motion/v2/sting-C1.mp4`), after three rounds and an easing pass read off a speed graph. The seam animation test is replaced by the river, since the seam was retired in step 8. On 2026-11-25 the product UI demo was decided too: the Balance screen playing invoice #0042 (`docs/design/motion/ui-demo/ui-demo.mp4`). Sound was skipped (no sonic mark), which closes step 11.
 
 ### 12. Apply it to twelve touchpoints
 
