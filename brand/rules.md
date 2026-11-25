@@ -336,6 +336,28 @@ The product overview is a bento on rio-negro (`FeatureBento`), Travessia's versi
 
 ---
 
+## Graphic language: format grid
+
+> **Status:** draft, in test (2026-11-25). Board: Paper page "Brand · Format grid" (six formats laid out, then the same six with the grid drawn on). Not approved yet.
+
+One grid for fixed formats: posts, stories, slides, posters, billboards, emails. The site keeps its own layout primitives (`l-` classes); this is for everything with a set size. It takes the mark's waterline: in the app icon the line sits at 54.6% of the tile's height, and every format puts its line at the same place.
+
+| Part | Rule |
+|---|---|
+| Unit | m = the short side ÷ 12: 90 on a 1080 post or a 1920 × 1080 slide, 100 on a 1200 × 1800 poster, 84 on a 3000 × 1000 billboard |
+| Margins | m on every side. On stories, the platform's safe zones (250 px top, 340 px bottom at 1080 × 1920) where they are larger |
+| Columns | 6 in square and portrait formats, 12 in landscape; gutter m ÷ 3 |
+| Waterline | Horizontal, at 54.6% of the height. Never drawn: it's where things meet |
+| Stand on it | The headline: its last line ends one gutter above the waterline |
+| Hang from it | Images and painting panels, product UI, support lines: they start one gutter below it |
+| Logo | Top left on the margin, 2m wide. On frames wider than 2:1 it is 4m wide and hangs from the waterline under the headline |
+| Full-bleed images | Made or cropped so the quiet area reaches the waterline: the water rises to the line, never above it. Paintings for these formats are generated with the calm area down to 54.6% |
+
+- Visible grid lines are not part of the brand. The grid is for placing things; it is never drawn in the work (no ruled cells, no dashed guides).
+- Tall formats (4:5, 9:16) leave a large calm space between the logo and the headline. That is the quiet zone; don't fill it.
+
+---
+
 ## Graphic language: charts
 
 > Playbook step 8 (2026-11-21). Board: Paper page "Brand · Graphic language", "6 · Charts". On the site: `StatBand` (the comparison bars), the report columns in `FeatureBento` and `FeatureVignette`, the meter in `ProblemFix`.
